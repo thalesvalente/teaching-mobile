@@ -21,13 +21,13 @@ const GROUPS=[
  ['missing','Se o item não existir', [['first','Mostrar o primeiro item'],['message','Mostrar "Registro não encontrado" e retorno'],['blank','Deixar a tela vazia']]],
  ['back','Como implementar o retorno', [['push','router.push(lista)'],['safe','canGoBack() ? back() : replace(lista)'],['back','router.back() sem alternativa']]]
  ]},
- {title:'Controlar e validar o formulário',minutes:12,points:3,slide:'s12',hint:'value lê o estado; onChangeText atualiza o estado. Valide os textos depois de trim(): título com 3 ou mais caracteres; resumo com 10 ou mais. São regras didáticas desta oficina.',fields:[
+ {title:'Controlar e validar o formulário',minutes:12,points:3,slide:'s13',hint:'value lê o estado; onChangeText atualiza o estado. Valide os textos depois de trim(): título com 3 ou mais caracteres; resumo com 10 ou mais. São regras didáticas desta oficina.',fields:[
  ['input','Ligação do campo com o estado', [['fixed','value="" sem atualizar o estado'],['controlled','value={titulo} onChangeText={setTitulo}']]],
  ['trim','Tratamento dos espaços nas pontas', [['raw','const t = titulo; const r = resumo;'],['trim','const t = titulo.trim(); const r = resumo.trim();']]],
  ['titleRule','Quando sinalizar erro no título', [['one','if (t.length < 1)'],['five','if (t.length < 5)'],['three','if (t.length < 3)']]],
  ['summaryRule','Quando sinalizar erro no resumo', [['ten','if (r.length < 10)'],['one','if (r.length < 1)'],['twenty','if (r.length < 20)']]]
  ]},
- {title:'Registrar e conferir o resultado',minutes:10,points:3,slide:'s17',hint:'Valide antes de criar; compartilhe a lista entre telas; abra o detalhe substituindo o formulário; impeça dois envios da mesma submissão. Nenhum dado é persistido após recarregar.',fields:[
+ {title:'Registrar e conferir o resultado',minutes:10,points:3,slide:'s18',hint:'Valide antes de criar; compartilhe a lista entre telas; abra o detalhe substituindo o formulário; impeça dois envios da mesma submissão. Nenhum dado é persistido após recarregar.',fields:[
  ['gate','Ordem da ação Registrar', [['before','Validar → se houver erro, retornar → criar'],['after','Criar → depois verificar os erros']]],
  ['storage','Onde fica o novo item', [['local','Somente no estado do formulário'],['shared','Na coleção compartilhada entre as telas']]],
  ['finish','Após registrar com sucesso', [['push','router.push(detalheCriado)'],['list','router.replace(lista)'],['replace','router.replace(detalheCriado)']]],
