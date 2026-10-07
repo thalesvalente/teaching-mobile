@@ -12,7 +12,7 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 |---|---|---|
 | 04 | TypeScript e componentes React Native | [PDF](lessons/2/typeScript-components-react-native.pdf) |
 | 05 | Interface móvel e acessibilidade | [PDF](lessons/3/slides-Interface%20e%20acessibilidade.pdf) |
-| 06 | Navegação e formulários | [Aula interativa original · 50 min](lessons/Aula_06_Mobile_Navegacao_Formularios.html) · [Atividade vinculada · 50 min](lessons/aula-06-navegacao-formularios/atividade.html) |
+| 06 | De tela em tela: navegar, voltar e cadastrar — Navegação e formulários | [Aula interativa original · 50 min](lessons/Aula_06_Mobile_Navegacao_Formularios.html) · [Atividade vinculada · 50 min](lessons/aula-06-navegacao-formularios/atividade.html) |
 
 ### Práticas da Aula 05
 - [Mapa de Memórias Quilombolas](lessons/3/aula05-memorias/)
