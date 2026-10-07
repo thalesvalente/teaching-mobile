@@ -9,7 +9,7 @@ const PROJECTS={
 };
 // Chaves são internas. Na interface aparecem perguntas, trechos e explicações.
 const GROUPS=[
- {title:'Transformar telas em rotas',minutes:8,points:2,slide:'s05',hint:'index.tsx abre a lista; [id].tsx recebe um identificador; nova.tsx tem endereço fixo. _layout organiza as telas.',fields:[
+ {title:'Transformar telas em rotas',minutes:8,points:2,slide:'s06',hint:'index.tsx abre a lista; [id].tsx recebe um identificador; nova.tsx tem endereço fixo. _layout organiza as telas.',fields:[
  ['list','Arquivo da lista', [['index','app/PASTA/index.tsx'],['list','app/PASTA/lista.tsx'],['layout','app/PASTA/_layout.tsx']]],
  ['detail','Arquivo de detalhe', [['fixed','app/PASTA/detalhe.tsx'],['dynamic','app/PASTA/[id].tsx'],['id','app/PASTA/id.tsx']]],
  ['form','Arquivo do formulário', [['dynamic','app/PASTA/[nova].tsx'],['static','app/PASTA/nova.tsx'],['layout','app/PASTA/_layout.tsx']]],
