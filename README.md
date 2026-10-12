@@ -13,6 +13,7 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 | 04 | TypeScript e componentes React Native | [PDF](lessons/2/typeScript-components-react-native.pdf) |
 | 05 | Interface móvel e acessibilidade | [PDF](lessons/3/slides-Interface%20e%20acessibilidade.pdf) |
 | 06 | Navegação e formulários — De tela em tela: navegar, voltar e cadastrar | [Aula interativa original · 50 min](lessons/Aula_06_Mobile_Navegacao_Formularios.html) · [Atividade vinculada · 50 min](lessons/aula-06-navegacao-formularios/atividade.html) |
+| 07 | Estado, filtros e visualização de dados | [Aula interativa · 50 min](lessons/aula-07-estado-filtros/) · [Ficha e atividade · 50 min](lessons/aula-07-estado-filtros/atividade.html) |
 
 ### Práticas da Aula 05
 - [Mapa de Memórias Quilombolas](lessons/3/aula05-memorias/)
@@ -20,6 +21,9 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 
 ### Aula 06 · aula + oficina
 A apresentação original foi preservada como aula principal. A atividade complementar possui identificação da equipe, nomes dos componentes, duas trilhas de projeto, dicas que retornam aos slides da aula, 20 verificações automáticas (10,0 pontos) e exportação de PDF formal com a pontuação recalculada.
+
+### Aula 07 · aula + ficha de atividade
+[Estado, filtros e visualização de dados](lessons/aula-07-estado-filtros/README.md): 28 slides, prévias de filtros/estados/gráficos, código de integração e ficha com nomes, 20 verificações formativas e PDF. A ficha separa a pontuação do simulador das evidências de implementação no app. Os instrumentos oficiais do plano não são alterados.
 
 ## Estrutura
 
@@ -34,6 +38,10 @@ A apresentação original foi preservada como aula principal. A atividade comple
 │   ├── Aula_06_Mobile_Navegacao_Formularios.html  # aula principal
 │   ├── aula-06-navegacao-formularios/
 │   │   └── atividade.html
+│   ├── aula-07-estado-filtros/
+│   │   ├── index.html
+│   │   ├── atividade.html
+│   │   └── apoio/
 │   └── extra/
 └── README.md
 ```
