@@ -2,7 +2,7 @@
    Cada opção representa um trecho explícito; laboratório e testes usam este mesmo motor. */
 (() => {
 'use strict';
-const VERSION='3.0.0';
+const VERSION='3.1.0';
 const PROJECTS={
  memorias:{name:'Mapa de Memórias Quilombolas',folder:'memorias',novo:'Nova memória',items:[{id:1,titulo:'História do caminho antigo',resumo:'Relato simulado sobre caminhos usados entre casas e roçados.'},{id:2,titulo:'Praça das conversas',resumo:'Descrição simulada de um espaço de encontro comunitário.'}]},
  acoes:{name:'Permanência e Evasão Escolar',folder:'acoes',novo:'Registrar ação',items:[{id:1,titulo:'Organizar grupo de estudos',resumo:'Ação inventada para combinar uma revisão de conteúdos.'},{id:2,titulo:'Divulgar horário de apoio',resumo:'Ação inventada para consultar os horários de apoio pedagógico.'}]}
@@ -36,9 +36,9 @@ const GROUPS=[
 ];
 const GOOD={list:'index',detail:'dynamic',form:'static',layout:'stack',open:'push',lookup:'string',missing:'message',back:'safe',input:'controlled',trim:'trim',titleRule:'three',summaryRule:'ten',gate:'before',storage:'shared',finish:'replace',guard:'guard'};
 const KEYS=GROUPS.flatMap(g=>g.fields.map(f=>f[0]));
-function config(c={}){const out={};for(const g of GROUPS)for(const [k,,opts]of g.fields)out[k]=opts.some(o=>o[0]===c[k])?c[k]:'';return out;}
+function config(c={}){c=c&&typeof c==='object'&&!Array.isArray(c)?c:{};const out={};for(const g of GROUPS)for(const [k,,opts]of g.fields)out[k]=opts.some(o=>o[0]===c[k])?c[k]:'';return out;}
 class App {
- constructor(c=GOOD,p='memorias'){this.c=config(c);this.p=PROJECTS[p]||PROJECTS.memorias;this.list='/'+this.p.folder;this.items=this.p.items.map(x=>({...x}));this.stack=[this.list];this.form={titulo:'',resumo:''};this.lock=false;this.pending=null;this.errors={};this.message='Lista inicial. Todos os registros são fictícios.';}
+ constructor(c=GOOD,p='memorias'){this.c=config(c);this.p=Object.hasOwn(PROJECTS,p)?PROJECTS[p]:PROJECTS.memorias;this.list='/'+this.p.folder;this.items=this.p.items.map(x=>({...x}));this.stack=[this.list];this.form={titulo:'',resumo:''};this.lock=false;this.pending=null;this.errors={};this.message='Lista inicial. Todos os registros são fictícios.';}
  route(){return this.stack.at(-1);}
  resolve(path){if(this.c.layout!=='stack')return 'layout';if(path===this.list&&this.c.list==='index')return 'list';if(path===this.list+'/nova'&&this.c.form==='static')return 'form';if(path.startsWith(this.list+'/')&&this.c.detail==='dynamic')return 'detail';return 'notfound';}
  move(path,mode){if(mode==='push')this.stack.push(path);else if(mode==='replace')this.stack[this.stack.length-1]=path;}
@@ -79,19 +79,30 @@ const T=[
  [3,'Dois toques criam só um registro',a=>{fill(a);a.submit();a.submit();a.finish();return a.items.length===3;},'Bloqueie a mesma submissão antes de criar.']
 ];
 function fill(a){a.newForm();a.input('titulo','  Novo registro  ');a.input('resumo','  Texto fictício da atividade.  ');}
-function evaluate(c,p,group=null){const chosen=config(c);return T.map(([g,label,test,hint],i)=>{if(group!==null&&g!==group)return null;const keys=GROUPS[g].fields.map(f=>f[0]);const ready=keys.every(k=>chosen[k]);const isolated={...GOOD};keys.forEach(k=>isolated[k]=chosen[k]);let pass=false;try{pass=ready&&test(new App(isolated,p));}catch{pass=false;}return {id:i+1,group:g,label:label.replace('PASTA',(PROJECTS[p]||PROJECTS.memorias).folder),status:ready?(pass?'pass':'fail'):'pending',earned:pass?0.5:0,max:0.5,hint};}).filter(Boolean);}
+// Cada critério declara os trechos que avalia. Um trecho necessário em branco
+// deixa só esse critério pendente; nunca é preenchido com a resposta correta.
+// Os demais trechos são a infraestrutura de referência do teste isolado.
+const DEPENDENCIES=[
+ ['list'],['detail'],['form'],['layout'],
+ ['open'],['lookup'],['lookup','missing'],['back'],
+ ['input'],['titleRule','summaryRule'],['input','trim','titleRule','summaryRule'],
+ ['input','titleRule'],['input','summaryRule'],['input','trim','titleRule','summaryRule'],
+ ['gate'],['storage'],['storage','trim'],['storage','finish'],['finish'],['storage','guard']
+];
+function evaluate(c,p,group=null){const chosen=config(c);const project=Object.hasOwn(PROJECTS,p)?PROJECTS[p]:PROJECTS.memorias;return T.map(([g,label,test,hint],i)=>{if(group!==null&&g!==group)return null;const dependencies=DEPENDENCIES[i];const missing=dependencies.filter(k=>!chosen[k]);const ready=missing.length===0;const isolated={...GOOD};dependencies.forEach(k=>isolated[k]=chosen[k]);let pass=false;try{pass=ready&&test(new App(isolated,p));}catch{pass=false;}return {id:i+1,group:g,label:label.replace('PASTA',project.folder),status:ready?(pass?'pass':'fail'):'pending',earned:pass?0.5:0,max:0.5,hint,dependencies:[...dependencies],missing};}).filter(Boolean);}
 function draw(mount,a,onAction=()=>{}){
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const prefix=mount.id||'mobile6-lab';
  const b=(text,cmd,id='')=>'<button type="button" data-act="'+cmd+'" data-id="'+esc(id)+'">'+text+'</button>';
- function render(){let html='',kind=a.resolve(a.route());if(kind==='list')html='<h3>'+a.p.name+'</h3>'+a.items.map(x=>b(esc(x.titulo),'open',x.id)).join('')+b(a.p.novo,'new');
- else if(kind==='form')html='<h3>'+a.p.novo+'</h3><form novalidate><label>Título<input data-field="titulo" maxlength="120" value="'+esc(a.form.titulo)+'" aria-label="Título do registro"></label><p class="field-error">'+esc(a.errors.titulo||'')+'</p><label>Resumo<textarea data-field="resumo" maxlength="1200" aria-label="Resumo do registro">'+esc(a.form.resumo)+'</textarea></label><p class="field-error">'+esc(a.errors.resumo||'')+'</p><button type="submit">Registrar</button>'+b('Cancelar','cancel')+b('Testar dois toques','double')+'</form><p class="small">Estado: <output data-state></output></p>';
+ function render(focus=false){let html='',kind=a.resolve(a.route());if(kind==='list')html='<h3>'+a.p.name+'</h3>'+a.items.map(x=>b(esc(x.titulo),'open',x.id)).join('')+b(a.p.novo,'new');
+ else if(kind==='form')html='<h3>'+a.p.novo+'</h3><form novalidate aria-label="'+esc(a.p.novo)+'"><label>Título<input data-field="titulo" maxlength="120" value="'+esc(a.form.titulo)+'" aria-label="Título do registro" aria-invalid="'+Boolean(a.errors.titulo)+'" aria-describedby="'+prefix+'-title-error"></label><p class="field-error" id="'+prefix+'-title-error">'+esc(a.errors.titulo||'Pelo menos 3 caracteres após remover os espaços das pontas.')+'</p><label>Resumo<textarea data-field="resumo" maxlength="1200" aria-label="Resumo do registro" aria-invalid="'+Boolean(a.errors.resumo)+'" aria-describedby="'+prefix+'-summary-error">'+esc(a.form.resumo)+'</textarea></label><p class="field-error" id="'+prefix+'-summary-error">'+esc(a.errors.resumo||'Pelo menos 10 caracteres após remover os espaços das pontas.')+'</p><button type="submit">Registrar</button>'+b('Cancelar','cancel')+b('Testar dois toques','double')+'</form><p class="small">Estado: <output data-state></output></p>';
  else if(kind==='detail'){const x=a.detail();html=x?'<h3>'+esc(x.titulo)+'</h3><p>'+esc(x.resumo)+'</p>':'<h3>'+esc(a.missingText()||'Sem tratamento para item ausente')+'</h3>';html+=b('Voltar','back');}
  else html='<h3>Esta tela não abriu</h3><p>'+(kind==='layout'?'O layout ainda não organizou as telas.':'Confira o arquivo que atende a este endereço.')+'</p>'+b('Retornar à lista','home');
- mount.innerHTML='<div class="device-head">PRÉVIA DIDÁTICA · HTML/JS</div><div class="route">'+esc(a.route())+'</div><div class="screen">'+html+'</div><p class="feedback" role="status">'+esc(a.message)+'</p><div class="trace">Histórico: '+a.stack.map(esc).join(' → ')+'</div><div class="actions">'+b('Abrir ID 2 direto','direct',2)+b('Testar ID ausente','direct',999)+b('Lista','home')+'</div>';state();}
+ mount.innerHTML='<div class="device-head">PRÉVIA DIDÁTICA · HTML/JS</div><div class="route">'+esc(a.route())+'</div><div class="screen">'+html.replaceAll('<h3>','<h3 tabindex="-1">')+'</div><p class="feedback" role="status">'+esc(a.message)+'</p><div class="trace">Histórico: '+a.stack.map(esc).join(' → ')+'</div><div class="actions">'+b('Abrir ID 2 direto','direct',2)+b('Testar ID ausente','direct',999)+b('Lista','home')+'</div>';state();if(focus)(mount.querySelector('[aria-invalid="true"]')||mount.querySelector('.screen h3'))?.focus();}
  function state(){const o=mount.querySelector('[data-state]');if(o)o.textContent=JSON.stringify(a.form);}
- mount.onclick=e=>{const t=e.target.closest('[data-act]');if(!t)return;const cmd=t.dataset.act;if(cmd==='open')a.open(t.dataset.id);if(cmd==='new')a.newForm();if(cmd==='back'||cmd==='cancel')a.cancel();if(cmd==='direct')a.direct(t.dataset.id);if(cmd==='home'){a.stack=[a.list];a.message='Lista restaurada. Dados preservados nesta sessão.';}if(cmd==='double'){a.submit();a.submit();a.finish();}onAction(cmd);render();};
+ mount.onclick=e=>{const t=e.target.closest('[data-act]');if(!t)return;const cmd=t.dataset.act;if(cmd==='open')a.open(t.dataset.id);if(cmd==='new')a.newForm();if(cmd==='back'||cmd==='cancel')a.cancel();if(cmd==='direct')a.direct(t.dataset.id);if(cmd==='home'){a.stack=[a.list];a.message='Lista restaurada. Dados preservados nesta sessão.';}if(cmd==='double'){a.submit();a.submit();a.finish();}onAction(cmd);render(true);};
  mount.oninput=e=>{if(e.target.dataset.field){e.target.value=a.input(e.target.dataset.field,e.target.value);state();onAction('input');}};
- mount.onsubmit=e=>{e.preventDefault();a.submit();a.finish();onAction('submit');render();};render();return {render};
+ mount.onsubmit=e=>{e.preventDefault();a.submit();a.finish();onAction('submit');render(true);};render();return {render};
 }
 window.Mobile6={VERSION,PROJECTS,GROUPS,KEYS,GOOD,config,App,evaluate,draw};
 })();
