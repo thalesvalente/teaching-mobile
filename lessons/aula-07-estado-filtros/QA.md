@@ -1,5 +1,7 @@
 # QA — Aula 07 · versão 1.0.0
 
+> **Registro histórico da versão 1.0.0.** A revisão de 20/10/2026 alterou o cálculo parcial, a exportação, a acessibilidade e acrescentou um projeto Expo executável. Para o comportamento atual, consulte [Revisão das Aulas 06 e 07](../../docs/REVISAO_AULAS_06_07_20261020.md) e [Validação do projeto](projeto/VALIDACAO.md). As exigências de preenchimento e os limites de compilação descritos abaixo pertencem à versão anterior.
+
 ## Executado localmente
 
 **Motor e apoio:** 45 asserções Node passaram: configuração correta e vazia nas duas trilhas; todas as opções defeituosas foram exercitadas individualmente e afetaram pelo menos uma verificação; fonte preservada ao filtrar/limpar; sintaxe dos três arquivos TS/TSX; execução das funções puras de filtro/resumo transpila­das de `modelo.ts`.

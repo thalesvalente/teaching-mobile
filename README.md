@@ -20,10 +20,14 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 - [Permanência e Evasão Escolar](lessons/3/aula05-eda/)
 
 ### Aula 06 · aula + oficina
-A apresentação original foi preservada como aula principal. A atividade complementar possui identificação da equipe, nomes dos componentes, duas trilhas de projeto, dicas que retornam aos slides da aula, 20 verificações automáticas (10,0 pontos) e exportação de PDF formal com a pontuação recalculada.
+A apresentação reúne navegação, formulários e desafios com nota de 0 a 10 (100 XP). Em telas pequenas, a leitura vertical permite ampliar o conteúdo sem encolher o slide inteiro. A ficha possui duas trilhas, dicas, 20 verificações automáticas de 0,5 ponto, nota corrente e [missões de implementação](lessons/aula-06-navegacao-formularios/PRATICA.md).
+
+Questões não respondidas permanecem pendentes e valem zero no denominador fixo de 10. PDF, impressão e cópia para continuar preservam as escolhas e a pontuação corrente. Identificação incompleta não impede uma exportação parcial.
 
 ### Aula 07 · aula + ficha de atividade
-[Estado, filtros e visualização de dados](lessons/aula-07-estado-filtros/README.md): 28 slides, prévias de filtros/estados/gráficos, código de integração e ficha com nomes, 20 verificações formativas e PDF. A ficha separa a pontuação do simulador das evidências de implementação no app. Os instrumentos oficiais do plano não são alterados.
+[Estado, filtros e visualização de dados](lessons/aula-07-estado-filtros/README.md): aula com desafios pontuados, prévias de filtros/estados/gráficos, ficha com 20 verificações formativas e [projeto Expo executável com missões e avaliador](lessons/aula-07-estado-filtros/projeto/README.md). O projeto possui pontos de implementação para o estudante e relatório parcial de testes. A ficha distingue a nota automática do simulador da autoavaliação da prática com evidências; o avaliador do projeto executa testes das funções implementadas. Os resultados são formativos e não lançam notas no SUAP.
+
+As notas da aula, do simulador e do projeto correspondem a instrumentos distintos, cada um com máximo de 10. Não são somadas automaticamente. Ver os critérios apresentados antes de iniciar cada atividade.
 
 ## Estrutura
 
@@ -41,10 +45,22 @@ A apresentação original foi preservada como aula principal. A atividade comple
 │   ├── aula-07-estado-filtros/
 │   │   ├── index.html
 │   │   ├── atividade.html
-│   │   └── apoio/
+│   │   ├── apoio/
+│   │   └── projeto/               # Expo, missões e avaliador
+│   ├── compartilhado/             # acessibilidade e jogo das aulas
 │   └── extra/
 └── README.md
 ```
+
+## Verificação das aulas 6 e 7
+
+Contrato de pontuação (Node.js, sem dependências adicionais):
+
+```bash
+node tests/pontuacao-aulas.test.cjs
+```
+
+O [registro da revisão](docs/REVISAO_AULAS_06_07_20261020.md) documenta as alterações, os testes em navegadores, as exportações e os limites da validação.
 
 ## Projetos integradores
 1. **Mapa Interativo de Memórias Quilombolas**.

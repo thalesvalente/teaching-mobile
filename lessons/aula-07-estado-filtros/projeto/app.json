@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Aula 07 — Dados em movimento",
+    "slug": "aula07-dados-em-movimento",
+    "version": "1.0.0",
+    "orientation": "default",
+    "platforms": ["android", "ios", "web"],
+    "web": { "output": "static" }
+  }
+}

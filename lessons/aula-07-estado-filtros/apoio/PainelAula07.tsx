@@ -55,17 +55,18 @@ export default function PainelAula07({ dados, trilha, aoAbrir }: Props) {
     <TextInput style={s.input} value={busca} onChangeText={setBusca}
       accessibilityLabel="Buscar no título" maxLength={120}/>
     <Text>Escolher {trilha === 'eda' ? 'situação' : 'categoria'}</Text>
-    <View style={s.linha}>{categorias.map(c => <Pressable key={c} style={s.botao}
+    <View style={s.linha}>{categorias.map(c => <Pressable key={c}
+      style={({ pressed }) => [s.botao, categoria === c && s.selecionado, pressed && s.pressionado]}
       accessibilityRole="button" accessibilityState={{ selected: categoria === c }}
-      onPress={() => setCategoria(c)}><Text style={s.btnText}>{rotulo(c)}</Text></Pressable>)}</View>
-    {trilha === 'eda' && <View style={s.linha}>{periodos.map(p => <Pressable key={p}
-      style={s.botao} accessibilityRole="button" accessibilityState={{selected:periodo===p}}
-      onPress={() => setPeriodo(p)}><Text style={s.btnText}>{p}</Text></Pressable>)}</View>}
+      onPress={() => setCategoria(c)}><Text style={[s.btnText, categoria === c && s.selecionadoTexto]}>{categoria === c ? '✓ ' : ''}{rotulo(c)}</Text></Pressable>)}</View>
+    {trilha === 'eda' && <><Text>Escolher período</Text><View style={s.linha}>{periodos.map(p => <Pressable key={p}
+      style={({ pressed }) => [s.botao, periodo === p && s.selecionado, pressed && s.pressionado]} accessibilityRole="button" accessibilityState={{selected:periodo===p}}
+      onPress={() => setPeriodo(p)}><Text style={[s.btnText, periodo === p && s.selecionadoTexto]}>{periodo === p ? '✓ ' : ''}{p}</Text></Pressable>)}</View></>}
     <Pressable style={s.botao} onPress={limpar} accessibilityRole="button"><Text style={s.btnText}>Limpar filtros</Text></Pressable>
     <Text>Cenários de aprendizagem; não são respostas de um servidor:</Text>
     <View style={s.linha}>{(['dados','vazia','erro'] as Cenario[]).map(c => <Pressable
-      key={c} style={s.botao} accessibilityRole="button" onPress={() => setCenario(c)}>
-      <Text style={s.btnText}>{({dados:'Com dados',vazia:'Base vazia',erro:'Simular erro'})[c]}</Text>
+      key={c} style={({ pressed }) => [s.botao, cenario === c && s.selecionado, pressed && s.pressionado]} accessibilityRole="button" accessibilityState={{selected:cenario===c}} onPress={() => setCenario(c)}>
+      <Text style={[s.btnText, cenario === c && s.selecionadoTexto]}>{cenario === c ? '✓ ' : ''}{({dados:'Com dados',vazia:'Base vazia',erro:'Simular erro'})[c]}</Text>
     </Pressable>)}</View>
     {status === 'sucesso' && <>
       <Text style={s.titulo}>{resumo.total} {trilha === 'eda' ? 'indicadores' : 'memórias'} no recorte</Text>
@@ -111,7 +112,8 @@ const s = StyleSheet.create({
   pagina:{flex:1,backgroundColor:'#ffffff'},conteudo:{padding:18,paddingBottom:40},
   topo:{gap:12},h1:{fontSize:26,fontWeight:'700',color:'#006b3c'},
   titulo:{fontSize:20,fontWeight:'700'},input:{borderWidth:1,borderColor:'#567763',padding:12,fontSize:18},
-  linha:{flexDirection:'row',flexWrap:'wrap',gap:8},botao:{backgroundColor:'#006b3c',padding:12,minHeight:44,borderRadius:5},
-  btnText:{color:'#fff',fontSize:17},cartao:{padding:16,marginVertical:8,borderWidth:1,borderColor:'#a8c7b4',gap:6},
+  linha:{flexDirection:'row',flexWrap:'wrap',gap:8},botao:{backgroundColor:'#edf7f0',borderWidth:1,borderColor:'#006b3c',padding:12,minHeight:48,borderRadius:5},
+  selecionado:{backgroundColor:'#006b3c'},selecionadoTexto:{color:'#fff'},pressionado:{opacity:0.75},
+  btnText:{color:'#006b3c',fontSize:17},cartao:{padding:16,marginVertical:8,borderWidth:1,borderColor:'#a8c7b4',gap:6},
   aviso:{paddingVertical:20,gap:14},barra:{gap:6},trilho:{height:18,backgroundColor:'#e3ece6'},preenchimento:{height:18,backgroundColor:'#196b98'}
 });

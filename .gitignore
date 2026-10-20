@@ -36,6 +36,7 @@ Thumbs.db
 # Arquivos temporários
 *.tmp
 *.temp
+qa-output/
 
 # Projeto-base temporário
 lessons/2/_expo-base/

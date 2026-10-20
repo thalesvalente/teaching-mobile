@@ -2,15 +2,15 @@
 
 **Professor:** Prof. Dr. Thales Levi Azevedo Valente  
 **Turma:** 3º ano do Técnico em Informática Integrado · IFMA Campus Itapecuru-Mirim  
-**Material:** 1.0.0 · HTML interativo, sem instalação ou envio automático de respostas.
+**Material:** aula e ficha HTML, projeto Expo com missões e avaliação formativa. Sem envio automático de respostas.
 
-[Abrir aula](index.html) · [Abrir ficha e oficina](atividade.html) · [Como integrar o código](apoio/INTEGRAR.md)
+[Abrir aula](index.html) · [Abrir ficha e oficina](atividade.html) · [Projeto executável](projeto/README.md) · [Missões do projeto](projeto/MISSOES.md) · [Como integrar o código](apoio/INTEGRAR.md)
 
 ## Base e limites
 
 O Plano de Ensino de Programação para Dispositivos Móveis 2026.2, arquivo fornecido `Plano_de_Ensino_Programacao_Dispositivos_Moveis_2026_4(2).md`, define o encontro 7 (data planejada: 16/09) como **Estado, filtros e visualização de dados**. Prevê FlatList, eventos, carregamento, vazio e erro com dados simulados; lista e filtro de pontos para Memórias; cartões, filtro e primeiro gráfico local para EDA; preparação do portfólio e Incremento 1. O plano disponível se identifica como rascunho com pendência de calendário. Este material não confirma sua publicação no SUAP nem realiza lançamento no diário.
 
-A Aula 6 e seus arquivos foram preservados. As funções desta aula operam sobre uma projeção de leitura da coleção; não substitua os dados, o cadastro, as rotas ou providers da equipe. API/HTTP, persistência, MapView e bibliotecas de gráficos especializadas não são requisitos novos desta entrega.
+A Aula 7 continua os objetivos de navegação e formulários da Aula 6. As funções desta aula operam sobre uma projeção de leitura da coleção; não substitua os dados, o cadastro, as rotas ou providers da equipe. API/HTTP, persistência, MapView e bibliotecas de gráficos especializadas não são requisitos novos desta entrega.
 
 Os dados, as duas semanas inventadas de EDA, as verificações do laboratório e a rubrica formativa foram elaborados para a oficina. Não são requisitos reais das comunidades nem diagnóstico de pessoas ou setores. O gráfico de EDA não mistura percentuais com quantidades de estudantes e não calcula uma taxa de evasão.
 
@@ -36,13 +36,13 @@ Antes de cada demonstração, peça uma previsão. Depois, uma pessoa opera e ou
 | Lista com identidade | 5 min | 4 | 2,0 |
 | Resumo visual coerente | 8 min | 6 | 3,0 |
 
-Cada teste vale 0,5. Ele só é avaliado depois de preenchidas as escolhas da etapa. Dicas e tentativas não descontam pontos; nova conferência substitui a anterior. Alterar uma escolha invalida os resultados daquela etapa até nova conferência. O PDF sempre recalcula a pontuação. Os testes isolam a habilidade de cada etapa usando referência correta nas outras; a prévia reúne todas as escolhas.
+Cada teste vale 0,5. A pontuação acompanha as escolhas atuais e usa os mesmos critérios na tela, na impressão e no PDF. Cada critério só é avaliado quando suas escolhas necessárias foram respondidas; os demais continuam pendentes e valem zero. O denominador é sempre 10,0. Dicas e tentativas não descontam pontos, e nova conferência substitui a anterior. Os testes isolam a habilidade de cada critério usando referência correta nas demais; a prévia reúne todas as escolhas.
 
 **A nota é formativa, não autenticada e não substitui I1, I2 ou I3.** A atividade roda no navegador, não no runtime Expo. Não há comprovação automática de autoria, execução no aparelho, commit ou compreensão individual.
 
-A ficha registra equipe, componentes, projeto único, data, escolhas, resultados, reflexões, participação, arquivos modificados, commit, teste nativo/ambiente, requisito atendido, pendências e log de IA. Se a equipe declarar implementação testada, precisa descrever arquivos e teste; isso não concede nota automaticamente. Pendências continuam explícitas no PDF.
+A ficha registra equipe, componentes, projeto único, data, escolhas, resultados, reflexões, participação, arquivos modificados, commit, teste nativo/ambiente, requisito atendido, pendências e log de IA. A rubrica de implementação tem 20 cenários de 0,5 ponto, agrupados em quatro missões de 2,0/3,0/2,0/3,0. São confirmações da equipe, claramente separadas da nota automática do laboratório. Preencher nomes ou evidências não concede pontos. Pendências continuam explícitas no PDF; respostas, identificação e evidências incompletas não impedem exportar um rascunho.
 
-O PDF usa A4, identidade institucional verde/vermelha, capa, controle do documento, seções, texto justificado e paginação. O gerador é uma adaptação isolada do utilizado na Aula 6; o arquivo anterior não é alterado. Caracteres fora das fontes padrão são sinalizados, sem substituição silenciosa; a versão para impressão preserva esses textos via navegador. A impressão alternativa depende das configurações de impressão do dispositivo.
+O PDF usa A4, identidade institucional verde/vermelha, identificação, controle do documento, seções e paginação. Tela, impressão e PDF mostram a mesma pontuação atual, incluindo pendências. A versão para impressão depende das configurações do navegador. A geração do documento não comprova autoria nem execução nativa.
 
 ## Dados e privacidade
 
@@ -50,11 +50,31 @@ Nomes e respostas ficam na aba e nos arquivos que o estudante baixa. Não existe
 
 **Não publique PDFs/JSONs identificados em repositórios públicos.** Use o canal de entrega combinado. As coleções do simulador são fictícias e reiniciam ao recarregar.
 
-## Código de apoio
+## Projeto executável, missões e código de apoio
 
-`apoio/modelo.ts`, `dados.ts`, `PainelAula07.tsx` e `INTEGRAR.md` também estão no botão **Código** da apresentação. São referências para integração, não um projeto Expo completo e não uma ordem de sobrescrever o aplicativo. Preserve tipos e IDs, adapte o callback de abrir detalhe e execute as verificações do projeto existente.
+Agora há um [starter Expo com duas trilhas](projeto/README.md), quatro funções a completar e [missões com contratos e critérios públicos](projeto/MISSOES.md). Ele está versionado no mesmo repositório da disciplina; não foi criado outro repositório remoto.
 
-A sintaxe TS/TSX e funções puras foram verificadas localmente; a integração de tipos/imports com a baseline da equipe e a execução nativa são etapas a realizar no ambiente real. Ver detalhes em `QA.md`.
+- **`npm run nota`** executa 20 testes de funções reais, mostra 0,0–10,0/100 XP e gera `entrega/resultado.json` e `entrega/resultado.html`.
+- **App Expo:** usa as mesmas funções e o mesmo avaliador; o botão “Recalcular nota do código” mostra o resultado durante a implementação.
+- **Relatório parcial:** o HTML pode ser impresso ou salvo como PDF com qualquer nota, sem exigir concluir as missões.
+- **Integração:** a equipe transfere sua mudança para o app existente e registra a evidência na ficha.
+
+O starter começa com quatro TODOs e nota zero. A interface fornecida organiza a atividade; o aluno precisa implementar estados, filtros, identidade e resumo. Executar os testes puros não exige instalar as dependências do Expo. Para iniciar a interface, siga o README do projeto.
+
+`apoio/modelo.ts`, `dados.ts`, `PainelAula07.tsx` e `INTEGRAR.md` continuam sendo referências de consulta. Eles não substituem o código da equipe. Preserve tipos e IDs, adapte o callback de abrir detalhe e execute as verificações da base existente.
+
+**Continuidade de domínio:** a Aula 06 cadastra ações na trilha EDA; a Aula 07 filtra indicadores. Não misture as coleções ou seus IDs. Em Memórias, mantenha a categoria da base da Aula 05 ou acrescente esse campo explicitamente quando sua versão ainda não o tiver.
+
+## Notas que o aluno acompanha
+
+| Instrumento | Escala | Origem e limite |
+|---|---|---|
+| Missões da aula | 0,0–10,0 / 100 XP | Respostas conceituais no material interativo |
+| Laboratório da ficha | 0,0–10,0 | Comportamentos das escolhas no simulador HTML |
+| Código do projeto | 0,0–10,0 / 100 XP | Testes executados sobre as funções escritas pelo aluno |
+| Implementação na ficha | 0,0–10,0 | Autoavaliação dos cenários executados, com evidências e conferência docente |
+
+As escalas não são somadas para fabricar uma nota oficial. Cada instrumento informa seu próprio progresso, seus critérios e suas pendências. A interface, o dispositivo, a autoria e a compreensão individual não são certificados pelo avaliador das funções.
 
 ## Fontes técnicas verificadas
 
