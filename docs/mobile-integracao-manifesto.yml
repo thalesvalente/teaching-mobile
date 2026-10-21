@@ -1,0 +1,43 @@
+mission: mobile-2026-aula07-sheets
+version: 1.0.0
+base:
+  repository: thalesvalente/teaching-mobile
+  branch: main
+  commit: 4c1ddb45b59516e5e2bbdef0ea759a5dd8204a3b
+  nucleus_git_blob_sha1: f063d9c7ee36095c39d31c742574724cadfcfc81
+  activity_js_git_blob_sha1: ed71c16be982fb393e31bed9e53fcb3f47b9248c
+  activity_html_git_blob_sha1: afeb1ed1cd527ad28a742387a7b78654531a8f80
+  pdf_git_blob_sha1: 5b804e39f90e78f4be54fe27d77807ad199aab31
+targets:
+  spreadsheet_id: 1z5VEmScYCtfsEGg0AahY3cHE5eYO79Zj0xLMzx4iT0Y
+  course: "Programação para Dispositivos Móveis"
+  semester: "4º Bimestre"
+  instrument: simulador-html
+  activity_code: MOBILE-AULA07-2026
+  schema: mobile-a07-v1
+  rubric: mobile-a07-simulador-1.1.0
+  endpoint_exec: PENDING_HUMAN_DEPLOY
+policies:
+  default: deny
+  write_scopes:
+    - "lessons/aula-07-estado-filtros/{appscript,entrega-appscript.js,atividade.html,INTEGRACAO_SHEETS.md}"
+    - ".github/workflows/qa-mobile-entregas.yml"
+    - "tests/mobile-*"
+    - "docs/mobile-integracao-manifesto.yml"
+  no_edits:
+    - "lessons/aula-07-estado-filtros/nucleo.js"
+    - "lessons/aula-07-estado-filtros/atividade.js"
+    - "lessons/aula-07-estado-filtros/pdf.js"
+    - "lessons/aula-07-estado-filtros/projeto/src/"
+    - "interdisciplinary-project-2026"
+  secrets: script_properties_only
+  network: github_and_google_connector_only
+gates:
+  G0: didactic_hash_lock
+  G1: separate_sheet_five_tabs
+  G2: original_rubric_equivalence
+  G3: original_pdf_offline_plus_new_button
+  G4: receipt_hmac_upsert_averages
+  G5: github_actions_browser_wcag
+  G6: PENDING_HUMAN_DEPLOY
+  G7: pr_docs_publication
