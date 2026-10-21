@@ -1,0 +1,55 @@
+name: QA Mobile — Entregas Aula 07
+
+on:
+  push:
+    branches:
+      - feat/mobile-aula07-entregas-sheets-20261021
+      - main
+    paths:
+      - 'lessons/aula-07-estado-filtros/**'
+      - 'tests/mobile-*.cjs'
+      - 'tests/pontuacao-aulas.test.cjs'
+      - 'tests/avaliador-projeto.test.mjs'
+      - '.github/workflows/qa-mobile-entregas.yml'
+  pull_request:
+    paths:
+      - 'lessons/aula-07-estado-filtros/**'
+      - 'tests/mobile-*.cjs'
+      - 'tests/pontuacao-aulas.test.cjs'
+      - 'tests/avaliador-projeto.test.mjs'
+      - '.github/workflows/qa-mobile-entregas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  motor-e-invariantes:
+    name: Servidor, rubrica original e regressões
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Contratos da Aula 06/07 e avaliador Expo
+        run: node --test tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs
+      - name: Integridade didática e Apps Script simulado
+        run: node --test tests/mobile-entregas.test.cjs
+
+  navegador:
+    name: Ficha Chromium — PDF, hash e recibo simulado
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências do QA
+        run: npm install --no-save --no-package-lock playwright@1.57.0 axe-core@4.10.3
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: E2E real de PDF com endpoint HTTP simulado
+        run: node tests/mobile-entrega-browser.cjs
