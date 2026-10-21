@@ -37,6 +37,19 @@ jobs:
         run: node --test tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs
       - name: Integridade didática e Apps Script simulado
         run: node --test tests/mobile-entregas.test.cjs
+      - name: Diagnóstico HTTP GET do Apps Script Mobile (sem dados)
+        continue-on-error: true
+        env:
+          MOBILE_EXEC_URL: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail-with-body --location --silent --show-error --retry 1 --connect-timeout 10 --max-time 35 "$MOBILE_EXEC_URL")"
+          if [[ "$response" != *"Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0"* ]]; then
+            echo "::warning::GET do Apps Script não retornou a versão Mobile 1.0.0; conferir implantação e autorização."
+            exit 1
+          fi
+          echo "PASS: GET /exec Mobile versão 1.0.0 (sem submissão de dados)"
 
   navegador:
     name: Ficha Chromium — PDF, hash e recibo simulado
