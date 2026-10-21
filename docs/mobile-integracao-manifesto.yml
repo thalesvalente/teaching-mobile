@@ -16,7 +16,9 @@ targets:
   activity_code: MOBILE-AULA07-2026
   schema: mobile-a07-v1
   rubric: mobile-a07-simulador-1.1.0
-  endpoint_exec: PENDING_HUMAN_DEPLOY
+  endpoint_exec: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
+  endpoint_provided: '2026-10-21'
+  endpoint_status: CONFIGURED_PENDING_LIVE_E2E
 policies:
   default: deny
   write_scopes:
@@ -39,5 +41,5 @@ gates:
   G3: original_pdf_offline_plus_new_button
   G4: receipt_hmac_upsert_averages
   G5: github_actions_browser_wcag
-  G6: PENDING_HUMAN_DEPLOY
+  G6: PENDING_LIVE_E2E
   G7: pr_docs_publication
