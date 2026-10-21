@@ -38,7 +38,6 @@ jobs:
       - name: Integridade didática e Apps Script simulado
         run: node --test tests/mobile-entregas.test.cjs
       - name: Diagnóstico HTTP GET do Apps Script Mobile (sem dados)
-        continue-on-error: true
         env:
           MOBILE_EXEC_URL: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
         shell: bash
