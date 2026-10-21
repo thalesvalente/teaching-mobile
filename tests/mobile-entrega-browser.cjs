@@ -12,6 +12,7 @@ const root=path.resolve(__dirname,'..');
 const out=fs.mkdtempSync(path.join(os.tmpdir(),'mobile-e2e-'));
 const hash=data=>crypto.createHash('sha256').update(data).digest('hex');
 const endpoint='https://script.google.com/macros/s/FAKE-MOBILE-TEST/exec';
+const deployedEndpoint='https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec';
 function server() {
   const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8',
     '.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8'};
@@ -37,24 +38,24 @@ function server() {
   let count=0,mode='ok',lastPost=null;
   const tests=[];
   try{
-    // Sem URL Google real: o botão novo deve estar desabilitado,
-    // mas todo o conteúdo didático e o PDF local continuam funcionando.
+    // Com o endpoint real configurado, PDF local não aciona envio HTTP.
+    // Qualquer submissão nos testes seguintes é interceptada e usa apenas mock.
     await page.goto(address,{waitUntil:'networkidle'});
     await page.locator('#score').waitFor();
-    assert.equal(await page.locator('#mobile-submit').isDisabled(),true);
+    assert.equal(await page.locator('#mobile-submit').isEnabled(),true);
     const originalPdf=await Promise.all([
       page.waitForEvent('download',{timeout:15000}),
       page.locator('#pdf').click()
     ]).then(x=>x[0]);
     const localFile=path.join(out,'original.pdf');await originalPdf.saveAs(localFile);
     assert.equal(fs.readFileSync(localFile).subarray(0,8).toString('latin1'),'%PDF-1.4');
-    tests.push('PDF original disponível sem endpoint');
+    tests.push('PDF local continua disponível sem enviar ao Google');
 
     await page.route('**/entrega-appscript.js?v=*',async route=>{
       const original=fs.readFileSync(path.join(root,'lessons/aula-07-estado-filtros/entrega-appscript.js'),'utf8');
-      assert.ok(original.includes("const ENDPOINT = '';"));
+      assert.ok(original.includes("const ENDPOINT = '"+deployedEndpoint+"';"));
       await route.fulfill({status:200,contentType:'text/javascript; charset=utf-8',
-        body:original.replace("const ENDPOINT = '';","const ENDPOINT = '"+endpoint+"';")});
+        body:original.replace("const ENDPOINT = '"+deployedEndpoint+"';","const ENDPOINT = '"+endpoint+"';")});
     });
     await page.route(endpoint,async route=>{
       count++;
@@ -187,6 +188,21 @@ function server() {
     });
     assert.deepEqual(violations,[]);
     tests.push('Foco por teclado e axe-core WCAG 2.2 AA nos controles novos');
+    // Falta de URL: botão continua bloqueado e exportação PDF não depende do endpoint.
+    await page.unroute('**/entrega-appscript.js?v=*');
+    await page.route('**/entrega-appscript.js?v=*',async route=>{
+      const original=fs.readFileSync(path.join(root,'lessons/aula-07-estado-filtros/entrega-appscript.js'),'utf8');
+      await route.fulfill({status:200,contentType:'text/javascript; charset=utf-8',
+        body:original.replace("const ENDPOINT = '"+deployedEndpoint+"';","const ENDPOINT = '';")});
+    });
+    await page.reload({waitUntil:'networkidle'});
+    assert.equal(await page.locator('#mobile-submit').isDisabled(),true);
+    const pdfWithoutEndpoint=await Promise.all([
+      page.waitForEvent('download',{timeout:15000}),page.locator('#pdf').click()
+    ]).then(x=>x[0]);
+    await pdfWithoutEndpoint.saveAs(path.join(out,'sem-endpoint.pdf'));
+    assert.ok(fs.readFileSync(path.join(out,'sem-endpoint.pdf')).subarray(0,8).toString('latin1')==='%PDF-1.4');
+    tests.push('Fallback sem endpoint bloqueia envio e mantém PDF');
     for(const name of tests)console.log('PASS',name);
     console.log('BROWSER MOBILE: '+tests.length+'/'+tests.length+' PASS');
   } finally {
