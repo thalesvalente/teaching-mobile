@@ -80,7 +80,8 @@
 <h2 id="export-title">5 · Revisar e exportar</h2><p class="small">A nota da tela, do PDF e da impressão usa as mesmas respostas. É possível entregar uma versão parcial com identificação ou questões em branco.</p>
 <div id="contributions" class="config-fields"></div>
 <div class="two"><div><h3>Nota do simulador por missão</h3><div id="grade-summary"></div></div><div><h3>Conteúdo do relatório</h3><p>Nota atual do simulador, XP, critérios, respostas, autoavaliação separada da prática, evidências e pendências. Questões não respondidas recebem zero sem mudar o denominador.</p><p class="small">O PDF é um registro formativo local. Não é autenticado nem substitui a nota oficial da disciplina.</p></div></div>
-<div class="actions"><button type="button" id="pdf">Gerar PDF com a nota atual</button><button type="button" id="json" class="secondary">Guardar cópia para continuar</button><button type="button" id="printReport" class="secondary">Versão para impressão</button></div>
+<div class="actions"><button type="button" id="pdf">Gerar PDF com a nota atual</button><button type="button" id="mobile-submit" disabled>Gerar PDF e entregar</button><button type="button" id="json" class="secondary">Guardar cópia para continuar</button><button type="button" id="printReport" class="secondary">Versão para impressão</button></div>
+<p id="mobile-delivery-status" class="rule" role="status" aria-live="polite" aria-atomic="true" style="white-space:pre-wrap;overflow-wrap:anywhere">Entrega online ainda não configurada. PDF, impressão e rascunho continuam disponíveis.</p>
 <p class="small">A impressão do navegador (Ctrl+P ou menu Compartilhar/Imprimir no celular) também inclui todas as missões. Se a fonte do PDF direto não contiver algum caractere, será aberta a impressão para preservar o texto.</p>
 <details><summary>Continuar um trabalho salvo</summary><div><label>Reabrir cópia JSON desta atividade (até 256 KB)<input type="file" id="import" accept=".json,application/json"></label><p class="small">A importação pede confirmação antes de substituir esta aba. Respostas em branco continuam em branco; a nota é recalculada das escolhas e não é aceita do arquivo.</p></div></details>
 <div id="status" role="status" aria-atomic="true" class="rule">Guarde a cópia JSON antes de fechar ou recarregar. Nada é salvo automaticamente nem enviado ao professor. Mantenha arquivos com nomes dos alunos fora de repositórios públicos.</div>
@@ -89,5 +90,5 @@
 <footer class="wrap footer">Mobile · Aula 07 · Oficina 1.1.0 · Professor Thales Levi Azevedo Valente · <a href="index.html">Voltar à aula</a></footer>
 <section id="print-snapshot" class="print-snapshot" aria-label="Relatório para impressão" hidden></section>
 <noscript><p>Esta ficha precisa de JavaScript para calcular a nota. <a href="index.html">Consulte a aula</a> e registre respostas e pendências para conferência com o professor.</p></noscript>
-<script src="nucleo.js?v=1.1.0"></script><script src="laboratorio.js?v=1.1.0"></script><script src="pdf.js?v=1.1.0"></script><script src="atividade.js?v=1.1.0"></script>
+<script src="nucleo.js?v=1.1.0"></script><script src="laboratorio.js?v=1.1.0"></script><script src="pdf.js?v=1.1.0"></script><script src="atividade.js?v=1.1.0"></script><script src="entrega-appscript.js?v=1.0.0"></script>
 </body></html>
