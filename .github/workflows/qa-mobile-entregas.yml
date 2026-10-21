@@ -37,6 +37,28 @@ jobs:
         run: node --test tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs
       - name: Integridade didática e Apps Script simulado
         run: node --test tests/mobile-entregas.test.cjs
+      - name: Diagnóstico HTTP GET do Apps Script Mobile (sem dados)
+        env:
+          MOBILE_EXEC_URL: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(curl --location --silent --show-error --connect-timeout 10 --max-time 35 --output /tmp/mobile-get-response --write-out '%{http_code}' "$MOBILE_EXEC_URL")"
+          echo "GET status HTTP: $status"
+          python3 - <<'PY'
+          import pathlib, re, html, sys
+          body = pathlib.Path('/tmp/mobile-get-response').read_text(encoding='utf-8', errors='replace')
+          expected = 'Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0'
+          if expected in body:
+              print('PASS: GET Mobile versão 1.0.0, sem envio de dados')
+          else:
+              titles = re.findall(r'<title[^>]*>(.*?)</title>',body,re.I|re.S)
+              title = html.unescape(re.sub(r'<[^>]*>',' ',titles[0]))[:130] if titles else '(sem título HTML)'
+              preview = re.sub(r'\s+',' ',body[:180])
+              preview = re.sub(r'[\w.+-]+@[\w.-]+','[email oculto]',preview)
+              print(f'GET inesperado: bytes={len(body)}; título={title}; início={preview}')
+              sys.exit(1)
+          PY
 
   navegador:
     name: Ficha Chromium — PDF, hash e recibo simulado
