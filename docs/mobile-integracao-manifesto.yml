@@ -18,7 +18,7 @@ targets:
   rubric: mobile-a07-simulador-1.1.0
   endpoint_exec: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
   endpoint_provided: '2026-10-21'
-  endpoint_status: CONFIGURED_PENDING_LIVE_E2E
+  endpoint_status: CONFIGURED_BLOCKED_GOOGLE_LOGIN
 policies:
   default: deny
   write_scopes:
@@ -41,5 +41,13 @@ gates:
   G3: original_pdf_offline_plus_new_button
   G4: receipt_hmac_upsert_averages
   G5: github_actions_browser_wcag
-  G6: PENDING_LIVE_E2E
+  G6: BLOCKED_GOOGLE_AUTH
   G7: pr_docs_publication
+
+verification:
+  verified_at: '2026-10-21'
+  check: 'GET /exec from GitHub Actions unauthenticated'
+  outcome: 'HTTP 200 redirects to Google Accounts Sign in; endpoint is not anonymously accessible'
+  reference: 'https://github.com/thalesvalente/teaching-mobile/actions/runs/39666073121'
+  unblock: 'Deploy > Manage deployments > Edit > Execute as Me; Who has access Anyone; New version; check incognito'
+  post_e2e: PENDING
