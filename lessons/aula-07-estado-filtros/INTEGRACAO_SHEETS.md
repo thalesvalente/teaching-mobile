@@ -52,7 +52,9 @@ A Aula 07 é enviada para \`4º Bimestre\`, coluna \`Aula 07\`. Média aritméti
 ## Situação operacional após conexão do frontend — 21/10/2026
 
 - A ficha contém o endpoint Mobile correto. URL: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
-- Google Web App ainda precisa confirmar por HTTP sua versão e liberação de POST; não basta o botão estar habilitado.
+- **GET HTTP verificado em 21/10/2026:** requisição anônima feita no GitHub Actions chegou a `Sign in - Google Accounts` (HTTP 200 após redirecionamento), **não** ao diagnóstico Mobile; evidência no [run 39666073121](https://github.com/thalesvalente/teaching-mobile/actions/runs/39666073121). A implantação ainda está restrita para visitantes externos.
+- **Ação humana para G6:** no projeto Apps Script Mobile, `Deploy → Manage deployments → Edit → Execute as Me / Who has access Anyone → New version → Deploy`. Testar `GET /exec` em janela anônima **sem login**, procurando texto `Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0`. Somente depois realizar POST com QA Ana e QA Bia. Não alterar a implantação PPI.
+- Mesmo após o GET funcionar, os POSTs permanecerão bloqueados se `MOBILE_WEB_SUBMISSIONS_ENABLED` estiver `false`.
 - O teste de envio deve ser feito pela **ficha publicada**, com QA Ana e QA Bia, verificando recibo, nota, hash, assinatura e média; depois deve remover somente os dois registros fictícios.
 - Se clicar e não aparecer recibo, verifique `Executions > doPost` no Apps Script. Sem `doPost`, investigar acesso e envio em iframe; com `doPost` recusado, conferir Script Properties e erros. Não interpretar PDF baixado como entrega.
 
