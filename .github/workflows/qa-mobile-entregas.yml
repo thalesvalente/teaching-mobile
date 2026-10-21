@@ -44,12 +44,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          response="$(curl --fail-with-body --location --silent --show-error --retry 1 --connect-timeout 10 --max-time 35 "$MOBILE_EXEC_URL")"
-          if [[ "$response" != *"Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0"* ]]; then
-            echo "::warning::GET do Apps Script não retornou a versão Mobile 1.0.0; conferir implantação e autorização."
-            exit 1
-          fi
-          echo "PASS: GET /exec Mobile versão 1.0.0 (sem submissão de dados)"
+          status="$(curl --location --silent --show-error --connect-timeout 10 --max-time 35 --output /tmp/mobile-get-response --write-out '%{http_code}' "$MOBILE_EXEC_URL")"
+          echo "GET status HTTP: $status"
+          python3 - <<'PY'
+          import pathlib, re, html, sys
+          body = pathlib.Path('/tmp/mobile-get-response').read_text(encoding='utf-8', errors='replace')
+          expected = 'Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0'
+          if expected in body:
+              print('PASS: GET Mobile versão 1.0.0, sem envio de dados')
+          else:
+              titles = re.findall(r'<title[^>]*>(.*?)</title>',body,re.I|re.S)
+              title = html.unescape(re.sub(r'<[^>]*>',' ',titles[0]))[:130] if titles else '(sem título HTML)'
+              preview = re.sub(r'\s+',' ',body[:180])
+              preview = re.sub(r'[\w.+-]+@[\w.-]+','[email oculto]',preview)
+              print(f'GET inesperado: bytes={len(body)}; título={title}; início={preview}')
+              sys.exit(1)
+          PY
 
   navegador:
     name: Ficha Chromium — PDF, hash e recibo simulado
