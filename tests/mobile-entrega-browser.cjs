@@ -171,6 +171,22 @@ function server() {
     }));
     assert.equal(a11y.role,'status');assert.equal(a11y.live,'polite');
     tests.push('320/390/768/1280 px sem overflow + mensagem aria-live');
+    await page.locator('#mobile-submit').focus();
+    assert.equal(await page.evaluate(()=>document.activeElement.id),'mobile-submit');
+    await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
+    const violations=await page.evaluate(async()=>{
+      const result=[];
+      for(const id of ['mobile-submit','mobile-delivery-status']){
+        const node=document.getElementById(id);
+        const scan=await window.axe.run(node,{runOnly:{
+          type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']
+        }});
+        result.push(...scan.violations.map(v=>({id:v.id,impact:v.impact,target:id})));
+      }
+      return result;
+    });
+    assert.deepEqual(violations,[]);
+    tests.push('Foco por teclado e axe-core WCAG 2.2 AA nos controles novos');
     for(const name of tests)console.log('PASS',name);
     console.log('BROWSER MOBILE: '+tests.length+'/'+tests.length+' PASS');
   } finally {
