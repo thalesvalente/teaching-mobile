@@ -10,7 +10,7 @@
 - **Contrato automatizado:** [tests/mobile-entregas.test.cjs](../../tests/mobile-entregas.test.cjs).
 - **E2E Chromium simulado:** [tests/mobile-entrega-browser.cjs](../../tests/mobile-entrega-browser.cjs).
 
-**Atenção:** a URL do endpoint Mobile NÃO existe no repositório antes da implantação feita pelo professor. O botão “Gerar PDF e entregar” permanece desabilitado nesse período. Não substituir pela URL da PPI I.
+**Endpoint Mobile recebido em 21/10/2026 e configurado no frontend:** [https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec](https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec). O botão “Gerar PDF e entregar” será habilitado pela ficha publicada quando o script carregar. **A URL por si só não certifica que os POSTs estão habilitados nem que o Google Sheets recebeu dados.** Não utilizar o endpoint da PPI I.
 
 ## Instrumentos distintos: contrato pedagógico imutável
 
@@ -33,8 +33,8 @@ A Aula 07 é enviada para \`4º Bimestre\`, coluna \`Aula 07\`. Média aritméti
 4. Clique em salvar e execute \`testarConexaoMobile\`. Deve aparecer \`Diagnóstico Mobile: PASS\`. Esse teste não cria entregas fictícias e não valida POST externo.
 5. Em **Project Settings → Script properties**, mantenha \`MOBILE_WEB_SUBMISSIONS_ENABLED=false\` durante o preflight. \`MOBILE_RECEIPT_HMAC_SECRET\` é gerado automaticamente na primeira entrega autorizada, fica privado e não deve ser publicado.
 6. **Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone** (MVP por link sem identificação autenticada). Publique e copie a URL **\`/exec\`**. O endpoint Mobile deve responder em GET: \`Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0\`.
-7. Informe a URL \`/exec\` real e a associe à constante \`ENDPOINT\` em \`entrega-appscript.js\`. Publique nova versão estática da ficha após QA. **Não use jamais a URL da PPI**.
-8. Após validar a URL e iniciar o teste autorizado, ative \`MOBILE_WEB_SUBMISSIONS_ENABLED=true\` para autorizar recebimentos do MVP. O flag controla recebimentos mesmo quando o Web App usa Anyone. A planilha continua privada.
+7. A URL Mobile já está em `entrega-appscript.js` (versão de cache `1.0.1`) e será publicada pelo GitHub Pages após o QA. **Não utilizar a URL da PPI**.
+8. Após conferir a mensagem `Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0` na URL `/exec`, defina `MOBILE_WEB_SUBMISSIONS_ENABLED=true` em Script Properties **somente para o teste autorizado com QA Ana/QA Bia**; após homologação, o professor decide manter o recebimento para a turma. O flag controla POSTs mesmo com Web App `Anyone`. A planilha continua privada.
 
 **Contrato do recibo:** \`channel=mobile-entrega-aula07\`, \`nonce\` aleatório por clique, \`ok\`, \`receiptId\`, \`activity\`, \`instrument\`, \`receivedAt\` UTC, \`pdfSha256\`, \`answersSha256\`, \`grade\`, \`xp\`, \`signature\`. O aluno só vê **ENTREGA CONFIRMADA** quando a resposta legítima corresponde ao hash do PDF baixado e à nota local. Mensagens de erro e timeout nunca confirmam entrega. O PDF direto usa os mesmos bytes da geração local já existente. Quando caracteres não suportados acionam impressão, nenhum hash de PDF é inventado e nenhum POST acontece.
 
@@ -47,7 +47,14 @@ A Aula 07 é enviada para \`4º Bimestre\`, coluna \`Aula 07\`. Média aritméti
 5. Valide hash do PDF baixado contra o SHA-256 da Auditoria e o recibo. Verifique também erro/timeout sem falso sucesso e exportação offline.
 6. Remova **somente** registros fictícios da planilha após conferência (não tocar notas reais).
 
-**Sem a URL real, sem Deploy ou sem submissão real não declarar G6 PASS**: manter \`PENDING_HUMAN_DEPLOY\`.
+**A URL foi fornecida, mas ainda não temos comprovante de POST real nem de escrita via ficha publicada.** Portanto, manter G6 `PENDING_LIVE_E2E` até verificar um recibo verdadeiro e as duas abas em Google Sheets.
+
+## Situação operacional após conexão do frontend — 21/10/2026
+
+- A ficha contém o endpoint Mobile correto. URL: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
+- Google Web App ainda precisa confirmar por HTTP sua versão e liberação de POST; não basta o botão estar habilitado.
+- O teste de envio deve ser feito pela **ficha publicada**, com QA Ana e QA Bia, verificando recibo, nota, hash, assinatura e média; depois deve remover somente os dois registros fictícios.
+- Se clicar e não aparecer recibo, verifique `Executions > doPost` no Apps Script. Sem `doPost`, investigar acesso e envio em iframe; com `doPost` recusado, conferir Script Properties e erros. Não interpretar PDF baixado como entrega.
 
 ## Segurança e limites deliberados do MVP
 
