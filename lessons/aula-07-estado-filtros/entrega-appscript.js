@@ -1,9 +1,9 @@
 /* Adaptação de entrega Mobile: PDF atual preservado; sem alterar avaliador nem enunciados. */
 (() => {
   'use strict';
-  // Após o professor implantar Code.gs + RubricaAula07.gs, inserir a URL /exec MOBILE.
-  // Nunca utilizar o endpoint da disciplina PPI I.
-  const ENDPOINT = '';
+  // Implantação MOBILE fornecida pelo professor em 21/10/2026.
+  // Nunca utilizar o endpoint ou a planilha da disciplina PPI I.
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec';
   const ACTIVITY = 'MOBILE-AULA07-2026';
   const SCHEMA = 'mobile-a07-v1';
   const button = document.getElementById('mobile-submit');
