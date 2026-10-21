@@ -94,7 +94,7 @@ function mobileActivity(code) {
     throw Error('Atividade não habilitada.');
   return MOBILE_CFG.activities[code];
 }
-function mobileSanitize(snapshot, activity) {
+function mobileSanitizeAula07(snapshot, activity) {
   if (!snapshot || typeof snapshot !== 'object' || Array.isArray(snapshot) ||
       snapshot.schema !== activity.schema)
     throw Error('Ficha ou versão incompatível.');
@@ -187,6 +187,13 @@ function mobileSanitize(snapshot, activity) {
   }});
   if (answerJson.length > 48000) throw Error('Respostas acima do limite da célula de auditoria.');
   return { names, team, grade, xp, declaredGrade, answerJson };
+}
+// Registro explícito de adaptadores: nenhuma futura aula herdará silenciosamente a rubrica da Aula 07.
+function mobileSanitize(snapshot, activity) {
+  const adapters = {aula07: mobileSanitizeAula07};
+  const handler = adapters[activity.evaluator];
+  if (!handler) throw Error('Avaliador não implementado para esta atividade.');
+  return handler(snapshot, activity);
 }
 function mobileSha256(str) {
   return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,str,Utilities.Charset.UTF_8)
