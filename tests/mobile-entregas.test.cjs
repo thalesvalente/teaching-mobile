@@ -135,7 +135,7 @@ test('G0 — rubrica original espelhada literalmente e arquivos didáticos intoc
   const html=fs.readFileSync(path.join(dir,'atividade.html'),'utf8')
     .replace('<button type="button" id="mobile-submit" disabled>Gerar PDF e entregar</button>','')
     .replace('<p id="mobile-delivery-status" class="rule" role="status" aria-live="polite" aria-atomic="true" style="white-space:pre-wrap;overflow-wrap:anywhere">Entrega online ainda não configurada. PDF, impressão e rascunho continuam disponíveis.</p>\n','')
-    .replace('<script src="entrega-appscript.js?v=1.0.0"></script>','');
+    .replace('<script src="entrega-appscript.js?v=1.0.1"></script>','');
   assert.equal(blobSha(html),'afeb1ed1cd527ad28a742387a7b78654531a8f80',
     'HTML pré-existente deve ser byte-idêntico após remover apenas as adições de entrega');
 });
