@@ -234,7 +234,7 @@ if(require.main===module) {
     for(const mutate of [x=>x.evaluation.total=10.5,x=>x.pdfSha256='c'.repeat(64),x=>x.team='Falsa',x=>x.receiptId='outro',
       x=>x.evaluation.criteria[0].passed=false,x=>x.members[0].name='Nome Falso',x=>x.sourceHashes['src/equipe.mjs']='d'.repeat(64)]){
       const forged=clone(r);mutate(forged);assert.throws(()=>f.dispatch({action:'validateReceipt',activity:d.binding.activity,
-        schema:d.binding.schema,receipt:forged}),/Assinatura/);}
+        schema:d.binding.schema,receipt:forged}),/Assinatura|outra atividade/);}
   });
   test('reenvio com novo desafio substitui sem duplicar; médias e Aula07 preservadas',()=>{
     const f=createFixture(),d=issued(f);f.tabs.get('4º Bimestre').rows.push(['Ana Teste','Equipe QA',8,'=SUM(C2:C2)/1']);
@@ -331,6 +331,14 @@ if(require.main===module) {
     assert.equal(result.receipt.members.length,3);
     assert.deepEqual(f.grade().slice(1).map(row=>row[3]),[10,10,10]);
     assert.equal(f.audit().length,4);
+  });
+  test('modelo coletivo recusa associação implícita nome/slot no protocolo e nomes duplicados',()=>{
+    const f=createFixture(),base={...makeBinding([1,2,3,4]),action:'challenge'};
+    assert.throws(()=>f.dispatch({...base,members:[{name:'Ana Teste',slot:1},...base.members.slice(1)]}),/não previsto/);
+    assert.throws(()=>f.dispatch({...base,members:[base.members[0],base.members[0]]}),/duplicado/);
+    assert.throws(()=>f.dispatch({...base,members:[]}),/participantes/);
+    assert.throws(()=>f.dispatch({...base,members:Array.from({length:5},(_,i)=>({name:'Participante '+i}))}),/participantes/);
+    assert.equal(f.grade().length,1);assert.equal(f.audit().length,1);
   });
   test('recibo de outra atividade recusado; bytes de dados não viram scripts no HTML',()=>{
     const f=createFixture(),d=issued(f),r=f.dispatch(finalInput(d.input)).receipt;

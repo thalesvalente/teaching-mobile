@@ -56,3 +56,18 @@ test('missões oferecem execução guiada, verificação e marcação separada d
   assert.match(js,/hashchange/);
   assert.doesNotMatch(js,/verifyAndSubmit|grade|Apps Script/i);
 });
+
+test('avaliação e identificação da equipe não vinculam participantes a slots técnicos',()=>{
+  const form=fs.readFileSync(path.join(root,'atividade.html'),'utf8');
+  const client=fs.readFileSync(path.join(root,'atividade.js'),'utf8');
+  const docs=fs.readFileSync(path.join(root,'missoes.html'),'utf8');
+  assert.equal((form.match(/data-member="[1-4]"/g)||[]).length,4);
+  assert.doesNotMatch(form,/data-slot=/);
+  assert.match(form,/A nota é única para a equipe/);
+  assert.match(form,/Participante 2 \(opcional\)/);
+  assert.match(form,/Resultado da equipe/);
+  assert.match(client,/validateEvaluation\(verification.evaluation, identification.team\)/);
+  assert.doesNotMatch(client,/evaluation\.members/);
+  assert.match(docs,/M4 · 25 minutos · 2,5 pontos para a equipe/);
+  assert.doesNotMatch(docs,/pontos por pessoa/);
+});
