@@ -104,7 +104,7 @@ function expectedForCase(c) {
       i.loading?'carregando':i.error?'erro':i.items.length===0?'vazio':i.filtered.length===0?'sem-resultados':'pronto';
     case 'filtrar':return i.items.filter(x=>(i.category==='Todas'||x.category===i.category)&&
       (i.period==='Todos'||x.period===i.period)&&x.title.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
-        .includes(i.query.trim().toLowerCase()));
+        .includes(i.query.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()));
     case 'chaves':return i.items.map(x=>String(x.id));
     case 'chave':return i.item.id===undefined||typeof i.item.id==='string'&&i.item.id.length>80?null:String(i.item.id);
     case 'tentar':return i.state.status==='erro'?{status:'carregando',error:null}:i.state;
@@ -195,6 +195,27 @@ if(require.main===module) {
     delete d.outputs.find(o=>o.id===id).unchanged;
     assert.equal(f.dispatch(d.input).evaluation.members[0].m2,1.5);
     d.outputs.find(o=>o.id===id).unchanged=false;assert.equal(f.dispatch(d.input).evaluation.members[0].m2,1.5);
+  });
+  test('M3-4 exige formulário válido e limites inclusivos; sempre rejeitar não pontua',()=>{
+    const f=createFixture(),d=issued(f),cases=d.challenge.cases.filter(c=>c.scope==='team'&&c.criterion==='M3-4');
+    assert.ok(cases.some(c=>c.input.form.title.length===80&&c.input.form.category.length===40));
+    assert.ok(cases.some(c=>c.input.form.title.length===81&&c.input.form.category.length===41));
+    assert.ok(cases.some(c=>expectedForCase(c).valid===true));
+    assert.ok(cases.some(c=>expectedForCase(c).valid===false));
+    // Mutante reproduz corretamente as mensagens de erro, mas impede todo cadastro.
+    for(const c of cases){const result=d.outputs.find(o=>o.id===c.id);result.value={...result.value,valid:false};}
+    const r=f.dispatch(d.input).evaluation.members[0];
+    assert.equal(r.criteria.find(c=>c.id==='M3-4').passed,false);assert.equal(r.m3,2.5);assert.equal(r.total,9.5);
+  });
+  test('M2-2 exige normalizar título e consulta com acento; normalizar só título falha',()=>{
+    const f=createFixture(),d=issued(f),cases=d.challenge.cases.filter(c=>c.criterion==='M2-2');
+    assert.ok(cases.some(c=>c.input.query.includes('Á')&&expectedForCase(c).length>0));
+    for(const c of cases){const i=c.input,result=d.outputs.find(o=>o.id===c.id);
+      result.value=i.items.filter(x=>(i.category==='Todas'||x.category===i.category)&&
+        (i.period==='Todos'||x.period===i.period)&&x.title.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+        .includes(i.query.trim().toLowerCase()));}
+    const r=f.dispatch(d.input).evaluation.members[0];
+    assert.equal(r.criteria.find(c=>c.id==='M2-2').passed,false);assert.equal(r.m2,1.5);assert.equal(r.total,9.5);
   });
   test('verify não grava notas ou auditoria, final recalcula sem confiar na prévia',()=>{
     const f=createFixture(),d=issued(f);f.dispatch(d.input);assert.equal(f.audit().length,1);assert.equal(f.grade().length,1);

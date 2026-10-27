@@ -386,6 +386,7 @@ function mobileA08Cases(nonce,slots) {
   const state=(loading,error,list=items,filtered=list)=>({op:'estado',loading,error,items:list,filtered});
   add('M2-1',state(true,'falha'));add('M2-1',state(false,'falha'));
   add('M2-2',{op:'filtrar',items,query:'  ARVORE ',category,period});
+  add('M2-2',{op:'filtrar',items,query:'  ÁRVORE ',category,period});
   add('M2-2',{op:'filtrar',items,query:'inexistente-'+n,category:'Todas',period:'Todos'});
   add('M2-3',{op:'filtrar',items:items.slice().reverse(),query:'',category:'Todas',period:'Todos'});
   add('M2-4',{op:'chaves',items:items.slice().reverse()});
@@ -394,6 +395,8 @@ function mobileA08Cases(nonce,slots) {
   add('M3-2',{op:'tentar',state:{status:'pronto',error:null}});
   add('M3-3',{op:'navegar',state:{...base,query:'',category:'Todas',period:'Todos'},action:'open',id:a});
   add('M3-3',{op:'navegar',state:{...base,screen:'detail',selectedId:a,query:'',category:'Todas',period:'Todos'},action:'back'});
+  add('M3-4',{op:'validar',form:{title:'Registro '+n,category}});
+  add('M3-4',{op:'validar',form:{title:'T'.repeat(80),category:'C'.repeat(40)}});
   add('M3-4',{op:'validar',form:{title:' ',category:''}});
   add('M3-4',{op:'validar',form:{title:'A'.repeat(81),category:'C'.repeat(41)}});
   add('M3-5',{op:'navegar',state:base,action:'open',id:c});
