@@ -51,12 +51,12 @@ export function decodeSource(content) {
   let bytes;
   try { const raw = atob(content); if (btoa(raw) !== content) fail('Base64 não canônico'); bytes = Uint8Array.from(raw, c => c.charCodeAt(0)); } catch { fail('Base64 inválido'); }
   if (bytes.length === 0 || bytes.length > CONFIG.maxSourceBytes) fail('fonte ausente ou maior que 16 KiB');
-  try { return new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch { fail('fonte não é UTF-8'); }
+  try { return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes); } catch { fail('fonte não é UTF-8'); }
 }
 export async function parsePackage(input) {
   let text;
   if (typeof input === 'string') text = input;
-  else { try { text = new TextDecoder('utf-8', { fatal: true }).decode(input); } catch { fail('arquivo não é UTF-8'); } }
+  else { try { text = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(input); } catch { fail('arquivo não é UTF-8'); } }
   if (encoder.encode(text).length > CONFIG.maxBytes) fail('arquivo maior que 128 KiB');
   if (!text.endsWith('\n') || text.includes('\r') || text.charCodeAt(0) === 0xfeff) fail('use JSONL UTF-8 canônico, linhas LF e uma quebra final');
   const lines = text.slice(0, -1).split('\n');
