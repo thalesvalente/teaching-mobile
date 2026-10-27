@@ -12,6 +12,30 @@ function workerBootstrap() {
   const NativeBlob = Blob;
   const define = Object.defineProperty;
   const encode = new TextEncoder();
+  const finite = Number.isFinite, array = Array.isArray;
+  const ownKeys = Reflect.ownKeys, descriptors = Object.getOwnPropertyDescriptors;
+  const proto = Object.getPrototypeOf, objectPrototype = Object.prototype, arrayPrototype = Array.prototype;
+  // Evita que JSON.stringify transforme NaN em null, descarte undefined ou
+  // invoque toJSON/getters plantados pela fonte antes da validação do contrato.
+  Object.freeze(objectPrototype); Object.freeze(arrayPrototype);
+  const rawJson = (value, depth = 0) => {
+    if (depth > 16) return false;
+    if (value === null || typeof value === 'boolean') return true;
+    if (typeof value === 'string') return value.length <= 12000;
+    if (typeof value === 'number') return finite(value);
+    if (typeof value !== 'object') return false;
+    const isArray = array(value), keys = ownKeys(value), props = descriptors(value);
+    if (isArray ? proto(value) !== arrayPrototype || value.length > 150 : proto(value) !== objectPrototype || keys.length > 100) return false;
+    if (isArray && keys.length !== value.length + 1) return false;
+    for (const key of keys) {
+      if (typeof key !== 'string' || ['__proto__', 'constructor', 'prototype', 'toJSON'].includes(key)) return false;
+      if (isArray && key === 'length') continue;
+      if (isArray && !/^(0|[1-9][0-9]*)$/.test(key)) return false;
+      const descriptor = props[key];
+      if (descriptor.get || descriptor.set || !rawJson(descriptor.value, depth + 1)) return false;
+    }
+    return true;
+  };
   // O CSP é a barreira de rede; remover APIs também reduz a superfície exposta.
   for (const key of ['fetch', 'XMLHttpRequest', 'WebSocket', 'WebTransport',
     'EventSource', 'importScripts', 'Worker', 'SharedWorker', 'BroadcastChannel',
@@ -31,6 +55,7 @@ function workerBootstrap() {
       const module = await import(sourceUrl);
       if (typeof module.resolver !== 'function') throw Error('resolver ausente');
       const value = await module.resolver(input);
+      if (!rawJson(value)) throw Error('Saída não é JSON estrito');
       const serialized = stringify(value);
       if (typeof serialized !== 'string' || encode.encode(serialized).length > 12000) throw Error('Saída excessiva');
       // JSON round-trip não permite funções, referências a DOM ou objetos vivos.

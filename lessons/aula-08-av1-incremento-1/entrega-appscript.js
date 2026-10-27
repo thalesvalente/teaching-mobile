@@ -67,6 +67,7 @@ export async function validateChallenge(challenge, binding) {
       canonical(challenge.sourceHashes) !== canonical(binding.sourceHashes) ||
       challenge.bindingSha256 !== await sha256(canonical({ activity: CONFIG.activity, schema: CONFIG.schema, ...binding })) ||
       !Array.isArray(challenge.cases) || challenge.cases.length === 0 || challenge.cases.length > 100 ||
+      !hex(challenge.casesSha256) || challenge.casesSha256 !== await sha256(canonical(challenge.cases)) ||
       !Number.isFinite(Date.parse(challenge.issuedAt)) || !Number.isFinite(Date.parse(challenge.expiresAt)) || Date.parse(challenge.expiresAt) <= Date.now() ||
       Date.parse(challenge.issuedAt) > Date.now() + 60000 || Date.parse(challenge.expiresAt) <= Date.parse(challenge.issuedAt) ||
       Date.parse(challenge.expiresAt) - Date.parse(challenge.issuedAt) > 610000) throw Error('O desafio recebido não corresponde a esta entrega.');

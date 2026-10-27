@@ -122,6 +122,7 @@ $('delivery-form').addEventListener('submit', async event => {
     const answers = { ...binding, challengeId: challenge.challengeId, challengeToken: challenge.token, outputs };
     progress(3);
     const verification = await request('verify', answers);
+    if (verification.challengeId !== challenge.challengeId || verification.packageSha256 !== pkg.packageSha256 || verification.bindingSha256 !== challenge.bindingSha256) throw Error('A verificação não corresponde ao desafio desta entrega.');
     evaluation = validateEvaluation(verification.evaluation, identification.members);
     showResults('Nota calculada pelo servidor. O recibo da entrega ainda está pendente.');
     progress(4);
