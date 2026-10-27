@@ -43,7 +43,7 @@ test('páginas usam rótulos, skip link, alternativas e scripts locais', () => {
     assert.ok(!/<script[^>]*src="https?:/.test(html));
   }
   assert.match(read('atividade.html'), /aria-live="polite"/);
-  assert.equal((read('atividade.html').match(/>Verificar, gerar PDF e entregar<\/button>/g) || []).length, 1);
+  assert.equal((read('atividade.html').match(/>Avaliar e enviar<\/button>/g) || []).length, 1);
   assert.match(read('visual.css'), /prefers-reduced-motion/);
   assert.match(read('visual.css'), /focus-visible/);
 });

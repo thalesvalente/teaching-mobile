@@ -26,12 +26,17 @@ function snapshot(state = 'REGISTRO LOCAL - ENTREGA NÃO CONFIRMADA', identifica
   return { ...identification, pkg, evaluation, generatedAt: new Date().toISOString(), state };
 }
 function enable() {
-  let valid = false; try { identity(); valid = true; } catch { /* preencher antes de enviar */ }
+  let valid = false;
+  try { identity(); valid = true; } catch { /* Campos serão preenchidos pelo aluno. */ }
   $('submit-delivery').disabled = !pkg || !valid || busy;
+  $('action-hint').textContent = busy ? 'Verificação em andamento. Mantenha esta página aberta.' :
+    !pkg ? 'Primeiro importe o arquivo JSONL. Depois informe a equipe e os integrantes.' :
+    !valid ? 'Arquivo recebido. Preencha a equipe e os nomes dos slots ativos para liberar o envio.' :
+    'Tudo pronto. Ao clicar, a ficha verifica, baixa o PDF e solicita o recibo.';
 }
 function clearResult() {
   evaluation = null; receipt = null; savedPdf = null;
-  $('results').hidden = true; $('receipt-panel').hidden = true;
+  $('results').hidden = true; $('receipt-panel').hidden = true; $('local-options').hidden = false;
 }
 function progress(index, detail = '') {
   $('progress-panel').hidden = false; $('delivery-progress').value = index + 1;
@@ -55,7 +60,7 @@ function showResults(note) {
   }
 }
 function showReceipt() {
-  $('receipt-panel').hidden = false;
+  $('receipt-panel').hidden = false; $('local-options').hidden = true;
   $('receipt-description').textContent = 'O servidor confirmou o recebimento e validou a assinatura deste recibo.';
   $('receipt-summary').replaceChildren();
   for (const [key, label] of [['receiptId', 'Recibo'], ['receivedAt', 'Recebido em'], ['packageSha256', 'Hash do pacote'], ['pdfSha256', 'Hash do PDF'], ['answersSha256', 'Hash das respostas'], ['signature', 'Assinatura']]) pair($('receipt-summary'), label, receipt[key]);
@@ -137,7 +142,7 @@ $('delivery-form').addEventListener('submit', async event => {
     status(`ENTREGA CONFIRMADA\nRecibo: ${receipt.receiptId}\nGuarde o PDF junto com o recibo.`);
     $('delivery-status').classList.add('success');
   } catch (error) {
-    receipt = null; $('receipt-panel').hidden = true;
+    receipt = null; $('receipt-panel').hidden = true; $('local-options').hidden = false; $('local-options').open = true;
     if (error.code === 'UNSUPPORTED_PDF_CHARACTER') {
       renderPrint(snapshot('IMPRESSÃO LOCAL - ENTREGA NÃO CONFIRMADA', identification));
       status('ENTREGA NÃO CONFIRMADA. Um caractere precisa da versão de impressão. Use Imprimir registro; nenhum PDF ou envio final foi produzido.', true);
@@ -160,5 +165,8 @@ $('local-pdf').addEventListener('click', async () => {
 $('print-local').addEventListener('click', () => { renderPrint(snapshot()); window.print(); });
 $('save-receipt').addEventListener('click', () => { if (receipt) download(new TextEncoder().encode(canonical(receipt) + '\n'), 'recibo-aula08.json', 'application/json'); });
 $('save-pdf-again').addEventListener('click', () => { if (savedPdf && receipt) download(savedPdf.bytes, savedPdf.filename); });
-function network() { $('offline-banner').hidden = navigator.onLine; }
+function network() {
+  $('offline-banner').hidden = navigator.onLine;
+  if (!navigator.onLine && !$('local-options').hidden) $('local-options').open = true;
+}
 addEventListener('online', network); addEventListener('offline', network); network(); enable();

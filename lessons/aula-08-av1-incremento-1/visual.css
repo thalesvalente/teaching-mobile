@@ -4,3 +4,52 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media(forced-colors:active){button,.button,.milestone,.panel,input{border:2px solid ButtonText}.pass,.pending{color:CanvasText}}
 @media print{@page{size:A4;margin:18mm}body{background:#fff;color:#000;font:11pt/1.5 Arial,sans-serif}body>*:not(.print-report){display:none!important}.print-report{display:block!important}.print-report h1{font-size:22pt}.print-report h2{font-size:16pt;break-after:avoid}.print-report h3{font-size:13pt;break-after:avoid}.print-report pre{white-space:pre-wrap;overflow-wrap:anywhere}.print-report li{break-inside:avoid}.print-report .hash{font-size:9pt}}
+
+/* Aula 08 · camada de navegação e redução da carga cognitiva */
+.nav-links{display:flex;align-items:center;flex-wrap:wrap;gap:.35rem}
+.nav-links a{border-radius:7px;padding:7px 11px;text-decoration:none;font-weight:700;color:var(--green)}
+.nav-links a:hover,.nav-links a[aria-current="page"]{background:var(--tint);color:var(--green-dark);text-decoration:underline;text-underline-offset:4px}
+.hero-compact{padding:30px 0 14px}
+.hero-compact h1{font-size:clamp(2rem,5vw,3.15rem)}
+.lesson-next{margin:32px 0 20px;border-top:1px solid var(--line);padding:23px 0;display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.lesson-next>a:not(.button){font-weight:700}
+.local-index{background:white;border:1px solid var(--line);border-radius:10px;padding:14px 18px;display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.local-index span{font-weight:800}
+.local-index a{padding:5px 8px}
+.text-action{display:inline-flex;align-items:center;min-height:44px;font-weight:800}
+.command-card{border:1px solid var(--line);background:#f8faf9;border-radius:10px;overflow:hidden;margin:18px 0}
+.command-card pre{border:0;border-radius:0;margin:0;background:#142326;color:#fff;overflow-wrap:anywhere}
+.command-card pre code{color:inherit}
+.command-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 14px;font-weight:750}
+.small-button{min-height:44px;padding:6px 12px}
+.copy-toast:empty{display:none}
+.copy-toast:not(:empty){position:fixed;bottom:12px;right:12px;left:auto;max-width:min(410px,calc(100vw - 24px));z-index:60;background:#fff;border:2px solid var(--green);padding:10px 14px;border-radius:9px;box-shadow:0 4px 20px #0002}
+.points-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.points-grid>div{background:var(--tint);border:1px solid var(--line);border-radius:9px;padding:14px;display:grid;gap:6px}
+.points-grid strong{font-size:1.3rem;color:var(--green)}
+.points-grid span{font-size:.9rem}
+.mission-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mission-grid .panel{margin:0}
+.mission h2{margin-top:10px}
+.criteria-toggle{margin:14px 0;border-top:1px solid var(--line);padding-top:7px}
+.criteria-list{padding-left:1.5rem}
+.criteria-list li{padding:4px}
+.slot-list{padding:8px 14px;background:var(--tint);border-radius:9px}
+.slot-list p{margin:5px 0}
+.prompt-details{margin:12px 0;border:1px solid var(--line);border-radius:10px;padding:10px 18px}
+.prompt-details pre{margin:12px 0;overflow-wrap:anywhere;white-space:pre-wrap}
+.prompt-details button{margin:0 0 8px}
+details>summary{cursor:pointer;font-weight:750;min-height:44px;padding:9px 4px}
+details>summary:hover{text-decoration:underline;text-underline-offset:4px}
+#duvidas details{border-bottom:1px solid var(--line)}
+#duvidas details>p{padding-left:10px}
+.flow-intro{margin-top:8px}
+.flow-guide{border-top:1px solid var(--line);margin-top:14px}
+.flow-guide .image-area{max-width:900px}
+.support-options{border-top:1px solid var(--line);margin-top:23px;padding-top:12px}
+.support-options .actions{margin:12px 0}
+.action-hint{margin:9px 0 14px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:760px){.mission-grid{grid-template-columns:1fr}.points-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.nav-links{width:100%;gap:3px}.nav-links a{padding:7px 9px;font-size:.88rem}.lesson-next>.button{width:100%}.copy-toast:not(:empty){left:12px;right:12px;max-width:none}.command-heading{align-items:stretch}.points-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.copy-toast,.lesson-next,.local-index{display:none!important}}

@@ -2,7 +2,9 @@
 
 **Hoje:** retomar com calma, programar pequenas funções, ligar o Incremento 1 e registrar o que você aprendeu. **Tempo:** 100 minutos. **Equipe:** de 1 a 4 pessoas. Cada integrante recebe sua própria nota, de 0 a 10.
 
-[Abrir a aula](index.html) · [Abrir a ficha](atividade.html) · [Projeto](projeto/README.md) · [Missões](MISSOES.md) · [Gemini](GUIA_GEMINI.md)
+**Para estudantes:** [Visão geral](index.html) · [Começar passo a passo](comecar.html) · [Missões](missoes.html) · [Gemini](gemini.html) · [Ficha de entrega](atividade.html).
+
+Os arquivos Markdown abaixo permanecem como referência técnica e material de apoio ao professor; a navegação recomendada para alunos é pelas páginas HTML.
 
 ## 1. Abrir a aula e preparar
 

@@ -154,6 +154,7 @@ function serve() {
     record('Arrastar e soltar usa o mesmo parser estrito');
     const beforeOffline = postCount;
     await context.setOffline(true);
+    await page.locator('#local-options').evaluate(details => { details.open = true; });
     const offline = await Promise.all([page.waitForEvent('download'), page.locator('#local-pdf').click()]).then(x => x[0]);
     await offline.saveAs(path.join(output, 'offline.pdf'));
     assert.equal(postCount, beforeOffline); assert.ok(!(await page.locator('#delivery-status').innerText()).includes('ENTREGA CONFIRMADA'));

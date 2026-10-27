@@ -13,6 +13,6 @@ document.getElementById('close-image')?.addEventListener('click', () => dialog.c
 for (const button of document.querySelectorAll('[data-copy]')) button.addEventListener('click', async () => {
   const text = document.getElementById(button.dataset.copy).textContent;
   const status = document.getElementById('copy-status');
-  try { await navigator.clipboard.writeText(text); status.textContent = 'Prompt copiado. Abra o Gemini no navegador e cole na conversa.'; }
-  catch { const range = document.createRange(); range.selectNodeContents(document.getElementById(button.dataset.copy)); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); status.textContent = 'Texto selecionado. Use Ctrl+C ou o comando Copiar do seu dispositivo.'; }
+  try { await navigator.clipboard.writeText(text); if (status) status.textContent = button.dataset.feedback || 'Texto copiado.'; }
+  catch { const range = document.createRange(); range.selectNodeContents(document.getElementById(button.dataset.copy)); const selection = getSelection(); selection.removeAllRanges(); selection.addRange(range); if (status) status.textContent = 'Texto selecionado. Use Ctrl+C ou o comando Copiar do seu dispositivo.'; }
 });
