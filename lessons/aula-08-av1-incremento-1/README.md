@@ -1,6 +1,6 @@
 # Aula 08 - Laboratório vivo da AV1
 
-**Hoje:** retomar com calma, programar pequenas funções, ligar o Incremento 1 e registrar o que você aprendeu. **Tempo:** 100 minutos. **Equipe:** de 1 a 4 pessoas. Cada integrante recebe sua própria nota, de 0 a 10.
+**Hoje:** retomar com calma, programar pequenas funções, ligar o Incremento 1 e registrar o que você aprendeu. **Tempo:** 100 minutos. **Equipe:** de 1 a 4 pessoas. A equipe recebe uma única nota, de 0 a 10, igual para todos os participantes.
 
 **Para estudantes:** [Visão geral](index.html) · [Começar passo a passo](comecar.html) · [Missões](missoes.html) · [Gemini](gemini.html) · [Ficha de entrega](atividade.html).
 
@@ -22,9 +22,9 @@ Abra o endereço que aparece no terminal. Mantenha esse terminal aberto e use um
 
 O starter é um aplicativo **web responsivo**, sem dependências externas, para experimentar no navegador os comportamentos de Mobile. Não gera APK. Os projetos React Native/Expo das aulas anteriores continuam disponíveis para a transposição ao aplicativo nativo.
 
-Combinem os slots da equipe. Por padrão, os comandos incluem os quatro. Para uma equipe menor, use a opção `--slots`, por exemplo `npm run nota -- --slots=1,2` e `npm run entrega -- --slots=1,2`. Cada pessoa trabalha em seu arquivo, sem nomes pessoais no código ou no pacote:
+Organizem as tarefas técnicas. Por padrão, os comandos incluem os quatro arquivos. Para incluir menos tarefas, use a opção `--slots`, por exemplo `npm run nota -- --slots=1,2` e `npm run entrega -- --slots=1,2`. Os arquivos podem ser trabalhados em conjunto e não devem conter dados pessoais:
 
-| Slot | Arquivo | Desafio individual |
+| Tarefa técnica | Arquivo | Função a implementar |
 |---|---|---|
 | 1 | `src/individual/aluno1.mjs` | Normalizar a busca |
 | 2 | `src/individual/aluno2.mjs` | Distinguir estados da lista |
@@ -54,9 +54,9 @@ O relatório mostra critérios aprovados e pendentes. Os `TODO` do starter exist
 | M1 | 15 min | Preparação, slots e registro do processo | 2,5 |
 | M2 | 25 min | Estado, busca, filtros e identidade | 2,0 |
 | M3 | 35 min | Navegação, formulário, retorno e resumo | 3,0 |
-| M4 | 25 min | Função individual e entrega | 2,5 |
+| M4 | 25 min | Funções coletivas e entrega | 2,5 |
 
-São 20 critérios de 0,5. M1, M2 e M3 são compartilhados; M4 é individual. I1 (portfólio) corresponde a M1; I3 (Incremento 1) corresponde a M2 + M3; I2 (prática individual) corresponde a M4. O envio está dentro do Marco 4.
+São 20 critérios de 0,5, todos avaliados por equipe. M4 considera as tarefas selecionadas: um critério vale 0,5 para o grupo somente quando todos os arquivos do pacote passam seus casos. A nota única M1 + M2 + M3 + M4 é registrada igualmente para todos os participantes. O envio está dentro do Marco 4.
 
 Registre o uso real de IA em `src/evidencias.json`, dentro de `aiLog`. Use o modelo abaixo apenas como exemplo de formato; substitua pelo que aconteceu no seu trabalho. Se não usou IA, mantenha `[]` e converse com o professor sobre o critério do portfólio.
 
@@ -82,7 +82,7 @@ Se o comando informar erro, leia a mensagem, corrija no projeto e rode novamente
 
 ## 5. Importar e entregar
 
-Abra a [ficha](atividade.html), preencha a equipe e associe os nomes aos slots presentes no pacote. Selecione ou arraste `entrega-a08.jsonl`. Confira o resumo e clique em **Verificar, gerar PDF e entregar**.
+Abra a [ficha](atividade.html), informe o nome da equipe e os nomes dos participantes, sem associá-los a arquivos. Selecione ou arraste `entrega-a08.jsonl`. Confira o resumo e clique em **Avaliar e enviar**.
 
 A página mostra o andamento. O PDF é gerado antes do envio e conserva esse estado; o recibo vem depois e identifica exatamente esse PDF. Guarde **os dois**. A confirmação só aparece depois de um recibo válido.
 
@@ -96,7 +96,7 @@ Se a rede falhar, use **Guardar PDF local** ou **Imprimir registro**. Isso prese
 | `package.json` não encontrado | Abra o terminal dentro da pasta `projeto`. |
 | Testes pendentes | Leia o critério, abra a função indicada e faça uma mudança pequena. |
 | Pacote inválido | Gere novamente com `npm run entrega`; não corrija hashes manualmente. |
-| Slot sem nome | Confira quem trabalhou naquele arquivo e preencha a ficha. |
+| Participante sem nome | Informe seu nome na ficha; nenhum participante precisa escolher um slot. |
 | Entrega não confirmada | Guarde o PDF e converse com o professor. |
 | Caractere não suportado no PDF | Use **Imprimir registro** para preservar o texto; nenhuma entrega final é simulada. |
 

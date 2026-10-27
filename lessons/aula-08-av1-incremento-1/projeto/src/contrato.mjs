@@ -84,11 +84,11 @@ export async function parsePackage(input) {
   }
   const localResult = rows[rows.length - 3];
   exact(localResult, ['type', 'evaluator', 'criteria', 'grade'], 'local-result');
-  if (localResult.type !== 'local-result' || localResult.evaluator !== CONFIG.evaluator || !Array.isArray(localResult.criteria) || localResult.criteria.length > 35 || typeof localResult.grade !== 'number' || !Number.isFinite(localResult.grade) || localResult.grade < 0 || localResult.grade > 10) fail('resultado local incompatível');
+  if (localResult.type !== 'local-result' || localResult.evaluator !== CONFIG.evaluator || !Array.isArray(localResult.criteria) || localResult.criteria.length > 20 || typeof localResult.grade !== 'number' || !Number.isFinite(localResult.grade) || localResult.grade < 0 || localResult.grade > 10) fail('resultado local incompatível');
   const ids = new Set();
   for (const c of localResult.criteria) {
     exact(c, ['id', 'passed'], 'critério local');
-    if (typeof c.id !== 'string' || !/^(?:M[1-3]-[1-6]|S[1-4]-M4-[1-5])$/.test(c.id) || ids.has(c.id) || typeof c.passed !== 'boolean') fail('critério local inválido ou duplicado');
+    if (typeof c.id !== 'string' || !/^(?:M[1-3]-[1-6]|M4-[1-5])$/.test(c.id) || ids.has(c.id) || typeof c.passed !== 'boolean') fail('critério local inválido ou duplicado');
     ids.add(c.id);
   }
   const evidence = validateEvidence(rows[rows.length - 2]);

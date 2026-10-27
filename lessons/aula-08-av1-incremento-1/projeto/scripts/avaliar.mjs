@@ -33,7 +33,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const slots=parseSlots(process.argv.slice(2)), result=await evaluateProject(PROJECT_ROOT,slots);
     console.log('\nAula 08 - resultado FORMATIVO; a nota oficial é calculada pelo servidor.\n');
     for (const criterion of result.criteria) console.log(`${criterion.passed?'OK      ':'PENDENTE'} ${criterion.id} - ${CRITERIA[criterion.id.replace(/^S[1-4]-/,'')]}`);
-    for (const [slot,grade] of Object.entries(result.perSlot)) console.log(`Slot ${slot}: ${grade.toFixed(1)}/10 (informativo)`);
+    console.log(`NOTA FORMATIVA DA EQUIPE: ${result.grade.toFixed(1)}/10 (informativa)`);
     console.log('\nVocê pode editar, testar e tentar novamente sem penalidade.');
     if (process.argv.includes('--strict') && result.criteria.some(c=>!c.passed)) process.exitCode=1;
   } catch (error) {console.error(`Não foi possível avaliar: ${error.message}`);process.exitCode=1;}

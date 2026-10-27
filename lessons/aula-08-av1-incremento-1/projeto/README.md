@@ -45,7 +45,7 @@ A nota local é formativa. Alterar os testes ou a nota no pacote não altera a r
 | `src/individual/aluno4.mjs` | Integrante do slot 4 | Criar chave estável pelo ID |
 | `src/evidencias.json` | Equipe | Registrar uma síntese honesta do uso da IA |
 
-Não escreva nomes nessas fontes. Associe cada integrante ao seu slot **na ficha online**. Preserve os quatro arquivos individuais mesmo se alguns slots não forem usados.
+Não escreva nomes nessas fontes. Na ficha online, informe apenas a equipe e os nomes dos participantes; não vincule nomes aos arquivos. Preserve os quatro arquivos individuais mesmo se alguns slots não forem usados.
 
 ### Registrar a ajuda recebida
 
@@ -69,7 +69,7 @@ Use `M1`, `M2`, `M3` ou `M4`. Cada texto tem limite de 400 caracteres, com até 
 
 ## 3. Trabalhar individualmente (M4)
 
-Cada pessoa completa `resolver(input)` no arquivo de seu slot. Todos recebem cinco critérios de 0,5 ponto: caso principal, limite, entrada inválida, regressão e contrato de saída.
+A equipe completa `resolver(input)` nos arquivos selecionados. Cada um dos cinco critérios M4 vale 0,5 ponto para a equipe somente se todos os arquivos escolhidos passarem seus casos.
 
 | Slot | Entrada principal | Saída esperada |
 |---|---|---|
@@ -95,7 +95,7 @@ npm run nota -- --slots=1,2
 npm run entrega -- --slots=1,2
 ```
 
-Use slots únicos e em ordem crescente, de 1 a 4. O comando cria **`entrega/entrega-a08.jsonl`**. Abra a ficha da Aula 08, importe esse arquivo, identifique a equipe e associe nomes e slots e clique em **Avaliar e enviar**.
+Use slots únicos e em ordem crescente, de 1 a 4. O comando cria **`entrega/entrega-a08.jsonl`**. Abra a ficha da Aula 08, importe esse arquivo, identifique a equipe e os participantes e clique em **Avaliar e enviar**.
 
 O JSONL contém somente as fontes de equipe e dos slots escolhidos, hashes e evidências permitidas. `.env`, `.git`, `node_modules` e outros arquivos não são incluídos. Base64 é **codificação**, não criptografia. Revise as fontes antes de gerar; o programa recusa alguns padrões comuns de segredo/e-mail, mas não consegue identificar todo dado pessoal em texto livre.
 

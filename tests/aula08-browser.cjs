@@ -140,6 +140,8 @@ function serve() {
     await page.waitForFunction(() => /copiado|selecionado/i.test(document.getElementById('copy-status').textContent));
     record('Preparação, missões, tutor Gemini, cópia e navegação HTML sem Markdown');
     await page.goto(base + 'atividade.html'); await upload(); await identify();
+    assert.equal(await page.locator('[data-slot]').count(), 0, 'Nomes não se associam a slots');
+    assert.equal(await page.locator('[data-member]').count(), 4);
     assert.equal(await page.locator('#submit-delivery').isEnabled(), true);
     assert.match(await page.locator('#local-score').innerText(), /não define/);
     const firstPdf = await submitPdf('aula08-entrega.pdf'); await waitResult(true);
@@ -147,12 +149,16 @@ function serve() {
     assert.equal(hash(fs.readFileSync(firstPdf)), finalPayload.pdfSha256);
     assert.equal(lastReceipt.pdfSha256, finalPayload.pdfSha256);
     assert.equal(lastReceipt.members.length, 4);
-    assert.ok(new Set(lastReceipt.members.map(m => m.total)).size > 1, 'Notas reais do starter por integrante');
+    assert.equal(lastReceipt.evaluation.team, 'Equipe QA');
+    assert.equal(lastReceipt.evaluation.criteria.length, 20);
+    assert.ok(lastReceipt.members.every(m => m && typeof m.name === 'string' && !Object.hasOwn(m, 'slot')));
+    assert.ok(fixture.grade().slice(1).every(row => row[3] === lastReceipt.evaluation.total), 'A mesma nota da equipe é registrada para todos');
+    assert.equal(await page.locator('#member-results .result-card').count(), 1, 'A ficha apresenta uma nota para toda a equipe');
     assert.equal(fixture.audit().length, 5); assert.equal(fixture.grade().length, 5);
     assert.ok(finalPayload.outputs.every(o => typeof o.ok === 'boolean'));
     assert.equal(await page.locator('#progress-log li').count(), 8);
     await page.screenshot({ path: path.join(output, 'ficha08-recibo-375.png'), fullPage: true });
-    record('JSONL real → sandbox → servidor VM → notas individuais → bytes PDF/hash → recibo HMAC');
+    record('JSONL real → sandbox → servidor VM → nota única por equipe → bytes PDF/hash → recibo HMAC');
     const again = await Promise.all([page.waitForEvent('download'), page.locator('#save-pdf-again').click()]).then(x => x[0]);
     const againPath = path.join(output, 'mesmo-pdf.pdf'); await again.saveAs(againPath);
     assert.equal(hash(fs.readFileSync(againPath)), finalPayload.pdfSha256);

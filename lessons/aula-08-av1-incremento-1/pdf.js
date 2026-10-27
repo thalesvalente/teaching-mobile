@@ -5,19 +5,21 @@ const number = value => Number(value).toFixed(1).replace('.', ',');
 
 export function pdfModel(snapshot) {
   const { team, members, pkg, evaluation, generatedAt, state } = snapshot;
-  const results = evaluation?.members || [];
+  const verified = evaluation && Array.isArray(evaluation.criteria);
   const sections = [
-    { title: '1. Os quatro marcos', items: [
-      ['M1 - Portfólio e preparação', '5 critérios de 0,5. Máximo de 2,5 pontos compartilhados.'],
-      ['M2 - Funções essenciais', '4 critérios de 0,5. Máximo de 2,0 pontos compartilhados.'],
-      ['M3 - Integração do Incremento 1', '6 critérios de 0,5. Máximo de 3,0 pontos compartilhados.'],
-      ['M4 - Desafio individual e entrega', '5 critérios de 0,5. Máximo de 2,5 pontos por integrante. A entrega faz parte deste marco.']
+    { title: '1. Os quatro marcos da equipe', items: [
+      ['M1 - Preparação e portfólio', '5 critérios de 0,5. Máximo de 2,5 pontos para a equipe.'],
+      ['M2 - Funções essenciais', '4 critérios de 0,5. Máximo de 2,0 pontos para a equipe.'],
+      ['M3 - Integração do Incremento 1', '6 critérios de 0,5. Máximo de 3,0 pontos para a equipe.'],
+      ['M4 - Tarefas técnicas e entrega', '5 critérios de 0,5. Máximo de 2,5 pontos para a equipe. Os arquivos selecionados são verificados coletivamente.']
     ] },
-    { title: '2. Resultado por integrante', items: results.length ? results.flatMap(member => [
-      [`${member.name} - slot ${member.slot}`, `${number(member.total)} / 10,0`],
-      ['M1 + M2 + M3 + M4', [member.m1, member.m2, member.m3, member.m4].map(number).join(' + ')],
-      ...member.criteria.map(c => [`${c.id} - ${CRITERIA[c.id]}`, c.passed ? 'Aprovado: 0,5' : 'Pendente: 0,0'])
-    ]) : [['Nota oficial', 'Ainda não verificada.'], ['Resultado local (informativo)', pkg ? number(pkg.localResult.grade) + ' / 10,0' : 'Pacote ainda não importado.']] },
+    { title: '2. Nota única da equipe', items: verified ? [
+      ['Equipe', team],
+      ['Nota oficial', number(evaluation.total) + ' / 10,0'],
+      ['M1 + M2 + M3 + M4', [evaluation.m1, evaluation.m2, evaluation.m3, evaluation.m4].map(number).join(' + ')],
+      ['Aplicação na planilha', 'O mesmo resultado é registrado para todos os participantes listados.'],
+      ...evaluation.criteria.map(c => [c.id + ' - ' + CRITERIA[c.id], c.passed ? 'Aprovado: 0,5' : 'Pendente: 0,0'])
+    ] : [['Nota oficial', 'Ainda não verificada.'], ['Resultado local (informativo)', pkg ? number(pkg.localResult.grade) + ' / 10,0' : 'Pacote ainda não importado.']] },
     { title: '3. Pacote, fontes e ambiente', items: [
       ['Atividade e avaliador', `${CONFIG.activity}; ${CONFIG.schema}; ${CONFIG.rubric}`],
       ['Hash SHA-256 do pacote', pkg?.packageSha256 || 'Ainda não disponível.'],
@@ -30,21 +32,21 @@ export function pdfModel(snapshot) {
     ]) : [['Registro', 'Nenhum uso de IA registrado neste pacote. Não foi inventado um histórico de conversa.']] },
     { title: '5. Estado da entrega e limites', items: [
       ['Estado deste PDF', state],
-      ['Como comprovar o recebimento', 'Guarde este PDF junto com o recibo emitido após a entrega. O recibo vincula o hash destes bytes às notas calculadas. O PDF é gerado antes do envio e não é alterado depois.'],
-      ['O que este documento registra', 'Resultados de contratos de comportamento e evidências declaradas. Não comprova autoria, ausência de ajuda nem uso real do aplicativo em celular. Base64 é codificação, não criptografia.'],
+      ['Comprovação do recebimento', 'Guarde o PDF e o recibo emitido após a gravação. O recibo vincula o hash dos bytes à nota coletiva calculada no servidor.'],
+      ['O que este documento registra', 'Resultados de contratos de comportamento e evidências declaradas. Não comprova autoria, ausência de ajuda nem uso real em aparelho celular. Base64 não é criptografia.'],
       ['Contingência', 'Sem recibo válido, a entrega não está confirmada. Guarde este registro e consulte o professor antes de reenviar após um timeout.']
     ] }
   ];
   return {
-    lesson: 'Aula 08', version: '1.0.0', subtitle: 'Laboratório vivo - AV1',
-    title: 'Registro do Incremento 1', project: 'Quatro marcos de aprendizagem',
+    lesson: 'Aula 08', version: '1.1.0', subtitle: 'Laboratório vivo - AV1',
+    title: 'Registro do Incremento 1', project: 'Quatro marcos coletivos',
     discipline: 'Programação para Dispositivos Móveis', course: '3º ano do Ensino Médio Técnico - 2026.2',
     professor: 'Thales Levi Azevedo Valente', team: team || 'Não informada',
     date: new Date(generatedAt).toLocaleString('pt-BR', { timeZone: 'America/Fortaleza' }),
-    members: members.length ? members.map(m => `${m.name || 'Não informado'} - slot ${m.slot}`) : ['Nenhum integrante informado'],
-    scoreLabel: results.length ? 'NOTAS VERIFICADAS - RECIBO AINDA PENDENTE' : 'REGISTRO LOCAL - SEM NOTA OFICIAL',
-    score: results.length ? `${results.length} resultado(s) individual(is)` : 'Aguardando verificação',
-    progress: 'Cada integrante recebe M1 + M2 + M3 compartilhados, mais seu M4 individual.',
+    members: members.length ? members.map(m => m.name || 'Não informado') : ['Nenhum participante informado'],
+    scoreLabel: verified ? 'NOTA COLETIVA VERIFICADA - RECIBO AINDA PENDENTE' : 'REGISTRO LOCAL - SEM NOTA OFICIAL',
+    score: verified ? number(evaluation.total) + ' / 10,0' : 'Aguardando verificação',
+    progress: 'Uma nota para a equipe. Os mesmos pontos são lançados para todos os participantes.',
     partial: true, sections
   };
 }

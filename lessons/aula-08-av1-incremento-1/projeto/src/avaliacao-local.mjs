@@ -1,10 +1,10 @@
 /** Testes públicos formativos. Alterá-los nunca altera a nota oficial. */
 import {canonical} from './contrato.mjs';
 export const CRITERIA = Object.freeze({
-  'M1-1':'Pacote e schema preparados', 'M1-2':'Fontes permitidas e hashes', 'M1-3':'Preflight registrado', 'M1-4':'Síntese de uso da IA registrada', 'M1-5':'Slots consistentes',
+  'M1-1':'Pacote e schema preparados', 'M1-2':'Fontes permitidas e hashes', 'M1-3':'Preflight registrado', 'M1-4':'Síntese de uso da IA registrada', 'M1-5':'Equipe e arquivos de tarefa consistentes',
   'M2-1':'Prioridade de carregamento e erro', 'M2-2':'Busca normalizada e filtros combinados', 'M2-3':'Coleção original preservada', 'M2-4':'Identidade estável',
   'M3-1':'Vazio e sem resultado', 'M3-2':'Tentar novamente', 'M3-3':'Lista, detalhe e retorno', 'M3-4':'Formulário e mensagens', 'M3-5':'Recorte após retorno', 'M3-6':'Resumo textual acessível',
-  'M4-1':'Caso principal', 'M4-2':'Caso limite', 'M4-3':'Entrada inválida', 'M4-4':'Regressão', 'M4-5':'Contrato e limites'
+  'M4-1':'Caso principal coletivo', 'M4-2':'Caso limite coletivo', 'M4-3':'Entrada inválida coletiva', 'M4-4':'Regressão coletiva', 'M4-5':'Contrato e limites coletivos'
 });
 const items = [
   {id:'c9',title:'Praça e ciência',category:'Ciência',period:'Manhã',value:70},
@@ -50,12 +50,15 @@ function passed(cases, outputs, criterion) {
 export function scorePublic({teamOutputs = [], individualOutputs = {}, evidence, slots = [1,2,3,4], packageValid = true, hashesValid = true, mappingValid = true}) {
   const checks = [packageValid,hashesValid,evidence?.preflight?.ok === true && evidence?.preflight?.filesReady === true,Array.isArray(evidence?.aiLog) && evidence.aiLog.length > 0,mappingValid];
   const criteria = checks.map((p,i)=>({id:`M1-${i+1}`,passed:p === true}));
-  for (const m of ['M2','M3']) for (let n=1;n<=(m==='M2'?4:6);n++) criteria.push({id:`${m}-${n}`,passed:passed(TEAM_CASES,teamOutputs,`${m}-${n}`)});
-  const shared = criteria.filter(c=>c.passed).length * 0.5, perSlot = {};
-  for (const slot of slots) {
-    const slotCriteria = individualCases(slot).map(c => ({id:`S${slot}-${c.criterion}`,passed:passed(individualCases(slot),individualOutputs[slot] || [],c.criterion)}));
-    criteria.push(...slotCriteria); perSlot[slot] = shared + slotCriteria.filter(c=>c.passed).length * 0.5;
+  for (const m of ['M2','M3']) for (let n=1;n<=(m==='M2'?4:6);n++)
+    criteria.push({id:`${m}-${n}`,passed:passed(TEAM_CASES,teamOutputs,`${m}-${n}`)});
+  const shared = criteria.filter(c=>c.passed).length * .5;
+  for (let n=1;n<=5;n++) {
+    // Todos os arquivos selecionados participam do MESMO critério M4.
+    const approved = slots.length>0 && slots.every(slot =>
+      passed(individualCases(slot),individualOutputs[slot] || [],`M4-${n}`));
+    criteria.push({id:`M4-${n}`,passed:approved});
   }
-  const grade = Math.round(Object.values(perSlot).reduce((a,b)=>a+b,0) / slots.length * 100) / 100;
-  return {criteria,shared,perSlot,grade};
+  const grade = criteria.filter(c=>c.passed).length * .5;
+  return {criteria,shared,grade};
 }

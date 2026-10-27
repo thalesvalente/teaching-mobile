@@ -37,9 +37,9 @@ No arquivo `src/equipe.mjs`, examine a operação `input.op` e corrija os `TODO`
 
 **Mostre a um colega:** faça o percurso inteiro, explique um erro e rode novamente o teste. O verificador oficial mede o contrato das funções; a demonstração ajuda o professor a conferir a integração visual.
 
-## M4 - Desafio individual e entrega (25 minutos; 2,5 pontos)
+## M4 - Funções da equipe e entrega (25 minutos; 2,5 pontos coletivos)
 
-Cada pessoa trabalha somente no arquivo de seu slot. Os desafios são equivalentes em valor e possuem cinco aspectos: caso principal, limite, entrada inválida, regressão e formato/limites da saída.
+A equipe organiza quais arquivos de tarefa vai completar. Slots identificam funções técnicas, não pessoas. Cada critério M4 só é aprovado quando todos os arquivos selecionados passam os casos correspondentes: principal, limite, entrada inválida, regressão e contrato de saída.
 
 | Slot | Sua pergunta-guia |
 |---|---|
@@ -48,7 +48,7 @@ Cada pessoa trabalha somente no arquivo de seu slot. Os desafios são equivalent
 | 3 - formulário | Como informar campos ausentes e texto que ultrapassa o limite? |
 | 4 - chave | Como preservar o ID de um item quando ele muda de posição? |
 
-Execute `npm run nota`, registre a última alteração e execute `npm run entrega`. Abra a ficha, associe nomes e slots, importe o pacote e clique em **Avaliar e enviar**. Guarde o PDF e o recibo. O envio não é um quinto marco.
+Execute `npm run nota`, registre a última alteração e execute `npm run entrega`. Abra a ficha, informe a equipe e os participantes, importe o pacote e clique em **Avaliar e enviar**. Guarde o PDF e o recibo. O envio não é um quinto marco.
 
 ## Os 20 critérios, visíveis desde o início
 
@@ -69,10 +69,10 @@ Execute `npm run nota`, registre a última alteração e execute `npm run entreg
 | M3-4 | Formulário e mensagens | 0,5 |
 | M3-5 | Preservação do recorte após retorno | 0,5 |
 | M3-6 | Resumo textual coerente | 0,5 |
-| M4-1 | Caso principal do seu slot | 0,5 |
-| M4-2 | Caso limite do seu slot | 0,5 |
-| M4-3 | Entrada inválida do seu slot | 0,5 |
-| M4-4 | Regressão do seu slot | 0,5 |
-| M4-5 | Contrato de saída e limites do seu slot | 0,5 |
+| M4-1 | Caso principal dos arquivos do grupo | 0,5 |
+| M4-2 | Casos limite dos arquivos do grupo | 0,5 |
+| M4-3 | Entradas inválidas dos arquivos do grupo | 0,5 |
+| M4-4 | Regressão dos arquivos do grupo | 0,5 |
+| M4-5 | Contrato e limites dos arquivos do grupo | 0,5 |
 
-Cada integrante recebe `M1 + M2 + M3 + seu M4`. Duas pessoas da mesma equipe podem ter notas diferentes. M1 contém evidências declaradas e integridade do pacote; ele não comprova autoria.
+A equipe recebe uma nota única: `M1 + M2 + M3 + M4 coletivo`. Todos os participantes recebem o mesmo valor. M1 contém evidências declaradas e integridade do pacote; ele não comprova autoria.

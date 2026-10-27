@@ -74,19 +74,25 @@ export async function validateChallenge(challenge, binding) {
   return challenge;
 }
 
-export function validateEvaluation(evaluation, members) {
-  if (!evaluation || evaluation.rubric !== CONFIG.rubric || !Array.isArray(evaluation.members) || evaluation.members.length !== members.length) throw Error('Resultado oficial inválido.');
-  for (const member of members) {
-    const result = evaluation.members.find(r => r.slot === member.slot && r.name === member.name);
-    if (!result || !Array.isArray(result.criteria) || result.criteria.length !== 20) throw Error('Resultado individual incompleto.');
-    const seen = new Set(), sums = { m1: 0, m2: 0, m3: 0, m4: 0 };
-    for (const c of result.criteria) {
-      if (!Object.hasOwn(CRITERIA, c.id) || seen.has(c.id) || typeof c.passed !== 'boolean' || c.max !== 0.5 || c.points !== (c.passed ? 0.5 : 0)) throw Error('Critérios oficiais inconsistentes.');
-      seen.add(c.id); sums[c.id.slice(0, 2).toLowerCase()] += c.points;
-    }
-    for (const key of Object.keys(sums)) if (result[key] !== sums[key]) throw Error('Subtotal oficial inconsistente.');
-    if (result.total !== Object.values(sums).reduce((a, b) => a + b, 0)) throw Error('Nota oficial inconsistente.');
+export function validateEvaluation(evaluation, team) {
+  if (!evaluation || evaluation.rubric !== CONFIG.rubric || evaluation.team !== team ||
+      !Array.isArray(evaluation.criteria) || evaluation.criteria.length !== 20 ||
+      Object.keys(evaluation).sort().join(',') !== 'criteria,m1,m2,m3,m4,rubric,team,total')
+    throw Error('Nota oficial da equipe inválida.');
+  const seen = new Set(), sums = { m1: 0, m2: 0, m3: 0, m4: 0 };
+  for (const c of evaluation.criteria) {
+    if (!c || !Object.hasOwn(CRITERIA, c.id) || seen.has(c.id) ||
+        typeof c.passed !== 'boolean' || c.max !== 0.5 ||
+        c.points !== (c.passed ? 0.5 : 0) ||
+        Object.keys(c).sort().join(',') !== 'id,label,max,passed,points' ||
+        c.label !== CRITERIA[c.id] && typeof c.label !== 'string')
+      throw Error('Critérios da equipe inconsistentes.');
+    seen.add(c.id); sums[c.id.slice(0, 2).toLowerCase()] += c.points;
   }
+  for (const key of Object.keys(sums))
+    if (evaluation[key] !== sums[key]) throw Error('Subtotal da equipe inconsistente.');
+  if (evaluation.total !== Object.values(sums).reduce((a, b) => a + b, 0))
+    throw Error('Nota oficial da equipe inconsistente.');
   return evaluation;
 }
 
@@ -99,8 +105,11 @@ export async function validateDelivery(response, expected, options = {}) {
       !hex(receipt.answersSha256) || !hex(receipt.signature) || typeof receipt.receiptId !== 'string' ||
       !Number.isFinite(Date.parse(receipt.receivedAt)) ||
       canonical(receipt.sourceHashes) !== canonical(expected.sourceHashes)) throw Error('Recibo inválido: a entrega não foi confirmada.');
-  validateEvaluation(response.evaluation, expected.members);
-  if (canonical(receipt.members) !== canonical(response.evaluation.members) || canonical(response.evaluation) !== canonical(expected.evaluation)) throw Error('O recibo não corresponde às notas verificadas.');
+  validateEvaluation(response.evaluation, expected.team);
+  if (canonical(receipt.members) !== canonical(expected.members) ||
+      canonical(receipt.evaluation) !== canonical(response.evaluation) ||
+      canonical(response.evaluation) !== canonical(expected.evaluation))
+    throw Error('O recibo não corresponde à equipe e à nota verificada.');
   const confirmation = await request('validateReceipt', { receipt }, options);
   if (confirmation.valid !== true || confirmation.receiptId !== receipt.receiptId ||
       confirmation.receiptSha256 !== await sha256(canonical(receipt)) ||

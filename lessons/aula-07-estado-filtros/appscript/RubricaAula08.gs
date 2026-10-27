@@ -1,11 +1,11 @@
 /**
- * Aula 08: desafios oficiais, referência pura e notas por integrante.
+ * Aula 08: desafios oficiais, referência pura e nota única por equipe.
  * NUNCA executa fontes de estudantes. Usa comparação de dados JSON somente.
  * HMAC autentica recibos/desafios; hashes não provam autoria ou execução honesta.
  */
 const MOBILE_A08 = Object.freeze({
   activity:'MOBILE-AULA08-2026', schema:'mobile-a08-v1',
-  rubric:'mobile-a08-lab-vivo-1.0.0', contract:'1.0.0',
+  rubric:'mobile-a08-lab-vivo-1.1.0', contract:'1.0.0',
   ttlMs:10*60*1000, retentionMs:2*60*60*1000, maxBytes:128*1024,
   maxChallenges:200, maxRequestsPerPackage:5, maxVerify:8,
   challengePrefix:'MOBILE_A08_CHALLENGE_', ratePrefix:'MOBILE_A08_RATE_'
@@ -18,9 +18,9 @@ const MOBILE_A08_CRITERIA = Object.freeze([
   ['M2-4','Identidade estável'],['M3-1','Vazio e sem resultados'],
   ['M3-2','Tentar novamente'],['M3-3','Lista, detalhe e retorno'],
   ['M3-4','Formulário e mensagens'],['M3-5','Recorte preservado no retorno'],
-  ['M3-6','Resumo textual acessível'],['M4-1','Caso principal individual'],
-  ['M4-2','Caso limite individual'],['M4-3','Entrada inválida individual'],
-  ['M4-4','Regressão individual'],['M4-5','Contrato e limites individuais']
+  ['M3-6','Resumo textual acessível'],['M4-1','Caso principal das funções da equipe'],
+  ['M4-2','Casos limite das funções da equipe'],['M4-3','Entradas inválidas das funções da equipe'],
+  ['M4-4','Regressão das funções da equipe'],['M4-5','Contratos e limites das funções da equipe']
 ]);
 function mobileA08Channel(action) {
   return ({challenge:'mobile-aula08-challenge',verify:'mobile-aula08-verification',
@@ -96,15 +96,19 @@ function mobileA08Binding(input) {
   for(const path of allowed) sourceHashes[path]=mobileA08Sha(input.sourceHashes[path],'fonte');
   const team=mobileRead(input.team,80,'equipe');
   if(!team) throw Error('Informe a equipe.');
-  if(!Array.isArray(input.members) || input.members.length!==input.slots.length) throw Error('Integrantes e slots incompatíveis.');
+  // Slots identificam tarefas técnicas e não participantes; a nota é coletiva.
+  if(!Array.isArray(input.members) || input.members.length<1 || input.members.length>4)
+    throw Error('Informe de um a quatro participantes da equipe.');
   const names=new Set();
-  const members=input.members.map((m,i)=>{
-    mobileA08Object(m,['name','slot'],['name','slot'],'integrante');
+  const members=input.members.map(m=>{
+    mobileA08Object(m,['name'],['name'],'participante');
     const name=mobileRead(m.name,100,'nome');
-    if(name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,99}$/u.test(name)) throw Error('Nome de estudante inválido.');
-    if(m.slot!==input.slots[i]) throw Error('Ordene os integrantes por slot, sem duplicatas.');
-    const key=mobileNormal(name); if(names.has(key)) throw Error('Integrante duplicado.'); names.add(key);
-    return {name,slot:m.slot};
+    if(name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,99}$/u.test(name))
+      throw Error('Nome de participante inválido.');
+    const key=mobileNormal(name);
+    if(names.has(key)) throw Error('Integrante duplicado.');
+    names.add(key);
+    return {name};
   });
   return {activity:MOBILE_A08.activity,schema:MOBILE_A08.schema,packageSha256:input.packageSha256,
     slots:input.slots.slice(),sourceHashes,team,members,evidence:mobileA08Evidence(input.evidence)};
@@ -184,7 +188,7 @@ function mobileA08Outputs(input,cases) {
 }
 function mobileA08Evaluation(binding,cases,outputs) {
   const checked=mobileA08Outputs(outputs,cases);
-  const first={
+  const preparation={
     'M1-1':true,'M1-2':true,
     'M1-3':binding.evidence.preflight.ok&&binding.evidence.preflight.filesReady&&
       binding.evidence.preflight.nodeMajor>=22&&binding.evidence.preflight.nodeMajor===binding.evidence.environment.nodeMajor,
@@ -196,17 +200,16 @@ function mobileA08Evaluation(binding,cases,outputs) {
     return o.ok===true && (c.criterion!=='M2-3'||o.unchanged===true) &&
       mobileA08Canonical(o.value)===mobileA08Canonical(mobileA08Reference(c.input,c.scope==='team'?0:c.slot));
   }
-  const members=binding.members.map(member=>{
-    const criteria=MOBILE_A08_CRITERIA.map(([id,label])=>{
-      const matching=cases.filter(c=>c.criterion===id&&(c.scope==='team'||c.slot===member.slot));
-      const passed=Object.prototype.hasOwnProperty.call(first,id)?!!first[id]:matching.length>0&&matching.every(passedCase);
-      return {id,label,passed,points:passed?.5:0,max:.5};
-    });
-    function sum(prefix){return criteria.filter(c=>c.id.startsWith(prefix)).reduce((a,c)=>a+c.points,0);}
-    const m1=sum('M1-'),m2=sum('M2-'),m3=sum('M3-'),m4=sum('M4-');
-    return {name:member.name,slot:member.slot,m1,m2,m3,m4,total:m1+m2+m3+m4,criteria};
+  // Cada critério M4 é COLETIVO: deve passar nos arquivos técnicos incluídos.
+  const criteria=MOBILE_A08_CRITERIA.map(([id,label])=>{
+    const selected=cases.filter(c=>c.criterion===id);
+    const approved=Object.prototype.hasOwnProperty.call(preparation,id)?
+      !!preparation[id]:selected.length>0&&selected.every(passedCase);
+    return {id,label,passed:approved,points:approved?.5:0,max:.5};
   });
-  return {rubric:MOBILE_A08.rubric,members};
+  function sum(prefix){return criteria.filter(c=>c.id.startsWith(prefix)).reduce((a,c)=>a+c.points,0);}
+  const m1=sum('M1-'),m2=sum('M2-'),m3=sum('M3-'),m4=sum('M4-');
+  return {rubric:MOBILE_A08.rubric,team:binding.team,m1,m2,m3,m4,total:m1+m2+m3+m4,criteria};
 }
 function mobileA08CheckConflicts(grade,binding) {
   const rows=grade.getLastRow()>1?grade.getRange(2,1,grade.getLastRow()-1,2).getValues():[];
@@ -244,24 +247,25 @@ function mobileA08Verify(input,submit) {
       instrument:activity.instrument,rubric:MOBILE_A08.rubric,
       receiptId:Utilities.getUuid(),receivedAt:time.toISOString(),challengeId:state.record.challengeId,
       packageSha256:binding.packageSha256,pdfSha256:input.pdfSha256,answersSha256:mobileSha256(answerJson),
-      sourceHashes:binding.sourceHashes,team:binding.team,members:evaluation.members,
-      gradeStatus:'laboratorio-oficial'};
+      sourceHashes:binding.sourceHashes,team:binding.team,members:binding.members,evaluation,
+      gradeStatus:'laboratorio-equipe'};
     const receipt={...unsigned,signature:mobileA08ReceiptSign(unsigned)};
     // Reserva persistente ANTES de qualquer escrita no Sheets: falha não permite replay.
     state.record.status='processing';state.record.receiptId=receipt.receiptId;
     state.props.setProperty(MOBILE_A08.challengePrefix+state.record.challengeId,JSON.stringify(state.record));
     try {
       const columns=mobileColumn(grade,activity),local=Utilities.formatDate(time,'America/Fortaleza','dd/MM/yyyy HH:mm:ss');
-      for(const member of evaluation.members) {
+      // Preserva linhas da planilha para cada participante, com nota única.
+      for(const member of binding.members) {
         const key=MOBILE_A08.activity+'|'+mobileNormal(member.name);
         mobileAuditUpsert(audit,[mobileText(member.name),mobileText(binding.team),MOBILE_A08.activity,
           activity.instrument,local,receipt.receivedAt,receipt.receiptId,receipt.pdfSha256,receipt.answersSha256,
-          receipt.signature,member.total*10,member.total,'',
-          'Nota automática por integrante; evidências declaradas; não comprova autoria',
+          receipt.signature,evaluation.total*10,evaluation.total,'',
+          'Nota coletiva da equipe; evidências declaradas; não comprova autoria',
           activity.rubric+' / '+MOBILE_CFG.version,answerJson,key],key);
       }
-      for(const member of evaluation.members)
-        mobileGradeUpsert(grade,member.name,binding.team,columns.col,columns.media,member.total);
+      for(const member of binding.members)
+        mobileGradeUpsert(grade,member.name,binding.team,columns.col,columns.media,evaluation.total);
       if(grade.getLastRow()>1){
         grade.getRange(2,1,grade.getLastRow()-1,columns.media).sort(1);mobileRefreshAverages(grade,columns.media);
       }
@@ -281,10 +285,12 @@ function mobileA08Verify(input,submit) {
 }
 function mobileA08ValidateReceipt(receipt) {
   const keys=['activity','schema','instrument','rubric','receiptId','receivedAt','challengeId','packageSha256',
-    'pdfSha256','answersSha256','sourceHashes','team','members','gradeStatus','signature'];
+    'pdfSha256','answersSha256','sourceHashes','team','members','evaluation','gradeStatus','signature'];
   mobileA08Object(receipt,keys,keys,'recibo');
   if(receipt.activity!==MOBILE_A08.activity||receipt.schema!==MOBILE_A08.schema||receipt.rubric!==MOBILE_A08.rubric||
-    receipt.instrument!=='laboratorio-vivo-av1'||receipt.gradeStatus!=='laboratorio-oficial') throw Error('Recibo de outra atividade.');
+    receipt.instrument!=='laboratorio-vivo-av1'||receipt.gradeStatus!=='laboratorio-equipe'||
+     !receipt.evaluation||receipt.evaluation.rubric!==MOBILE_A08.rubric||receipt.evaluation.team!==receipt.team)
+     throw Error('Recibo de outra atividade.');
   const unsigned={}; for(const key of keys) if(key!=='signature') unsigned[key]=receipt[key];
   mobileA08Sha(receipt.signature,'assinatura');
   const secret=PropertiesService.getScriptProperties().getProperty('MOBILE_RECEIPT_HMAC_SECRET');

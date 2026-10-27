@@ -12,7 +12,7 @@ Em `../aula-07-estado-filtros/appscript/Code.gs`, `MOBILE_CFG.activities['MOBILE
 | Aba | `4º Bimestre` |
 | Coluna | `Aula 08` |
 | Schema | `mobile-a08-v1` |
-| Rubrica | `mobile-a08-lab-vivo-1.0.0` |
+| Rubrica | `mobile-a08-lab-vivo-1.1.0` |
 | Instrumento | `laboratorio-vivo-av1` |
 | Adaptador | `aula08` |
 
@@ -35,9 +35,9 @@ O servidor emite entradas variáveis e conserva a referência. As fontes permiti
 | M1: pacote, fontes, preflight, registro de IA, slots | 5 | 2,5 compartilhados |
 | M2: prioridade, filtros, preservação, identidade | 4 | 2,0 compartilhados |
 | M3: estado, recuperação, navegação, formulário, recorte, resumo | 6 | 3,0 compartilhados |
-| M4: principal, limite, inválido, regressão, contrato | 5 | 2,5 por integrante |
+| M4: principal, limite, inválido, regressão, contrato | 5 | 2,5 da equipe |
 
-Cada critério vale exatamente 0,5. A nota de cada estudante é `M1 + M2 + M3 + M4 do seu slot`. O mesmo envio pode gerar notas diferentes. Um preflight malsucedido e um log de IA vazio permanecem pendentes; não são preenchidos artificialmente. A presença de um registro não prova que uma ação aconteceu. Nenhuma rubrica pretende provar autoria ou experiência real no aparelho.
+Cada critério vale exatamente 0,5. A avaliação é exclusivamente por equipe: `M1 + M2 + M3 + M4 coletivo`. Para cada critério M4, todos os arquivos de tarefa incluídos devem passar. Todos os participantes recebem exatamente a mesma nota. Um preflight malsucedido e um log de IA vazio permanecem pendentes; não são preenchidos artificialmente. A presença de um registro não prova que uma ação aconteceu. Nenhuma rubrica pretende provar autoria ou experiência real no aparelho.
 
 `localResult` é informativo, opcional e descartado pelo adaptador. Alterar `grade`, `xp`, `scores` ou `passed` dentro dele não altera a nota. Esses campos diretamente no envelope são recusados. M1 contém critérios de integridade e declaração, portanto uma entrega com todas as funções erradas pode conservar pontos de M1; não confundir zero comportamental com nota total zero.
 
@@ -61,7 +61,7 @@ Dados vinculados ao desafio:
  team, members, evidence}
 ```
 
-`slots` é um array crescente, sem repetição, com 1 a 4 valores entre 1 e 4. `members` possui a mesma ordem e cardinalidade: `{name, slot}`. `sourceHashes` é um objeto `path → SHA-256`, com exatamente `src/equipe.mjs` e `src/individual/alunoN.mjs` para os slots informados. `evidence` contém `preflight`, `aiLog` e `environment`, conforme o contrato JSONL, sem a chave `type`.
+`slots` é um array crescente, sem repetição, com 1 a 4 valores entre 1 e 4. `members` contém de 1 a 4 objetos `{name}`, sem vínculo com slots. O número de participantes é independente do número de arquivos técnicos. `sourceHashes` é um objeto `path → SHA-256`, com exatamente `src/equipe.mjs` e `src/individual/alunoN.mjs` para os slots informados. `evidence` contém `preflight`, `aiLog` e `environment`, conforme o contrato JSONL, sem a chave `type`.
 
 O vínculo usa SHA-256 do JSON canônico: chaves de objetos ordenadas lexicalmente, ordem dos arrays preservada, sem espaços adicionais. Strings de identificação são aparadas nas extremidades; textos do log preservam os bytes declarados, inclusive espaços. A ficha envia e compara essa forma normalizada. O log admite até 20 entradas, com até 400 caracteres por campo. O registro aceita versões Node de 0 a 99, mas M1-preflight só pontua quando declara sucesso em Node 22 ou superior e versões coerentes entre preflight e ambiente.
 
@@ -78,14 +78,14 @@ Saída do executor:
 
 O observador do sandbox compara a entrada antes e depois. M2-3 exige `unchanged: true`; congelar a entrada não mede preservação e não deve substituir essa observação. O limite de uma saída é 20.000 caracteres canônicos. Resultados incompletos, IDs repetidos, campos extras e erros não previstos são recusados.
 
-`verify` retorna `evaluation: {rubric, members}`. Cada integrante possui `name`, `slot`, `m1`, `m2`, `m3`, `m4`, `total` e exatamente 20 `criteria` com `{id,label,passed,points,max}`. A prévia permite gerar o PDF com nota oficial **antes** de calcular o hash dos bytes. A entrega final repete a avaliação; não aceita a prévia como autoridade.
+O pedido `verify` retorna `evaluation: {rubric,team,m1,m2,m3,m4,total,criteria}`. A avaliação possui **uma única nota por equipe** e exatamente 20 critérios `{id,label,passed,points,max}`. A prévia permite gerar o PDF com nota oficial **antes** de calcular o hash dos bytes. A entrega final repete a avaliação; não aceita a prévia como autoridade.
 
 `verifyAndSubmit` retorna `{ok:true, receipt, evaluation}`. O objeto `receipt` contém:
 
 ```text
 activity, schema, instrument, rubric, receiptId, receivedAt,
 challengeId, packageSha256, pdfSha256, answersSha256,
-sourceHashes, team, members, gradeStatus, signature
+sourceHashes, team, members, evaluation, gradeStatus, signature
 ```
 
 A HMAC cobre todos esses campos, exceto `signature`, com domínio específico da Aula 08. `validateReceipt` recebe apenas esse objeto, sem `channel` ou `requestNonce`, e retorna `valid:true`, `receiptSha256` (SHA-256 canônico do recibo **incluindo a assinatura**), `receiptId`, hashes e assinatura. O frontend deve conferir o hash canônico retornado contra o objeto recebido e só então apresentar confirmação. O segredo HMAC nunca sai do servidor. Base64 no pacote é **codificação**, não criptografia.
@@ -105,7 +105,7 @@ A limitação por pacote é uma barreira simples. Um cliente deliberadamente mal
 
 ## Auditoria e falhas de escrita
 
-As **17 colunas existentes** permanecem na mesma ordem. Detalhes dos quatro marcos e das notas individuais ficam em `Respostas JSON`. As colunas de nota/XP recebem o valor do integrante daquela linha. HMAC, SHA do PDF e SHA das respostas permanecem disponíveis.
+As **17 colunas existentes** permanecem na mesma ordem. Detalhes dos quatro marcos e da nota única ficam em `Respostas JSON`. As colunas de nota/XP recebem exatamente o mesmo resultado da equipe em cada linha de participante. HMAC, SHA do PDF e SHA das respostas permanecem disponíveis.
 
 O Apps Script/Sheets não oferece transação atômica entre todas essas escritas. Uma falha depois de alguma operação pode deixar linhas parciais. O adaptador marca `write_failed`, bloqueia o replay e **não emite recibo nem confirmação**. O docente deve conferir a auditoria e o boletim pelo ID do desafio, reparar exclusivamente o que ficou incompleto e liberar um novo envio por novo desafio. Não repetir o mesmo payload como se isso confirmasse conclusão. `MOBILE_A08_CHALLENGE_<id>` conserva o estado técnico por tempo limitado; para diagnóstico, inspecionar sem publicar seu conteúdo.
 
@@ -128,11 +128,11 @@ Não apagar ou girar a chave HMAC sem considerar os recibos anteriores: isso inv
 
 Executar com dois ou quatro **nomes fictícios**, por exemplo QA Ana e QA Bia, e uma equipe fictícia exclusiva. Nenhum desses passos foi executado em Sheets real nesta entrega.
 
-1. Abra a ficha servida pela publicação a homologar; importe um JSONL gerado pelo starter e preencha slots/nome da equipe.
+1. Abra a ficha servida pela publicação a homologar; importe um JSONL gerado pelo starter e preencha o nome da equipe e os nomes dos participantes (sem associá-los aos arquivos técnicos).
 2. Execute o botão principal. Confira desafio vigente, prévia oficial, PDF baixado, hash exato dos bytes, recibo e validação do recibo.
-3. Na aba `4º Bimestre`, confira a nova coluna `Aula 08` antes de `Média`, notas de cada integrante, preservação da Aula 07 e média aritmética.
+3. Na aba `4º Bimestre`, confira a nova coluna `Aula 08` antes de `Média`, a mesma nota para todos os participantes, preservação da Aula 07 e média aritmética.
 4. Na aba `Auditoria`, confira uma linha por estudante/atividade, 17 colunas, instrumento, rubrica, hashes, assinatura e JSON com M1–M4.
-5. Provoque desempenho diferente entre dois slots e reenvie por novo desafio. Confira notas distintas e substituição sem duplicatas.
+5. Provoque um erro em um dos arquivos de tarefa e reenvie com novo desafio. Confira a queda da nota de toda a equipe e a substituição das linhas sem duplicatas.
 6. Tente reutilizar um desafio, adulterar token/recibo e interromper a rede. A ficha não pode mostrar confirmação em falha.
 7. Revise a Aula 07 com fixture autorizada de forma separada, sem alterar notas reais.
 8. Remova **somente** linhas fictícias criadas no boletim e na auditoria. Preserve colunas, fórmulas, notas reais e infraestrutura. Registre quem conferiu, data, URL/versão e remoção.
@@ -155,3 +155,10 @@ Cobertura: 20 critérios, notas distintas, nota local adulterada ignorada, HMAC,
 **Mitigações:** adulterar apenas nota/avaliador local, copiar resultados de outro desafio, inserir nomes como fórmula e reenviar concorrentemente são tratados pelos controles descritos.
 
 **Não garantido:** autoria, honestidade do navegador, vínculo real nome-pessoa, ausência de ajuda, uso real em celular, efetiva execução das fontes por um cliente substituído, veracidade de preflight/log e atomicidade completa do Sheets. Um cliente inteiramente malicioso pode calcular saídas corretas sem executar as fontes declaradas. Hashes apenas identificam bytes/dados; HMAC autentica o servidor, não o estudante. O professor complementa com observação e conversa curta sobre o código.
+
+
+## Decisão docente de 27/10/2026 — nota por equipe
+
+**Rubrica 1.1.0:** a avaliação é coletiva. A ficha solicita apenas o nome da equipe e de um a quatro nomes de participantes. Arquivos técnicos não são pessoas. Os 20 critérios pontuam a equipe; cada critério M4 aprova somente se todos os arquivos selecionados no JSONL passam os casos correspondentes. O `verify` devolve uma avaliação única. O `verifyAndSubmit` assina avaliação e lista de integrantes; a planilha mantém uma linha por estudante com a mesma nota e o mesmo recibo. Não há nota por slot.
+
+A atualização precisa ser implantada no projeto Apps Script Mobile para homologação. Uma implantação antiga não é compatível com a rubrica nova. G10 permanece `PENDING_LIVE_E2E`.

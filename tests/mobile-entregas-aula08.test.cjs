@@ -89,7 +89,7 @@ function createFixture(options={}) {
 function makeBinding(slots=[1,2,3,4]) {
   return {activity:'MOBILE-AULA08-2026',schema:'mobile-a08-v1',packageSha256:'b'.repeat(64),slots,
     sourceHashes:Object.fromEntries(['src/equipe.mjs',...slots.map(s=>'src/individual/aluno'+s+'.mjs')].map(p=>[p,hash(p)])),
-    team:'Equipe QA',members:slots.map(s=>({name:['Ana Teste','Bruno Teste','Carla Teste','Daniel Teste'][s-1],slot:s})),
+    team:'Equipe QA',members:slots.map(s=>({name:['Ana Teste','Bruno Teste','Carla Teste','Daniel Teste'][s-1]})),
     evidence:{preflight:{version:'1.0.0',ok:true,nodeMajor:24,filesReady:true},
       aiLog:[{mission:'M2',request:'Explique o filtro.',suggestion:'Combinar condições.',humanChange:'Revisei a função.',test:'Executei a busca.'}],
       environment:{runtime:'node',nodeMajor:24,platform:'linux'}}};
@@ -135,7 +135,7 @@ if(require.main===module) {
     const f=createFixture();assert.match(f.scope.doGet().getContent(),/mobile-entregas-1.0.0/);
     assert.equal(f.tabs.size,5);assert.equal(headers.length,17);
     const config=clone(vm.runInContext('MOBILE_CFG.activities["MOBILE-AULA08-2026"]',f.scope));
-    assert.deepEqual(config,{sheet:'4º Bimestre',column:'Aula 08',schema:'mobile-a08-v1',rubric:'mobile-a08-lab-vivo-1.0.0',
+    assert.deepEqual(config,{sheet:'4º Bimestre',column:'Aula 08',schema:'mobile-a08-v1',rubric:'mobile-a08-lab-vivo-1.1.0',
       instrument:'laboratorio-vivo-av1',evaluator:'aula08'});
     assert.ok(!source.includes('eval('));assert.ok(!source.includes('new Function'));
     assert.ok(!server.includes('1aziGb9eXl5oR6Wz6dDWI7IH9bsINf9Sp7b6nmlT9XqE'));
@@ -156,26 +156,28 @@ if(require.main===module) {
       .update('mobile-a08/challenge/v1:'+canonical(signed)).digest('hex'));
     assert.ok(!JSON.stringify(a.challenge).includes(f.props.MOBILE_RECEIPT_HMAC_SECRET));
   });
-  test('20 critérios de .5 e notas 10 distintas por integrante após erro individual',()=>{
+  test('20 critérios de 0,5 e nota ÚNICA da equipe para todos os participantes',()=>{
     const f=createFixture(),d=issued(f),full=f.dispatch(d.input);
-    for(const member of full.evaluation.members){assert.equal(member.criteria.length,20);assert.equal(member.total,10);
-      assert.ok(member.criteria.every(c=>c.max===.5&&c.points===.5));
-      assert.deepEqual([member.m1,member.m2,member.m3,member.m4],[2.5,2,3,2.5]);}
+    const ev=full.evaluation;
+    assert.equal(ev.team,'Equipe QA');assert.equal(ev.criteria.length,20);assert.equal(ev.total,10);
+    assert.ok(ev.criteria.every(c=>c.max===.5&&c.points===.5));
+    assert.deepEqual([ev.m1,ev.m2,ev.m3,ev.m4],[2.5,2,3,2.5]);
     d.outputs.find(o=>d.challenge.cases.find(c=>c.id===o.id).slot===2).value='resposta incorreta';
-    const r=f.dispatch(finalInput(d.input));assert.deepEqual(r.receipt.members.map(m=>m.total),[10,9.5,10,10]);
-    assert.equal(f.audit().length,5);assert.deepEqual(f.grade().slice(1).map(row=>row[3]),[10,9.5,10,10]);
+    const r=f.dispatch(finalInput(d.input));assert.equal(r.receipt.evaluation.total,9.5);
+    assert.equal(r.receipt.members.length,4);assert.ok(r.receipt.members.every(m=>!Object.hasOwn(m,'slot')));
+    assert.equal(f.audit().length,5);assert.deepEqual(f.grade().slice(1).map(row=>row[3]),[9.5,9.5,9.5,9.5]);
   });
   test('zero comportamental, parcial e máximo; localResult nota 10/999 nunca muda nota oficial',()=>{
     const f=createFixture(),d=issued(f);d.outputs.forEach(o=>{o.value='incorreto';});
     const a=f.dispatch({...d.input,localResult:{grade:10,xp:100,passed:true}});
-    assert.ok(a.evaluation.members.every(m=>m.total===2.5&&m.m2===0&&m.m3===0&&m.m4===0));
+    assert.equal(a.evaluation.total,2.5);assert.equal(a.evaluation.m2,0);assert.equal(a.evaluation.m3,0);assert.equal(a.evaluation.m4,0);
     const b=f.dispatch({...d.input,localResult:{grade:999,xp:99999,scores:{grade:10}}});assert.deepEqual(a,b);
     const noEvidence=makeBinding([1]);noEvidence.evidence.aiLog=[];noEvidence.evidence.preflight.ok=false;
     const p=issued(createFixture(),{binding:noEvidence});assert.equal(p.binding.evidence.aiLog.length,0);
   });
   test('M1 preflight e IA vazios ficam pendentes, sem fingir execução',()=>{
     const f=createFixture(),binding=makeBinding([1]);binding.evidence.aiLog=[];binding.evidence.preflight.ok=false;
-    const d=issued(f,{binding}),r=f.dispatch(d.input).evaluation.members[0];assert.equal(r.m1,1.5);assert.equal(r.total,9);
+    const d=issued(f,{binding}),r=f.dispatch(d.input).evaluation;assert.equal(r.m1,1.5);assert.equal(r.total,9);
     assert.deepEqual(r.criteria.filter(c=>!c.passed).map(c=>c.id),['M1-3','M1-4']);
   });
   test('evidência preserva hash do log com espaços e aceita os limites do JSONL',()=>{
@@ -183,18 +185,18 @@ if(require.main===module) {
     binding.evidence.aiLog=Array.from({length:20},()=>({mission:'M2',request:' '+ 'x'.repeat(398)+' ',
       suggestion:'  pista  ',humanChange:'  alteração  ',test:'  teste  '}));
     const d=issued(f,{binding});assert.equal(d.challenge.bindingSha256,hash(canonical(binding)));
-    assert.equal(f.dispatch(d.input).evaluation.members[0].m1,2.5);
+    assert.equal(f.dispatch(d.input).evaluation.m1,2.5);
     const old=makeBinding([1]);old.evidence.preflight.nodeMajor=0;old.evidence.environment.nodeMajor=18;
     const other=createFixture(),legacy=issued(other,{binding:old});
-    assert.equal(other.dispatch(legacy.input).evaluation.members[0].m1,2);
+    assert.equal(other.dispatch(legacy.input).evaluation.m1,2);
     const extra=makeBinding([1]);extra.evidence.aiLog[0].test='x'.repeat(401);
     assert.throws(()=>f.dispatch({...extra,action:'challenge'}),/Campo inválido/);
   });
   test('preservação da coleção exige observação unchanged=true do executor',()=>{
     const f=createFixture(),d=issued(f),id=d.challenge.cases.find(c=>c.criterion==='M2-3').id;
     delete d.outputs.find(o=>o.id===id).unchanged;
-    assert.equal(f.dispatch(d.input).evaluation.members[0].m2,1.5);
-    d.outputs.find(o=>o.id===id).unchanged=false;assert.equal(f.dispatch(d.input).evaluation.members[0].m2,1.5);
+    assert.equal(f.dispatch(d.input).evaluation.m2,1.5);
+    d.outputs.find(o=>o.id===id).unchanged=false;assert.equal(f.dispatch(d.input).evaluation.m2,1.5);
   });
   test('M3-4 exige formulário válido e limites inclusivos; sempre rejeitar não pontua',()=>{
     const f=createFixture(),d=issued(f),cases=d.challenge.cases.filter(c=>c.scope==='team'&&c.criterion==='M3-4');
@@ -204,7 +206,7 @@ if(require.main===module) {
     assert.ok(cases.some(c=>expectedForCase(c).valid===false));
     // Mutante reproduz corretamente as mensagens de erro, mas impede todo cadastro.
     for(const c of cases){const result=d.outputs.find(o=>o.id===c.id);result.value={...result.value,valid:false};}
-    const r=f.dispatch(d.input).evaluation.members[0];
+    const r=f.dispatch(d.input).evaluation;
     assert.equal(r.criteria.find(c=>c.id==='M3-4').passed,false);assert.equal(r.m3,2.5);assert.equal(r.total,9.5);
   });
   test('M2-2 exige normalizar título e consulta com acento; normalizar só título falha',()=>{
@@ -214,13 +216,13 @@ if(require.main===module) {
       result.value=i.items.filter(x=>(i.category==='Todas'||x.category===i.category)&&
         (i.period==='Todos'||x.period===i.period)&&x.title.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
         .includes(i.query.trim().toLowerCase()));}
-    const r=f.dispatch(d.input).evaluation.members[0];
+    const r=f.dispatch(d.input).evaluation;
     assert.equal(r.criteria.find(c=>c.id==='M2-2').passed,false);assert.equal(r.m2,1.5);assert.equal(r.total,9.5);
   });
   test('verify não grava notas ou auditoria, final recalcula sem confiar na prévia',()=>{
     const f=createFixture(),d=issued(f);f.dispatch(d.input);assert.equal(f.audit().length,1);assert.equal(f.grade().length,1);
     d.outputs.find(o=>d.challenge.cases.find(c=>c.id===o.id).criterion==='M3-6').value={total:999,text:'x'};
-    assert.equal(f.dispatch(finalInput(d.input)).receipt.members[0].total,9.5);
+    assert.equal(f.dispatch(finalInput(d.input)).receipt.evaluation.total,9.5);
   });
   test('recibo HMAC vincula todos os campos, hash de respostas e PDF',()=>{
     const f=createFixture(),d=issued(f),r=f.dispatch(finalInput(d.input)).receipt,unsigned={...r};delete unsigned.signature;
@@ -229,8 +231,8 @@ if(require.main===module) {
     assert.equal(r.answersSha256,hash(f.audit()[1][15]));assert.equal(r.pdfSha256,'a'.repeat(64));
     const proof=f.dispatch({action:'validateReceipt',activity:d.binding.activity,schema:d.binding.schema,receipt:r});
     assert.equal(proof.valid,true);assert.equal(proof.receiptSha256,hash(canonical(r)));assert.equal(proof.receiptId,r.receiptId);
-    for(const mutate of [x=>x.members[0].total=10.5,x=>x.pdfSha256='c'.repeat(64),x=>x.team='Falsa',x=>x.receiptId='outro',
-      x=>x.members[0].criteria[0].passed=false,x=>x.sourceHashes['src/equipe.mjs']='d'.repeat(64)]){
+    for(const mutate of [x=>x.evaluation.total=10.5,x=>x.pdfSha256='c'.repeat(64),x=>x.team='Falsa',x=>x.receiptId='outro',
+      x=>x.evaluation.criteria[0].passed=false,x=>x.members[0].name='Nome Falso',x=>x.sourceHashes['src/equipe.mjs']='d'.repeat(64)]){
       const forged=clone(r);mutate(forged);assert.throws(()=>f.dispatch({action:'validateReceipt',activity:d.binding.activity,
         schema:d.binding.schema,receipt:forged}),/Assinatura/);}
   });
@@ -271,7 +273,7 @@ if(require.main===module) {
   test('schema/atividade, >4 slots, nomes fórmula e paths fora allowlist são recusados',()=>{
     const f=createFixture(),base={...makeBinding(),action:'challenge'};
     for(const change of [{schema:'outro'},{activity:'PPI-AULA08'}, {slots:[1,2,3,4,5]},
-      {members:[{name:'=IMPORT(A1)',slot:1},...base.members.slice(1)]},
+      {members:[{name:'=IMPORT(A1)'},...base.members.slice(1)]},
       {sourceHashes:{...base.sourceHashes,'.env':'a'.repeat(64)}}])assert.throws(()=>f.dispatch({...base,...change}));
     assert.equal(f.audit().length,1);
   });
@@ -319,6 +321,16 @@ if(require.main===module) {
     const old={activity:'MOBILE-AULA07-2026',schema:'mobile-a07-v1',pdfSha256:'a'.repeat(64),
       snapshot:{schema:'mobile-a07-v1',project:'memorias',team:'Equipe QA',date:'2026-10-27',members:[{name:'QA Antigo',contribution:''}],choice:{}}};
     assert.equal(f.post(old,'n3').channel,'mobile-entrega-aula07');assert.equal(f.audit().length,2);
+  });
+  test('equipe pode ter número de participantes diferente dos arquivos de tarefa, sem vincular nomes a slots',()=>{
+    const f=createFixture(),binding=makeBinding([1,2,3,4]);
+    binding.members=[{name:'Ana Teste'},{name:'Bruno Teste'},{name:'Carla Teste'}];
+    const d=issued(f,{binding});assert.equal(d.challenge.slots.length,4);
+    const result=f.dispatch(finalInput(d.input));
+    assert.equal(result.evaluation.total,10);
+    assert.equal(result.receipt.members.length,3);
+    assert.deepEqual(f.grade().slice(1).map(row=>row[3]),[10,10,10]);
+    assert.equal(f.audit().length,4);
   });
   test('recibo de outra atividade recusado; bytes de dados não viram scripts no HTML',()=>{
     const f=createFixture(),d=issued(f),r=f.dispatch(finalInput(d.input)).receipt;

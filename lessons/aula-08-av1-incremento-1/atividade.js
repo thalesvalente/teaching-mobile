@@ -13,12 +13,17 @@ function add(parent, tag, text, className) { const element = document.createElem
 function pair(parent, label, value) { add(parent, 'dt', label); add(parent, 'dd', value, 'hash'); }
 function identity(strict = true) {
   const team = $('team').value.trim();
-  const slots = pkg?.manifest.slots || [1, 2, 3, 4];
-  const members = slots.map(slot => ({ name: $(`member-${slot}`).value.trim(), slot })).filter(m => strict || m.name);
+  // Arquivos técnicos (slots) não são vinculados a pessoas.
+  const members = [1, 2, 3, 4].map(i => ({ name: $(`member-${i}`).value.trim() })).filter(m => m.name);
   if (strict) {
-    if (!team || members.some(m => !m.name)) throw Error('Preencha a equipe e o nome de cada slot ativo.');
-    if ([team, ...members.map(m => m.name)].some(text => text.length > 80 || /^[=+@-]/.test(text) || /[\u0000-\u001f\u007f]/.test(text))) throw Error('Use nomes simples, sem símbolos de fórmula ou quebras de linha.');
-    if (new Set(members.map(m => m.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())).size !== members.length) throw Error('Cada slot precisa de um integrante diferente.');
+    if (!team || members.length < 1) throw Error('Informe a equipe e pelo menos um participante.');
+    if ([team, ...members.map(m => m.name)].some(text =>
+        text.length > 80 || /^[=+@-]/.test(text) || /[\u0000-\u001f\u007f]/.test(text)))
+      throw Error('Use nomes simples, sem símbolos de fórmula ou quebras de linha.');
+    if (members.some(m=>m.name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,79}$/u.test(m.name)))
+      throw Error('Confira os nomes completos dos participantes.');
+    if (new Set(members.map(m => m.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())).size !== members.length)
+      throw Error('Não repita o mesmo nome na equipe.');
   }
   return { team, members };
 }
@@ -30,8 +35,8 @@ function enable() {
   try { identity(); valid = true; } catch { /* Campos serão preenchidos pelo aluno. */ }
   $('submit-delivery').disabled = !pkg || !valid || busy;
   $('action-hint').textContent = busy ? 'Verificação em andamento. Mantenha esta página aberta.' :
-    !pkg ? 'Primeiro importe o arquivo JSONL. Depois informe a equipe e os integrantes.' :
-    !valid ? 'Arquivo recebido. Preencha a equipe e os nomes dos slots ativos para liberar o envio.' :
+    !pkg ? 'Primeiro importe o arquivo JSONL. Depois informe a equipe e os participantes.' :
+    !valid ? 'Arquivo recebido. Preencha a equipe e os nomes dos participantes para liberar o envio.' :
     'Tudo pronto. Ao clicar, a ficha verifica, baixa o PDF e solicita o recibo.';
 }
 function clearResult() {
@@ -49,21 +54,29 @@ function progress(index, detail = '') {
 function showResults(note) {
   $('results').hidden = false; $('results-note').textContent = note;
   $('member-results').replaceChildren();
-  for (const member of evaluation.members) {
-    const card = add($('member-results'), 'article', '', 'result-card');
-    add(card, 'h3', `${member.name} · slot ${member.slot}`);
-    add(card, 'p', `${number(member.total)} / 10,0`, 'score');
-    add(card, 'p', `M1 ${number(member.m1)} + M2 ${number(member.m2)} + M3 ${number(member.m3)} + M4 ${number(member.m4)}`);
-    const details = add(card, 'details', ''); add(details, 'summary', 'Ver os 20 critérios');
-    const list = add(details, 'ul', '', 'mark-list');
-    for (const c of member.criteria) add(list, 'li', `${c.passed ? 'Aprovado' : 'Pendente'} · ${c.id}: ${CRITERIA[c.id]} · ${number(c.points)} / 0,5`, c.passed ? 'pass' : 'pending');
-  }
+  const card = add($('member-results'), 'article', '', 'result-card');
+  add(card, 'h3', 'Equipe: ' + evaluation.team);
+  add(card, 'p', number(evaluation.total) + ' / 10,0', 'score');
+  add(card, 'p', 'M1 ' + number(evaluation.m1) + ' + M2 ' + number(evaluation.m2) +
+      ' + M3 ' + number(evaluation.m3) + ' + M4 ' + number(evaluation.m4));
+  add(card, 'p', 'Uma única nota da equipe, igual para todos os participantes.');
+  const details = add(card, 'details', '');
+  add(details, 'summary', 'Ver os 20 critérios coletivos');
+  const list = add(details, 'ul', '', 'mark-list');
+  for (const c of evaluation.criteria)
+    add(list, 'li', (c.passed ? 'Aprovado' : 'Pendente') + ' · ' + c.id + ': ' +
+        CRITERIA[c.id] + ' · ' + number(c.points) + ' / 0,5', c.passed ? 'pass' : 'pending');
 }
 function showReceipt() {
   $('receipt-panel').hidden = false; $('local-options').hidden = true;
-  $('receipt-description').textContent = 'O servidor confirmou o recebimento e validou a assinatura deste recibo.';
+  $('receipt-description').textContent = 'O servidor confirmou uma nota única para a equipe e validou este recibo.';
   $('receipt-summary').replaceChildren();
-  for (const [key, label] of [['receiptId', 'Recibo'], ['receivedAt', 'Recebido em'], ['packageSha256', 'Hash do pacote'], ['pdfSha256', 'Hash do PDF'], ['answersSha256', 'Hash das respostas'], ['signature', 'Assinatura']]) pair($('receipt-summary'), label, receipt[key]);
+  pair($('receipt-summary'), 'Nota da equipe', number(receipt.evaluation.total) + ' / 10,0');
+  pair($('receipt-summary'), 'Participantes', receipt.members.map(m=>m.name).join('; '));
+  for (const [key, label] of [['receiptId','Recibo'],['receivedAt','Recebido em'],
+    ['packageSha256','Hash do pacote'],['pdfSha256','Hash do PDF'],
+    ['answersSha256','Hash das respostas'],['signature','Assinatura']])
+    pair($('receipt-summary'), label, receipt[key]);
 }
 async function importPackage(file) {
   if (busy) return;
@@ -81,12 +94,8 @@ async function importPackage(file) {
     $('local-score').textContent = `${number(pkg.localResult.grade)} / 10,0. Esse valor não define a nota oficial.`;
     $('package-summary').hidden = false;
     $('import-status').textContent = 'Pacote válido. Agora confira os nomes dos integrantes.';
-    for (let slot = 1; slot <= 4; slot++) {
-      const input = $(`member-${slot}`); input.disabled = !pkg.manifest.slots.includes(slot);
-      input.required = !input.disabled;
-      if (input.disabled) input.value = '';
-    }
-    $('slot-hint').textContent = `Slots ativos no pacote: ${pkg.manifest.slots.join(', ')}. Para mudar, gere novamente usando os slots da equipe, por exemplo npm run entrega -- --slots=1,2.`;
+    $('slot-hint').textContent = `O pacote possui tarefas de programação ${pkg.manifest.slots.join(', ')}.
+      Elas são avaliadas em conjunto e NÃO correspondem aos nomes. Informe até quatro participantes, independentemente dos arquivos.`;
     status('Pacote conferido. Preencha os nomes e use o botão principal.');
   } catch (error) {
     if (version !== importVersion) return;
@@ -100,7 +109,7 @@ const drop = $('drop-zone');
 for (const eventName of ['dragenter', 'dragover']) drop.addEventListener(eventName, event => { event.preventDefault(); if (!busy) drop.classList.add('dragging'); });
 for (const eventName of ['dragleave', 'drop']) drop.addEventListener(eventName, event => { event.preventDefault(); drop.classList.remove('dragging'); });
 drop.addEventListener('drop', event => { if (!busy) { if (event.dataTransfer.files.length !== 1) { $('import-status').textContent = 'Arraste apenas um arquivo JSONL por vez.'; return; } importPackage(event.dataTransfer.files[0]); } });
-for (const input of [$('team'), ...document.querySelectorAll('[data-slot]')]) input.addEventListener('input', () => {
+for (const input of [$('team'), ...document.querySelectorAll('[data-member]')]) input.addEventListener('input', () => {
   clearResult(); status('Identificação alterada. Verifique novamente para obter um recibo correspondente.'); enable();
 });
 
@@ -128,8 +137,8 @@ $('delivery-form').addEventListener('submit', async event => {
     progress(3);
     const verification = await request('verify', answers);
     if (verification.challengeId !== challenge.challengeId || verification.packageSha256 !== pkg.packageSha256 || verification.bindingSha256 !== challenge.bindingSha256) throw Error('A verificação não corresponde ao desafio desta entrega.');
-    evaluation = validateEvaluation(verification.evaluation, identification.members);
-    showResults('Nota calculada pelo servidor. O recibo da entrega ainda está pendente.');
+    evaluation = validateEvaluation(verification.evaluation, identification.team);
+    showResults('Nota da equipe calculada pelo servidor. O recibo da entrega ainda está pendente.');
     progress(4);
     savedPdf = await createPdf(snapshot('NOTAS VERIFICADAS - AGUARDANDO ENVIO E RECIBO', identification));
     download(savedPdf.bytes, savedPdf.filename);
@@ -138,7 +147,7 @@ $('delivery-form').addEventListener('submit', async event => {
     progress(6);
     receipt = await validateDelivery(response, { ...binding, challengeId: challenge.challengeId, pdfSha256: savedPdf.hash, evaluation });
     progress(7);
-    showResults('Nota calculada pelo servidor e vinculada ao recibo confirmado.'); showReceipt();
+    showResults('Nota da equipe calculada pelo servidor e vinculada ao recibo confirmado.'); showReceipt();
     status(`ENTREGA CONFIRMADA\nRecibo: ${receipt.receiptId}\nGuarde o PDF junto com o recibo.`);
     $('delivery-status').classList.add('success');
   } catch (error) {
