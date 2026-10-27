@@ -1,0 +1,54 @@
+name: QA Aula 08 - laboratorio vivo
+on:
+  pull_request:
+    paths:
+      - 'lessons/aula-08-av1-incremento-1/**'
+      - 'lessons/aula-07-estado-filtros/appscript/**'
+      - 'tests/aula08*'
+      - 'tests/mobile-entregas-aula08.test.cjs'
+      - '.github/workflows/qa-aula08.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contratos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Comandos do aluno
+        working-directory: lessons/aula-08-av1-incremento-1/projeto
+        run: |
+          npm ci
+          npm run preflight
+          npm run nota
+          npm run entrega
+      - name: Contratos, Apps Script simulado e regressao
+        run: node --test tests/aula08-local*.test.* tests/aula08-jsonl*.test.* tests/aula08-pages*.test.cjs tests/mobile-entregas-aula08.test.cjs tests/mobile-entregas.test.cjs tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependencias de QA
+        run: npm install --no-save --no-package-lock playwright@1.57.0 axe-core@4.10.3
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Ficha real com servidor simulado e sem envio ao Google
+        run: node tests/aula08-browser.cjs
+  infograficos-originais:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: G1 - bloquear ate receber os dois originais
+        run: node tests/aula08-assets.cjs
