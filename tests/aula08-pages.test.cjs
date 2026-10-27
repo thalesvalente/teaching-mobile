@@ -11,7 +11,7 @@ const blobSha = bytes => crypto.createHash('sha1').update(Buffer.from(`blob ${by
 
 test('portal e README têm caminhos da Aula08; links relativos existentes não quebram', () => {
   for (const name of ['index.html', 'README.md']) assert.match(fs.readFileSync(path.join(root, name), 'utf8'), /aula-08-av1-incremento-1/);
-  for (const file of [path.join(root, 'index.html'), path.join(lesson, 'index.html'), path.join(lesson, 'atividade.html')]) {
+  for (const file of [path.join(root, 'index.html'), ...['index.html', 'comecar.html', 'missoes.html', 'gemini.html', 'atividade.html'].map(name => path.join(lesson, name))]) {
     const source = fs.readFileSync(file, 'utf8');
     for (const match of source.matchAll(/\b(?:href|src)="([^"#][^"]*)"/g)) {
       const value = match[1];

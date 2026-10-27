@@ -96,7 +96,7 @@ function serve() {
     const missingImages = ['infografico-marcos-av1.png', 'fluxo-aluno-laboratorio-vivo.png'].filter(name => !fs.existsSync(path.join(lesson, 'assets', name)));
     console.log(missingImages.length ? 'BLOCKED G1: infográficos originais ausentes: ' + missingImages.join(', ') : 'PASS G1 assets presentes');
     await page.screenshot({ path: path.join(output, 'aula08-375.png'), fullPage: true });
-    for (const pageName of ['index.html', 'atividade.html']) {
+    for (const pageName of ['index.html', 'comecar.html', 'missoes.html', 'gemini.html', 'atividade.html']) {
       await page.goto(base + pageName); await page.waitForLoadState('networkidle');
       for (const width of [320, 375, 768, 1024, 1440]) for (const height of [812, 375]) {
         await page.setViewportSize({ width, height });
@@ -107,8 +107,21 @@ function serve() {
       const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] } })).violations.map(v => ({ id: v.id, targets: v.nodes.map(n => n.target) })));
       assert.deepEqual(violations, []);
     }
-    record('Duas páginas em 320/375/768/1024/1440, retrato/paisagem e axe WCAG 2.2 AA');
+    record('Cinco páginas em 320/375/768/1024/1440, retrato/paisagem e axe WCAG 2.2 AA');
     await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto(base + 'comecar.html');
+    assert.equal((await page.locator('.nav-links [aria-current="page"]').innerText()), 'Começar');
+    assert.match(await page.locator('#executar').innerText(), /npm run web/);
+    await page.locator('#duvidas details summary').first().click();
+    assert.ok((await page.locator('#duvidas details').first().getAttribute('open')) !== null);
+    await page.goto(base + 'missoes.html');
+    await page.locator('.criteria-toggle summary').first().click();
+    assert.equal(await page.locator('.criteria-toggle').first().locator('li').count(), 5);
+    await page.goto(base + 'gemini.html');
+    await page.locator('.prompt-details summary').first().click();
+    await page.locator('[data-copy="prompt-m1"]').click();
+    await page.waitForFunction(() => /copiado|selecionado/i.test(document.getElementById('copy-status').textContent));
+    record('Preparação, missões, tutor Gemini, cópia e navegação HTML sem Markdown');
     await page.goto(base + 'atividade.html'); await upload(); await identify();
     assert.equal(await page.locator('#submit-delivery').isEnabled(), true);
     assert.match(await page.locator('#local-score').innerText(), /não define/);
