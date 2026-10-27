@@ -178,6 +178,18 @@ if(require.main===module) {
     const d=issued(f,{binding}),r=f.dispatch(d.input).evaluation.members[0];assert.equal(r.m1,1.5);assert.equal(r.total,9);
     assert.deepEqual(r.criteria.filter(c=>!c.passed).map(c=>c.id),['M1-3','M1-4']);
   });
+  test('evidência preserva hash do log com espaços e aceita os limites do JSONL',()=>{
+    const f=createFixture(),binding=makeBinding([1]);
+    binding.evidence.aiLog=Array.from({length:20},()=>({mission:'M2',request:' '+ 'x'.repeat(398)+' ',
+      suggestion:'  pista  ',humanChange:'  alteração  ',test:'  teste  '}));
+    const d=issued(f,{binding});assert.equal(d.challenge.bindingSha256,hash(canonical(binding)));
+    assert.equal(f.dispatch(d.input).evaluation.members[0].m1,2.5);
+    const old=makeBinding([1]);old.evidence.preflight.nodeMajor=0;old.evidence.environment.nodeMajor=18;
+    const other=createFixture(),legacy=issued(other,{binding:old});
+    assert.equal(other.dispatch(legacy.input).evaluation.members[0].m1,2);
+    const extra=makeBinding([1]);extra.evidence.aiLog[0].test='x'.repeat(401);
+    assert.throws(()=>f.dispatch({...extra,action:'challenge'}),/Campo inválido/);
+  });
   test('preservação da coleção exige observação unchanged=true do executor',()=>{
     const f=createFixture(),d=issued(f),id=d.challenge.cases.find(c=>c.criterion==='M2-3').id;
     delete d.outputs.find(o=>o.id===id).unchanged;

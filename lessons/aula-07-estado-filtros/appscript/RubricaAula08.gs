@@ -66,17 +66,20 @@ function mobileA08Evidence(value) {
   const pre=mobileA08Object(value.preflight,['version','ok','nodeMajor','filesReady'],
     ['version','ok','nodeMajor','filesReady'],'preflight');
   if(pre.version!=='1.0.0' || typeof pre.ok!=='boolean' || typeof pre.filesReady!=='boolean' ||
-    !Number.isInteger(pre.nodeMajor) || pre.nodeMajor<18 || pre.nodeMajor>99) throw Error('Preflight incompatível.');
+    !Number.isInteger(pre.nodeMajor) || pre.nodeMajor<0 || pre.nodeMajor>99) throw Error('Preflight incompatível.');
   const env=mobileA08Object(value.environment,['runtime','nodeMajor','platform'],['runtime','nodeMajor','platform'],'ambiente');
-  if(env.runtime!=='node' || !Number.isInteger(env.nodeMajor) || env.nodeMajor<18 || env.nodeMajor>99 ||
-    env.nodeMajor!==pre.nodeMajor || !['linux','win32','darwin','other'].includes(env.platform)) throw Error('Ambiente inválido.');
-  if(!Array.isArray(value.aiLog) || value.aiLog.length>12) throw Error('Registro de IA acima do limite.');
+  if(env.runtime!=='node' || !Number.isInteger(env.nodeMajor) || env.nodeMajor<0 || env.nodeMajor>99 ||
+    !['linux','win32','darwin','other'].includes(env.platform)) throw Error('Ambiente inválido.');
+  if(!Array.isArray(value.aiLog) || value.aiLog.length>20) throw Error('Registro de IA acima do limite.');
   const aiLog=value.aiLog.map(entry=>{
     mobileA08Object(entry,['mission','request','suggestion','humanChange','test'],
       ['mission','request','suggestion','humanChange','test'],'registro de IA');
     if(!['M1','M2','M3','M4'].includes(entry.mission)) throw Error('Marco do registro de IA inválido.');
     const out={mission:entry.mission};
-    for(const key of ['request','suggestion','humanChange','test']) out[key]=mobileRead(entry[key],600,key);
+    for(const key of ['request','suggestion','humanChange','test']) {
+      if(!mobileRead(entry[key],400,key)) throw Error('Registro de IA incompleto.');
+      out[key]=entry[key]; // O hash vincula os bytes declarados, incluindo espaços.
+    }
     return out;
   });
   return {preflight:{version:pre.version,ok:pre.ok,nodeMajor:pre.nodeMajor,filesReady:pre.filesReady},
@@ -183,7 +186,8 @@ function mobileA08Evaluation(binding,cases,outputs) {
   const checked=mobileA08Outputs(outputs,cases);
   const first={
     'M1-1':true,'M1-2':true,
-    'M1-3':binding.evidence.preflight.ok&&binding.evidence.preflight.filesReady,
+    'M1-3':binding.evidence.preflight.ok&&binding.evidence.preflight.filesReady&&
+      binding.evidence.preflight.nodeMajor>=22&&binding.evidence.preflight.nodeMajor===binding.evidence.environment.nodeMajor,
     'M1-4':binding.evidence.aiLog.length>0&&binding.evidence.aiLog.every(x=>x.request&&x.suggestion&&x.humanChange&&x.test),
     'M1-5':true
   };

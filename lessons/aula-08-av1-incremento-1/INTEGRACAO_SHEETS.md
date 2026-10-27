@@ -63,7 +63,7 @@ Dados vinculados ao desafio:
 
 `slots` é um array crescente, sem repetição, com 1 a 4 valores entre 1 e 4. `members` possui a mesma ordem e cardinalidade: `{name, slot}`. `sourceHashes` é um objeto `path → SHA-256`, com exatamente `src/equipe.mjs` e `src/individual/alunoN.mjs` para os slots informados. `evidence` contém `preflight`, `aiLog` e `environment`, conforme o contrato JSONL, sem a chave `type`.
 
-O vínculo usa SHA-256 do JSON canônico: chaves de objetos ordenadas lexicalmente, ordem dos arrays preservada, sem espaços adicionais. Strings de identificação e log são aparadas nas extremidades. A ficha envia e compara essa forma normalizada.
+O vínculo usa SHA-256 do JSON canônico: chaves de objetos ordenadas lexicalmente, ordem dos arrays preservada, sem espaços adicionais. Strings de identificação são aparadas nas extremidades; textos do log preservam os bytes declarados, inclusive espaços. A ficha envia e compara essa forma normalizada. O log admite até 20 entradas, com até 400 caracteres por campo. O registro aceita versões Node de 0 a 99, mas M1-preflight só pontua quando declara sucesso em Node 22 ou superior e versões coerentes entre preflight e ambiente.
 
 O desafio retorna `ok`, `challengeId`, `nonce`, `issuedAt`, `expiresAt`, `activity`, `schema`, `packageSha256`, `bindingSha256`, `casesSha256`, `slots`, `sourceHashes`, `cases` e `token`. Cada caso é `{id, criterion, scope, slot?, input}`. O `id` é opaco e contém prefixo variável; respostas copiadas de outro desafio são rejeitadas mesmo que os nomes dos critérios coincidam.
 
