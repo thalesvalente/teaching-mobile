@@ -39,3 +39,20 @@ test('guia, critérios e prompts estão no HTML e não dependem de README.md', (
   assert.equal((tutor.match(/data-copy="prompt-m[1-4]"/g) || []).length, 4);
   assert.match(tutor, /evidencias.json/);
 });
+test('missões oferecem execução guiada, verificação e marcação separada da nota', () => {
+  const html=fs.readFileSync(path.join(root,'missoes.html'),'utf8');
+  const js=fs.readFileSync(path.join(root,'missoes.js'),'utf8');
+  assert.equal((html.match(/class="mission-panel panel"/g)||[]).length,4);
+  assert.equal((html.match(/class="mission-step"/g)||[]).length,22);
+  assert.equal((html.match(/data-student-step="m[1-4]-p[1-6]"/g)||[]).length,22);
+  assert.equal((html.match(/class="step-verification"/g)||[]).length,22);
+  assert.equal((html.match(/class="criteria-toggle"/g)||[]).length,4);
+  assert.equal((html.match(/class="slot-guide"/g)||[]).length,4);
+  assert.match(html,/data-mission="m1" open/);
+  assert.match(html,/npm run entrega/);
+  assert.match(html,/sem recibo validado|Sem recibo validado/);
+  assert.match(html,/não são testes, nota nem comprovante/);
+  assert.match(js,/localStorage\.setItem/);
+  assert.match(js,/hashchange/);
+  assert.doesNotMatch(js,/verifyAndSubmit|grade|Apps Script/i);
+});

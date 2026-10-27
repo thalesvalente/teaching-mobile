@@ -53,3 +53,47 @@ details>summary:hover{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:760px){.mission-grid{grid-template-columns:1fr}.points-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.nav-links{width:100%;gap:3px}.nav-links a{padding:7px 9px;font-size:.88rem}.lesson-next>.button{width:100%}.copy-toast:not(:empty){left:12px;right:12px;max-width:none}.command-heading{align-items:stretch}.points-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media print{.copy-toast,.lesson-next,.local-index{display:none!important}}
+
+/* Laboratório vivo: orientação operacional e divulgação progressiva das missões */
+.mission-intro{border-left:5px solid var(--green)}
+.mission-progress-box{display:grid;gap:9px;max-width:560px}
+.mission-progress-box progress{height:16px}
+.mission-progress-box>p{margin:0;font-size:.94rem}
+.mission-progress-box button{justify-self:start}
+.mission-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;scroll-margin-top:15px}
+.mission-shortcuts a{display:grid;align-content:center;gap:6px;min-height:72px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--green);text-decoration:none;font-weight:800}
+.mission-shortcuts a:hover,.mission-shortcuts a:focus-visible{background:var(--tint);text-decoration:underline}
+.mission-shortcuts small{font-weight:500;font-size:.85rem;line-height:1.35;color:var(--muted)}
+.mission-panel{scroll-margin-top:18px}
+.mission-panel:target{outline:2px solid var(--green);outline-offset:3px}
+.mission-top{padding-bottom:8px}
+.mission-top h2{margin:8px 0}
+.mission-top .eyebrow{font-size:.78rem}
+.mission-deliverable{border-left:3px solid var(--green);padding:8px 12px;background:var(--tint);border-radius:3px}
+.mission-steps-panel{border-top:1px solid var(--line);margin-top:10px}
+.mission-steps-panel>summary{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-radius:8px;padding:14px 10px;min-height:54px;font-size:1.06rem;font-weight:800}
+.mission-steps-panel>summary:hover{background:var(--tint)}
+.mission-count{font-size:.88rem;color:var(--muted);font-weight:600}
+.mission-body{padding:3px 2px 8px}
+.mission-steps{list-style:decimal;padding-left:31px;margin:8px 0 22px}
+.mission-step{padding:15px 18px 18px;margin:0 0 12px;border:1px solid var(--line);border-radius:12px;min-width:0;background:#fbfdfb}
+.mission-step::marker{font-weight:850;color:var(--green)}
+.mission-step h3{font-size:1.18rem;line-height:1.3;margin:0 0 10px}
+.mission-step p{margin:8px 0}
+.mission-step .command-card{margin:13px 0;max-width:670px}
+.step-verification{border-left:3px solid var(--green);background:var(--tint);padding:9px 13px;border-radius:3px}
+.step-checkbox{display:flex;gap:11px;align-items:center;width:max-content;max-width:100%;min-height:48px;margin-top:14px;padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;font-weight:700;cursor:pointer}
+.step-checkbox input{width:22px;height:22px;min-height:22px;accent-color:var(--green);margin:0;flex-shrink:0}
+.step-checkbox:has(input:checked){background:var(--tint)}
+.step-tip{padding:12px 17px;border:1px solid var(--line);border-radius:9px;background:#f5f8f5}
+.slot-examples{padding:15px 18px;border:1px solid var(--line);border-radius:12px;margin:20px 0;background:white}
+.slot-examples h3{margin:0 0 10px}
+.slot-guide{border-top:1px solid var(--line)}
+.slot-guide>summary{padding:12px 6px;overflow-wrap:anywhere}
+.slot-guide>p{padding:0 9px}
+.mission-body>.criteria-toggle{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}
+.mission-next{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:20px}
+@media(max-width:800px){.mission-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.mission-panel{padding:16px}.mission-steps{padding-left:24px}.mission-step{padding:15px 11px}.mission-shortcuts{gap:8px}.mission-shortcuts a{padding:10px}.mission-next>.button{width:100%}}
+@media(forced-colors:active){.mission-step,.step-checkbox,.mission-shortcuts a{border:1px solid ButtonText}}
+@media print{.mission-shortcuts,.step-checkbox,.mission-progress-box,.mission-next{display:none!important}}

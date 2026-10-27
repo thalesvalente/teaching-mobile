@@ -1,5 +1,8 @@
 # As quatro missões da Aula 08
 
+**Para o estudante:** abra [Missões passo a passo](missoes.html) no navegador. Este Markdown é referência complementar; as etapas da aula estão na página HTML.
+
+
 Abra o projeto e use `npm run nota` após cada pequena alteração. O starter tem `TODO` intencionais. Não é preciso acertar tudo de uma vez.
 
 ## M1 - Preparar, compreender e registrar (15 minutos; 2,5 pontos)
@@ -45,7 +48,7 @@ Cada pessoa trabalha somente no arquivo de seu slot. Os desafios são equivalent
 | 3 - formulário | Como informar campos ausentes e texto que ultrapassa o limite? |
 | 4 - chave | Como preservar o ID de um item quando ele muda de posição? |
 
-Execute `npm run nota`, registre a última alteração e execute `npm run entrega`. Abra a ficha, associe nomes e slots, importe o pacote e clique em **Verificar, gerar PDF e entregar**. Guarde o PDF e o recibo. O envio não é um quinto marco.
+Execute `npm run nota`, registre a última alteração e execute `npm run entrega`. Abra a ficha, associe nomes e slots, importe o pacote e clique em **Avaliar e enviar**. Guarde o PDF e o recibo. O envio não é um quinto marco.
 
 ## Os 20 critérios, visíveis desde o início
 

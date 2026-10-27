@@ -95,7 +95,7 @@ npm run nota -- --slots=1,2
 npm run entrega -- --slots=1,2
 ```
 
-Use slots únicos e em ordem crescente, de 1 a 4. O comando cria **`entrega/entrega-a08.jsonl`**. Abra a ficha da Aula 08, identifique a equipe, associe nomes e slots, importe esse arquivo e clique em **Verificar, gerar PDF e entregar**.
+Use slots únicos e em ordem crescente, de 1 a 4. O comando cria **`entrega/entrega-a08.jsonl`**. Abra a ficha da Aula 08, importe esse arquivo, identifique a equipe e associe nomes e slots e clique em **Avaliar e enviar**.
 
 O JSONL contém somente as fontes de equipe e dos slots escolhidos, hashes e evidências permitidas. `.env`, `.git`, `node_modules` e outros arquivos não são incluídos. Base64 é **codificação**, não criptografia. Revise as fontes antes de gerar; o programa recusa alguns padrões comuns de segredo/e-mail, mas não consegue identificar todo dado pessoal em texto livre.
 
