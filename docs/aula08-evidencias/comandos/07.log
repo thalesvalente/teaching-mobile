@@ -1,0 +1,32 @@
+✔ A08 config exclusiva; A07 mantém 17 colunas, versão e destino Mobile (6.51957ms)
+✔ desafios variáveis com HMAC, TTL e vínculos de pacote/fontes/slots/equipe (8.906709ms)
+✔ 20 critérios de .5 e notas 10 distintas por integrante após erro individual (28.710097ms)
+✔ zero comportamental, parcial e máximo; localResult nota 10/999 nunca muda nota oficial (9.924699ms)
+✔ M1 preflight e IA vazios ficam pendentes, sem fingir execução (4.165522ms)
+✔ evidência preserva hash do log com espaços e aceita os limites do JSONL (9.694433ms)
+✔ preservação da coleção exige observação unchanged=true do executor (8.417343ms)
+✔ M3-4 exige formulário válido e limites inclusivos; sempre rejeitar não pontua (5.878567ms)
+✔ M2-2 exige normalizar título e consulta com acento; normalizar só título falha (6.191547ms)
+✔ verify não grava notas ou auditoria, final recalcula sem confiar na prévia (14.380047ms)
+✔ recibo HMAC vincula todos os campos, hash de respostas e PDF (14.38944ms)
+✔ reenvio com novo desafio substitui sem duplicar; médias e Aula07 preservadas (14.578585ms)
+✔ desafio expirado, token adulterado e replay recusados sem novas linhas (10.514826ms)
+✔ mudanças em pacote/fontes/slots/equipe/membros/evidência invalidam o vínculo (4.927077ms)
+✔ outputs de outro desafio, faltantes, duplicados e campos extras recusados (9.026549ms)
+✔ schema/atividade, >4 slots, nomes fórmula e paths fora allowlist são recusados (1.927167ms)
+✔ conflito de equipe valida todos antes de iniciar qualquer escrita (5.60085ms)
+✔ falha de escrita nunca confirma; reserva persistente bloqueia replay (8.307879ms)
+✔ flush falho após escrita parcial não emite recibo nem confirmação (8.955261ms)
+✔ reenvio concorrente/reentrante bloqueado por LockService; exatamente um recibo (9.663366ms)
+✔ rate limits por pacote e por desafio não escrevem planilha (35.357466ms)
+✔ body bytes/profundidade/resultado grande recebem erro sem segredo (13.286113ms)
+✔ doPost usa canal da ação, requestNonce e flag de recebimento sem afetar A07 (7.709128ms)
+✔ recibo de outra atividade recusado; bytes de dados não viram scripts no HTML (19.293813ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 276.210628

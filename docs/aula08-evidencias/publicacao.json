@@ -1,0 +1,90 @@
+{
+  "repository": "thalesvalente/teaching-mobile",
+  "branch": "feat/aula-08-laboratorio-vivo-av1-20261027",
+  "baseline": {
+    "commit": "a0ac0749ece9805833c4f34d31c07db76032fe6b",
+    "tree": "e5911d0e7f07eade62ef7c8ea293725a2f8e905b"
+  },
+  "publicationMethod": "GitHub Git Data API; fresh branch; all corresponding content trees verified equal; no force update; no merge",
+  "scope": "Mapping through independent QA documentation; later documentation-only evidence commit is identified by the PR HEAD.",
+  "commits": [
+    {
+      "local": "0b6aaa74a3962db849ab8bb7842cf74cf70876e2",
+      "remote": "e498e936b0c1e7bf8cf3a91ef6407148dd96cb25",
+      "tree": "1153100fe49452455b0bb844074ad17abc42cc6c",
+      "message": "docs(a08): registrar baseline e ownership das frentes reais"
+    },
+    {
+      "local": "8712641c02c543df00e6e78846f504a6860833f3",
+      "remote": "9fcf73af7ec59bcca49ea3d083a6e10014c24e81",
+      "tree": "7f03e8d6f415c7c0d29cfaec63aebc7087f100c0",
+      "message": "feat(a08-local): define strict shared JSONL contract"
+    },
+    {
+      "local": "0209742ff7b49a6c58a3dd37dfc5c611c31fccfa",
+      "remote": "52eb543a5a198eee10bb1869a64a614cb6f8f1ec",
+      "tree": "48ac44fd2043f193633922ffcccb528d4f5671a0",
+      "message": "docs(a08): record independent baseline and browser regressions"
+    },
+    {
+      "local": "25fa2d0a544cdd3e57562628d038b52e0dcad8ed",
+      "remote": "790e89f95d651747b2a57454431d6d9b323a983e",
+      "tree": "b5b27a5bd65301908cb4347cd6f70bff05866490",
+      "message": "feat(aula08-server): desafios assinados e notas individuais no Sheets"
+    },
+    {
+      "local": "094b7ef20d509ad733497c82b38a9cb714e3b1ea",
+      "remote": "40604fa3dc9e83b999664432ac9a20fa7c1f7f27",
+      "tree": "7222b5209dd8a147771173373a0a566f89bb93fb",
+      "message": "docs(aula08-server): contrato e homologacao Apps Script Mobile"
+    },
+    {
+      "local": "0e41606c4acd1badd9a5ffabf7af01e0dcabf556",
+      "remote": "fadaa87298e6561535be2728772d0f6d3d9094a3",
+      "tree": "fd878381f843c3fdbac6d5e5fdb615019727d542",
+      "message": "fix(aula08-server): alinhar evidencia e hash ao contrato JSONL"
+    },
+    {
+      "local": "d81f68a52ecd2521275079cfb24e89d9b3048cca",
+      "remote": "0afbbebc500e75b10e0023bdc4bb9988e42d7ab9",
+      "tree": "c7b1039af1f4559b99bc784a8aa261c5cfb62531",
+      "message": "feat(a08-local): add runnable mobile web lab and deterministic delivery"
+    },
+    {
+      "local": "15a1590649687bc054d0fa2bc00dc3d284008847",
+      "remote": "1dcf70e5acaf5f8f749083644e9f2d5fbb554928",
+      "tree": "6cd4f03cd453c0058848b1734cb47bc9816e3f3a",
+      "message": "fix(aula08-rubric): exigir formulario valido e busca com acento"
+    },
+    {
+      "local": "c8bf6f3f43f216ebf76fe7d17dde0b41e2b5c827",
+      "remote": "7bfb8a3284986edb5b681a21c1993c2b9555d38c",
+      "tree": "ef8b1ee6faa09397afb099c9c63e1c1602e5392b",
+      "message": "docs(a08-content): guiar quatro marcos e Gemini com linguagem acessivel"
+    },
+    {
+      "local": "6e1ffe43968548e78de22c37592d203e5e185e55",
+      "remote": "8314da3668798b02c6975abf1a7e932be484a1be",
+      "tree": "6f31071f95f7d62ed2f8391f45962961c5f56590",
+      "message": "feat(a08-web): ficha isolada com verificacao oficial PDF e recibo"
+    },
+    {
+      "local": "8225f460adf476169631c5101363c91131f73015",
+      "remote": "7419afcc39619ea5bf6bc270db003624131ea145",
+      "tree": "dce89ea30e087418a15c892009213b1eb61c1058",
+      "message": "test(a08-integration): portal e gates de navegador contratos e assets"
+    },
+    {
+      "local": "b5de67bf8db0c4904212b8ad887f4dc9da261a4d",
+      "remote": "bcb1fa2663d18e1f9ec8814373a11ff6fd486ef0",
+      "tree": "46d46cb27f6260525b43b2f2628e0a5e88c0b533",
+      "message": "fix(a08-verifier): recusar saidas nao JSON e conferir vinculos oficiais"
+    },
+    {
+      "local": "712a1278c7513ca3990bafcd812a54c22eb3426e",
+      "remote": "d67715d25afd627885e57dae13ee398e5b0b91a2",
+      "tree": "8ead3247a6d3c28f001d6cb017fcccce74fc09c2",
+      "message": "docs(a08-qa): independent adversarial review of frozen candidate"
+    }
+  ]
+}
