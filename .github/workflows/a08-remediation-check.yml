@@ -1,0 +1,76 @@
+name: A08 remediation - read-only qualification
+on:
+  pull_request:
+    paths:
+      - '.a08-remediation/**'
+      - '.github/workflows/a08-remediation-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify:
+    if: github.repository == 'thalesvalente/teaching-mobile' && github.event.pull_request.number == 4 && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'feat/aula-08-laboratorio-vivo-av1-20261027'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      AULA08_EVIDENCE_DIR: ${{ runner.temp }}/a08-remediation-evidence
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Apply candidate only inside ephemeral runner
+        id: apply
+        run: |
+          set -euo pipefail
+          mkdir -p "$AULA08_EVIDENCE_DIR"
+          git rev-parse HEAD > "$AULA08_EVIDENCE_DIR/staging-sha.txt"
+          python .a08-remediation/apply.py | tee "$AULA08_EVIDENCE_DIR/apply.log"
+          git diff --check
+      - name: Student commands and complete contracts
+        run: |
+          set -euo pipefail
+          (cd lessons/aula-08-av1-incremento-1/projeto && npm ci && npm run preflight && npm run nota && npm run entrega) 2>&1 | tee "$AULA08_EVIDENCE_DIR/student-commands.log"
+          node --test tests/aula08-local*.test.* tests/aula08-jsonl*.test.* tests/aula08-pages*.test.cjs tests/aula08-remediation.test.cjs tests/aula08-identity.test.mjs tests/aula08-policy.test.mjs tests/mobile-entregas-aula08.test.cjs tests/mobile-entregas.test.cjs tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs 2>&1 | tee "$AULA08_EVIDENCE_DIR/contracts.log"
+      - name: Install browser QA dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.57.0 axe-core@4.10.3
+          npx playwright install --with-deps chromium
+      - name: Browser with simulated Google only
+        run: |
+          set -euo pipefail
+          node tests/aula08-browser.cjs 2>&1 | tee "$AULA08_EVIDENCE_DIR/browser.log"
+      - name: Export candidate for explicit review and publication
+        if: always() && steps.apply.outcome == 'success'
+        run: |
+          python - <<'PY'
+          import pathlib,subprocess,json,gzip,base64,hashlib,os
+          root=pathlib.Path.cwd(); out=pathlib.Path(os.environ['AULA08_EVIDENCE_DIR'])
+          paths=subprocess.check_output(['git','diff','--name-only'],text=True).splitlines()
+          paths+=subprocess.check_output(['git','ls-files','--others','--exclude-standard','lessons','tests','docs'],text=True).splitlines()
+          data={p:(root/p).read_text(encoding='utf-8') for p in sorted(set(paths)) if (root/p).is_file() and not p.endswith('.jsonl')}
+          encoded=json.dumps(data,ensure_ascii=False,separators=(',',':')).encode()
+          (out/'candidate-files.json').write_bytes(encoded)
+          (out/'candidate-files.json.gz').write_bytes(gzip.compress(encoded,mtime=0))
+          (out/'candidate.patch').write_bytes(subprocess.check_output(['git','diff','--binary']))
+          manifest={p:hashlib.sha256(c.encode()).hexdigest() for p,c in data.items()}
+          (out/'candidate-sha256.json').write_text(json.dumps(manifest,indent=2))
+          print('CANDIDATE_FILES',len(data),'JSON_SHA256',hashlib.sha256(encoded).hexdigest())
+          print('BEGIN_CANDIDATE_GZIP_BASE64')
+          print(base64.b64encode(gzip.compress(encoded,mtime=0)).decode())
+          print('END_CANDIDATE_GZIP_BASE64')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aula08-remediation-${{ github.run_id }}
+          path: ${{ runner.temp }}/a08-remediation-evidence
+          if-no-files-found: warn
