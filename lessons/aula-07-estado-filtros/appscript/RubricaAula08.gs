@@ -4,15 +4,15 @@
  * HMAC autentica recibos/desafios; hashes não provam autoria ou execução honesta.
  */
 const MOBILE_A08 = Object.freeze({
-  activity:'MOBILE-AULA08-2026', schema:'mobile-a08-v1',
-  rubric:'mobile-a08-lab-vivo-1.1.0', contract:'1.0.0',
+  activity:'MOBILE-AULA08-2026', schema:'mobile-a08-v2',
+  rubric:'mobile-a08-lab-vivo-2.0.0', contract:'2.0.0',
   ttlMs:10*60*1000, retentionMs:2*60*60*1000, maxBytes:128*1024,
   maxChallenges:200, maxRequestsPerPackage:5, maxVerify:8,
   challengePrefix:'MOBILE_A08_CHALLENGE_', ratePrefix:'MOBILE_A08_RATE_'
 });
 const MOBILE_A08_CRITERIA = Object.freeze([
   ['M1-1','Pacote e schema válidos'],['M1-2','Fontes e hashes coerentes'],
-  ['M1-3','Preflight registrado'],['M1-4','Registro de uso da IA'],
+  ['M1-3','Preflight registrado'],['M1-4','Registro reflexivo do processo'],
   ['M1-5','Equipe e slots consistentes'],['M2-1','Prioridade de carregamento e erro'],
   ['M2-2','Busca normalizada e filtros combinados'],['M2-3','Coleção original preservada'],
   ['M2-4','Identidade estável'],['M3-1','Vazio e sem resultados'],
@@ -62,7 +62,7 @@ function mobileA08Sha(value,label) {
   return value;
 }
 function mobileA08Evidence(value) {
-  mobileA08Object(value,['preflight','aiLog','environment'],['preflight','aiLog','environment'],'evidência');
+  mobileA08Object(value,['preflight','aiLog','environment','aiUsage'],['preflight','aiLog','environment','aiUsage'],'evidência');
   const pre=mobileA08Object(value.preflight,['version','ok','nodeMajor','filesReady'],
     ['version','ok','nodeMajor','filesReady'],'preflight');
   if(pre.version!=='1.0.0' || typeof pre.ok!=='boolean' || typeof pre.filesReady!=='boolean' ||
@@ -83,27 +83,29 @@ function mobileA08Evidence(value) {
     return out;
   });
   return {preflight:{version:pre.version,ok:pre.ok,nodeMajor:pre.nodeMajor,filesReady:pre.filesReady},
-    aiLog,environment:{runtime:env.runtime,nodeMajor:env.nodeMajor,platform:env.platform}};
+    aiLog,aiUsage:mobileA08AiUsage(value.aiUsage,aiLog),environment:{runtime:env.runtime,nodeMajor:env.nodeMajor,platform:env.platform}};
 }
 function mobileA08Binding(input) {
   if(input.activity!==MOBILE_A08.activity || input.schema!==MOBILE_A08.schema) throw Error('Atividade ou schema incompatível.');
   mobileA08Sha(input.packageSha256,'pacote');
   if(!Array.isArray(input.slots) || input.slots.length<1 || input.slots.length>4 ||
     input.slots.some((v,i)=>!Number.isInteger(v)||v<1||v>4||(i>0&&v<=input.slots[i-1]))) throw Error('Slots inválidos.');
+  if(mobileA08Canonical(input.slots)!=='[1,2,3,4]') throw Error('As quatro tarefas 1,2,3,4 são obrigatórias nesta candidata; política sujeita a aceite docente.');
   const allowed=['src/equipe.mjs',...input.slots.map(n=>'src/individual/aluno'+n+'.mjs')];
   mobileA08Object(input.sourceHashes,allowed,allowed,'fontes');
   const sourceHashes={};
   for(const path of allowed) sourceHashes[path]=mobileA08Sha(input.sourceHashes[path],'fonte');
   const team=mobileRead(input.team,80,'equipe');
   if(!team) throw Error('Informe a equipe.');
+  if(/^[=+@-]/.test(team))throw Error('Nome de equipe não pode começar com fórmula.');
   // Slots identificam tarefas técnicas e não participantes; a nota é coletiva.
   if(!Array.isArray(input.members) || input.members.length<1 || input.members.length>4)
     throw Error('Informe de um a quatro participantes da equipe.');
   const names=new Set();
   const members=input.members.map(m=>{
     mobileA08Object(m,['name'],['name'],'participante');
-    const name=mobileRead(m.name,100,'nome');
-    if(name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,99}$/u.test(name))
+    const name=mobileRead(m.name,80,'nome');
+    if(name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,79}$/u.test(name))
       throw Error('Nome de participante inválido.');
     const key=mobileNormal(name);
     if(names.has(key)) throw Error('Integrante duplicado.');
@@ -135,11 +137,9 @@ function mobileA08Cleanup(props,now) {
 function mobileA08Challenge(input) {
   const binding=mobileA08Binding(input), lock=LockService.getScriptLock(); lock.waitLock(20000);
   try {
-    const props=PropertiesService.getScriptProperties(),now=Date.now(); mobileA08Cleanup(props,now);
-    const rateKey=MOBILE_A08.ratePrefix+binding.packageSha256;
-    const old=props.getProperty(rateKey),rate=old?JSON.parse(old):{count:0,until:now+MOBILE_A08.ttlMs};
-    if(rate.until<now){rate.count=0;rate.until=now+MOBILE_A08.ttlMs;}
-    if(rate.count>=MOBILE_A08.maxRequestsPerPackage) throw Error('Muitas tentativas para este pacote; aguarde dez minutos.');
+    const props=PropertiesService.getScriptProperties(),now=Date.now();
+    mobileA08AssertRoster(binding,props); mobileA08Cleanup(props,now);
+    mobileA08ConsumeRate(binding,props,now);
     const record={challengeId:Utilities.getUuid(),nonce:Utilities.getUuid()+Utilities.getUuid(),
       issuedAt:new Date(now).toISOString(),expiresAt:new Date(now+MOBILE_A08.ttlMs).toISOString(),
       packageSha256:binding.packageSha256,bindingSha256:mobileA08Hash(binding),slots:binding.slots,
@@ -147,7 +147,6 @@ function mobileA08Challenge(input) {
     const cases=mobileA08Cases(record.nonce,binding.slots); record.casesSha256=mobileA08Hash(cases);
     const token=mobileA08ChallengeToken(record);
     props.setProperty(MOBILE_A08.challengePrefix+record.challengeId,JSON.stringify(record));
-    rate.count++;props.setProperty(rateKey,JSON.stringify(rate));
     return {ok:true,...mobileA08State(record),slots:binding.slots,sourceHashes:binding.sourceHashes,cases,token};
   } finally { lock.releaseLock(); }
 }
@@ -192,7 +191,7 @@ function mobileA08Evaluation(binding,cases,outputs) {
     'M1-1':true,'M1-2':true,
     'M1-3':binding.evidence.preflight.ok&&binding.evidence.preflight.filesReady&&
       binding.evidence.preflight.nodeMajor>=22&&binding.evidence.preflight.nodeMajor===binding.evidence.environment.nodeMajor,
-    'M1-4':binding.evidence.aiLog.length>0&&binding.evidence.aiLog.every(x=>x.request&&x.suggestion&&x.humanChange&&x.test),
+    'M1-4':mobileA08ProcessEvidence(binding.evidence),
     'M1-5':true
   };
   function passedCase(c) {
@@ -238,6 +237,7 @@ function mobileA08Verify(input,submit) {
       grade=ss.getSheetByName(activity.sheet),audit=ss.getSheetByName('Auditoria');
     if(!grade||!audit) throw Error('Abas da disciplina não encontradas.');
     mobileHeaders(audit,MOBILE_AUDIT_HEADERS);mobileA08CheckConflicts(grade,binding);
+    const roster=mobileA08AssertRoster(binding,state.props,audit);
     const checkedOutputs=mobileA08Outputs(input.outputs,state.cases);
     const answerJson=mobileA08Canonical({...binding,challengeId:state.record.challengeId,
       challengeNonce:state.record.nonce,casesSha256:state.record.casesSha256,
@@ -251,6 +251,7 @@ function mobileA08Verify(input,submit) {
       gradeStatus:'laboratorio-equipe'};
     const receipt={...unsigned,signature:mobileA08ReceiptSign(unsigned)};
     // Reserva persistente ANTES de qualquer escrita no Sheets: falha não permite replay.
+    mobileA08ReserveRoster(binding,state.props,roster,state.record.challengeId);
     state.record.status='processing';state.record.receiptId=receipt.receiptId;
     state.props.setProperty(MOBILE_A08.challengePrefix+state.record.challengeId,JSON.stringify(state.record));
     try {
@@ -272,11 +273,13 @@ function mobileA08Verify(input,submit) {
       if(audit.getLastRow()>1) audit.getRange(2,1,audit.getLastRow()-1,MOBILE_AUDIT_HEADERS.length)
         .sort([{column:1,ascending:true},{column:3,ascending:true}]);
       SpreadsheetApp.flush();
+      mobileA08FinishRoster(binding,state.props,roster,state.record.challengeId,receipt.receiptId,'committed');
       state.record.status='consumed';state.record.completedAt=new Date().toISOString();
       state.props.setProperty(MOBILE_A08.challengePrefix+state.record.challengeId,JSON.stringify(state.record));
     } catch(writeError) {
       // Sheets não oferece transação multirange. Pode haver escrita parcial; nunca confirmar.
       state.record.status='write_failed';
+      try {mobileA08FinishRoster(binding,state.props,roster,state.record.challengeId,receipt.receiptId,'write_failed');} catch(ignored) {}
       try {state.props.setProperty(MOBILE_A08.challengePrefix+state.record.challengeId,JSON.stringify(state.record));} catch(ignored) {}
       throw Error('Não foi possível concluir a gravação. Nenhuma entrega confirmada; procure o professor antes de reenviar.');
     }
@@ -320,6 +323,7 @@ function processMobileAula08Action(body) {
   if(!Object.prototype.hasOwnProperty.call(requestFields,input.action)) throw Error('Ação não habilitada.');
   mobileA08Object(input,requestFields[input.action],requestFields[input.action].filter(k=>k!=='localResult'),'envelope');
   // localResult é aceito por compatibilidade e descartado sem leitura de nota, grade, xp ou passed.
+  if(input.action!=='validateReceipt')mobileA08AssertPolicy();
   if(input.action==='challenge')return mobileA08Challenge(input);
   if(input.action==='validateReceipt')return mobileA08ValidateReceipt(input.receipt);
   return mobileA08Verify(input,input.action==='verifyAndSubmit');
@@ -424,4 +428,96 @@ function mobileA08Cases(nonce,slots) {
     individual.forEach((input,i)=>add('M4-'+(i+1),input,slot));
   }
   return cases;
+}
+
+/* Candidate v2. Production admission requires explicit teacher approval.
+ * No names, grades, secrets or real student data are bundled with this code. */
+function mobileA08AssertPolicy() {
+  const approval = PropertiesService.getScriptProperties().getProperty('MOBILE_A08_POLICY_APPROVAL');
+  if (approval !== 'four-tasks-reflection-v2')
+    throw Error('DECISION_REQUIRED_F02_F03: avaliação oficial aguarda aceite docente das quatro tarefas e do registro reflexivo.');
+}
+function mobileA08ProcessEvidence(evidence) {
+  const usage = evidence && evidence.aiUsage;
+  return !!usage && typeof usage.reflection === 'string' && usage.reflection.trim().length >= 20 &&
+    ((usage.status === 'used' && evidence.aiLog.length > 0) ||
+     (usage.status === 'not-used' && evidence.aiLog.length === 0));
+}
+function mobileA08AiUsage(value, aiLog) {
+  mobileA08Object(value, ['status','reflection'], ['status','reflection'], 'registro reflexivo');
+  if (!['undeclared','used','not-used'].includes(value.status)) throw Error('Situação de uso da IA inválida.');
+  mobileRead(value.reflection, 400, 'reflexão');
+  if (typeof value.reflection !== 'string') throw Error('Reflexão inválida.');
+  if (value.status === 'used' && !aiLog.length) throw Error('Uso de IA declarado sem registro real.');
+  if (value.status !== 'used' && aiLog.length) throw Error('Registro de IA contradiz a declaração de uso.');
+  return {status:value.status,reflection:value.reflection};
+}
+function mobileA08RosterIdentity(binding) {
+  const people = binding.members.map(m => mobileNormal(m.name)).sort();
+  return {teamKey:mobileA08Hash([binding.activity,mobileNormal(binding.team)]),
+    rosterHash:mobileA08Hash(people),people};
+}
+function mobileA08RosterKey(binding) {
+  return 'MOBILE_A08_ROSTER_' + mobileA08RosterIdentity(binding).teamKey;
+}
+function mobileA08AssertRoster(binding, props, audit) {
+  const id = mobileA08RosterIdentity(binding), raw = props.getProperty(mobileA08RosterKey(binding));
+  let record = null;
+  if (raw) {
+    try {record = JSON.parse(raw);} catch {throw Error('ROSTER_RECONCILIATION_REQUIRED: cadastro da equipe inconsistente.');}
+    if (record.rosterHash !== id.rosterHash || record.teamKey !== id.teamKey)
+      throw Error('ROSTER_CHANGED: mantenha todos os participantes da entrega anterior; mudanças exigem conferência docente.');
+    if (record.status !== 'committed')
+      throw Error('ROSTER_RECONCILIATION_REQUIRED: há gravação incompleta; consulte o professor antes de reenviar.');
+  }
+  if (audit && audit.getLastRow() > 1) {
+    const rows = audit.getRange(2,1,audit.getLastRow()-1,17).getValues().filter(row =>
+      row[2] === binding.activity && mobileNormal(row[1]) === mobileNormal(binding.team));
+    if (record && !rows.length) throw Error('ROSTER_RECONCILIATION_REQUIRED: histórico da equipe ausente.');
+    if (rows.length) {
+      const observed = rows.map(row => mobileNormal(row[0])).sort();
+      if (mobileA08Canonical(observed) !== mobileA08Canonical(id.people))
+        throw Error('ROSTER_CHANGED: composição da equipe difere da auditoria; procure o professor.');
+      // Existing v1 data are admitted only when every historical member row
+      // describes the SAME full roster. Inconsistent partial replays fail closed.
+      for (const row of rows) {
+        let previous;
+        try {previous = JSON.parse(row[15]);} catch {throw Error('ROSTER_RECONCILIATION_REQUIRED: auditoria inválida.');}
+        if (!Array.isArray(previous.members) || mobileA08Canonical(previous.members.map(m => mobileNormal(m.name)).sort()) !== mobileA08Canonical(id.people))
+          throw Error('ROSTER_RECONCILIATION_REQUIRED: composições históricas divergentes.');
+      }
+    }
+  }
+  return {version:2,teamKey:id.teamKey,rosterHash:id.rosterHash};
+}
+function mobileA08ReserveRoster(binding, props, record, challengeId) {
+  const key = mobileA08RosterKey(binding);
+  if (!props.getProperty(key)) {
+    const count = Object.keys(props.getProperties()).filter(k => k.startsWith('MOBILE_A08_ROSTER_')).length;
+    if (count >= 200) throw Error('Capacidade de cadastro de equipes atingida; solicite manutenção docente.');
+  }
+  props.setProperty(key, JSON.stringify({...record,status:'processing',challengeId}));
+}
+function mobileA08FinishRoster(binding, props, record, challengeId, receiptId, status) {
+  props.setProperty(mobileA08RosterKey(binding), JSON.stringify({...record,status,challengeId,receiptId}));
+}
+function mobileA08ConsumeRate(binding, props, now) {
+  const id = mobileA08RosterIdentity(binding), prefix = MOBILE_A08.ratePrefix;
+  // Free-text identity is NOT authentication. Shared global and member limits
+  // bound rotation abuse; changing package bytes does not reset any quota.
+  const buckets = [
+    [prefix+'team_'+id.teamKey,5],
+    [prefix+'roster_'+mobileA08Hash([binding.activity,id.rosterHash]),5],
+    ...id.people.map(p => [prefix+'person_'+mobileA08Hash([binding.activity,p]),10]),
+    [prefix+'global_'+binding.activity,100]
+  ];
+  const states = buckets.map(([key,limit]) => {
+    const raw=props.getProperty(key); let r=raw?JSON.parse(raw):{count:0,until:now+MOBILE_A08.ttlMs};
+    if (!Number.isFinite(r.until)||!Number.isInteger(r.count)||r.count<0) throw Error('Quota inválida; solicite manutenção docente.');
+    if(r.until<=now)r={count:0,until:now+MOBILE_A08.ttlMs};
+    if(r.count>=limit)throw Error('Muitas tentativas para a equipe ou limite global; aguarde dez minutos.');
+    return [key,{count:r.count+1,until:r.until}];
+  });
+  // All quota checks precede all quota writes while holding ScriptLock.
+  for(const [key,state] of states)props.setProperty(key,JSON.stringify(state));
 }

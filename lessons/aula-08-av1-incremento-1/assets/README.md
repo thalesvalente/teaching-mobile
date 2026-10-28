@@ -1,10 +1,7 @@
-# Infográficos originais pendentes
+# Originais da Aula 08
 
-O prompt exige cópia exata destes arquivos; eles não estavam presentes no ambiente nem entre os anexos da missão:
+Os dois PNGs foram fornecidos na conversa e estão disponíveis no pacote local. **A publicação binária no Git ainda não foi concluída.** Não dizer que o professor deixou de fornecê-los.
 
-| Origem exigida | Destino nesta pasta |
-|---|---|
-| `/mnt/data/a_wide_infographic_poster_in_portuguese_with_a_cle.png` | `infografico-marcos-av1.png` |
-| `/mnt/data/a_clean_colorful_infographic_poster_in_portuguese.png` | `fluxo-aluno-laboratorio-vivo.png` |
+Destinos: infografico-marcos-av1.png e fluxo-aluno-laboratorio-vivo.png, nesta pasta. Copiar sem regenerar, converter, recortar ou reduzir resolução. Hashes exatos em originais.sha256. O teste tests/aula08-assets.cjs exige ambos os arquivos e a igualdade de SHA-256; não desativar o gate para obter CI verde.
 
-Não há imagem regenerada nem substituta. Depois de receber os originais, copiar sem alteração, registrar SHA-256, executar o teste de assets e revisar ampliação/legibilidade. As páginas já possuem texto alternativo, descrição equivalente e carregamento progressivo. O estado G1 continua bloqueado até os dois originais serem incorporados e verificados.
+Os originais são referências históricas: Expo/Expo Go, .tsx, aplicativo ilustrado, prática individual, sete etapas e nota 9,2/10 não correspondem integralmente à candidata Mobile Web coletiva. As páginas HTML fornecem contextualização antes das figuras, alternativas textuais e ampliação. A contextualização requer aceite docente; uma derivada visual nova exige autorização, sem substituir silenciosamente os originais.

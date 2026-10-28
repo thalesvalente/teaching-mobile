@@ -1,39 +1,21 @@
-# Acessibilidade e leitura da Aula 08
+# Aula 08 — Acessibilidade e limites da verificação
 
-## Recursos da interface
+A experiência didática está nas cinco páginas HTML: visão geral, preparação, missões, Gemini e entrega. A navegação tem mesma ordem, indicação da página atual, link para pular conteúdo e próxima etapa. Critérios e prompts usam details/summary nativos. Os 22 passos são consultáveis sem preencher marcações.
 
-- Leitura vertical em todas as larguras, sem reduzir uma página inteira a um slide.
-- Link “Pular para o conteúdo/ficha” no início; navegação e ações por teclado.
-- Foco com contorno visível; alvos de toque com pelo menos 44 px, botões principais com 48 px ou mais.
-- Rótulos associados a todos os campos e nomes explícitos para os slots.
-- Progresso, importação e resultado em regiões `role=status`, `aria-live=polite` e `aria-atomic=true`.
-- Critérios com as palavras “Aprovado” e “Pendente”; cor nunca é o único sinal.
-- Diálogo de ampliação com botão Fechar, suporte a Escape e retorno de foco nativo.
-- Respeito a `prefers-reduced-motion` e cores forçadas; nenhuma animação obrigatória.
-- Erros sem descarte silencioso do trabalho; PDF e impressão locais independentes do recebimento online.
+A identificação solicita equipe e até quatro participantes, nunca nome–slot. Erros têm texto por campo, aria-describedby e aria-invalid, incluindo ausência, nome curto, fórmula, caractere inválido e duplicação normalizada. O botão explica o impedimento; uma submissão inválida encaminha o foco ao campo correspondente. Mensagens de estado usam aria-live. Cor não é a única indicação.
 
-O relatório final de QA registra os testes efetivamente executados, larguras e limitações. Esta lista descreve recursos implementados, não uma certificação automática de conformidade integral.
+A revisão automatizada passa a executar axe, overflow e foco/teclado **dentro** de cada combinação das cinco páginas, cinco larguras (320/375/768/1024/1440) e duas alturas (812/375), além de estados expandidos, identificação inválida, política pendente, recibo, erro e offline. Os registros de cada amostra ficam em accessibility-matrix.json. As combinações são viewports simulados, não aparelhos reais nem prova de todas as orientações físicas.
 
-## Textos equivalentes aos infográficos
+A qualificação anterior à integração registrou 67 amostras e 15 cenários de navegador. A candidata final precisa ser vinculada ao SHA e logs da própria CI; não reutilizar uma contagem como prova de outro código.
 
-### Mapa dos quatro marcos
+## Imagens e equivalência
 
-M1, portfólio e preparação, tem cinco critérios de 0,5 e totaliza 2,5 pontos. M2, funções essenciais, tem quatro critérios e totaliza 2 pontos. M3, integração do Incremento 1, tem seis critérios e totaliza 3 pontos. M4, desafio individual e entrega, tem cinco critérios e totaliza 2,5 pontos por integrante. O total é 10. I1 é M1; I2 é M4; I3 é M2 + M3. Entregar o trabalho faz parte de M4.
+Os originais são preservados byte a byte e possuem hashes em assets/originais.sha256. Estão disponíveis na conversa; a publicação binária remota permanece pendente. Os textos antes das figuras explicam que as imagens são referências históricas com diferenças de Expo, arquivos, aplicativo, nota individual e exemplo 9,2/10. O roteiro atual é Web, coletivo e usa incrementos de 0,5. A contextualização aguarda decisão docente. Alternativas textuais e ampliação não dispensam conferir a imagem publicada.
 
-Texto alternativo: “Quatro marcos da AV1: portfólio 2,5; funções essenciais 2; integração 3; desafio individual 2,5. Total de 10 pontos.”
+## Limites
 
-### Fluxo do aluno
+Nenhuma execução de axe é certificação WCAG/eMAG. Leitor de tela operado por pessoa, testes com estudantes e avaliação em aparelhos físicos são NOT_EXECUTED enquanto não houver evidência própria. Não afirmar que um teste de foco após a skip-link cobre toda a navegação possível.
 
-Abra a aula e prepare o projeto. Programe no VS Code com apoio do Gemini no navegador. Execute `npm run nota` para ver testes formativos. Execute `npm run entrega` para gerar `entrega-a08.jsonl`. Importe o arquivo na ficha e clique em “Verificar, gerar PDF e entregar”. Guarde o PDF e o recibo válido. Sem recibo, o envio não está confirmado.
+O PDF gerado é um registro visual/textual, não declarado PDF/UA. O motor tem conjunto limitado de caracteres; quando necessário, a ficha oferece impressão local sem simular confirmação. PDF local, feedback de teste e caixas de progresso não equivalem a entrega.
 
-Texto alternativo: “Fluxo do aluno: abrir a aula, programar com o Gemini como tutor, testar, gerar o JSONL, importar na ficha e guardar PDF e recibo.”
-
-## Estado dos arquivos originais
-
-Os dois PNGs solicitados não estavam disponíveis nesta execução. Nenhuma substituição foi gerada. As páginas mostram o percurso textual enquanto aguardam os originais e só habilitam ampliação depois de carregarem uma imagem válida. G1 permanece bloqueado.
-
-## Verificação do professor
-
-Conferir 320, 375, 768, 1024 e 1440 px, retrato e paisagem, zoom 200%, Tab/Shift+Tab/Enter/Escape, leitor de tela, contraste e impressão A4. Axe automatizado não substitui leitura humana, teste com tecnologia assistiva nem avaliação da compreensão dos estudantes. Imagens originais exigem revisão visual quando incorporadas.
-
-O PDF vetorial preserva acentos portugueses e possui texto extraível. Caracteres fora da fonte padrão acionam orientação para impressão local, sem produzir hash ou confirmação fictícia. A versão HTML imprimível usa as fontes do navegador. O PDF não é declarado PDF/UA; a ficha HTML e a impressão oferecem alternativa textual.
+Sem rede, o projeto baixado pode ser editado e testado. O recibo exige servidor homologado. Os estados de erro e política pendente precisam permanecer distinguíveis de sucesso. O armazenamento do progresso contém apenas IDs de passos, não nomes ou nota.

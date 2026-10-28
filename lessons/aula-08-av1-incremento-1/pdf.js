@@ -11,7 +11,7 @@ export function pdfModel(snapshot) {
       ['M1 - Preparação e portfólio', '5 critérios de 0,5. Máximo de 2,5 pontos para a equipe.'],
       ['M2 - Funções essenciais', '4 critérios de 0,5. Máximo de 2,0 pontos para a equipe.'],
       ['M3 - Integração do Incremento 1', '6 critérios de 0,5. Máximo de 3,0 pontos para a equipe.'],
-      ['M4 - Tarefas técnicas e entrega', '5 critérios de 0,5. Máximo de 2,5 pontos para a equipe. Os arquivos selecionados são verificados coletivamente.']
+      ['M4 - Tarefas técnicas e entrega', '5 critérios de 0,5. Máximo de 2,5 pontos para a equipe. Os quatro arquivos obrigatórios são verificados coletivamente.']
     ] },
     { title: '2. Nota única da equipe', items: verified ? [
       ['Equipe', team],
@@ -27,9 +27,12 @@ export function pdfModel(snapshot) {
       ['Ambiente informado pelo projeto', pkg ? `Node.js ${pkg.evidence.environment.nodeMajor}; ${pkg.evidence.environment.platform}. Preflight: ${pkg.evidence.preflight.ok ? 'registrado com sucesso' : 'pendente'}.` : 'Não informado.'],
       ['Resultado local', 'Informativo. O servidor não utiliza a nota nem os testes locais como autoridade.']
     ] },
-    { title: '4. Uso declarado de IA', items: pkg?.evidence.aiLog.length ? pkg.evidence.aiLog.map((entry, i) => [
+    { title: '4. Registro reflexivo do processo', items: [
+      ['Declaração', pkg?.evidence.aiUsage?.status || 'Não informada'],
+      ['Reflexão da equipe', pkg?.evidence.aiUsage?.reflection || 'Ainda não informada'],
+      ...(pkg?.evidence.aiLog.length ? pkg.evidence.aiLog.map((entry, i) => [
       `Registro ${i + 1} - ${entry.mission}`, `Pedido: ${entry.request}\nSugestão aproveitada: ${entry.suggestion}\nAlteração humana: ${entry.humanChange}\nTeste executado: ${entry.test}`
-    ]) : [['Registro', 'Nenhum uso de IA registrado neste pacote. Não foi inventado um histórico de conversa.']] },
+    ]) : [['Registro', 'Nenhum uso de IA registrado neste pacote. Não foi inventado um histórico de conversa.']])] },
     { title: '5. Estado da entrega e limites', items: [
       ['Estado deste PDF', state],
       ['Comprovação do recebimento', 'Guarde o PDF e o recibo emitido após a gravação. O recibo vincula o hash dos bytes à nota coletiva calculada no servidor.'],
@@ -38,7 +41,7 @@ export function pdfModel(snapshot) {
     ] }
   ];
   return {
-    lesson: 'Aula 08', version: '1.1.0', subtitle: 'Laboratório vivo - AV1',
+    lesson: 'Aula 08', version: '2.0.0', subtitle: 'Laboratório vivo - AV1',
     title: 'Registro do Incremento 1', project: 'Quatro marcos coletivos',
     discipline: 'Programação para Dispositivos Móveis', course: '3º ano do Ensino Médio Técnico - 2026.2',
     professor: 'Thales Levi Azevedo Valente', team: team || 'Não informada',

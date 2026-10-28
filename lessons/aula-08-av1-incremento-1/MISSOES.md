@@ -1,78 +1,52 @@
-# As quatro missões da Aula 08
+# Quatro missões coletivas da Aula 08
 
-**Para o estudante:** abra [Missões passo a passo](missoes.html) no navegador. Este Markdown é referência complementar; as etapas da aula estão na página HTML.
+**Para estudantes:** [Missões passo a passo](missoes.html). A página apresenta 22 etapas Faça/Confira (5+5+6+6), sem exigir leitura de Markdown.
 
+**Candidata v2:** quatro tarefas para todos e registro reflexivo com ou sem IA aguardam aceite docente para uso oficial. Mantidos 100 minutos e 20 critérios de 0,5. Uma equipe recebe `M1 + M2 + M3 + M4`; a nota é igual para todos.
 
-Abra o projeto e use `npm run nota` após cada pequena alteração. O starter tem `TODO` intencionais. Não é preciso acertar tudo de uma vez.
+## M1 — Preparação · 15 minutos · 2,5 pontos
 
-## M1 - Preparar, compreender e registrar (15 minutos; 2,5 pontos)
+Abrir `projeto` no VS Code, executar `npm ci`, `npm run preflight` e `npm run web`, observar o aplicativo, conhecer os cinco arquivos de funções e executar `npm run nota`. Preparar registro verdadeiro em `src/evidencias.json`, sem inventar experiência com IA.
 
-1. Execute `npm ci`, `npm run preflight` e `npm run web`.
-2. Encontre `src/equipe.mjs` e seu `src/individual/alunoN.mjs`.
-3. Combine quem fica em cada slot. Para menos de quatro pessoas, use `-- --slots=1,2` (exemplo de dupla) nos comandos `nota` e `entrega`.
-4. Diga a um colega o que entra e o que sai de uma função.
-5. Registre o uso real de IA ao longo do trabalho, com pedido, sugestão, alteração humana e teste.
+## M2 — Funções · 25 minutos · 2,0 pontos
 
-**Pausa para observar:** o aplicativo abriu? Você consegue explicar qual arquivo vai alterar?
+Em `src/equipe.mjs`, revisar `estado`, `filtrar` e `chaves`: prioridade de carregamento/erro, busca normalizada, categoria/período combinados, preservação da coleção e identidade por ID. Com dados iniciais, `praca`, Arte e Manhã devem mostrar Fotografia da praça. ID numérico zero é válido.
 
-## M2 - Implementar as funções essenciais (25 minutos; 2 pontos)
+## M3 — Integração · 35 minutos · 3,0 pontos
 
-No arquivo `src/equipe.mjs`, examine a operação `input.op` e corrija os `TODO` das funções:
+Distinguir base vazia e filtro sem resultados; recuperar erro; abrir detalhe e voltar sem perder filtros; validar título/categoria (80/40 caracteres após trim); produzir resumo textual. Demonstrar no aplicativo e rodar os testes. A demonstração visual não é substituída pelo teste das funções.
 
-1. **Estado:** carregando deve aparecer antes de erro; erro deve aparecer antes da lista.
-2. **Filtro:** combine a busca sem diferença entre maiúsculas/acentos com categoria e período.
-3. **Preservação:** o filtro devolve um recorte; a coleção original deve continuar intacta.
-4. **Identidade:** a chave usa o ID, inclusive o ID numérico zero; não use a posição na lista.
+## M4 — Revisão e entrega · 25 minutos · 2,5 pontos
 
-**Experimente:** busque “arvore” e “ÁRVORE”; troque os filtros; limpe a busca. Execute `npm run nota` e compare o antes e o depois.
+A equipe trabalha **os quatro** arquivos `src/individual/aluno1.mjs` a `aluno4.mjs`. Os números são identificadores técnicos, não pessoas. Cada um dos cinco critérios exige aprovação de todas as tarefas nos casos correspondentes. Omitir uma tarefa é recusado, não aumenta a nota. A distribuição interna do trabalho é livre.
 
-## M3 - Integrar o Incremento 1 (35 minutos; 3 pontos)
+Revisar normalização, estados, formulário e ID; executar `npm run nota`; registrar processo verdadeiro; executar `npm run entrega`; importar JSONL; preencher equipe e nomes; avaliar/enviar após liberação e guardar recibo validado. O envio não é um quinto marco.
 
-1. Diferencie uma base vazia de uma busca sem resultados.
-2. Provoque o estado de erro e use “Tentar novamente”.
-3. Abra um item da lista, veja seu detalhe e volte.
-4. Envie o formulário vazio e leia as mensagens; preencha os campos e confira os limites.
-5. Volte à lista mantendo a busca, a categoria e o período anteriores.
-6. Compare a quantidade do recorte com o resumo textual. Ele deve fazer sentido mesmo sem ver um gráfico.
+## Critérios coletivos
 
-**Mostre a um colega:** faça o percurso inteiro, explique um erro e rode novamente o teste. O verificador oficial mede o contrato das funções; a demonstração ajuda o professor a conferir a integração visual.
-
-## M4 - Funções da equipe e entrega (25 minutos; 2,5 pontos coletivos)
-
-A equipe organiza quais arquivos de tarefa vai completar. Slots identificam funções técnicas, não pessoas. Cada critério M4 só é aprovado quando todos os arquivos selecionados passam os casos correspondentes: principal, limite, entrada inválida, regressão e contrato de saída.
-
-| Slot | Sua pergunta-guia |
-|---|---|
-| 1 - busca | Como transformar “ ÁRVORE ” em “arvore” e tratar entradas inválidas? |
-| 2 - estado | O que mostrar se não há dados? E se só o filtro não encontrou nada? |
-| 3 - formulário | Como informar campos ausentes e texto que ultrapassa o limite? |
-| 4 - chave | Como preservar o ID de um item quando ele muda de posição? |
-
-Execute `npm run nota`, registre a última alteração e execute `npm run entrega`. Abra a ficha, informe a equipe e os participantes, importe o pacote e clique em **Avaliar e enviar**. Guarde o PDF e o recibo. O envio não é um quinto marco.
-
-## Os 20 critérios, visíveis desde o início
-
-| ID | Critério | Valor |
+| Critério | Verificação | Pontos |
 |---|---|---:|
-| M1-1 | Pacote e schema válidos | 0,5 |
-| M1-2 | Fontes obrigatórias e hashes coerentes | 0,5 |
-| M1-3 | Preparação registrada | 0,5 |
-| M1-4 | Log de IA no formato mínimo | 0,5 |
-| M1-5 | Equipe e slots consistentes | 0,5 |
+| M1-1 | Pacote e schema compatíveis | 0,5 |
+| M1-2 | Fontes permitidas e hashes coerentes | 0,5 |
+| M1-3 | Preflight e ambiente registrados | 0,5 |
+| M1-4 | Registro reflexivo verdadeiro do processo | 0,5 |
+| M1-5 | Equipe e tarefas consistentes | 0,5 |
 | M2-1 | Prioridade de carregamento e erro | 0,5 |
 | M2-2 | Busca normalizada e filtros combinados | 0,5 |
 | M2-3 | Coleção original preservada | 0,5 |
-| M2-4 | Identidade estável dos registros | 0,5 |
-| M3-1 | Vazio versus sem resultados | 0,5 |
-| M3-2 | Nova tentativa após erro | 0,5 |
+| M2-4 | Identidade estável | 0,5 |
+| M3-1 | Vazio e sem resultados distintos | 0,5 |
+| M3-2 | Tentar novamente | 0,5 |
 | M3-3 | Lista, detalhe e retorno | 0,5 |
-| M3-4 | Formulário e mensagens | 0,5 |
-| M3-5 | Preservação do recorte após retorno | 0,5 |
-| M3-6 | Resumo textual coerente | 0,5 |
-| M4-1 | Caso principal dos arquivos do grupo | 0,5 |
-| M4-2 | Casos limite dos arquivos do grupo | 0,5 |
-| M4-3 | Entradas inválidas dos arquivos do grupo | 0,5 |
-| M4-4 | Regressão dos arquivos do grupo | 0,5 |
-| M4-5 | Contrato e limites dos arquivos do grupo | 0,5 |
+| M3-4 | Formulário válido, inválido e limites | 0,5 |
+| M3-5 | Recorte preservado no retorno | 0,5 |
+| M3-6 | Resumo textual do recorte | 0,5 |
+| M4-1 | Casos principais das quatro tarefas | 0,5 |
+| M4-2 | Casos limite das quatro tarefas | 0,5 |
+| M4-3 | Entradas inválidas das quatro tarefas | 0,5 |
+| M4-4 | Regressão das quatro tarefas | 0,5 |
+| M4-5 | Contratos e limites das quatro tarefas | 0,5 |
 
-A equipe recebe uma nota única: `M1 + M2 + M3 + M4 coletivo`. Todos os participantes recebem o mesmo valor. M1 contém evidências declaradas e integridade do pacote; ele não comprova autoria.
+Pacote/schema/fontes inválidos são condições de admissão: podem impedir a avaliação, não simplesmente gerar nota zero. M1 contém declarações e integridade, não comprova autoria. `aiUsage` distingue used (log real), not-used (log vazio) e undeclared (pendente); reflexão de 20–400 caracteres para pontuar na proposta. Ausência não é automaticamente não uso.
+
+Marcar passos no navegador não envia dados, não pontua e não comprova entrega. Reenvio com composição diferente exige o professor. Não há nota por slot nem associação de nome aos arquivos.

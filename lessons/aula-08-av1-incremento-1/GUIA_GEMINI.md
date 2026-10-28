@@ -1,95 +1,53 @@
-# Gemini como tutor - guia curto
+# Gemini como tutor — quatro missões coletivas
 
-**Percurso:** GitHub Pages → copiar prompt → Gemini no navegador → pedir explicação → VS Code → alterar código → terminal → executar testes.
+Use a [página HTML do tutor](gemini.html) no navegador. A extensão é opcional. A equipe programa no VS Code e executa `npm run nota` no terminal; o tutor não executa o projeto por ela.
 
-Use **uma conversa por missão**. A integração do Gemini com VS Code é opcional; ninguém precisa instalar extensão, ligar contas ao GitHub ou usar Antigravity.
+Nunca envie nomes, senhas, tokens, `.env` ou o repositório inteiro. Copie somente a função necessária e a mensagem de teste. Toda tarefa é coletiva; o número de arquivo não identifica aluno.
 
-Antes de colar, confira: é somente a função necessária e o erro? Retire nomes pessoais, senhas, tokens, `.env` e qualquer informação privada. Não envie o projeto inteiro repetidamente.
-
-## M1 - Entender o que vou fazer
+## M1 — Compreender
 
 ```text
-<INSTRUCOES>
-Seja meu tutor. Use frases curtas. Primeiro me faça observar; não resolva por mim.
-</INSTRUCOES>
-<CONTEXTO>
-Sou iniciante do 3º ano técnico e estou retomando Mobile. Vou trabalhar em uma função chamada resolver(input).
-</CONTEXTO>
-<DADOS>
-Cole aqui somente a função e diga qual missão está fazendo, sem dados pessoais.
-</DADOS>
-<SAIDA>
-1. Explique entrada e saída com um exemplo pequeno.
-2. Diga onde observar o resultado.
-3. Faça uma pergunta para conferir se entendi.
-</SAIDA>
+<INSTRUCOES>Seja tutor. Dê uma pista, não a solução completa.</INSTRUCOES>
+<CONTEXTO>Somos uma equipe iniciante retomando funções em Mobile Web.</CONTEXTO>
+<DADOS>Vou colar somente resolver(input), sem nomes ou segredos.</DADOS>
+<SAIDA>Explique entrada e saída com um exemplo. Pergunte como entendemos a função.</SAIDA>
 ```
 
-## M2 - Entender um teste pendente
+## M2 — Revisar uma pendência
 
 ```text
-<INSTRUCOES>
-Explique o problema e dê uma pista antes de sugerir código. Espere eu tentar.
-</INSTRUCOES>
-<CONTEXTO>
-Estou implementando estado, busca e filtros sem apagar a coleção original.
-</CONTEXTO>
-<DADOS>
-Cole somente a função resolver e a mensagem do teste pendente.
-</DADOS>
-<SAIDA>
-Mostre o que entrou, o que deveria sair e a primeira condição que devo revisar.
-Sugira um teste pequeno e diga por que ele ajuda.
-</SAIDA>
+<INSTRUCOES>Explique o problema e espere nossa tentativa antes de sugerir código.</INSTRUCOES>
+<CONTEXTO>Implementamos estados, busca e filtros sem alterar a coleção original.</CONTEXTO>
+<DADOS>Vou colar somente a função e o critério pendente.</DADOS>
+<SAIDA>Mostre uma entrada, a saída esperada, uma condição a revisar e um teste pequeno.</SAIDA>
 ```
 
-## M3 - Ligar as telas
+## M3 — Integrar
 
 ```text
-<INSTRUCOES>
-Atue como tutor. Use um passo de cada vez e não troque a arquitetura do projeto.
-</INSTRUCOES>
-<CONTEXTO>
-Preciso abrir o detalhe, voltar à lista e preservar a busca e os filtros.
-Também preciso mostrar mensagens quando um campo obrigatório está vazio.
-</CONTEXTO>
-<DADOS>
-Cole somente a operação navegar OU validar e o resultado do teste correspondente.
-</DADOS>
-<SAIDA>
-Descreva o estado antes e depois, dê uma pista e proponha um caso de erro.
-Peça que eu explique a alteração com minhas palavras e execute npm run nota.
-</SAIDA>
+<INSTRUCOES>Avance um passo por vez sem alterar a arquitetura.</INSTRUCOES>
+<CONTEXTO>Queremos abrir detalhes, voltar mantendo filtros e validar o formulário.</CONTEXTO>
+<DADOS>Vou colar somente navegar ou validar e o resultado do teste.</DADOS>
+<SAIDA>Descreva estado antes/depois, uma pista e um caso de erro. Peça que testemos e expliquemos.</SAIDA>
 ```
 
-## M4 - Meu desafio individual
+## M4 — Tarefa técnica da equipe
 
 ```text
-<INSTRUCOES>
-Seja tutor do meu aprendizado. Não escreva uma solução completa de primeira.
-</INSTRUCOES>
-<CONTEXTO>
-Meu slot é [1, 2, 3 ou 4]. Meu desafio é [busca, estado, formulário ou chave por ID].
-</CONTEXTO>
-<DADOS>
-Cole somente a função do seu arquivo individual e a mensagem do teste.
-</DADOS>
-<SAIDA>
-Sugira um caso normal, um caso limite e uma entrada inválida.
-Dê uma pista e me peça para testar a alteração antes de seguir.
-</SAIDA>
+<INSTRUCOES>Seja tutor; não escreva a solução completa de primeira.</INSTRUCOES>
+<CONTEXTO>Trabalhamos as quatro tarefas; agora revisamos busca, estados, formulário ou ID. Os números não representam pessoas.</CONTEXTO>
+<DADOS>Vou colar a função e a mensagem do teste, sem nomes ou segredos.</DADOS>
+<SAIDA>Sugira um caso normal, um limite e uma entrada inválida. Dê uma pista e peça que a equipe teste e explique.</SAIDA>
 ```
 
-## Fechar a conversa
+## Registro verdadeiro
 
-Registre no `aiLog` de `src/evidencias.json`, sem nomes pessoais:
+No arquivo `src/evidencias.json`, `aiLog` registra somente interações reais com `mission`, `request`, `suggestion`, `humanChange` e `test`. Use até 20 entradas e 400 caracteres por texto. `aiUsage` contém `status` e `reflection`.
 
-| Campo | Uma frase sobre… |
-|---|---|
-| `mission` | O marco: M1, M2, M3 ou M4 |
-| `request` | O pedido feito à IA |
-| `suggestion` | A sugestão aproveitada |
-| `humanChange` | O que você alterou e entendeu |
-| `test` | O comando/caso testado e o que observou |
+Na política candidata, `used` exige log real e reflexão; `not-used` exige log vazio e reflexão verdadeira; `undeclared` permanece pendente. A reflexão tem de 20 a 400 caracteres para pontuar. Não invente registros para ganhar pontos. O default é vazio:
 
-Não invente um registro para ganhar ponto. O professor pode pedir que você explique a função. O Gemini sugere; você escolhe, altera e verifica.
+```json
+{"aiLog": [], "aiUsage": {"status": "undeclared", "reflection": ""}}
+```
+
+Esta política aguarda aceite docente para uso oficial. Declarações não demonstram autoria ou veracidade por si mesmas.

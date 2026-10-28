@@ -1,3 +1,4 @@
+import {assertRequiredTasks} from '../src/evidence-policy.mjs';
 import {Worker} from 'node:worker_threads';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
@@ -8,6 +9,7 @@ export function parseSlots(argv = []) {
   if (argv.some(a=>!a.startsWith('--slots=') && a!=='--strict') || argv.filter(a=>a.startsWith('--slots=')).length>1) throw new Error('Use --slots=1,2,3,4 (opcional).');
   const slots = option ? option.slice(8).split(',').map(Number) : [1,2,3,4];
   if (!slots.length || slots.length>4 || slots.some((n,i)=>!Number.isInteger(n)||n<1||n>4||(i>0&&n<=slots[i-1]))) throw new Error('Slots únicos e crescentes, entre 1 e 4.');
+  assertRequiredTasks(slots);
   return slots;
 }
 export async function runSource(root,relative,cases,timeout=1500) {
@@ -24,6 +26,7 @@ export async function runSource(root,relative,cases,timeout=1500) {
   });
 }
 export async function evaluateProject(root=PROJECT_ROOT,slots=[1,2,3,4]) {
+  assertRequiredTasks(slots);
   const evidence=await collectEvidence(root), teamOutputs=await runSource(root,'src/equipe.mjs',TEAM_CASES), individualOutputs={};
   for (const slot of slots) individualOutputs[slot]=await runSource(root,`src/individual/aluno${slot}.mjs`,individualCases(slot));
   return {...scorePublic({teamOutputs,individualOutputs,evidence,slots}),evidence};
@@ -34,7 +37,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.log('\nAula 08 - resultado FORMATIVO; a nota oficial é calculada pelo servidor.\n');
     for (const criterion of result.criteria) console.log(`${criterion.passed?'OK      ':'PENDENTE'} ${criterion.id} - ${CRITERIA[criterion.id.replace(/^S[1-4]-/,'')]}`);
     console.log(`NOTA FORMATIVA DA EQUIPE: ${result.grade.toFixed(1)}/10 (informativa)`);
-    console.log('\nVocê pode editar, testar e tentar novamente sem penalidade.');
+    console.log('\nCandidata: quatro tarefas e registro reflexivo. Uso oficial aguarda aceite docente.');
+    console.log('Você pode editar, testar e tentar novamente sem penalidade.');
     if (process.argv.includes('--strict') && result.criteria.some(c=>!c.passed)) process.exitCode=1;
   } catch (error) {console.error(`Não foi possível avaliar: ${error.message}`);process.exitCode=1;}
 }

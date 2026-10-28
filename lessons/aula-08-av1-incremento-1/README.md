@@ -1,16 +1,27 @@
-# Aula 08 - Laboratório vivo da AV1
+# Aula 08 — Laboratório Vivo · AV1: Incremento 1
 
-**Hoje:** retomar com calma, programar pequenas funções, ligar o Incremento 1 e registrar o que você aprendeu. **Tempo:** 100 minutos. **Equipe:** de 1 a 4 pessoas. A equipe recebe uma única nota, de 0 a 10, igual para todos os participantes.
+**Entrada para estudantes:** [Visão geral](index.html) · [Começar](comecar.html) · [Missões passo a passo](missoes.html) · [Apoio Gemini](gemini.html) · [Entrega](atividade.html).
 
-**Para estudantes:** [Visão geral](index.html) · [Começar passo a passo](comecar.html) · [Missões](missoes.html) · [Gemini](gemini.html) · [Ficha de entrega](atividade.html).
+Este Markdown é referência complementar. A experiência do aluno está em HTML, com 22 etapas Faça/Confira e navegação consistente.
 
-Os arquivos Markdown abaixo permanecem como referência técnica e material de apoio ao professor; a navegação recomendada para alunos é pelas páginas HTML.
+## Estado da candidata
 
-## 1. Abrir a aula e preparar
+Implementação v2: avaliação coletiva, quatro tarefas de programação e registro reflexivo verdadeiro com ou sem IA. **F02/F03 são propostas aguardando aceite docente; o recebimento oficial permanece bloqueado até configuração autorizada e homologação real.** Publicação na branch/PR não atualiza a implantação Google ou a main.
 
-Abra a pasta `projeto` no VS Code. Ela deve conter `package.json`, `src` e `scripts`. Se ainda não tem os arquivos, peça a cópia ao professor ou baixe o repositório como ZIP no GitHub: **não precisa criar conta nem fazer login**. Extraia o ZIP antes de trabalhar. Enquanto esta mudança estiver em revisão, selecione a branch `feat/aula-08-laboratorio-vivo-av1-20261027` antes de baixar.
+Uma equipe, uma entrega, uma nota. A ficha solicita somente o nome da equipe e de um a quatro participantes, sem associação nome–arquivo. Os nomes históricos `src/individual/aluno1.mjs` a `aluno4.mjs` identificam tarefas, não estudantes. Todas as equipes trabalham os quatro arquivos; sua quantidade não depende da quantidade de pessoas.
 
-Instale Node.js 22 ou mais recente caso o computador ainda não tenha. No terminal da pasta `lessons/aula-08-av1-incremento-1/projeto`, execute uma linha por vez:
+| Marco | Tempo | Trabalho coletivo | Pontos |
+|---|---:|---|---:|
+| M1 | 15 min | Preparar, conhecer arquivos e registrar o processo | 2,5 |
+| M2 | 25 min | Estados, filtros, preservação e IDs | 2,0 |
+| M3 | 35 min | Recuperação, navegação, formulário e resumo | 3,0 |
+| M4 | 25 min | Quatro tarefas, revisão e entrega | 2,5 |
+
+São 20 critérios de 0,5. Em cada critério M4, todas as quatro tarefas devem passar seus casos. O resultado é igual para todos os participantes e não é uma média de notas individuais.
+
+## Percurso operacional
+
+No terminal da pasta `projeto`:
 
 ```bash
 npm ci
@@ -18,88 +29,33 @@ npm run preflight
 npm run web
 ```
 
-Abra o endereço que aparece no terminal. Mantenha esse terminal aberto e use um segundo terminal para os testes. `Ctrl+C` encerra o servidor quando terminar.
+Abra `http://127.0.0.1:8088` no mesmo computador. Use outro terminal na mesma pasta para `npm run nota`; ao concluir, execute `npm run entrega`. O starter é **Mobile Web**, com Node.js 22+, sem Expo ou APK. Ele tem TODOs intencionais e começa com pendências formativas.
 
-O starter é um aplicativo **web responsivo**, sem dependências externas, para experimentar no navegador os comportamentos de Mobile. Não gera APK. Os projetos React Native/Expo das aulas anteriores continuam disponíveis para a transposição ao aplicativo nativo.
+A ficha deve ser servida por HTTP, não aberta como Markdown. Para teste docente local, na raiz do repositório, use `py -m http.server 8000` no Windows com Python, ou `python3 -m http.server 8000` no Linux, e abra `/lessons/aula-08-av1-incremento-1/index.html` no servidor local.
 
-Organizem as tarefas técnicas. Por padrão, os comandos incluem os quatro arquivos. Para incluir menos tarefas, use a opção `--slots`, por exemplo `npm run nota -- --slots=1,2` e `npm run entrega -- --slots=1,2`. Os arquivos podem ser trabalhados em conjunto e não devem conter dados pessoais:
+## Registro verdadeiro do processo
 
-| Tarefa técnica | Arquivo | Função a implementar |
-|---|---|---|
-| 1 | `src/individual/aluno1.mjs` | Normalizar a busca |
-| 2 | `src/individual/aluno2.mjs` | Distinguir estados da lista |
-| 3 | `src/individual/aluno3.mjs` | Validar o formulário |
-| 4 | `src/individual/aluno4.mjs` | Criar chave estável pelo ID |
-
-## 2. Programar com apoio do Gemini
-
-Abra o [guia do Gemini](GUIA_GEMINI.md). Copie um prompt e cole no Gemini **no navegador**. Trabalhe em uma missão por conversa. Envie somente a função necessária e a mensagem do teste.
-
-Peça uma pista. Faça a alteração no VS Code. Explique em uma frase por que ela ajuda. Nunca envie `.env`, senhas, tokens, dados pessoais ou o projeto inteiro repetidamente. Extensão de IA, Antigravity e integração com GitHub não são necessários.
-
-## 3. Testar e ver o resultado
-
-```bash
-npm run nota
-```
-
-O relatório mostra critérios aprovados e pendentes. Os `TODO` do starter existem para você praticar; é normal começar com nota parcial. Leia uma pendência, altere uma função e repita o teste. Não há penalidade por repetir.
-
-**Essa nota é formativa e informativa.** Não escreve na planilha. A ficha fará uma nova verificação para calcular a nota da entrega. Alterar um teste para mostrar “passou” não corrige o comportamento do aplicativo.
-
-### Nosso roteiro de 100 minutos
-
-| Marco | Tempo | O que produzir | Valor |
-|---|---:|---|---:|
-| M1 | 15 min | Preparação, slots e registro do processo | 2,5 |
-| M2 | 25 min | Estado, busca, filtros e identidade | 2,0 |
-| M3 | 35 min | Navegação, formulário, retorno e resumo | 3,0 |
-| M4 | 25 min | Funções coletivas e entrega | 2,5 |
-
-São 20 critérios de 0,5, todos avaliados por equipe. M4 considera as tarefas selecionadas: um critério vale 0,5 para o grupo somente quando todos os arquivos do pacote passam seus casos. A nota única M1 + M2 + M3 + M4 é registrada igualmente para todos os participantes. O envio está dentro do Marco 4.
-
-Registre o uso real de IA em `src/evidencias.json`, dentro de `aiLog`. Use o modelo abaixo apenas como exemplo de formato; substitua pelo que aconteceu no seu trabalho. Se não usou IA, mantenha `[]` e converse com o professor sobre o critério do portfólio.
+`src/evidencias.json` começa sem experiência inventada:
 
 ```json
 {
-  "mission": "M2",
-  "request": "Pedi uma explicação sobre combinar dois filtros.",
-  "suggestion": "A sugestão foi verificar as duas condições.",
-  "humanChange": "Revisei a condição na função da equipe.",
-  "test": "Executei npm run nota e comparei a pendência."
+  "aiLog": [],
+  "aiUsage": {"status": "undeclared", "reflection": ""}
 }
 ```
 
-## 4. Executar npm run entrega
+Na política proposta, `used` exige log real e reflexão; `not-used` exige log vazio e reflexão verdadeira; `undeclared` representa informação ainda ausente. A reflexão tem de 20 a 400 caracteres para pontuar. O log aceita até 20 entradas com `mission`, `request`, `suggestion`, `humanChange` e `test`; cada texto tem até 400 caracteres. Não inclua dados pessoais, senhas, tokens, `.env` ou conversas completas. Declarações não comprovam autoria nem identidade.
 
-```bash
-npm run entrega
-```
+## Entrega e reenvio
 
-O pacote fica em `entrega/entrega-a08.jsonl`. O comando inclui apenas as funções permitidas, os resultados locais e o registro do processo. Nomes de pessoas são preenchidos somente na ficha. Não envie arquivos `.env`, `.git`, `node_modules` ou um ZIP do projeto.
+Gere `projeto/entrega/entrega-a08.jsonl` com os arquivos atuais. Importe na ficha, preencha equipe e nomes e use **Avaliar e enviar** após liberação docente. A ficha executa casos isolados; o servidor calcula a nota, grava e assina o recibo. Sem recibo validado, o envio não está confirmado. PDF local não registra nota.
 
-Se o comando informar erro, leia a mensagem, corrija no projeto e rode novamente. Não edite o JSONL à mão. Mantenha uma cópia do projeto e do arquivo gerado.
+Em um reenvio, mantenha todos os participantes da entrega anterior. Reordenação, caixa e espaços não criam uma composição nova. Omissão, adição ou substituição é recusada para conferência docente. Não renomeie a equipe nem apague cadastros para contornar erro. Falha parcial requer reconciliação responsável, não repetição cega.
 
-## 5. Importar e entregar
+Schema `mobile-a08-v2`; rubrica candidata `mobile-a08-lab-vivo-2.0.0`; contrato/gerador `2.0.0`. Pacotes anteriores são recusados com orientação para baixar a versão atual e gerar novamente. Não edite JSONL manualmente.
 
-Abra a [ficha](atividade.html), informe o nome da equipe e os nomes dos participantes, sem associá-los a arquivos. Selecione ou arraste `entrega-a08.jsonl`. Confira o resumo e clique em **Avaliar e enviar**.
+## Imagens e limites
 
-A página mostra o andamento. O PDF é gerado antes do envio e conserva esse estado; o recibo vem depois e identifica exatamente esse PDF. Guarde **os dois**. A confirmação só aparece depois de um recibo válido.
+Os dois PNGs originais existem na conversa, mas a publicação binária na branch continua pendente. Seus bytes não devem ser alterados. Os textos HTML explicam diferenças da referência histórica: Expo, `.tsx`, app Memórias, prática individual e nota 9,2 não correspondem à candidata atual. A contextualização também aguarda decisão docente.
 
-Se a rede falhar, use **Guardar PDF local** ou **Imprimir registro**. Isso preserva o trabalho sem confirmar um envio. Após timeout, pergunte ao professor se houve recebimento antes de repetir. Para continuar sem internet, mantenha a página já carregada ou sirva os arquivos localmente; não há promessa de reabrir uma página remota ainda não carregada.
-
-## Se aparecer um problema
-
-| Mensagem/situação | O que fazer |
-|---|---|
-| `npm` não encontrado | Peça apoio para instalar Node.js e reabra o terminal. |
-| `package.json` não encontrado | Abra o terminal dentro da pasta `projeto`. |
-| Testes pendentes | Leia o critério, abra a função indicada e faça uma mudança pequena. |
-| Pacote inválido | Gere novamente com `npm run entrega`; não corrija hashes manualmente. |
-| Participante sem nome | Informe seu nome na ficha; nenhum participante precisa escolher um slot. |
-| Entrega não confirmada | Guarde o PDF e converse com o professor. |
-| Caractere não suportado no PDF | Use **Imprimir registro** para preservar o texto; nenhuma entrega final é simulada. |
-
-### Para o professor
-
-[Integração e homologação Sheets](INTEGRACAO_SHEETS.md) · [Acessibilidade](ACESSIBILIDADE.md). Os dois infográficos originais exigidos ainda precisam ser fornecidos; as descrições equivalentes já estão nas páginas. A branch é uma candidata em revisão, não uma implantação homologada.
+Nota local não tem autoridade. Hash identifica bytes; HMAC autentica emissão, não autoria; Base64 é codificação. Quotas limitam abuso sem autenticar nomes. A referência oficial não executa fontes dos alunos no Apps Script. [Integração e homologação docente](INTEGRACAO_SHEETS.md).

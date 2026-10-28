@@ -19,8 +19,9 @@ test('SHA de fonte e pacote coincide com implementação independente Node',asyn
   const p=await parsePackage(baseline);for(const s of p.sources)assert.equal(s.sha256,createHash('sha256').update(s.code).digest('hex'));
   const body=baseline.split('\n').slice(0,-2).join('\n')+'\n';assert.equal(p.packageSha256,createHash('sha256').update(body).digest('hex'));
 });
-test('1 a 4 slots selecionados produzem somente as fontes autorizadas',async()=>{
-  const p=await parsePackage(await generatePackage(project,[2,4]));assert.deepEqual(p.sources.map(s=>s.path),['src/equipe.mjs','src/individual/aluno2.mjs','src/individual/aluno4.mjs']);
+test('omitir tarefas obrigatórias é recusado antes de gerar o pacote',async()=>{
+  await assert.rejects(generatePackage(project,[2,4]),/quatro/);
+  assert.equal((await parsePackage(baseline)).sources.length,5);
 });
 test('Base64 adulterado sem atualizar hash é recusado',async()=>{
   const r=rows();r[1].content=Buffer.from('export function resolver(){return 10}').toString('base64');await assert.rejects(parsePackage(await seal(r)),/hash incoerente/);
@@ -55,7 +56,7 @@ test('resultado local pode ser editado, mas é declarado informativo e não muda
   const r=rows();r[r.length-3].grade=10;r[r.length-3].criteria=r[r.length-3].criteria.map(c=>({...c,passed:true}));const p=await parsePackage(await seal(r));assert.equal(p.localResult.grade,10);assert.deepEqual(p.sourceHashes,(await parsePackage(baseline)).sourceHashes);
 });
 test('identidade não é exportada; campos pessoais e padrões de segredo são recusados',async t=>{
-  assert.doesNotMatch(baseline,/"(?:name|member|team|email)"\s*:/);const root=await fixture(t);await writeFile(path.join(root,'src/evidencias.json'),JSON.stringify({aiLog:[{mission:'M1',request:'pessoa@example.test',suggestion:'x',humanChange:'x',test:'x'}]}));await assert.rejects(generatePackage(root),/pessoal/);
+  assert.doesNotMatch(baseline,/"(?:name|member|team|email)"\s*:/);const root=await fixture(t);await writeFile(path.join(root,'src/evidencias.json'),JSON.stringify({aiUsage:{status:'used',reflection:'Evidência sintética para validar rejeição de segredos.'},aiLog:[{mission:'M1',request:'pessoa@example.test',suggestion:'x',humanChange:'x',test:'x'}]}));await assert.rejects(generatePackage(root),/pessoal/);
 });
 test('arquivos ausentes, symlinks e fontes grandes impedem gerar entrega',async t=>{
   const root=await fixture(t);await rm(path.join(root,'src/equipe.mjs'));await assert.rejects(generatePackage(root),/preflight/);
@@ -67,7 +68,6 @@ test('entrega salva atomicamente e reenvio substitui os mesmos bytes',async t=>{
 });
 test('adulterar avaliador local só muda metadado formativo, não as fontes',async t=>{
   const root=await fixture(t);const evaluator=path.join(root,'src/avaliacao-local.mjs');await writeFile(evaluator,"export const TEAM_CASES=[]; export const CRITERIA={}; export function individualCases(){return []} export function scorePublic(){return {criteria:[],shared:10,perSlot:{1:10,2:10,3:10,4:10},grade:10}}\n");
-  // A API importada deste teste continua usando seu módulo original. Uma nova CLI carrega o avaliador adulterado.
   const {execFile}=await import('node:child_process');const {promisify}=await import('node:util');await promisify(execFile)(process.execPath,['scripts/gerar-entrega.mjs'],{cwd:root});
   const parsed=await parsePackage(await readFile(path.join(root,'entrega/entrega-a08.jsonl'),'utf8'));assert.equal(parsed.localResult.grade,10);assert.deepEqual(parsed.sourceHashes,(await parsePackage(baseline)).sourceHashes);
 });

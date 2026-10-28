@@ -1,3 +1,4 @@
+import {inspectIdentity,showIdentityErrors} from './identity.js';
 import { importFile, canonical, serverEvidence } from './jsonl.js';
 import { runChallenge } from './verificador.js';
 import { request, validateChallenge, validateEvaluation, validateDelivery } from './entrega-appscript.js';
@@ -12,31 +13,24 @@ function status(text, error = false) { $('delivery-status').textContent = text; 
 function add(parent, tag, text, className) { const element = document.createElement(tag); element.textContent = text; if (className) element.className = className; parent.append(element); return element; }
 function pair(parent, label, value) { add(parent, 'dt', label); add(parent, 'dd', value, 'hash'); }
 function identity(strict = true) {
-  const team = $('team').value.trim();
-  // Arquivos técnicos (slots) não são vinculados a pessoas.
-  const members = [1, 2, 3, 4].map(i => ({ name: $(`member-${i}`).value.trim() })).filter(m => m.name);
-  if (strict) {
-    if (!team || members.length < 1) throw Error('Informe a equipe e pelo menos um participante.');
-    if ([team, ...members.map(m => m.name)].some(text =>
-        text.length > 80 || /^[=+@-]/.test(text) || /[\u0000-\u001f\u007f]/.test(text)))
-      throw Error('Use nomes simples, sem símbolos de fórmula ou quebras de linha.');
-    if (members.some(m=>m.name.length<3 || !/^[\p{L}][\p{L}\p{M} .'\-]{2,79}$/u.test(m.name)))
-      throw Error('Confira os nomes completos dos participantes.');
-    if (new Set(members.map(m => m.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())).size !== members.length)
-      throw Error('Não repita o mesmo nome na equipe.');
+  const result=inspectIdentity($('team').value,[1,2,3,4].map(i=>$('member-'+i).value));
+  if(strict && Object.keys(result.errors).length) {
+    const error=Error(Object.values(result.errors)[0]);
+    error.field=Object.keys(result.errors)[0];throw error;
   }
-  return { team, members };
+  return {team:result.team,members:result.members};
 }
 function snapshot(state = 'REGISTRO LOCAL - ENTREGA NÃO CONFIRMADA', identification = identity(false)) {
   return { ...identification, pkg, evaluation, generatedAt: new Date().toISOString(), state };
 }
 function enable() {
-  let valid = false;
-  try { identity(); valid = true; } catch { /* Campos serão preenchidos pelo aluno. */ }
+  const check=inspectIdentity($('team').value,[1,2,3,4].map(i=>$('member-'+i).value));
+  const valid=Object.keys(check.errors).length===0;
+  if(pkg)showIdentityErrors(check);
   $('submit-delivery').disabled = !pkg || !valid || busy;
   $('action-hint').textContent = busy ? 'Verificação em andamento. Mantenha esta página aberta.' :
     !pkg ? 'Primeiro importe o arquivo JSONL. Depois informe a equipe e os participantes.' :
-    !valid ? 'Arquivo recebido. Preencha a equipe e os nomes dos participantes para liberar o envio.' :
+    !valid ? Object.values(check.errors)[0] :
     'Tudo pronto. Ao clicar, a ficha verifica, baixa o PDF e solicita o recibo.';
 }
 function clearResult() {
@@ -88,7 +82,7 @@ async function importPackage(file) {
     if (version !== importVersion) return;
     pkg = parsed;
     $('summary-data').replaceChildren();
-    pair($('summary-data'), 'Arquivo', file.name); pair($('summary-data'), 'Slots', pkg.manifest.slots.join(', '));
+    pair($('summary-data'), 'Arquivo', file.name); pair($('summary-data'), 'Tarefas incluídas', pkg.manifest.slots.join(', '));
     pair($('summary-data'), 'Fontes', `${pkg.sources.length} arquivos permitidos; ${pkg.byteLength} bytes`);
     pair($('summary-data'), 'Hash do pacote', pkg.packageSha256);
     $('local-score').textContent = `${number(pkg.localResult.grade)} / 10,0. Esse valor não define a nota oficial.`;
@@ -116,7 +110,11 @@ for (const input of [$('team'), ...document.querySelectorAll('[data-member]')]) 
 $('delivery-form').addEventListener('submit', async event => {
   event.preventDefault(); if (busy || !pkg) return;
   let identification;
-  try { identification = identity(); } catch (error) { status(error.message, true); return; }
+  try { identification = identity(); } catch (error) {
+    enable(); status(error.message, true);
+    if (error.field) $(error.field)?.focus();
+    return;
+  }
   busy = true; clearResult(); enable(); $('editable-fields').disabled = true;
   $('local-pdf').disabled = true; $('print-local').disabled = true;
   $('progress-log').replaceChildren();
@@ -140,7 +138,7 @@ $('delivery-form').addEventListener('submit', async event => {
     evaluation = validateEvaluation(verification.evaluation, identification.team);
     showResults('Nota da equipe calculada pelo servidor. O recibo da entrega ainda está pendente.');
     progress(4);
-    savedPdf = await createPdf(snapshot('NOTAS VERIFICADAS - AGUARDANDO ENVIO E RECIBO', identification));
+    savedPdf = await createPdf(snapshot('NOTA DA EQUIPE VERIFICADA - AGUARDANDO ENVIO E RECIBO', identification));
     download(savedPdf.bytes, savedPdf.filename);
     progress(5);
     const response = await request('verifyAndSubmit', { ...answers, pdfSha256: savedPdf.hash });

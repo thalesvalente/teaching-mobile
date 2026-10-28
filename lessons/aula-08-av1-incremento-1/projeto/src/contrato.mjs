@@ -1,5 +1,6 @@
+import {assertRequiredTasks,validateAiUsage} from './evidence-policy.mjs';
 /** Contrato compartilhado pelo gerador Node e importador do navegador. */
-export const CONFIG = Object.freeze({ schema: 'mobile-a08-v1', activity: 'MOBILE-AULA08-2026', generator: '1.0.0', contract: '1.0.0', evaluator: 'formativo-1.0.0', maxBytes: 131072, maxSourceBytes: 16384, maxLines: 9 });
+export const CONFIG = Object.freeze({ schema: 'mobile-a08-v2', activity: 'MOBILE-AULA08-2026', generator: '2.0.0', contract: '2.0.0', evaluator: 'formativo-2.0.0', maxBytes: 131072, maxSourceBytes: 16384, maxLines: 9 });
 export const SOURCE_PATHS = Object.freeze(['src/equipe.mjs', ...[1, 2, 3, 4].map(n => `src/individual/aluno${n}.mjs`)]);
 const encoder = new TextEncoder();
 const fail = message => { throw new Error(`Pacote inválido: ${message}`); };
@@ -29,7 +30,7 @@ function noSecrets(value) {
   if (/(?:gh[pousr]_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|(?:api[_-]?key|password|senha|token)\s*[=:]\s*["']?[A-Za-z0-9_\-]{12,})/i.test(text)) fail('possível segredo ou dado pessoal; remova antes de entregar');
 }
 export function validateEvidence(evidence) {
-  exact(evidence, ['type', 'preflight', 'aiLog', 'environment'], 'evidence');
+  exact(evidence, ['type', 'preflight', 'aiLog', 'environment', 'aiUsage'], 'evidence');
   if (evidence.type !== 'evidence') fail('evidence incompatível');
   exact(evidence.preflight, ['version', 'ok', 'nodeMajor', 'filesReady'], 'preflight');
   const p = evidence.preflight;
@@ -43,6 +44,7 @@ export function validateEvidence(evidence) {
     if (!['M1', 'M2', 'M3', 'M4'].includes(entry.mission)) fail('missão do log de IA');
     for (const key of ['request', 'suggestion', 'humanChange', 'test']) short(entry[key], 400, key);
   }
+  validateAiUsage(evidence.aiUsage,evidence.aiLog);
   noSecrets(evidence);
   return evidence;
 }
@@ -67,9 +69,11 @@ export async function parsePackage(input) {
     return row;
   });
   const manifest = rows[0];
+  if(manifest.schema!==CONFIG.schema) fail('pacote de versão antiga; baixe o projeto atualizado e execute npm run entrega novamente');
   exact(manifest, ['type', 'schema', 'activity', 'generator', 'contract', 'slots'], 'manifest');
   if (manifest.type !== 'manifest' || manifest.schema !== CONFIG.schema || manifest.activity !== CONFIG.activity || manifest.generator !== CONFIG.generator || manifest.contract !== CONFIG.contract) fail('atividade, schema ou versão incompatível');
   if (!Array.isArray(manifest.slots) || manifest.slots.length < 1 || manifest.slots.length > 4 || manifest.slots.some((n, i) => !Number.isInteger(n) || n < 1 || n > 4 || (i > 0 && n <= manifest.slots[i - 1]))) fail('slots devem ser únicos, crescentes e entre 1 e 4');
+  assertRequiredTasks(manifest.slots);
   if (rows.length !== manifest.slots.length + 5) fail('fontes, slots ou linhas ausentes/duplicadas');
   const expectedPaths = ['src/equipe.mjs', ...manifest.slots.map(n => `src/individual/aluno${n}.mjs`)];
   const sources = [], sourceHashes = {};

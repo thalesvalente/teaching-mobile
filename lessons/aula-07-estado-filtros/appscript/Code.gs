@@ -16,7 +16,7 @@ const MOBILE_CFG = Object.freeze({
     }),
     'MOBILE-AULA08-2026': Object.freeze({
       sheet: '4º Bimestre', column: 'Aula 08',
-      schema: 'mobile-a08-v1', rubric: 'mobile-a08-lab-vivo-1.1.0',
+      schema: 'mobile-a08-v2', rubric: 'mobile-a08-lab-vivo-2.0.0',
       instrument: 'laboratorio-vivo-av1', evaluator: 'aula08'
     })
   })

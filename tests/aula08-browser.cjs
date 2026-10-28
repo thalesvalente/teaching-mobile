@@ -16,7 +16,7 @@ const childOrigin = 'https://n-a08-qa-0lu-script.googleusercontent.com';
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const output = process.env.AULA08_EVIDENCE_DIR || fs.mkdtempSync(path.join(os.tmpdir(), 'a08-browser-'));
 fs.mkdirSync(output, { recursive: true });
-const passed = [], pageErrors = [], external = [];
+const passed = [], pageErrors = [], external = [], accessibility = [];
 const record = name => { passed.push(name); console.log('PASS', name); };
 function serve() {
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png' };
@@ -60,7 +60,7 @@ function serve() {
     if (mode === 'timeout') return route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>Sem resposta simulada</title>' });
     let result = fixture.post(payload, form.get('nonce'));
     if (payload.action === 'verifyAndSubmit') { finalPayload = payload; lastReceipt = result.receipt; }
-    if (mode === 'bad-receipt' && payload.action === 'verifyAndSubmit' && result.receipt) result.receipt.members[0].total += 0.5;
+    if (mode === 'bad-receipt' && payload.action === 'verifyAndSubmit' && result.receipt) result.receipt.evaluation.total += 0.5;
     if (mode === 'reject' && payload.action === 'verifyAndSubmit') result = { channel: 'mobile-aula08-receipt', requestNonce: form.get('nonce'), ok: false, error: 'Falha simulada de gravação.' };
     if (mode === 'wrong-nonce') result.requestNonce = 'nonce-incorreto';
     if (mode === 'nested') {
@@ -84,6 +84,30 @@ function serve() {
     const download = await Promise.all([page.waitForEvent('download', { timeout: 30000 }), page.locator('#submit-delivery').click()]).then(x => x[0]);
     const target = path.join(output, filename); await download.saveAs(target); return target;
   };
+  async function auditStatePair(state) {
+    const previous=page.viewportSize();
+    for(const viewport of [{width:375,height:812},{width:1440,height:900}]) {
+      await page.setViewportSize(viewport);await auditAccessibility(state);
+    }
+    await page.setViewportSize(previous);
+  }
+  async function auditAccessibility(state) {
+    if(!await page.evaluate(()=>typeof axe!=='undefined'))
+      await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
+    const data=await page.evaluate(async()=>({
+      url:location.pathname,viewport:{width:innerWidth,height:innerHeight},
+      overflow:document.documentElement.scrollWidth>innerWidth+1,
+      disclosures:[...document.querySelectorAll('details[open]')].map(e=>e.id||e.className),
+      violations:(await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa']}})).violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))
+    }));
+    await page.locator('.skip-link').focus();await page.keyboard.press('Tab');
+    const focus=await page.evaluate(()=>{const e=document.activeElement,s=getComputedStyle(e);return {tag:e.tagName,visible:s.outlineStyle!=='none'&&parseFloat(s.outlineWidth)>0,attached:document.contains(e)&&e!==document.body};});
+    accessibility.push({...data,state,focus});
+    fs.writeFileSync(path.join(output,'accessibility-matrix.json'),JSON.stringify(accessibility,null,2));
+    assert.equal(data.overflow,false,JSON.stringify({state,viewport:data.viewport,url:data.url}));
+    assert.deepEqual(data.violations,[],JSON.stringify({state,viewport:data.viewport,url:data.url}));
+    assert.ok(focus.attached && focus.visible,'Teclado/foco: '+JSON.stringify(focus));
+  }
   try {
     await page.goto(base + 'index.html'); await page.waitForLoadState('networkidle');
     assert.match(await page.title(), /Aula 08/);
@@ -98,14 +122,11 @@ function serve() {
     await page.screenshot({ path: path.join(output, 'aula08-375.png'), fullPage: true });
     for (const pageName of ['index.html', 'comecar.html', 'missoes.html', 'gemini.html', 'atividade.html']) {
       await page.goto(base + pageName); await page.waitForLoadState('networkidle');
+      await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
       for (const width of [320, 375, 768, 1024, 1440]) for (const height of [812, 375]) {
         await page.setViewportSize({ width, height });
-        const size = await page.evaluate(() => ({ scroll: document.documentElement.scrollWidth, inner: innerWidth }));
-        assert.ok(size.scroll <= size.inner + 1, `${pageName} overflow ${width}x${height}`);
+        await auditAccessibility('initial');
       }
-      await page.addScriptTag({ path: require.resolve('axe-core/axe.min.js') });
-      const violations = await page.evaluate(async () => (await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'] } })).violations.map(v => ({ id: v.id, targets: v.nodes.map(n => n.target) })));
-      assert.deepEqual(violations, []);
     }
     record('Cinco páginas em 320/375/768/1024/1440, retrato/paisagem e axe WCAG 2.2 AA');
     await page.setViewportSize({ width: 375, height: 812 });
@@ -119,6 +140,7 @@ function serve() {
     assert.equal(await page.locator('.slot-guide').count(), 4);
     assert.equal(await page.locator('#m1 .mission-steps-panel').getAttribute('open') !== null, true);
     await page.locator('.criteria-toggle summary').first().click();
+    await auditStatePair('mission-1-criteria-open');
     assert.equal(await page.locator('.criteria-toggle').first().locator('li').count(), 5);
     await page.locator('#m1 [data-student-step="m1-p1"]').check();
     assert.match(await page.locator('#student-progress-status').innerText(), /1 de 22/);
@@ -133,17 +155,29 @@ function serve() {
     await page.waitForFunction(() => document.querySelector('#m4 .mission-steps-panel').open);
     await page.locator('#m4 .slot-guide summary').first().click();
     assert.match(await page.locator('#m4 .slot-guide').first().innerText(), /PRAÇA/);
-    record('22 passos executáveis, marcação local sem nota, quatro desafios individuais e navegação por missão');
+    await auditStatePair('mission-4-task-open');
+    record('22 passos executáveis, marcação local sem nota, quatro tarefas técnicas coletivas e navegação por missão');
     await page.goto(base + 'gemini.html');
     await page.locator('.prompt-details summary').first().click();
+    await auditStatePair('gemini-prompt-open');
     await page.locator('[data-copy="prompt-m1"]').click();
     await page.waitForFunction(() => /copiado|selecionado/i.test(document.getElementById('copy-status').textContent));
     record('Preparação, missões, tutor Gemini, cópia e navegação HTML sem Markdown');
-    await page.goto(base + 'atividade.html'); await upload(); await identify();
+    await page.goto(base + 'atividade.html'); await upload();
+    await page.locator('#team').fill('');
+    await page.locator('#member-1').fill('A');
+    await auditStatePair('invalid-identity');
+    assert.equal(await page.locator('#member-1').getAttribute('aria-invalid'),'true');
+    assert.match(await page.locator('#member-1-error').innerText(),/três/);
+    await identify();
     assert.equal(await page.locator('[data-slot]').count(), 0, 'Nomes não se associam a slots');
     assert.equal(await page.locator('[data-member]').count(), 4);
     assert.equal(await page.locator('#submit-delivery').isEnabled(), true);
     assert.match(await page.locator('#local-score').innerText(), /não define/);
+    fixture=createFixture({policy:false});
+    await page.locator('#submit-delivery').click();await waitResult(false);
+    assert.equal(fixture.grade().length,1);assert.match(await page.locator('#delivery-status').innerText(),/DECISION_REQUIRED/);
+    await auditStatePair('policy-pending');fixture=createFixture();
     const firstPdf = await submitPdf('aula08-entrega.pdf'); await waitResult(true);
     assert.equal(fs.readFileSync(firstPdf).subarray(0, 8).toString(), '%PDF-1.4');
     assert.equal(hash(fs.readFileSync(firstPdf)), finalPayload.pdfSha256);
@@ -154,6 +188,8 @@ function serve() {
     assert.ok(lastReceipt.members.every(m => m && typeof m.name === 'string' && !Object.hasOwn(m, 'slot')));
     assert.ok(fixture.grade().slice(1).every(row => row[3] === lastReceipt.evaluation.total), 'A mesma nota da equipe é registrada para todos');
     assert.equal(await page.locator('#member-results .result-card').count(), 1, 'A ficha apresenta uma nota para toda a equipe');
+    await page.locator('#member-results summary').click();
+    await auditStatePair('verified-result-and-receipt');
     assert.equal(fixture.audit().length, 5); assert.equal(fixture.grade().length, 5);
     assert.ok(finalPayload.outputs.every(o => typeof o.ok === 'boolean'));
     assert.equal(await page.locator('#progress-log li').count(), 8);
@@ -177,6 +213,7 @@ function serve() {
     record('Nota adulterada no recibo não confirma entrega');
     fixture = createFixture(); mode = 'reject';
     await submitPdf('recusado.pdf'); await waitResult(false);
+    await auditStatePair('delivery-failure');
     record('Erro de gravação não confirma, mantendo PDF local');
     mode = 'ok';
     await page.locator('#package-file').setInputFiles({ name: 'entrega-a08.jsonl', mimeType: 'application/x-ndjson', buffer: Buffer.from('{"type":"unknown"}\n') });
@@ -190,6 +227,7 @@ function serve() {
     record('Arrastar e soltar usa o mesmo parser estrito');
     const beforeOffline = postCount;
     await context.setOffline(true);
+    await auditStatePair('offline');
     await page.locator('#local-options').evaluate(details => { details.open = true; });
     const offline = await Promise.all([page.waitForEvent('download'), page.locator('#local-pdf').click()]).then(x => x[0]);
     await offline.saveAs(path.join(output, 'offline.pdf'));
@@ -230,6 +268,9 @@ function serve() {
     assert.match(guards.error, /não autorizado/); assert.deepEqual(guards.origins, [false, false, false]);
     record('Timeout e nonce incorreto ignorados; endpoint PPI e origens alheias recusados');
     assert.deepEqual(pageErrors, []); assert.deepEqual(external, []);
+    await page.setViewportSize({width:1440,height:900});
+    await auditAccessibility('final-desktop');
+    console.log('ACCESSIBILITY_MATRIX',accessibility.length,'actual axe/overflow/keyboard state samples');
     record('Nenhum erro JavaScript de página; nenhum pedido externo escapou ao mock');
     fs.writeFileSync(path.join(output, 'results.json'), JSON.stringify({ browser: browser.version(), passed, missingImages, pageErrors, external, liveE2E: 'PENDING_LIVE_E2E' }, null, 2));
     console.log(`BROWSER A08: ${passed.length}/${passed.length} PASS; G1 separado; evidências: ${output}`);

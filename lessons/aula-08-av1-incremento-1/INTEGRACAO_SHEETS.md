@@ -1,164 +1,74 @@
-# Aula 08 · Integração docente com Apps Script e Sheets
+# Aula 08 — Integração e homologação controlada da candidata v2
 
-**Estado desta entrega: código e testes simulados prontos; implantação e E2E real pendentes (`PENDING_LIVE_E2E`).** A existência de uma URL Mobile não demonstra que a Aula 08 esteja implantada ou que notas tenham sido recebidas. Nesta missão não houve acesso à planilha real, alteração de Script Properties nem registros fictícios reais.
+**PENDING_LIVE_E2E. Este runbook não é autorização de operação.** Nenhum deployment, Script Property, nota ou registro Google foi alterado pela remediação. O destino é exclusivamente o projeto Mobile já versionado; preservar Aula 07 e nunca utilizar PPI.
 
-## Configuração única da disciplina
+## Identificação e proveniência
 
-Em `../aula-07-estado-filtros/appscript/Code.gs`, `MOBILE_CFG.activities['MOBILE-AULA08-2026']` concentra:
+Atividade MOBILE-AULA08-2026; schema mobile-a08-v2; rubrica candidata mobile-a08-lab-vivo-2.0.0; instrumento laboratorio-vivo-av1. Aba 4º Bimestre, coluna Aula 08 antes de Média, auditoria de 17 colunas. A planilha mantém uma linha por participante, com a mesma nota coletiva e o mesmo recibo para todos. Não existe associação nome–slot.
 
-| Campo | Valor |
-|---|---|
-| Planilha | A mesma planilha exclusiva Mobile já presente em `MOBILE_CFG.spreadsheetId` |
-| Aba | `4º Bimestre` |
-| Coluna | `Aula 08` |
-| Schema | `mobile-a08-v1` |
-| Rubrica | `mobile-a08-lab-vivo-1.1.0` |
-| Instrumento | `laboratorio-vivo-av1` |
-| Adaptador | `aula08` |
+Antes de operar, registrar SHA/tree da distribuição, hashes de Code.gs, RubricaAula08.gs e RubricaAula07.gs, CI, responsável e backup do código/deployment anterior. RubricaAula07.gs deve permanecer intacta. Não publicar segredos, alunos ou notas reais no Git.
 
-O professor pode alterar aba/coluna nesse cadastro antes da implantação. A coluna nova entra antes de `Média`; o cálculo continua aritmético, incluindo zero nas outras atividades para estudantes novos. Não modificar a planilha/endpoint de PPI I. O frontend aceita exclusivamente a URL Mobile previamente configurada na Aula 07. Não existe campo para o aluno fornecer um endpoint.
+## Decisões e autorizações distintas
 
-Arquivos a instalar no mesmo projeto Apps Script Mobile:
+F02: quatro tarefas obrigatórias para todas as equipes. F03: registro reflexivo verdadeiro de uso ou não uso de IA. F06: contextualização das imagens originais ou derivada expressamente aprovada. Essas propostas não recebem aceite automático pelo fato de existir código.
 
-- `Code.gs`: configuração compartilhada, adaptador de transporte e infraestrutura existente.
-- `RubricaAula07.gs`: permanece byte a byte igual ao baseline; necessária à Aula 07.
-- `RubricaAula08.gs`: desafios, referência pura, validação e recibos da Aula 08.
+Também são necessárias autorização de implantação e autorização específica para E2E com equipe fictícia e limpeza. Acesso à planilha ou endpoint não equivale a autorização. Não ativar políticas, alterar permissões ou rotacionar HMAC para fazer um teste passar.
 
-O GET mantém `mobile-entregas-1.0.0` para preservar a integração da Aula 07. O GET sozinho não identifica a disponibilidade da Aula 08. Ela deve ser homologada pelo protocolo de desafio.
+## Pacote e política
 
-## Como a nota é calculada
+Os nomes são informados somente na ficha. O JSONL contém fontes e evidências. aiUsage distingue used, not-used e undeclared. Used exige log real; not-used exige log vazio; undeclared permanece pendente. Para pontuar, reflexão de 20–400 caracteres, sem dados pessoais. Declaração não prova autoria. Default vazio, sem gerar texto em nome dos estudantes.
 
-O servidor emite entradas variáveis e conserva a referência. As fontes permitidas executam em sandbox no navegador. O servidor recebe apenas dados JSON: entradas referenciadas pelo desafio, saídas, hashes e metadados. **Nenhuma fonte de estudante é executada no Apps Script.** Não há `eval`, importação remota nem `Function` com código recebido.
+Schema/contrato v2 rejeitam pacotes antigos com orientação para obter a versão atual e executar npm run entrega. Não converter ou editar o JSONL silenciosamente.
 
-| Marco | Critérios | Pontos |
-|---|---:|---:|
-| M1: pacote, fontes, preflight, registro de IA, slots | 5 | 2,5 compartilhados |
-| M2: prioridade, filtros, preservação, identidade | 4 | 2,0 compartilhados |
-| M3: estado, recuperação, navegação, formulário, recorte, resumo | 6 | 3,0 compartilhados |
-| M4: principal, limite, inválido, regressão, contrato | 5 | 2,5 da equipe |
+A propriedade docente MOBILE_A08_POLICY_APPROVAL precisa corresponder a four-tasks-reflection-v2 para ações oficiais novas. Até aceite explícito, deixá-la ausente. Challenge/verify/verifyAndSubmit são recusados com DECISION_REQUIRED_F02_F03. Essa propriedade NÃO foi definida no ambiente real; somente fixtures de teste simulam seu valor.
 
-Cada critério vale exatamente 0,5. A avaliação é exclusivamente por equipe: `M1 + M2 + M3 + M4 coletivo`. Para cada critério M4, todos os arquivos de tarefa incluídos devem passar. Todos os participantes recebem exatamente a mesma nota. Um preflight malsucedido e um log de IA vazio permanecem pendentes; não são preenchidos artificialmente. A presença de um registro não prova que uma ação aconteceu. Nenhuma rubrica pretende provar autoria ou experiência real no aparelho.
+## Protocolo e integridade
 
-`localResult` é informativo, opcional e descartado pelo adaptador. Alterar `grade`, `xp`, `scores` ou `passed` dentro dele não altera a nota. Esses campos diretamente no envelope são recusados. M1 contém critérios de integridade e declaração, portanto uma entrega com todas as funções erradas pode conservar pontos de M1; não confundir zero comportamental com nota total zero.
+Challenge vincula atividade, schema, pacote, fontes, quatro tarefas, equipe, participantes e evidências. Verify recebe saídas dos casos e retorna uma avaliação coletiva com rubric,team,m1,m2,m3,m4,total,criteria. VerifyAndSubmit recalcula a nota, grava e retorna recibo; validateReceipt verifica sua HMAC.
 
-## Protocolo da ficha
+O recibo inclui activity,schema,instrument,rubric,receiptId,receivedAt,challengeId,packageSha256,pdfSha256,answersSha256,sourceHashes,team,members,evaluation,gradeStatus,signature. A HMAC cobre todos os campos exceto a própria assinatura. A ficha confere origem/janela/nonce/canal e vínculos antes de confirmar. Hash identifica bytes; HMAC autentica emissão, não autoria nem identidade real.
 
-Todos os pedidos usam formulário POST com `nonce` aleatório por requisição e `payload` contendo JSON. Todos os envelopes da Aula 08 exigem `activity` e `schema` da tabela. O recebimento depende de `MOBILE_WEB_SUBMISSIONS_ENABLED=true` nas Script Properties.
+Nenhuma fonte de aluno roda no Apps Script. O navegador executa funções em isolamento com CSP, origem opaca, workers descartáveis e limites. O servidor compara dados com sua referência. Resultado local não é autoridade. Um cliente substituído pode fabricar respostas; não prometer inviolabilidade.
 
-O retorno `postMessage` contém `channel`, `requestNonce` (eco do `nonce` de transporte) e os campos da ação. O `nonce` aleatório do desafio é diferente desse eco. A ficha deve conferir origem Google permitida, janela do iframe correspondente, canal e `requestNonce` antes de aceitar uma resposta. Nenhuma mensagem de erro ou timeout confirma entrega.
+## Composição e concorrência
 
-| Ação | Campos adicionais | Canal | Efeito |
-|---|---|---|---|
-| `challenge` | pacote, slots, fontes, equipe, integrantes, evidência | `mobile-aula08-challenge` | Emite desafio; não escreve notas |
-| `verify` | dados anteriores + `challengeId`, `challengeToken`, `outputs` | `mobile-aula08-verification` | Calcula prévia oficial; não escreve notas ou auditoria |
-| `verifyAndSubmit` | dados anteriores + `pdfSha256` | `mobile-aula08-receipt` | Recalcula, grava e retorna recibo |
-| `validateReceipt` | `receipt` completo | `mobile-aula08-receipt-validation` | Verifica HMAC do recibo no servidor |
+Identidade de equipe é atividade mais nome normalizado; composição é conjunto ordenado de nomes normalizados. Reordenação e diferenças de caixa/espaços não são alteração. Omissão, adição, substituição ou equipe homônima com conjunto disjunto é recusada antes de notas/auditoria.
 
-Dados vinculados ao desafio:
+A composição persiste além do TTL do desafio. Histórico antigo só pode ser reutilizado quando as linhas e cada JSON de auditoria descrevem a mesma composição completa. Nunca inferir ou unir integrantes de registros contraditórios.
 
-```text
-{activity, schema, packageSha256, slots, sourceHashes,
- team, members, evidence}
-```
+Sob ScriptLock, reserva processing precede escrita; após flush passa a committed. Falha marca write_failed, não emite recibo e bloqueia novos desafios até reconciliação. Sheets não oferece atomicidade multirange: dados parciais podem existir mesmo sem confirmação. Não apagar reserva para contornar bloqueio.
 
-`slots` é um array crescente, sem repetição, com 1 a 4 valores entre 1 e 4. `members` contém de 1 a 4 objetos `{name}`, sem vínculo com slots. O número de participantes é independente do número de arquivos técnicos. `sourceHashes` é um objeto `path → SHA-256`, com exatamente `src/equipe.mjs` e `src/individual/alunoN.mjs` para os slots informados. `evidence` contém `preflight`, `aiLog` e `environment`, conforme o contrato JSONL, sem a chave `type`.
+## Limites de tentativas
 
-O vínculo usa SHA-256 do JSON canônico: chaves de objetos ordenadas lexicalmente, ordem dos arrays preservada, sem espaços adicionais. Strings de identificação são aparadas nas extremidades; textos do log preservam os bytes declarados, inclusive espaços. A ficha envia e compara essa forma normalizada. O log admite até 20 entradas, com até 400 caracteres por campo. O registro aceita versões Node de 0 a 99, mas M1-preflight só pontua quando declara sucesso em Node 22 ou superior e versões coerentes entre preflight e ambiente.
+Desafio válido por dez minutos. Cinco emissões por equipe e composição, dez por participante, cem globalmente no intervalo. Mudar o pacote não renova quota. Equipes legítimas com mesmo pacote não compartilham a quota de cinco. Há teto de desafios e retenção para replay/diagnóstico.
 
-O desafio retorna `ok`, `challengeId`, `nonce`, `issuedAt`, `expiresAt`, `activity`, `schema`, `packageSha256`, `bindingSha256`, `casesSha256`, `slots`, `sourceHashes`, `cases` e `token`. Cada caso é `{id, criterion, scope, slot?, input}`. O `id` é opaco e contém prefixo variável; respostas copiadas de outro desafio são rejeitadas mesmo que os nomes dos critérios coincidam.
+Nomes livres não autenticam identidade. Quotas mitigam abuso, mas não eliminam rotação de identidades, negação de serviço ou fraude. Antes de uso real, o responsável deve confrontar limites com tamanho da turma e políticas institucionais; não aumentá-los silenciosamente nesta frente.
 
-Saída do executor:
+## Implantação — apenas após autorização
 
-```javascript
-{id: 'id-opaco', ok: true, value: /* JSON */, unchanged: true}
-// ou
-{id: 'id-opaco', ok: false, error: 'EXECUTION_ERROR'}
-// ou error: 'TIMEOUT'
-```
+1. Conferir projeto Apps Script Mobile, planilha cadastrada, backup, responsável e SHA aprovado.
+2. Instalar Code.gs e RubricaAula08.gs da mesma distribuição. Manter RubricaAula07.gs original.
+3. Registrar o aceite de F02/F03 antes de definir MOBILE_A08_POLICY_APPROVAL. Manter MOBILE_WEB_SUBMISSIONS_ENABLED conforme autorização operacional.
+4. Publicar no deployment Mobile autorizado, preservando a URL /exec. Mudança de allowlist precisa de autorização. GET sanitário legado não demonstra disponibilidade da Aula 08.
+5. Não criar notas/colunas antecipadamente. O fluxo autorizado insere Aula 08 antes de Média quando necessário.
 
-O observador do sandbox compara a entrada antes e depois. M2-3 exige `unchanged: true`; congelar a entrada não mede preservação e não deve substituir essa observação. O limite de uma saída é 20.000 caracteres canônicos. Resultados incompletos, IDs repetidos, campos extras e erros não previstos são recusados.
+## Homologação real — autorização separada
 
-O pedido `verify` retorna `evaluation: {rubric,team,m1,m2,m3,m4,total,criteria}`. A avaliação possui **uma única nota por equipe** e exatamente 20 critérios `{id,label,passed,points,max}`. A prévia permite gerar o PDF com nota oficial **antes** de calcular o hash dos bytes. A entrega final repete a avaliação; não aceita a prévia como autoridade.
+Utilizar equipe fictícia exclusiva e nomes fictícios previamente aprovados, sem colisão com estudantes. Registrar somente o necessário, sem exportação massiva.
 
-`verifyAndSubmit` retorna `{ok:true, receipt, evaluation}`. O objeto `receipt` contém:
+1. Importar fixture JSONL v2, informar equipe e participantes.
+2. Percorrer challenge → verify → PDF/hash → verifyAndSubmit → validateReceipt. Conferir versões, nota coletiva e recibo.
+3. Conferir hash dos bytes do PDF e igualdade do segundo download.
+4. Conferir a mesma nota em todas as linhas, média, Aula 07 preservada e 17 colunas de auditoria.
+5. Reenviar composição idêntica reordenada com resultado alterado: todos atualizam sem duplicatas.
+6. Omissão, adição ou troca de participante deve ser recusada antes de alterar notas/auditoria.
+7. Falhas destrutivas, corrupção, quotas e concorrência forçada pertencem às simulações, não à planilha real. Erro/timeout nunca confirma entrega.
+8. Remover somente linhas fictícias e registros técnicos criados no teste conforme lista autorizada. Preservar colunas, fórmulas e dados reais. Documentar limpeza, data e responsável.
 
-```text
-activity, schema, instrument, rubric, receiptId, receivedAt,
-challengeId, packageSha256, pdfSha256, answersSha256,
-sourceHashes, team, members, evaluation, gradeStatus, signature
-```
+HTTP 200 não basta: exigir gravação conferida, igualdade das notas, reenvio, auditoria, PDF/recibo e limpeza.
 
-A HMAC cobre todos esses campos, exceto `signature`, com domínio específico da Aula 08. `validateReceipt` recebe apenas esse objeto, sem `channel` ou `requestNonce`, e retorna `valid:true`, `receiptSha256` (SHA-256 canônico do recibo **incluindo a assinatura**), `receiptId`, hashes e assinatura. O frontend deve conferir o hash canônico retornado contra o objeto recebido e só então apresentar confirmação. O segredo HMAC nunca sai do servidor. Base64 no pacote é **codificação**, não criptografia.
+## Reconciliação e rollback
 
-## Expiração, replay e concorrência
+ROSTER_CHANGED exige conferir a composição com o professor; não autoriza atualizar omitidos. ROSTER_RECONCILIATION_REQUIRED/write_failed exige suspender a equipe, confrontar challengeId/receiptId/boletim/auditoria e obter autorização específica para as células/registros necessários.
 
-- Desafio válido por 10 minutos.
-- No máximo 5 desafios por hash de pacote a cada 10 minutos.
-- No máximo 8 prévias/verificações por desafio; ao atingir o limite, solicitar outro.
-- Estado em Script Properties, protegido por `LockService`, com no máximo 200 desafios ativos/retidos.
-- Registros de desafio retidos por 2 horas após a expiração para diagnóstico e replay; limpeza ocorre na emissão seguinte.
-- `verify` incrementa um contador técnico de limitação, mas não consome o desafio e não modifica notas ou auditoria.
-- Um desafio passa a `processing` persistentemente antes de qualquer escrita de nota. Concluído o flush, passa a `consumed`. Novas tentativas com o mesmo desafio são recusadas.
-- Um reenvio legítimo pede novo desafio e substitui as linhas existentes por estudante/atividade; não duplica alunos nem auditoria.
-
-A limitação por pacote é uma barreira simples. Um cliente deliberadamente malicioso pode trocar hashes para tentar contorná-la. Ela não é autenticação, proteção de identidade nem serviço resistente a negação de serviço.
-
-## Auditoria e falhas de escrita
-
-As **17 colunas existentes** permanecem na mesma ordem. Detalhes dos quatro marcos e da nota única ficam em `Respostas JSON`. As colunas de nota/XP recebem exatamente o mesmo resultado da equipe em cada linha de participante. HMAC, SHA do PDF e SHA das respostas permanecem disponíveis.
-
-O Apps Script/Sheets não oferece transação atômica entre todas essas escritas. Uma falha depois de alguma operação pode deixar linhas parciais. O adaptador marca `write_failed`, bloqueia o replay e **não emite recibo nem confirmação**. O docente deve conferir a auditoria e o boletim pelo ID do desafio, reparar exclusivamente o que ficou incompleto e liberar um novo envio por novo desafio. Não repetir o mesmo payload como se isso confirmasse conclusão. `MOBILE_A08_CHALLENGE_<id>` conserva o estado técnico por tempo limitado; para diagnóstico, inspecionar sem publicar seu conteúdo.
-
-Em caso de timeout depois de uma gravação, a ficha não afirma entrega. Conferir o boletim e a auditoria antes de repetir. Perder a resposta não desfaz uma escrita concluída. Esse comportamento aparece como contingência, não como sucesso simulado.
-
-## Implantação pelo docente
-
-1. Abra o projeto Apps Script **Mobile** associado à planilha já existente. Confira o ID em `MOBILE_CFG`; não reutilize PPI I.
-2. Mantenha `MOBILE_WEB_SUBMISSIONS_ENABLED=false` durante a atualização e avise caso a turma esteja enviando a Aula 07.
-3. Substitua `Code.gs`, preserve `RubricaAula07.gs` e acrescente `RubricaAula08.gs` do mesmo commit homologado. Salve.
-4. Execute `testarConexaoMobile`. Ele confere infraestrutura e rubrica antiga, sem produzir entregas reais.
-5. Atualize a implantação Web App Mobile existente, com execução pelo docente e acesso previsto para a ficha. Não publicar uma segunda planilha ou copiar segredos para o Git.
-6. Confira a URL `/exec` Mobile da ficha. Um GET respondendo não encerra a homologação da Aula 08.
-7. Somente na janela de homologação autorizada, habilite `MOBILE_WEB_SUBMISSIONS_ENABLED=true`.
-8. Execute os passos do E2E abaixo. Ao terminar, o docente decide o período de recebimento. A chave `MOBILE_RECEIPT_HMAC_SECRET` é gerada no primeiro desafio sob lock, mantida somente em Script Properties e reutilizada pela infraestrutura Mobile.
-
-Não apagar ou girar a chave HMAC sem considerar os recibos anteriores: isso invalida sua verificação. Fazer backup operacional do segredo no mecanismo privado da instituição, nunca neste repositório.
-
-## Roteiro de homologação real (G10)
-
-Executar com dois ou quatro **nomes fictícios**, por exemplo QA Ana e QA Bia, e uma equipe fictícia exclusiva. Nenhum desses passos foi executado em Sheets real nesta entrega.
-
-1. Abra a ficha servida pela publicação a homologar; importe um JSONL gerado pelo starter e preencha o nome da equipe e os nomes dos participantes (sem associá-los aos arquivos técnicos).
-2. Execute o botão principal. Confira desafio vigente, prévia oficial, PDF baixado, hash exato dos bytes, recibo e validação do recibo.
-3. Na aba `4º Bimestre`, confira a nova coluna `Aula 08` antes de `Média`, a mesma nota para todos os participantes, preservação da Aula 07 e média aritmética.
-4. Na aba `Auditoria`, confira uma linha por estudante/atividade, 17 colunas, instrumento, rubrica, hashes, assinatura e JSON com M1–M4.
-5. Provoque um erro em um dos arquivos de tarefa e reenvie com novo desafio. Confira a queda da nota de toda a equipe e a substituição das linhas sem duplicatas.
-6. Tente reutilizar um desafio, adulterar token/recibo e interromper a rede. A ficha não pode mostrar confirmação em falha.
-7. Revise a Aula 07 com fixture autorizada de forma separada, sem alterar notas reais.
-8. Remova **somente** linhas fictícias criadas no boletim e na auditoria. Preserve colunas, fórmulas, notas reais e infraestrutura. Registre quem conferiu, data, URL/versão e remoção.
-
-G10 só recebe PASS depois de implantação, recebimento, escrita, reenvio, auditoria e limpeza efetivamente observados. Sem isso, conservar `PENDING_LIVE_E2E`.
-
-## Evidências automatizadas e limites
-
-```bash
-node --test tests/mobile-entregas.test.cjs
-node --test tests/mobile-entregas-aula08.test.cjs
-```
-
-As suites rodam em Node com Apps Script, Properties, LockService e Sheets simulados. O helper `createFixture` da suite A08 pode ser usado pelo Chromium para executar o adaptador real da candidata, com transporte interceptado e sem chamadas ao Google. Concorrência é testada por reentrada durante escrita e lock ocupado; isso não constitui teste de carga da infraestrutura real.
-
-Cobertura: 20 critérios, notas distintas, nota local adulterada ignorada, HMAC, hash, reenvio, média, TTL/replay, token/atividade/schema/pacote inválidos, resultados de outro desafio, entradas extras, fórmulas em nomes, equipe conflitante, limites e escrita/flush com falha sem confirmação. A Aula 07 possui suite original independente.
-
-**Garantias do código verificado:** cálculo no servidor, rubrica explícita, campos/limites, associação criptográfica de desafio e recibo aos dados, rejeição de replay e ausência de falso recibo no caminho de erro testado.
-
-**Mitigações:** adulterar apenas nota/avaliador local, copiar resultados de outro desafio, inserir nomes como fórmula e reenviar concorrentemente são tratados pelos controles descritos.
-
-**Não garantido:** autoria, honestidade do navegador, vínculo real nome-pessoa, ausência de ajuda, uso real em celular, efetiva execução das fontes por um cliente substituído, veracidade de preflight/log e atomicidade completa do Sheets. Um cliente inteiramente malicioso pode calcular saídas corretas sem executar as fontes declaradas. Hashes apenas identificam bytes/dados; HMAC autentica o servidor, não o estudante. O professor complementa com observação e conversa curta sobre o código.
-
-
-## Decisão docente de 27/10/2026 — nota por equipe
-
-**Rubrica 1.1.0:** a avaliação é coletiva. A ficha solicita apenas o nome da equipe e de um a quatro nomes de participantes. Arquivos técnicos não são pessoas. Os 20 critérios pontuam a equipe; cada critério M4 aprova somente se todos os arquivos selecionados no JSONL passam os casos correspondentes. O `verify` devolve uma avaliação única. O `verifyAndSubmit` assina avaliação e lista de integrantes; a planilha mantém uma linha por estudante com a mesma nota e o mesmo recibo. Não há nota por slot.
-
-A atualização precisa ser implantada no projeto Apps Script Mobile para homologação. Uma implantação antiga não é compatível com a rubrica nova. G10 permanece `PENDING_LIVE_E2E`.
+Sem autorização de produção, rollback apenas da candidata Git. Na implantação autorizada, suspender A08 retirando o aceite enquanto v2 estiver ativa. **Não restaurar a versão A08 antiga vulnerável.** Alternativa pelo responsável: distribuição A07-only verificada que recuse A08 e preserve Aula 07. Nunca reverter notas ou apagar auditoria automaticamente.

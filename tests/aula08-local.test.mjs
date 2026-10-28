@@ -10,7 +10,7 @@ import {evaluateProject,runSource,parseSlots} from '../lessons/aula-08-av1-incre
 import {preflight,collectEvidence} from '../lessons/aula-08-av1-incremento-1/projeto/scripts/preflight.mjs';
 const project=fileURLToPath(new URL('../lessons/aula-08-av1-incremento-1/projeto/',import.meta.url));
 const output=cases=>cases.map(c=>({id:c.id,ok:true,value:c.expected,unchanged:true}));
-const fullEvidence={preflight:{ok:true,filesReady:true},aiLog:[{mission:'M2',request:'Fixture sintética',suggestion:'Conferir',humanChange:'Ajustar',test:'Teste'}]};
+const fullEvidence={aiUsage:{status:'used',reflection:'Reflexão sintética de teste, sem dados pessoais.'},preflight:{ok:true,filesReady:true},aiLog:[{mission:'M2',request:'Fixture sintética',suggestion:'Conferir',humanChange:'Ajustar',test:'Teste'}]};
 async function fixture(t){const root=await mkdtemp(path.join(os.tmpdir(),'a08-local-'));await cp(project,root,{recursive:true});t.after(()=>rm(root,{recursive:true,force:true}));return root;}
 test('20 critérios por equipe, zero e máximo sem arredondamento indevido',()=>{
   const zero=scorePublic({evidence:{},packageValid:false,hashesValid:false,mappingValid:false});
@@ -21,7 +21,7 @@ test('20 critérios por equipe, zero e máximo sem arredondamento indevido',()=>
 });
 test('M2 preservação exige entrada inalterada mesmo com saída correta',()=>{
   const rows=output(TEAM_CASES).map(o=>o.id==='t5'?{...o,unchanged:false}:o);
-  const result=scorePublic({teamOutputs:rows,evidence:fullEvidence,slots:[1]});
+  const result=scorePublic({teamOutputs:rows,evidence:fullEvidence,slots:[1,2,3,4]});
   assert.equal(result.criteria.find(c=>c.id==='M2-3').passed,false);
 });
 test('starter tem pendências reais, uma nota da equipe e log de IA vazio',async()=>{
@@ -43,7 +43,7 @@ test('worker registra erro de sintaxe e saída fora de JSON',async t=>{
   await writeFile(path.join(root,'src/equipe.mjs'),'export function resolver(){return undefined}');assert.equal((await runSource(root,'src/equipe.mjs',[TEAM_CASES[0]]))[0].ok,false);
 });
 test('slots rejeitam zero, extras e duplicatas',()=>{
-  assert.deepEqual(parseSlots(['--slots=1,3']),[1,3]);for(const x of ['','0','1,1','1,2,3,4,5','2,1','5'])assert.throws(()=>parseSlots([`--slots=${x}`]));assert.throws(()=>parseSlots(['--name=Aluno']));
+  assert.deepEqual(parseSlots(['--slots=1,2,3,4']),[1,2,3,4]);assert.throws(()=>parseSlots(['--slots=1,3']),/quatro/);for(const x of ['','0','1,1','1,2,3,4,5','2,1','5'])assert.throws(()=>parseSlots([`--slots=${x}`]));assert.throws(()=>parseSlots(['--name=Aluno']));
 });
 test('servidor local atende app e não serve arquivos arbitrários',async t=>{
   const child=spawn(process.execPath,['scripts/web.mjs'],{cwd:project,env:{...process.env,PORT:'18988'},stdio:['ignore','pipe','pipe']});t.after(()=>child.kill());
@@ -51,7 +51,6 @@ test('servidor local atende app e não serve arquivos arbitrários',async t=>{
   const page=await fetch('http://127.0.0.1:18988/');assert.equal(page.status,200);assert.match(await page.text(),/Atividades da escola/);
   assert.equal((await fetch('http://127.0.0.1:18988/src/evidencias.json')).status,404);assert.equal((await fetch('http://127.0.0.1:18988/.env')).status,404);
 });
-
 test('um erro de apenas uma tarefa técnica reduz a nota de toda a equipe',()=>{
   const outputs=Object.fromEntries([1,2,3,4].map(s=>[s,output(individualCases(s))]));
   const perfect=scorePublic({teamOutputs:output(TEAM_CASES),individualOutputs:outputs,evidence:fullEvidence});

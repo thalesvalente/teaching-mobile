@@ -20,9 +20,9 @@ export async function preflight(root = PROJECT_ROOT) {
 }
 export async function collectEvidence(root = PROJECT_ROOT) {
   const raw = JSON.parse(await readAllowed(root,'src/evidencias.json',32768));
-  if (Object.keys(raw).length !== 1 || !Object.hasOwn(raw,'aiLog')) throw new Error('src/evidencias.json deve conter somente aiLog.');
+  if (Object.keys(raw).sort().join(',') !== 'aiLog,aiUsage') throw new Error('src/evidencias.json deve conter somente aiLog e aiUsage; use o exemplo da versão atual.');
   const nodeMajor = Number(process.versions.node.split('.')[0]);
-  return validateEvidence({type:'evidence',preflight:await preflight(root),aiLog:raw.aiLog,environment:{runtime:'node',nodeMajor,platform:['linux','win32','darwin'].includes(process.platform)?process.platform:'other'}});
+  return validateEvidence({type:'evidence',preflight:await preflight(root),aiLog:raw.aiLog,aiUsage:raw.aiUsage,environment:{runtime:'node',nodeMajor,platform:['linux','win32','darwin'].includes(process.platform)?process.platform:'other'}});
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const result = await preflight();

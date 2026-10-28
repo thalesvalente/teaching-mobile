@@ -1,1 +1,7 @@
-{"aiLog":[]}
+{
+  "aiLog": [],
+  "aiUsage": {
+    "status": "undeclared",
+    "reflection": ""
+  }
+}
