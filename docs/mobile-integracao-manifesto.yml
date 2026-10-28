@@ -18,7 +18,7 @@ targets:
   rubric: mobile-a07-simulador-1.1.0
   endpoint_exec: https://script.google.com/macros/s/AKfycbyrvOlCl0Icm98SRNJ3SJy4gjx4Q4GH_k0EhxV50ebe93JXj_zjE8MmJ_zoGMwvNtXR/exec
   endpoint_provided: '2026-10-21'
-  endpoint_status: GET_PUBLIC_PASS_PENDING_POST
+  endpoint_status: POST_SHEETS_CONFIRMED_ACK_TIMEOUT_PATCH_NOT_DEPLOYED
 policies:
   default: deny
   write_scopes:
@@ -41,15 +41,15 @@ gates:
   G3: original_pdf_offline_plus_new_button
   G4: receipt_hmac_upsert_averages
   G5: github_actions_browser_wcag
-  G6: GET_PASS_PENDING_LIVE_POST
+  G6: POST_SHEETS_CONFIRMED_ACK_RECOVERY_PENDING_DEPLOY
   G7: pr_docs_publication
 
 verification:
-  verified_at: '2026-10-21'
-  check: 'GET /exec from GitHub Actions unauthenticated'
-  outcome: 'Earlier GET redirected to Google Sign in; updated access Anyone now passes GET anonymously with expected Mobile version 1.0.0'
+  verified_at: '2026-10-28'
+  check: 'GET /exec passou e registro POST real observado no Google Sheets Mobile'
+  outcome: 'GET público 200 e três linhas de teste em Auditoria/4º Bimestre (recibo db501aee-e3b7-495c-becb-bbf7b5df2c9e); navegador registrou timeout do ACK apesar da gravação'
   reference: 'https://github.com/thalesvalente/teaching-mobile/actions/runs/39666541643'
   unblock: 'Completed — unauthenticated GET 200 expected version'
-  post_e2e: PENDING
+  post_e2e: POST_WRITE_OBSERVED_ACK_TIMEOUT
 
-  next: 'POST real da ficha GitHub Pages com QA Ana e QA Bia; conferir Auditoria e 4º Bimestre'
+  next: 'Publicar novo Code.gs no Apps Script Mobile e frontend v1.0.2 no GitHub Pages; verificar recebimento de ACK real com teste autorizado e sem duplicatas'
