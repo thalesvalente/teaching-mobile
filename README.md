@@ -92,3 +92,11 @@ https://thalesvalente.github.io/teaching-mobile/
 
 ---
 IFMA · Campus Itapecuru-Mirim · Programação para Dispositivos Móveis · 2026.2
+
+## Prévia Expo Web dos projetos Memórias e EDA
+
+O portal oferece **Abrir aplicativo** (versão Expo Web), **Missões** (HTML da Aula 05) e **Código-fonte** (pasta Expo no GitHub). A Aula 07 também possui [guia de projeto navegável](lessons/aula-07-estado-filtros/projeto/guia.html).
+
+A publicação dos aplicativos depende do workflow [Publicar projetos Expo Web](.github/workflows/publish-mobile-projects.yml), que exporta as duas versões com `experiments.baseUrl`, monta o site em `_site/`, verifica links e assets e só então publica. Em pull requests, o workflow executa os testes e anexa uma prévia, sem publicar. As rotas previstas são `/teaching-mobile/apps/memorias/` e `/teaching-mobile/apps/eda/`.
+
+**Ação de configuração necessária:** em **Settings → Pages → Build and deployment**, definir **Source = GitHub Actions**. Se o Pages permanecer em “Deploy from a branch”, o novo workflow não substitui automaticamente o mecanismo de publicação. A publicação só deve ser considerada concluída após build, deploy e verificação dos endereços reais.

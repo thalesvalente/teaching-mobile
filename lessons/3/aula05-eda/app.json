@@ -9,7 +9,11 @@
       "web"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/teaching-mobile/apps/eda"
+    },
+    "web": {
+      "output": "single"
     }
   }
 }
