@@ -10,7 +10,7 @@ function verifyHTML(path){
   const html=readFileSync(path,"utf8");
   for(const [,raw] of html.matchAll(/\b(?:src|href)=["']([^"']+)["']/gi)){
     if(/^(?:https?:|mailto:|tel:|data:|#)/i.test(raw))continue;
-    const name=raw.split(/[?#]/,1)[0];if(!name)continue;
+    const name=decodeURIComponent(raw.split(/[?#]/,1)[0]);if(!name)continue;
     assert.ok(!name.startsWith("/")||name.startsWith(prefix),"URL absoluta fora da base: "+raw);
     const location=resolve(name.startsWith(prefix)?root:dirname(path),name.startsWith(prefix)?name.slice(prefix.length):name);
     assert.ok(location===root||location.startsWith(root+sep),"URL fora do site: "+raw);
