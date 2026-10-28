@@ -19,7 +19,7 @@ on:
       - '.github/workflows/publish-mobile-projects.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: teaching-mobile-pages
   cancel-in-progress: false
@@ -68,6 +68,21 @@ jobs:
           cp -a lessons/3/aula05-eda/dist/. _site/apps/eda/
       - name: Verificar artefatos e referências
         run: node scripts/verify-mobile-pages.mjs _site
+      - name: Publicar apps compilados na raiz do Pages tradicional
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p apps/memorias apps/eda
+          rsync -a --delete lessons/3/aula05-memorias/dist/ apps/memorias/
+          rsync -a --delete lessons/3/aula05-eda/dist/ apps/eda/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f apps/memorias apps/eda
+          if ! git diff --cached --quiet; then
+            git commit -m "build(mobile): atualizar aplicativos Expo Web publicados [skip ci]"
+            git push origin HEAD:main
+          fi
       - name: Disponibilizar prévia
         uses: actions/upload-artifact@v4
         with:
