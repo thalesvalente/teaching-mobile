@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      AULA08_EVIDENCE_DIR: ${{ runner.temp }}/a08-remediation-evidence
+      AULA08_EVIDENCE_DIR: /tmp/a08-remediation-evidence
     steps:
       - run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
@@ -72,5 +72,5 @@ jobs:
         if: always()
         with:
           name: aula08-remediation-${{ github.run_id }}
-          path: ${{ runner.temp }}/a08-remediation-evidence
+          path: /tmp/a08-remediation-evidence
           if-no-files-found: warn
