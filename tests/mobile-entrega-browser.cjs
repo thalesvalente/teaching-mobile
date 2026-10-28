@@ -35,7 +35,7 @@ function server() {
     '/teaching-mobile/lessons/aula-07-estado-filtros/atividade.html';
   const browser=await chromium.launch({headless:true});
   const page=await browser.newPage({acceptDownloads:true,viewport:{width:390,height:844}});
-  let count=0,mode='ok',lastPost=null;
+  let count=0,mode='ok',lastPost=null,storedReceipt=null,lookups=0;
   const tests=[];
   try{
     // Com o endpoint real configurado, PDF local não aciona envio HTTP.
@@ -57,6 +57,15 @@ function server() {
       await route.fulfill({status:200,contentType:'text/javascript; charset=utf-8',
         body:original.replace("const ENDPOINT = '"+deployedEndpoint+"';","const ENDPOINT = '"+endpoint+"';")});
     });
+    await page.route('**/exec?receipt=*',async route=>{
+      lookups++;
+      const nonce=new URL(route.request().url()).searchParams.get('receipt');
+      const data=storedReceipt && storedReceipt.nonce===nonce
+        ? storedReceipt : {channel:'mobile-entrega-aula07',nonce,pending:true};
+      const js='window.__mobileEntregaReceipt&&window.__mobileEntregaReceipt('+
+        JSON.stringify(data)+');';
+      await route.fulfill({status:200,contentType:'text/javascript;charset=utf-8',body:js});
+    });
     await page.route(endpoint,async route=>{
       count++;
       const form=new URLSearchParams(route.request().postData()||'');
@@ -74,8 +83,11 @@ function server() {
         signature:'c'.repeat(64),grade,xp:grade*10,
         error:'Falha simulada do Apps Script'
       };
-      const html='<!doctype html><meta charset="utf-8"><script>top.postMessage('+
-        JSON.stringify(receipt)+', "*");</scr'+'ipt>';
+      storedReceipt=receipt;
+      const html=mode==='silent-frame'
+        ? '<!doctype html><title>Resposta em iframe bloqueada</title>'
+        : '<!doctype html><meta charset="utf-8"><script>top.postMessage('+
+          JSON.stringify(receipt)+', "*");</scr'+'ipt>';
       await route.fulfill({status:200,contentType:'text/html;charset=utf-8',body:html});
     });
     await page.reload({waitUntil:'networkidle'});
@@ -125,6 +137,20 @@ function server() {
     assert.equal(lastPost.payload.snapshot.scores.simulator.earned,0);
     tests.push('Reenvio reduz nota para zero sem alterar atividades');
 
+    // Reproduz a falha real: POST recebido, mas iframe sem postMessage.
+    // A consulta GET recupera o recibo sem um segundo POST.
+    mode='silent-frame';
+    const silent=await Promise.all([
+      page.waitForEvent('download',{timeout:15000}),
+      page.locator('#mobile-submit').click()
+    ]).then(x=>x[0]);
+    await silent.saveAs(path.join(out,'sem-mensagem-iframe.pdf'));
+    await page.waitForFunction(()=>document.getElementById('mobile-delivery-status')
+      .textContent.includes('browser-qa-3'),{timeout:15000});
+    assert.equal(count,3,'Consulta de recibo não pode reenviar a atividade');
+    assert.ok(lookups>0,'Fallback GET deve consultar recibo');
+    tests.push('iframe sem resposta confirma via GET, sem POST duplicado');
+
     // Erro real deve aparecer, ainda que o PDF local tenha sido baixado.
     mode='reject';
     const rejection=await Promise.all([
@@ -134,7 +160,7 @@ function server() {
     await rejection.saveAs(path.join(out,'recusado.pdf'));
     await page.waitForFunction(()=>document.getElementById('mobile-delivery-status')
       .textContent.includes('ENTREGA NÃO CONFIRMADA'),{timeout:15000});
-    assert.equal(count,3);
+    assert.equal(count,4);
     tests.push('POST recusado não é falso sucesso');
 
     mode='bad-hash';
@@ -145,7 +171,7 @@ function server() {
     await invalid.saveAs(path.join(out,'adulterado.pdf'));
     await page.waitForFunction(()=>document.getElementById('mobile-delivery-status')
       .textContent.includes('ENTREGA NÃO CONFIRMADA'),{timeout:15000});
-    assert.equal(count,4);
+    assert.equal(count,5);
     tests.push('Recibo com hash diferente é rejeitado');
 
     // Fallback para caractere indisponível: não há bytes e não há POST.

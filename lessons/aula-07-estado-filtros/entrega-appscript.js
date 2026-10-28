@@ -59,18 +59,27 @@
         input.name = key; input.value = value;
         form.append(input);
       }
-      let done = false;
+      let done = false, pollTimer = 0, timer = 0;
+      const scripts = new Set();
+      const previousHandler = window.__mobileEntregaReceipt;
       const finish = (error,result) => {
         if (done) return;
-        done = true; clearTimeout(timer);
+        done = true; clearTimeout(timer); clearTimeout(pollTimer);
         window.removeEventListener('message',receive);
+        for (const script of scripts) script.remove();
+        scripts.clear();
+        if (window.__mobileEntregaReceipt === lookupHandler) {
+          if (previousHandler === undefined) delete window.__mobileEntregaReceipt;
+          else window.__mobileEntregaReceipt = previousHandler;
+        }
         frame.remove(); form.remove();
         error ? reject(error) : resolve(result);
       };
-      const receive = e => {
-        if (!googleOrigin(e.origin)) return;
-        const data = e.data;
+      // Dois canais de resposta, mesma validação: postMessage ou consulta somente-leitura.
+      // GET usa um UUID imprevisível, não envia nomes, respostas nem dados pessoais.
+      const verify = data => {
         if (!data || data.channel !== 'mobile-entrega-aula07' || data.nonce !== nonce) return;
+        if (data.pending === true) return;
         if (!data.ok) return finish(Error(data.error || 'Recebimento recusado.'));
         if (data.activity !== ACTIVITY || data.instrument !== 'simulador-html' ||
             data.pdfSha256 !== pdfHash || typeof data.receiptId !== 'string' ||
@@ -82,12 +91,36 @@
           return finish(Error('A nota calculada no servidor difere do simulador; confira com o professor.'));
         finish(null,data);
       };
-      const timer = setTimeout(() => finish(Error(
+      const receive = e => {
+        if (googleOrigin(e.origin)) verify(e.data);
+      };
+      const lookupHandler = data => verify(data);
+      const poll = () => {
+        if (done) return;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = ENDPOINT + '?receipt=' + encodeURIComponent(nonce) + '&ts=' + Date.now();
+        scripts.add(script);
+        const next = () => {
+          scripts.delete(script); script.remove();
+          if (!done) pollTimer = setTimeout(poll,3200);
+        };
+        script.onload = next;
+        script.onerror = next;
+        document.head.append(script);
+      };
+      window.__mobileEntregaReceipt = lookupHandler;
+      timer = setTimeout(() => finish(Error(
         'Não houve confirmação do servidor. Verifique a planilha antes de reenviar.'
       )),45000);
       window.addEventListener('message',receive);
       document.body.append(frame,form);
-      try { form.submit(); } catch (error) { finish(error); }
+      try {
+        form.submit();
+        // O Google pode bloquear o iframe mesmo após gravar a planilha.
+        // Consultar o recibo não repete o POST e não altera a nota.
+        pollTimer = setTimeout(poll,1800);
+      } catch (error) { finish(error); }
     });
   }
   button.addEventListener('click',async () => {

@@ -339,7 +339,26 @@ function processMobileDelivery(body) {
       message:'Entrega confirmada. Nota do simulador: '+item.grade.toFixed(1)+'/10.'};
   } finally { lock.releaseLock(); }
 }
-function doGet() {
+// Consulta somente-leitura de recibos por nonce aleatório (não consulta a planilha).
+// A entrega ocorre exclusivamente por POST; GET nunca cria ou altera notas.
+function mobileReceiptKey(nonce) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(nonce)
+    ? 'mobile-receipt-v1-' + nonce.toLowerCase() : '';
+}
+function doGet(e) {
+  if (e && e.parameter && Object.prototype.hasOwnProperty.call(e.parameter,'receipt')) {
+    const nonce = String(e.parameter.receipt || '');
+    const key = mobileReceiptKey(nonce);
+    const cached = key ? CacheService.getScriptCache().get(key) : null;
+    // JSONP com callback fixo, sem parâmetros executáveis; nonce não é dado pessoal.
+    // Publicar apenas o recibo mínimo. O segredo HMAC nunca sai do Apps Script.
+    const result = cached ? JSON.parse(cached) : {pending:true};
+    const body = JSON.stringify({channel:'mobile-entrega-aula07',nonce,...result})
+      .replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
+    return ContentService.createTextOutput(
+      'window.__mobileEntregaReceipt&&window.__mobileEntregaReceipt(' + body + ');'
+    ).setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
   return ContentService.createTextOutput(
     'Mobile — endpoint de entrega ativo. Versão: ' + MOBILE_CFG.version);
 }
@@ -351,12 +370,20 @@ function doPost(e) {
       throw Error('Recebimento Mobile ainda não habilitado pelo professor.');
     response = processMobileDelivery(String(e && e.parameter && e.parameter.payload || ''));
   } catch (error) { response = {ok:false,error:String(error.message || 'Entrega recusada.')}; }
+  const key = mobileReceiptKey(nonce);
+  if (key) {
+    // Registra o resultado do POST para recuperação caso o navegador bloqueie o iframe.
+    // Cache de 5 minutos, indexado por UUID v4 imprevisível; sem nomes, PDF ou respostas.
+    try { CacheService.getScriptCache().put(key,JSON.stringify(response),300); }
+    catch (error) { console.warn('Cache do recibo indisponível: '+String(error.message||error)); }
+  }
   const data = JSON.stringify({channel:'mobile-entrega-aula07',nonce,...response})
     .replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   return HtmlService.createHtmlOutput(
     '<!doctype html><meta charset="utf-8"><script>top.postMessage(' +
-    data + ', "*");</scr' + 'ipt>'
-  ).setTitle('Comprovante de entrega Mobile');
+    data + ', "https://thalesvalente.github.io");</scr' + 'ipt>'
+  ).setTitle('Comprovante de entrega Mobile')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 function testarConexaoMobile() {
   const ss = SpreadsheetApp.openById(MOBILE_CFG.spreadsheetId);

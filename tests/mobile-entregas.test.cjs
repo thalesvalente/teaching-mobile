@@ -66,7 +66,7 @@ function fixture() {
     ['Auditoria',sheet('Auditoria',headers)]
   ]);
   let uid=0,flush=0,acquired=0,released=0;
-  const props={};
+  const props={},receiptCache=new Map();
   const signed=buffer=>Array.from(buffer,x=>x>127?x-256:x);
   const scope={window:{},Date,Set,Map,JSON,Number,Math,console:{log(){}},
     Utilities:{
@@ -89,15 +89,22 @@ function fixture() {
     LockService:{getScriptLock:()=>({
       waitLock:()=>{acquired++},releaseLock:()=>{released++}
     })},
-    ContentService:{createTextOutput:s=>({getContent:()=>s})},
-    HtmlService:{createHtmlOutput:s=>({content:s,setTitle(){return this}})}
+    CacheService:{getScriptCache:()=>({
+      get:key=>receiptCache.get(key)||null,
+      put:(key,value,ttl)=>{assert.equal(ttl,300);receiptCache.set(key,value)}
+    })},
+    ContentService:{MimeType:{JAVASCRIPT:'text/javascript'},
+      createTextOutput:s=>({getContent:()=>s,setMimeType(type){this.mimeType=type;return this}})},
+    HtmlService:{XFrameOptionsMode:{ALLOWALL:'ALLOWALL'},
+      createHtmlOutput:s=>({content:s,setTitle(){return this},
+        setXFrameOptionsMode(mode){this.frameMode=mode;return this}})}
   };
   vm.createContext(scope);
   vm.runInContext(ruby,scope,{filename:'RubricaAula07.gs'});
   vm.runInContext(server,scope,{filename:'Code.gs'});
   const original={window:{}};vm.runInNewContext(core,original,{filename:'nucleo.js'});
   const api=vm.runInContext('MobileRubricAula07',scope);
-  return {scope,api,original:original.window.Aula7,props,tabs,
+  return {scope,api,original:original.window.Aula7,props,tabs,receiptCache,
     submit:(members=['Ana Teste'],choices={},extra={})=>
       scope.processMobileDelivery(JSON.stringify(envelope(members,choices,extra))),
     grade:()=>tabs.get('4º Bimestre').rows,audit:()=>tabs.get('Auditoria').rows,
@@ -135,7 +142,7 @@ test('G0 — rubrica original espelhada literalmente e arquivos didáticos intoc
   const html=fs.readFileSync(path.join(dir,'atividade.html'),'utf8')
     .replace('<button type="button" id="mobile-submit" disabled>Gerar PDF e entregar</button>','')
     .replace('<p id="mobile-delivery-status" class="rule" role="status" aria-live="polite" aria-atomic="true" style="white-space:pre-wrap;overflow-wrap:anywhere">Entrega online ainda não configurada. PDF, impressão e rascunho continuam disponíveis.</p>\n','')
-    .replace('<script src="entrega-appscript.js?v=1.0.1"></script>','');
+    .replace('<script src="entrega-appscript.js?v=1.0.2"></script>','');
   assert.equal(blobSha(html),'afeb1ed1cd527ad28a742387a7b78654531a8f80',
     'HTML pré-existente deve ser byte-idêntico após remover apenas as adições de entrega');
 });
@@ -273,6 +280,43 @@ test('G6 — GET sanitário e POST bloqueado até autorização explícita',()=>
   assert.match(allowed.content,/"ok":true/);
   assert.match(allowed.content,/"grade":0/);
   assert.equal(f.audit().length,2);
+});
+test('G6 — POST grava recibo recuperável por GET sem repetir a entrega',()=>{
+  const f=fixture();
+  const nonce='123e4567-e89b-42d3-a456-426614174000';
+  const pending=f.scope.doGet({parameter:{receipt:nonce}});
+  assert.equal(pending.mimeType,'text/javascript');
+  assert.match(pending.getContent(),/"pending":true/);
+  f.props.MOBILE_WEB_SUBMISSIONS_ENABLED='true';
+  const posted=f.scope.doPost({parameter:{nonce,payload:JSON.stringify(envelope())}});
+  assert.equal(posted.frameMode,'ALLOWALL');
+  assert.match(posted.content,/https:\/\/thalesvalente.github.io/);
+  const before=f.audit().length;
+  const script=f.scope.doGet({parameter:{receipt:nonce}});
+  let callback=null;
+  vm.runInNewContext(script.getContent(),{window:{__mobileEntregaReceipt:data=>{callback=data;}}});
+  assert.equal(callback.channel,'mobile-entrega-aula07');
+  assert.equal(callback.nonce,nonce);
+  assert.equal(callback.ok,true);
+  assert.equal(callback.grade,0);
+  assert.match(callback.receiptId,/^[0-9a-f-]{36}$/);
+  assert.equal(callback.pdfSha256,'a'.repeat(64));
+  assert.equal(f.audit().length,before,'GET deve ser estritamente somente leitura');
+  let missing=null;
+  const invalid=f.scope.doGet({parameter:{receipt:'nonce-invalido'}});
+  vm.runInNewContext(invalid.getContent(),{window:{__mobileEntregaReceipt:data=>{missing=data;}}});
+  assert.equal(missing.pending,true);
+  assert.equal(missing.ok,undefined);
+});
+test('G6 — POST recusado guarda erro para o mesmo nonce, sem gravar planilha',()=>{
+  const f=fixture(),nonce='123e4567-e89b-42d3-a456-426614174001';
+  f.scope.doPost({parameter:{nonce,payload:JSON.stringify(envelope())}});
+  let receipt=null;
+  vm.runInNewContext(f.scope.doGet({parameter:{receipt:nonce}}).getContent(),
+    {window:{__mobileEntregaReceipt:data=>{receipt=data;}}});
+  assert.equal(receipt.ok,false);
+  assert.match(receipt.error,/não habilitado/);
+  assert.equal(f.audit().length,1);
 });
 test('G1 — somente cinco abas e ID independente da PPI I',()=>{
   const f=fixture();f.scope.testarConexaoMobile();
