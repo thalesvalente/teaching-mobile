@@ -25,6 +25,20 @@ A **rubrica da ficha não é a rubrica de preenchimento da PPI I**. Um campo res
 
 A Aula 07 é enviada para \`4º Bimestre\`, coluna \`Aula 07\`. Média aritmética simples por linha; atividades cadastradas mas não entregues valem zero. A aba \`Auditoria\` possui 17 colunas para identificadores, equipe, horários, PDF hash, respostas hash, HMAC, XP/nota automática, autoavaliação declarada, situação, rubrica, JSON normalizado, chave de upsert. Cada aluno da equipe recebe uma linha; o recibo e o hash podem ser compartilhados por uma entrega em grupo. O PDF **não é armazenado no Drive**; permanece com os estudantes.
 
+## Diagnóstico e recuperação de confirmação — 28/10/2026
+
+Em 28/10/2026, o acesso de leitura à planilha Mobile encontrou três registros da equipe de testes na aba `Auditoria`, todos com o recibo `db501aee-e3b7-495c-becb-bbf7b5df2c9e`, mesmo PDF SHA-256, HMAC e nota 0; também constavam na aba `4º Bimestre`. Apesar da gravação efetiva, o navegador exibiu timeout por não receber o recibo via `postMessage`. **O POST já funcionou; a falha é de confirmação no navegador.** Não reenviar por causa desse timeout sem verificar a Auditoria.
+
+Correção proposta nesta branch:
+
+- O `doPost` grava o resultado de cada tentativa (inclusive recusa) por até **300 segundos** no `CacheService` sob nonce UUID v4, sem guardar nomes, respostas ou PDF no cache.
+- O `doGet?receipt=<uuid>` devolve **apenas leitura** de recibo/pending por JSONP com callback fixo, sem parâmetro de callback fornecido pelo cliente. A rota original `doGet` continua retornando o diagnóstico de versão. O nonce é imprevisível; não usar JSONP para informações pessoais.
+- A ficha preserva o envio POST original, espera `postMessage` e, se necessário, consulta o recibo por GET, validando nonce, instrumento, atividade, hash, assinatura (formato), XP e nota antes de exibir **ENTREGA CONFIRMADA**. Consultas GET não geram reenvio nem escrevem nota.
+- O `HtmlOutput` define `setXFrameOptionsMode(ALLOWALL)` e direciona a mensagem exclusivamente a `https://thalesvalente.github.io`; a confirmação não depende disso, porque políticas de iframe do Google podem bloquear o HTML independentemente do código.
+- `atividade.html` usa `entrega-appscript.js?v=1.0.2` para invalidar o cache antigo. Rubrica e PDF não foram alterados.
+
+**Implantação ainda necessária:** atualizar `Code.gs` no projeto Apps Script Mobile (nunca PPI), salvar, publicar **nova versão da implantação Web App existente**, mantendo acesso e Script Properties previamente autorizados. O GitHub não publica automaticamente o código `.gs` no Apps Script. Depois, abrir a ficha publicada, simular um envio com integrantes fictícios autorizados, conferir recibo, nota e hashes nas abas `Auditoria` / `4º Bimestre`, e limpar apenas os registros de teste correspondentes. Não ativar ou desativar `MOBILE_WEB_SUBMISSIONS_ENABLED` sem decisão explícita do docente. **Até essa verificação: código candidato; produção ainda não homologada.**
+
 ## Configuração — ação humana obrigatória no Google Apps Script
 
 1. Entre no Google Apps Script com a conta que pode editar a planilha Mobile. Crie um **novo projeto**, por exemplo \`teaching-mobile-entregas-2026\`. **Não substitua o projeto Apps Script da PPI I.**
@@ -33,7 +47,7 @@ A Aula 07 é enviada para \`4º Bimestre\`, coluna \`Aula 07\`. Média aritméti
 4. Clique em salvar e execute \`testarConexaoMobile\`. Deve aparecer \`Diagnóstico Mobile: PASS\`. Esse teste não cria entregas fictícias e não valida POST externo.
 5. Em **Project Settings → Script properties**, mantenha \`MOBILE_WEB_SUBMISSIONS_ENABLED=false\` durante o preflight. \`MOBILE_RECEIPT_HMAC_SECRET\` é gerado automaticamente na primeira entrega autorizada, fica privado e não deve ser publicado.
 6. **Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone** (MVP por link sem identificação autenticada). Publique e copie a URL **\`/exec\`**. O endpoint Mobile deve responder em GET: \`Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0\`.
-7. A URL Mobile já está em `entrega-appscript.js` (versão de cache `1.0.1`) e será publicada pelo GitHub Pages após o QA. **Não utilizar a URL da PPI**.
+7. A URL Mobile já está em `entrega-appscript.js` (versão de cache `1.0.2`) e será publicada pelo GitHub Pages após o QA. **Não utilizar a URL da PPI**.
 8. Após conferir a mensagem `Mobile — endpoint de entrega ativo. Versão: mobile-entregas-1.0.0` na URL `/exec`, defina `MOBILE_WEB_SUBMISSIONS_ENABLED=true` em Script Properties **somente para o teste autorizado com QA Ana/QA Bia**; após homologação, o professor decide manter o recebimento para a turma. O flag controla POSTs mesmo com Web App `Anyone`. A planilha continua privada.
 
 **Contrato do recibo:** \`channel=mobile-entrega-aula07\`, \`nonce\` aleatório por clique, \`ok\`, \`receiptId\`, \`activity\`, \`instrument\`, \`receivedAt\` UTC, \`pdfSha256\`, \`answersSha256\`, \`grade\`, \`xp\`, \`signature\`. O aluno só vê **ENTREGA CONFIRMADA** quando a resposta legítima corresponde ao hash do PDF baixado e à nota local. Mensagens de erro e timeout nunca confirmam entrega. O PDF direto usa os mesmos bytes da geração local já existente. Quando caracteres não suportados acionam impressão, nenhum hash de PDF é inventado e nenhum POST acontece.
