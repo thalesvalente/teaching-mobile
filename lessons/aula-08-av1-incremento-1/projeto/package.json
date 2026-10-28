@@ -1,0 +1,15 @@
+{
+  "name": "aula08-laboratorio-vivo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Laboratório Mobile no navegador: funções puras, navegação, formulário e evidências.",
+  "scripts": {
+    "preflight": "node scripts/preflight.mjs",
+    "web": "node scripts/web.mjs",
+    "nota": "node scripts/avaliar.mjs",
+    "entrega": "node scripts/gerar-entrega.mjs",
+    "test": "node scripts/avaliar.mjs --strict"
+  },
+  "engines": {"node": ">=22"}
+}

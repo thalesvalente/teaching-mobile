@@ -1,0 +1,79 @@
+[
+  {
+    "command": "npm ci",
+    "cwd": "lessons/aula-08-av1-incremento-1/projeto",
+    "exit": 0,
+    "tests": null,
+    "log": "00.log"
+  },
+  {
+    "command": "npm run preflight",
+    "cwd": "lessons/aula-08-av1-incremento-1/projeto",
+    "exit": 0,
+    "tests": null,
+    "log": "01.log"
+  },
+  {
+    "command": "npm run nota",
+    "cwd": "lessons/aula-08-av1-incremento-1/projeto",
+    "exit": 0,
+    "tests": null,
+    "log": "02.log"
+  },
+  {
+    "command": "npm run entrega",
+    "cwd": "lessons/aula-08-av1-incremento-1/projeto",
+    "exit": 0,
+    "tests": null,
+    "log": "03.log"
+  },
+  {
+    "command": "node tests/aula08-local.test.mjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 9,
+    "log": "04.log"
+  },
+  {
+    "command": "node tests/aula08-jsonl.test.mjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 16,
+    "log": "05.log"
+  },
+  {
+    "command": "node tests/aula08-pages.test.cjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 6,
+    "log": "06.log"
+  },
+  {
+    "command": "node tests/mobile-entregas-aula08.test.cjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 24,
+    "log": "07.log"
+  },
+  {
+    "command": "node tests/mobile-entregas.test.cjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 15,
+    "log": "08.log"
+  },
+  {
+    "command": "node tests/pontuacao-aulas.test.cjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 26,
+    "log": "09.log"
+  },
+  {
+    "command": "node tests/avaliador-projeto.test.mjs",
+    "cwd": ".",
+    "exit": 0,
+    "tests": 5,
+    "log": "10.log"
+  }
+]

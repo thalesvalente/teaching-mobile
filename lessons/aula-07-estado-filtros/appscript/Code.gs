@@ -13,8 +13,12 @@ const MOBILE_CFG = Object.freeze({
       sheet: '4º Bimestre', column: 'Aula 07',
       schema: 'mobile-a07-v1', rubric: 'mobile-a07-simulador-1.1.0',
       instrument: 'simulador-html', evaluator: 'aula07'
+    }),
+    'MOBILE-AULA08-2026': Object.freeze({
+      sheet: '4º Bimestre', column: 'Aula 08',
+      schema: 'mobile-a08-v2', rubric: 'mobile-a08-lab-vivo-2.0.0',
+      instrument: 'laboratorio-vivo-av1', evaluator: 'aula08'
     })
-    // Aula 08+: cadastrar SOMENTE após ler a ficha real e implementar avaliador equivalente.
   })
 });
 const MOBILE_AUDIT_HEADERS = Object.freeze([
@@ -285,6 +289,8 @@ function processMobileDelivery(body) {
   if (!delivery || typeof delivery !== 'object' || Array.isArray(delivery))
     throw Error('Envelope inválido.');
   const activity = mobileActivity(delivery.activity);
+  if (activity.evaluator !== 'aula07')
+    throw Error('Atividade não habilitada neste protocolo; use o desafio da Aula 08.');
   if (delivery.schema !== activity.schema) throw Error('Esquema incompatível.');
   const pdfHash = String(delivery.pdfSha256 || '');
   if (!/^[a-f0-9]{64}$/.test(pdfHash)) throw Error('SHA-256 do PDF inválido.');
@@ -345,13 +351,22 @@ function doGet() {
 }
 function doPost(e) {
   const nonce = String(e && e.parameter && e.parameter.nonce || '').slice(0,100);
-  let response;
+  let response, channel = 'mobile-entrega-aula07', aula08 = false;
   try {
+    const raw = String(e && e.parameter && e.parameter.payload || '');
+    if (raw.length <= MOBILE_CFG.maxBytes) {
+      try {
+        const route = JSON.parse(raw);
+        aula08 = route && route.activity === 'MOBILE-AULA08-2026';
+        if (aula08) channel = mobileA08Channel(route.action);
+      } catch (parseError) { /* A validação principal produz o erro público. */ }
+    }
     if (PropertiesService.getScriptProperties().getProperty('MOBILE_WEB_SUBMISSIONS_ENABLED') !== 'true')
       throw Error('Recebimento Mobile ainda não habilitado pelo professor.');
-    response = processMobileDelivery(String(e && e.parameter && e.parameter.payload || ''));
+    response = aula08 ? processMobileAula08Action(raw) : processMobileDelivery(raw);
   } catch (error) { response = {ok:false,error:String(error.message || 'Entrega recusada.')}; }
-  const data = JSON.stringify({channel:'mobile-entrega-aula07',nonce,...response})
+  const data = JSON.stringify(aula08 ? {channel,requestNonce:nonce,...response} :
+    {channel:'mobile-entrega-aula07',nonce,...response})
     .replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   return HtmlService.createHtmlOutput(
     '<!doctype html><meta charset="utf-8"><script>top.postMessage(' +

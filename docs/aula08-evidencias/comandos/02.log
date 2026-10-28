@@ -1,0 +1,49 @@
+
+> aula08-laboratorio-vivo@1.0.0 nota
+> node scripts/avaliar.mjs
+
+
+Aula 08 - resultado FORMATIVO; a nota oficial é calculada pelo servidor.
+
+OK       M1-1 - Pacote e schema preparados
+OK       M1-2 - Fontes permitidas e hashes
+OK       M1-3 - Preflight registrado
+PENDENTE M1-4 - Síntese de uso da IA registrada
+OK       M1-5 - Slots consistentes
+OK       M2-1 - Prioridade de carregamento e erro
+PENDENTE M2-2 - Busca normalizada e filtros combinados
+OK       M2-3 - Coleção original preservada
+PENDENTE M2-4 - Identidade estável
+PENDENTE M3-1 - Vazio e sem resultado
+PENDENTE M3-2 - Tentar novamente
+OK       M3-3 - Lista, detalhe e retorno
+PENDENTE M3-4 - Formulário e mensagens
+PENDENTE M3-5 - Recorte após retorno
+OK       M3-6 - Resumo textual acessível
+PENDENTE S1-M4-1 - Caso principal
+PENDENTE S1-M4-2 - Caso limite
+OK       S1-M4-3 - Entrada inválida
+PENDENTE S1-M4-4 - Regressão
+PENDENTE S1-M4-5 - Contrato e limites
+PENDENTE S2-M4-1 - Caso principal
+PENDENTE S2-M4-2 - Caso limite
+PENDENTE S2-M4-3 - Entrada inválida
+OK       S2-M4-4 - Regressão
+OK       S2-M4-5 - Contrato e limites
+OK       S3-M4-1 - Caso principal
+PENDENTE S3-M4-2 - Caso limite
+PENDENTE S3-M4-3 - Entrada inválida
+OK       S3-M4-4 - Regressão
+PENDENTE S3-M4-5 - Contrato e limites
+OK       S4-M4-1 - Caso principal
+PENDENTE S4-M4-2 - Caso limite
+OK       S4-M4-3 - Entrada inválida
+PENDENTE S4-M4-4 - Regressão
+PENDENTE S4-M4-5 - Contrato e limites
+Slot 1: 4.5/10 (informativo)
+Slot 2: 5.0/10 (informativo)
+Slot 3: 5.0/10 (informativo)
+Slot 4: 5.0/10 (informativo)
+
+Você pode editar, testar e tentar novamente sem penalidade.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

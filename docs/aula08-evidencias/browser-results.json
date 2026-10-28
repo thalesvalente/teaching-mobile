@@ -1,0 +1,25 @@
+{
+  "browser": "153.0.8010.0",
+  "passed": [
+    "Aula, quatro marcos, skip link, teclado e descrição textual dos infográficos",
+    "Duas páginas em 320/375/768/1024/1440, retrato/paisagem e axe WCAG 2.2 AA",
+    "JSONL real → sandbox → servidor VM → notas individuais → bytes PDF/hash → recibo HMAC",
+    "Download posterior preserva exatamente o PDF vinculado ao recibo",
+    "Mudança de identidade limpa confirmação; reenvio por iframe Google aninhado sem duplicatas",
+    "Nota adulterada no recibo não confirma entrega",
+    "Erro de gravação não confirma, mantendo PDF local",
+    "JSONL inválido recusa importação e bloqueia envio",
+    "Arrastar e soltar usa o mesmo parser estrito",
+    "PDF local funciona offline sem POST nem falsa confirmação",
+    "Sandbox sem DOM/rede/armazenamento, import externo recusado e laço encerrado",
+    "Timeout e nonce incorreto ignorados; endpoint PPI e origens alheias recusados",
+    "Nenhum erro JavaScript de página; nenhum pedido externo escapou ao mock"
+  ],
+  "missingImages": [
+    "infografico-marcos-av1.png",
+    "fluxo-aluno-laboratorio-vivo.png"
+  ],
+  "pageErrors": [],
+  "external": [],
+  "liveE2E": "PENDING_LIVE_E2E"
+}
