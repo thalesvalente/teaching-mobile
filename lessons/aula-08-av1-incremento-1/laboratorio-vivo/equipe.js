@@ -8,8 +8,8 @@
   'use strict';
   if(window.WebEntregaConfig?.schema==='mobile-a08-lab-v4')return; // 3.2 uses read-only roster module
   const el=id=>document.getElementById(id);
-  const KEY='ifma-web-aula08-equipe-v3';
-  const LEGACY_KEY='ifma-web-aula08-equipe-v2';
+  const KEY='ifma-mobile-aula08-equipe-v4';
+  const LEGACY_KEY='ifma-mobile-aula08-equipe-v3-unusable';
   const MAX=8;
   const config=window.WebEntregaConfig||{};
   // Config já carregada: não depender da inicialização posterior de WebEntrega.
