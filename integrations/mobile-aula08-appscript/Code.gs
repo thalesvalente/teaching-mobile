@@ -193,7 +193,8 @@ function notasConfig() {
   var mode=p.getProperty('MOBILE_NOTAS_PROD_MODE')||'PROD';
   notasAssert(mode==='PROD','Ambiente de produção inválido.');
   return {id:id,mode:mode,enabled:p.getProperty('MOBILE_NOTAS_PROD_SUBMISSIONS_ENABLED')==='true'&&
-    p.getProperty('MOBILE_NOTAS_PROD_SECURITY_READY')==='true'};
+    p.getProperty('MOBILE_NOTAS_PROD_SECURITY_READY')==='true'&&
+    p.getProperty('MOBILE_NOTAS_PROD_TEACHER_APPROVAL')==='A08-V4-APPROVED'};
 }
 function notasSecret() {
   var s=PropertiesService.getScriptProperties().getProperty('MOBILE_NOTAS_PROD_HMAC_SECRET');
@@ -719,7 +720,6 @@ function notasCheckOpenV3(activity,id,contract){
 /** Administração somente no editor. Aguarda o último escritor antes de liberar correção. */
 function bloquearRecebimentoNotasV3(){
   notasConfig();var p=PropertiesService.getScriptProperties(),lock=LockService.getScriptLock(),held=false;
-  if(p.getProperty('MOBILE_NOTAS_PROD_TEACHER_APPROVAL')!=='A08-V4-APPROVED') throw new Error('APROVACAO_DOCENTE_A08_V4_AUSENTE');
   p.setProperty('MOBILE_NOTAS_PROD_SUBMISSIONS_ENABLED','false');
   try{lock.waitLock(20000);held=true;
     p.setProperty('MOBILE_NOTAS_PROD_SUBMISSIONS_ENABLED','false');
@@ -754,7 +754,7 @@ function encerrarAula08ParaCorrecaoV3(){
   bloquearRecebimentoNotasV3();
   return encerrarAtividadeNotasV3(MOBILE_CFG.activity,'Encerramento para correção docente');
 }
-function liberarRecebimentoQAWebV3(){
+function liberarRecebimentoQAMobileV4(){
   var cfg=notasConfig(),lock=LockService.getScriptLock(),held=false;
   try{lock.waitLock(20000);held=true;notasSecret();
     var b=notasReadBook(cfg,['Atividades']);
@@ -766,7 +766,7 @@ function liberarRecebimentoQAWebV3(){
     console.log('MOBILE_V4_LIBERACAO '+JSON.stringify(r));return r;
   }finally{if(held)lock.releaseLock();}
 }
-function verificarStatusWebV3(){
+function verificarStatusMobileV4(){
   var r=statusIntegracaoNotasV3(),c=notasConfig(),b=notasReadBook(c,['Atividades']),cat=notasCatalog(b.sheets.Atividades);
   var p=PropertiesService.getScriptProperties();r.spreadsheetId=c.id;
   r.activityStatus=Object.keys(cat).map(function(id){return {id:id,bimestre:cat[id].bim,
@@ -774,7 +774,7 @@ function verificarStatusWebV3(){
   console.log('MOBILE_V4_STATUS '+JSON.stringify(r));return r;
 }
 
-return Object.freeze({notasCommit_:notasCommit_,notasRosterIndex_:notasRosterIndex_,notasLookup_:notasLookup_,notasConfirmation_:notasConfirmation_,notasConfirmationStable_:notasConfirmationStable_,MOBILE_CFG:MOBILE_CFG,MOBILE_TASKS:MOBILE_TASKS,NOTAS_STATUS:NOTAS_STATUS,A_HEADERS:A_HEADERS,R_HEADERS:R_HEADERS,T_HEADERS:T_HEADERS,AU_HEADERS:AU_HEADERS,ACT_HEADERS:ACT_HEADERS,webFail:webFail,webText:webText,webCode:webCode,webSafe:webSafe,webNormalized:webNormalized,webEvidence:webEvidence,webHex:webHex,webSha256:webSha256,notasAssert:notasAssert,notasBlank:notasBlank,notasGrade:notasGrade,notasMax:notasMax,notasMean:notasMean,notasErr:notasErr,notasFullName:notasFullName,notasEnrollment:notasEnrollment,webIdentity:webIdentity,notasAverageFormula:notasAverageFormula,notasConfig:notasConfig,notasSecret:notasSecret,notasSign:notasSign,notasNoXpKeys:notasNoXpKeys,notasIdentityAllowed:notasIdentityAllowed,notasNormalize:notasNormalize,notasColName:notasColName,notasReadBook:notasReadBook,notasHeaders:notasHeaders,notasCatalog:notasCatalog,notasActivity:notasActivity,notasCell:notasCell,notasWrite:notasWrite,notasWriteFormula:notasWriteFormula,notasNewRow:notasNewRow,notasRows:notasRows,notasIndex:notasIndex,notasCheckCatalog:notasCheckCatalog,notasCheckIdentity:notasCheckIdentity,notasAuditSign:notasAuditSign,notasVerifyAudit:notasVerifyAudit,notasAuditEntry:notasAuditEntry,notasTeamKey:notasTeamKey,notasAuditWinner:notasAuditWinner,notasRecordIntegrity:notasRecordIntegrity,notasPlan:notasPlan,notasVerifyWrites:notasVerifyWrites,notasReceipt:notasReceipt,notasStore:notasStore,webReturn:webReturn,doGet:doGet,doPost:doPost,prepararIntegracaoNotasV3:prepararIntegracaoNotasV3,statusIntegracaoNotasV3:statusIntegracaoNotasV3,consultarConflitoDocenteV3:consultarConflitoDocenteV3,cadastrarAtividadeNotasV3:cadastrarAtividadeNotasV3,notasLegacyHoldV3:notasLegacyHoldV3,notasClosedKeyV3:notasClosedKeyV3,notasCheckOpenV3:notasCheckOpenV3,bloquearRecebimentoNotasV3:bloquearRecebimentoNotasV3,encerrarAtividadeNotasV3:encerrarAtividadeNotasV3,encerrarAula08ParaCorrecaoV3:encerrarAula08ParaCorrecaoV3,liberarRecebimentoQAWebV3:liberarRecebimentoQAWebV3,verificarStatusWebV3:verificarStatusWebV3});
+return Object.freeze({notasCommit_:notasCommit_,notasRosterIndex_:notasRosterIndex_,notasLookup_:notasLookup_,notasConfirmation_:notasConfirmation_,notasConfirmationStable_:notasConfirmationStable_,MOBILE_CFG:MOBILE_CFG,MOBILE_TASKS:MOBILE_TASKS,NOTAS_STATUS:NOTAS_STATUS,A_HEADERS:A_HEADERS,R_HEADERS:R_HEADERS,T_HEADERS:T_HEADERS,AU_HEADERS:AU_HEADERS,ACT_HEADERS:ACT_HEADERS,webFail:webFail,webText:webText,webCode:webCode,webSafe:webSafe,webNormalized:webNormalized,webEvidence:webEvidence,webHex:webHex,webSha256:webSha256,notasAssert:notasAssert,notasBlank:notasBlank,notasGrade:notasGrade,notasMax:notasMax,notasMean:notasMean,notasErr:notasErr,notasFullName:notasFullName,notasEnrollment:notasEnrollment,webIdentity:webIdentity,notasAverageFormula:notasAverageFormula,notasConfig:notasConfig,notasSecret:notasSecret,notasSign:notasSign,notasNoXpKeys:notasNoXpKeys,notasIdentityAllowed:notasIdentityAllowed,notasNormalize:notasNormalize,notasColName:notasColName,notasReadBook:notasReadBook,notasHeaders:notasHeaders,notasCatalog:notasCatalog,notasActivity:notasActivity,notasCell:notasCell,notasWrite:notasWrite,notasWriteFormula:notasWriteFormula,notasNewRow:notasNewRow,notasRows:notasRows,notasIndex:notasIndex,notasCheckCatalog:notasCheckCatalog,notasCheckIdentity:notasCheckIdentity,notasAuditSign:notasAuditSign,notasVerifyAudit:notasVerifyAudit,notasAuditEntry:notasAuditEntry,notasTeamKey:notasTeamKey,notasAuditWinner:notasAuditWinner,notasRecordIntegrity:notasRecordIntegrity,notasPlan:notasPlan,notasVerifyWrites:notasVerifyWrites,notasReceipt:notasReceipt,notasStore:notasStore,webReturn:webReturn,doGet:doGet,doPost:doPost,prepararIntegracaoNotasV3:prepararIntegracaoNotasV3,statusIntegracaoNotasV3:statusIntegracaoNotasV3,consultarConflitoDocenteV3:consultarConflitoDocenteV3,cadastrarAtividadeNotasV3:cadastrarAtividadeNotasV3,notasLegacyHoldV3:notasLegacyHoldV3,notasClosedKeyV3:notasClosedKeyV3,notasCheckOpenV3:notasCheckOpenV3,bloquearRecebimentoNotasV3:bloquearRecebimentoNotasV3,encerrarAtividadeNotasV3:encerrarAtividadeNotasV3,encerrarAula08ParaCorrecaoV3:encerrarAula08ParaCorrecaoV3,liberarRecebimentoQAMobileV4:liberarRecebimentoQAMobileV4,verificarStatusMobileV4:verificarStatusMobileV4});
 })();
 
 /** Nenhuma identidade efetiva isolada autoriza administração remota. */
@@ -790,17 +790,18 @@ function webAdminIdentityV3_(bootstrap){
 function webAdminExecV3_(name,args){webAdminIdentityV3_(false);return MOBILE_V4_PRIVATE_[name].apply(null,Array.prototype.slice.call(args));}
 function doGet(e){return MOBILE_V4_PRIVATE_.doGet(e);}
 function doPost(e){return MOBILE_V4_PRIVATE_.doPost(e);}
-function bloquearRecebimentoProducaoWeb(){return webAdminExecV3_('bloquearRecebimentoNotasV3',arguments);}
-function verificarStatusProducaoWeb(){return webAdminExecV3_('verificarStatusWebV3',arguments);}
+function bloquearRecebimentoProducaoMobile(){return webAdminExecV3_('bloquearRecebimentoNotasV3',arguments);}
+function verificarStatusProducaoMobile(){return webAdminExecV3_('verificarStatusMobileV4',arguments);}
 function consultarConflitoDocenteV3(){return webAdminExecV3_('consultarConflitoDocenteV3',arguments);}
 function cadastrarAtividadeNotasV3(){return webAdminExecV3_('cadastrarAtividadeNotasV3',arguments);}
 function encerrarAtividadeNotasV3(){return webAdminExecV3_('encerrarAtividadeNotasV3',arguments);}
 function encerrarAula08ParaCorrecaoV3(){return webAdminExecV3_('encerrarAula08ParaCorrecaoV3',arguments);}
-function bloquearRecebimentoNotasV3(){return bloquearRecebimentoProducaoWeb();}
+function bloquearRecebimentoNotasV3(){return bloquearRecebimentoProducaoMobile();}
 /** Executar uma vez no editor do proprietário; repetir é seguro e não apaga notas. */
-function ativarProducaoWeb(){
+function ativarProducaoMobile(){
   webAdminIdentityV3_(true);
   var p=PropertiesService.getScriptProperties(),lock=LockService.getScriptLock(),held=false;
+  if(p.getProperty('MOBILE_NOTAS_PROD_TEACHER_APPROVAL')!=='A08-V4-APPROVED') throw new Error('APROVACAO_DOCENTE_A08_V4_AUSENTE');
   p.setProperty('MOBILE_NOTAS_PROD_SUBMISSIONS_ENABLED','false');
   p.setProperty('MOBILE_NOTAS_V4_SUBMISSIONS_ENABLED','false');
   try{
