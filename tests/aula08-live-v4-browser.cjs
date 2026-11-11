@@ -68,7 +68,7 @@ const server=http.createServer((req,res)=>{
       assert.ok(sizes.scroll<=sizes.width+2, 'horizontal overflow '+width+' '+JSON.stringify(sizes));
       assert.equal(await page.locator('#guide-number').count(),1);
       if(width===1440){
-        await page.waitForFunction(()=>{const x=document.getElementById('compiler-status')?.textContent||'';return /execut|compil|erro|código/i.test(x)&&!x.includes('Preparando código')},{timeout:45000});
+        await page.waitForFunction(()=>{const x=document.getElementById('compiler-status')?.textContent||'';return /execut|compil|erro|código/i.test(x)&&!x.includes('Preparando código')},null,{timeout:45000});
         const frame=page.frameLocator('#preview');
         await frame.locator('#web-root').waitFor({timeout:25000});
         assert.equal(await frame.locator('#mobile-root').count(),1);
@@ -89,7 +89,7 @@ const server=http.createServer((req,res)=>{
         const patched=original.replace("return 'pendente';","if (info.erro) return 'erro'; if(info.carregando)return 'carregando'; if(info.totalFonte===0)return 'vazio'; if(info.totalVisivel===0)return 'sem-resultados'; return 'pronto';");
         await page.locator('#code').fill(patched);
         await page.locator('#run').click();
-        await page.waitForFunction(()=>{const x=document.querySelector('#compiler-status')?.textContent||'';return /execut|compil/i.test(x)&&!/Preparando/.test(x)},{timeout:45000});
+        await page.waitForFunction(()=>{const x=document.querySelector('#compiler-status')?.textContent||'';return /execut|compil/i.test(x)&&!/Preparando/.test(x)},null,{timeout:45000});
         await page.locator('#guide-check').click();
         await page.waitForFunction(()=>document.querySelector('#xp-top')?.textContent==='5',{timeout:25000});
         console.log('PASS: correção do código, executar, conferir e pontuar 5 XP');
