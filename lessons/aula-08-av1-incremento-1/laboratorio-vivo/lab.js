@@ -383,7 +383,7 @@
   }
 };
 
-  const key = 'ifma-web-aula08-lab-v4'; // Nunca sobrescreve rascunhos da versão anterior.
+  const key = 'ifma-mobile-aula08-lab-v1'; // Nunca sobrescreve rascunhos da versão anterior.
   const byId = id => document.getElementById(id);
   const codeEditor = byId('code');
   const frame = byId('preview');
@@ -1010,7 +1010,7 @@ export default ProjetoUniversal;
   });
 
   function evidence() {
-    return { schema: 'ifma-web-aula08-lab-v4', geradoEm: new Date().toISOString(),
+    return { schema: 'ifma-mobile-aula08-lab-v1', geradoEm: new Date().toISOString(),
       atividade: 'Aula 08 — Laboratório Vivo · Operação Dados sob Pressão',
       tipo: 'formativo-nao-e-nota', xp: getScore(), maximoXp: TOTAL_XP,
       exercicios: tasks.map(task => ({ id: task.id, ciclo: task.phase, titulo: task.name,
@@ -1038,7 +1038,7 @@ export default ProjetoUniversal;
   // contém código, missão atual, respostas e checkpoints formativos.
   function checkpoint() {
     return {
-      schema: 'ifma-web-aula08-checkpoint-v1',
+      schema: 'ifma-mobile-aula08-checkpoint-v1',
       savedAt: new Date().toISOString(),
       code: panels.shared,
       activeTask: activeTask().id,
@@ -1064,8 +1064,8 @@ export default ProjetoUniversal;
   }
   function restoreCheckpoint(data) {
     if (!data || typeof data !== 'object' || Array.isArray(data)) throw Error('JSON inválido.');
-    const isCheckpoint = data.schema === 'ifma-web-aula08-checkpoint-v1';
-    const isEvidence = data.schema === 'ifma-web-aula08-lab-v4';
+    const isCheckpoint = data.schema === 'ifma-mobile-aula08-checkpoint-v1';
+    const isEvidence = data.schema === 'ifma-mobile-aula08-lab-v1';
     if (!isCheckpoint && !isEvidence) throw Error('Este arquivo não é um progresso da Aula 08.');
     const source = isCheckpoint ? data.code : data.codigoFonteCompleto;
     if (typeof source !== 'string' || !source.trim() || source.length > 30000)
@@ -1176,7 +1176,7 @@ export default ProjetoUniversal;
   }
   for (const id of ['print','dialog-pdf']) byId(id).addEventListener('click', printPartial);
   // Integração externa só pode obter o mesmo snapshot usado nos exports.
-  // O Apps Script recebe evidência relatada, não um certificado de nota.
+  // O Apps Script recebe evidência relatada; a nota oficial exige verificação docente e servidor homologado.
   window.WebLabEvidence = Object.freeze({ snapshot: evidence, printPartial });
   loadSource();
 })();
