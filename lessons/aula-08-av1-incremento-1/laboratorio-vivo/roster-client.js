@@ -24,7 +24,7 @@
       function finish(error,data){if(done)return;done=true;clearTimeout(timer);window.removeEventListener('message',receive);frame.remove();form.remove();error?reject(error):resolve(data);}
       function receive(event){
         const d=event.data;
-        if(!originOK(event.origin)||!d||d.channel!=='web-roster-lookup-aula08'||d.nonce!==nonce)return;
+        if(!originOK(event.origin)||!d||d.channel!=='mobile-roster-lookup-aula08'||d.nonce!==nonce)return;
         if(d.ok===false){const error=Error(String(d.message||'Consulta recusada pelo servidor.'));error.code=d.code;return finish(error);}
         if(d.ok!==true||d.version!=='mobile-notas-4.0.0'||d.enrollmentCanonical!==key||typeof d.name!=='string'||!d.name.trim()||d.name.length>100||
           typeof d.confirmationToken!=='string'||
