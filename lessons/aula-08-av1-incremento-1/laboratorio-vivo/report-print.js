@@ -7,7 +7,7 @@
  */
 (() => {
   'use strict';
-  const EXPECTED_SCHEMA='ifma-web-aula08-lab-v4';
+  const EXPECTED_SCHEMA='ifma-mobile-aula08-lab-v1';
   const CYCLES=Object.freeze([
     'Ciclo 1 — Conhecer o aplicativo',
     'Ciclo 2 — Modificar e comparar',
@@ -35,7 +35,7 @@
     if(!root||typeof root.replaceChildren!=='function')
       throw Error('Área de impressão indisponível.');
     if(!snapshot||snapshot.schema!==EXPECTED_SCHEMA||
-       !Array.isArray(snapshot.exercicios)||snapshot.exercicios.length!==14||
+       !Array.isArray(snapshot.exercicios)||snapshot.exercicios.length!==20||
        !Number.isInteger(snapshot.xp)||snapshot.maximoXp!==100||
        snapshot.xp<0||snapshot.xp>100)
       throw Error('Pontuação ou estrutura do relatório incompatível.');
