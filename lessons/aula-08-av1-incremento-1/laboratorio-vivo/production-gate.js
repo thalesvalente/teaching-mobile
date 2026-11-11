@@ -22,7 +22,7 @@
         window.removeEventListener('message',receive);frame.remove();error?reject(error):resolve();};
       function receive(event){
         const d=event.data;
-        if(!validOrigin(event.origin)||!d||d.channel!=='web-status-aula08'||d.nonce!==nonce)return;
+        if(!validOrigin(event.origin)||!d||d.channel!=='mobile-status-aula08'||d.nonce!==nonce)return;
         if(d.ok!==true||d.mode!=='PROD'||d.version!==(config.requiredVersion||'mobile-notas-4.0.0')||d.activity!==config.activity)
           return done(Error('Recebimento da turma ainda não está configurado na versão de produção. Nenhum dado foi enviado.'));
         if(d.enabled!==true)return done(Error('O professor está com o recebimento bloqueado. Guarde seu PDF/JSON e tente quando a atividade for liberada.'));
