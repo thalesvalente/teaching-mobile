@@ -1,0 +1,13 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {resolve,dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+const r=spawnSync(process.execPath,[resolve(root,'scripts/avaliar.mjs')],{stdio:'inherit'});
+if(r.error)throw r.error;
+const relatorio=JSON.parse(await readFile(resolve(root,'entrega/resultado.json'),'utf-8'));
+const source=await readFile(resolve(root,'src/engine.mjs'),'utf-8');
+const pacote={schema:'mobile-a08-avancado-formativo-v3',atividade:'a08-avancada',geradoEm:relatorio.geradoEm,codigoSha256:createHash('sha256').update(source).digest('hex'),codigoFonte:source,resultadoLocal:relatorio,metadados:{equipe:'PREENCHER NO CANAL OFICIAL',integrantes:[],ambienteReal:'A REGISTRAR',commit:'A REGISTRAR',evidenciasDeDispositivo:[]},aviso:'Pacote formativo. NÃO enviar ao endpoint da Aula 08 v2 ou ao Google Sheets.'};
+await writeFile(resolve(root,'entrega/pacote-formativo.json'),JSON.stringify(pacote,null,2),'utf-8');
+console.log('Pacote formativo gerado: entrega/pacote-formativo.json. NÃO é entrega oficial.');
