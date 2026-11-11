@@ -4,7 +4,7 @@
   const cfg=window.WebEntregaConfig||{};
   if(cfg.schema!=='mobile-a08-lab-v4')return; // isolated legacy regression fixtures only
   const $=id=>document.getElementById(id),modal=$('team-dialog'),holder=$('web-members'),MAX=8;
-  const KEY='ifma-web-aula08-roster-v1',canonical=value=>String(value||'').trim().toUpperCase();
+  const KEY='ifma-mobile-aula08-roster-v1',canonical=value=>String(value||'').trim().toUpperCase();
   const blank=()=>({uid:crypto.randomUUID(),enrollment:'',name:'',token:'',state:'empty',confirmed:false,error:'',revision:0});
   let group={teamId:crypto.randomUUID(),team:'',members:[blank()]},fromEvidence=false,returnFocus=null;
   const onlineEnabled=()=>cfg.activated===true&&/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(cfg.endpoint||'');
@@ -169,6 +169,6 @@
   modal.addEventListener('close',()=>{if(!fromEvidence)return;fromEvidence=false;if(!$('evidence-dialog').open)$('evidence-dialog').showModal();(returnFocus?.isConnected?returnFocus:$('team-open-evidence'))?.focus();});
   try{const saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&typeof saved.team==='string'&&/^[a-f0-9-]{36}$/i.test(saved.teamId)){group.team=saved.team.slice(0,80);group.teamId=saved.teamId;group.members=Array.from({length:Math.min(8,Math.max(1,Number(saved.count)||1))},blank);}}catch{}
   // Old localStorage could contain typed names from 3.1. Clear identity-only keys, not task progress.
-  try{localStorage.removeItem('ifma-web-aula08-equipe-v3');localStorage.removeItem('ifma-web-aula08-equipe-v2');}catch{}
+  try{localStorage.removeItem('ifma-mobile-aula08-equipe-v4');localStorage.removeItem('ifma-mobile-aula08-equipe-v3-unusable');}catch{}
   render();window.WebTeam=Object.freeze({snapshot,restore,validatePartial,getIdentity,requireIdentity,showRemoteConflict,submissionIdentity,get onlineEnabled(){return onlineEnabled();},maxMembers:MAX,rosterReadOnly:true});
 })();
