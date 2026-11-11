@@ -1,0 +1,26 @@
+name: QA Aula 08 — Laboratório Vivo Mobile v4
+on:
+  pull_request:
+    paths:
+      - 'lessons/aula-08-av1-incremento-1/laboratorio-vivo/**'
+      - 'integrations/mobile-aula08-appscript/**'
+      - 'tests/aula08-live-v4-browser.cjs'
+      - '.github/workflows/qa-aula08-live-v4.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa-live-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências de navegador
+        run: npm install --no-save --no-package-lock playwright@1.57.0
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Laboratório: contratos, 20 missões, navegador e XP
+        run: node tests/aula08-live-v4-browser.cjs
