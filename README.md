@@ -14,7 +14,7 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 | 05 | Interface móvel e acessibilidade | [PDF](lessons/3/slides-Interface%20e%20acessibilidade.pdf) |
 | 06 | Navegação e formulários — De tela em tela: navegar, voltar e cadastrar | [Aula interativa original · 50 min](lessons/Aula_06_Mobile_Navegacao_Formularios.html) · [Atividade vinculada · 50 min](lessons/aula-06-navegacao-formularios/atividade.html) |
 | 07 | Estado, filtros e visualização de dados | [Aula interativa · 50 min](lessons/aula-07-estado-filtros/) · [Ficha e atividade · 50 min](lessons/aula-07-estado-filtros/atividade.html) |
-| 08 | Laboratório vivo da AV1 · Incremento 1 | [Aula · 100 min](lessons/aula-08-av1-incremento-1/) · [Ficha de entrega](lessons/aula-08-av1-incremento-1/atividade.html) · [Guia e projeto](lessons/aula-08-av1-incremento-1/README.md) |
+| 08 | Operação Dados sob Pressão · AV1 avançada (candidata v3) | [Aula interativa](lessons/aula-08-av1-incremento-1/avancado/) · [Expo e testes](lessons/aula-08-av1-incremento-1/avancado/projeto/README.md) · [Roteiro](lessons/aula-08-av1-incremento-1/avancado/docs/ROTEIRO_DOCENTE.md) |
 
 ### Práticas da Aula 05
 - [Mapa de Memórias Quilombolas](lessons/3/aula05-memorias/)
