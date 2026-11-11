@@ -649,7 +649,7 @@ export default ProjetoUniversal;
   }
   function send(type, fields = {}) {
     if (!ready || !sourceLoaded || !frame.contentWindow) { setStatus('Código ou prévia indisponível.', true); return false; }
-    frame.contentWindow.postMessage({ from: 'ifma-aula08-host', type, token: nonce, ...fields }, '*');
+    frame.contentWindow.postMessage({ from: 'ifma-mobile-a08-host', type, token: nonce, ...fields }, '*');
     return true;
   }
   function setPane(which) {
@@ -855,13 +855,13 @@ export default ProjetoUniversal;
   window.addEventListener('message', event => {
     if (event.source !== frame.contentWindow) return;
     const data = event.data;
-    if (!data || data.from !== 'ifma-aula08') return;
+    if (!data || data.from !== 'ifma-mobile-a08') return;
     if (data.type === 'READY') {
       // A mensagem READY pode anteceder a instalação do listener no host.
       // Confirmar o handshake e executar somente na primeira READY válida.
       const first=!ready;
       ready=true;
-      frame.contentWindow?.postMessage({from:'ifma-aula08-host',type:'READY_ACK',token:nonce},'*');
+      frame.contentWindow?.postMessage({from:'ifma-mobile-a08-host',type:'READY_ACK',token:nonce},'*');
       if(first && sourceLoaded)run({initial:true});
       return;
     }
