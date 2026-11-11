@@ -11,7 +11,7 @@
   const status = document.getElementById('web-delivery-status');
   const ENDPOINT = () => String(config.endpoint || '');
   const ACTIVITY = 'MOBILE-A08-2026';
-  const CHANNEL = 'web-entrega-aula08';
+  const CHANNEL = 'mobile-entrega-aula08';
   const validEndpoint = () => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(ENDPOINT());
   const activated = () => validEndpoint() && config.activated === true && ['mobile-a08-legacy-unsupported','mobile-a08-lab-v4'].includes(config.schema) && window.WebTeam?.onlineEnabled===true;
   // HtmlService cria sandbox em hosts no formato n-...-script.googleusercontent.com.
@@ -129,8 +129,8 @@
     const identity=window.WebTeam?.getIdentity?.({requireEnrollment:false});
     if(!identity)throw Error('Informe o nome da equipe antes de exportar o JSON.');
     const evidence=window.WebLabEvidence.snapshot();
-    if(evidence.schema!=='ifma-web-aula08-lab-v4'||evidence.maximoXp!==100||
-       !Array.isArray(evidence.exercicios)||evidence.exercicios.length!==14)
+    if(evidence.schema!=='ifma-mobile-aula08-lab-v1'||evidence.maximoXp!==100||
+       !Array.isArray(evidence.exercicios)||evidence.exercicios.length!==20)
       throw Error('Evidências incompatíveis; confira o laboratório.');
     saveJson({identity,evidence},'MOBILE_Aula08_Evidencia_Equipe.json');
   }
@@ -180,8 +180,8 @@
       // Defesa adicional: revalidar imediatamente antes de fazer POST.
       const checked=teamIdentity();submittedIdentity=checked;
       const evidence=window.WebLabEvidence.snapshot();
-      if(evidence.schema!=='ifma-web-aula08-lab-v4'||evidence.maximoXp!==100 ||
-         !Array.isArray(evidence.exercicios) || evidence.exercicios.length!==14)
+      if(evidence.schema!=='ifma-mobile-aula08-lab-v1'||evidence.maximoXp!==100 ||
+         !Array.isArray(evidence.exercicios) || evidence.exercicios.length!==20)
         throw Error('Evidência ou versão da atividade incompatível.');
       const code=String(evidence.codigoFonteCompleto||'');
       if(!code || code.length>30000)throw Error('Código TSX inválido ou muito longo.');
