@@ -134,6 +134,49 @@ let browser;
     await page.keyboard.press('Escape');assert.equal(await page.locator('#team-dialog').evaluate(x=>x.open),false);
     assert.equal(await page.evaluate(()=>document.activeElement.id),'team-open');return focus;
   });
+  await check('keyboard-tabs-mobile-roving-and-active-panels',async()=>{
+    await page.setViewportSize({width:390,height:900});
+    try{
+      await page.locator('#view-code').focus();
+      for(const [key,target,panel] of [['ArrowRight','view-preview','result-panel'],['ArrowRight','view-code','code-panel'],['End','view-preview','result-panel'],['Home','view-code','code-panel']]){
+        await page.keyboard.press(key);
+        assert.equal(await page.evaluate(()=>document.activeElement.id),target);
+        assert.equal(await page.locator('#'+target).getAttribute('aria-selected'),'true');
+        assert.equal(await page.locator('#'+panel).isVisible(),true);
+        assert.equal(await page.locator('.pane-switch [role="tab"][tabindex="0"]').count(),1);
+      }
+      assert.equal(await page.locator('#conteudo').getAttribute('aria-selected'),null,'Selection belongs to tabs, not the main landmark');
+      await page.locator('#tab-shared').focus();
+      for(const [key,target] of [['ArrowLeft','tab-vue'],['Home','tab-shared'],['ArrowRight','tab-route'],['End','tab-vue'],['ArrowRight','tab-shared']]){
+        await page.keyboard.press(key);
+        assert.equal(await page.evaluate(()=>document.activeElement.id),target);
+        assert.equal(await page.locator('#'+target).getAttribute('aria-selected'),'true');
+        assert.equal(await page.locator('#editor-source').getAttribute('aria-labelledby'),target);
+        assert.equal(await page.locator('.file-tabs [role="tab"][tabindex="0"]').count(),1);
+      }
+      assert.equal(await page.locator('#code').isVisible(),true);
+      return {width:390,tablists:2,keys:['ArrowLeft','ArrowRight','Home','End'],scope:'Keyboard focus, wrap, selection and visible panel; no assistive-technology claim.'};
+    }finally{await page.setViewportSize({width:1440,height:900});}
+  });
+  await check('dual-preview-fields-reference-own-error-elements',async()=>{
+    const frame=page.frameLocator('#preview');
+    for(const scope of ['#web-root','#mobile-root'])await frame.locator(scope).getByRole('button',{name:'Novo registro',exact:true}).click();
+    const result=await frame.locator('body').evaluate(body=>{
+      const ids=Array.from(body.querySelectorAll('[id]'),n=>n.id);
+      const fields=Array.from(body.querySelectorAll('[data-testid="novo-titulo"],[data-testid="nova-descricao"]'),input=>{
+        const root=input.closest('#web-root,#mobile-root');
+        const targets=(input.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean).map(id=>document.getElementById(id));
+        return {root:root?.id,name:input.getAttribute('aria-label'),targets:targets.map(t=>t?.id||null),allOwn:targets.length>0&&targets.every(t=>t&&root.contains(t))};
+      });
+      return {duplicateIds:ids.filter((id,index)=>ids.indexOf(id)!==index),fields};
+    });
+    assert.deepEqual(result.duplicateIds,[],'Simultaneous preview roots must not duplicate DOM IDs');
+    assert.equal(result.fields.length,4);
+    assert.ok(result.fields.every(f=>f.allOwn&&f.name),'Field name or error target missing, or target belongs to the other preview');
+    assert.equal(new Set(result.fields.flatMap(f=>f.targets)).size,4);
+    for(const scope of ['#web-root','#mobile-root'])await frame.locator(scope).getByRole('button',{name:'Cancelar',exact:true}).click();
+    return result;
+  });
   await check('student-network-apis-rejected-and-csp-connect-image-script',async()=>{
     const probe=origin+'/c3-synthetic-probe?channel=';
     const malicious=original+'\nfetch('+JSON.stringify(probe+'fetch')+').catch(()=>{});\n'+

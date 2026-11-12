@@ -23,7 +23,7 @@
     "missions": 20,
     "cycles": 4,
     "officialGrade": "PENDENTE DE VALIDAÇÃO DOCENTE",
-    "layout": "Legible except unbroken SHA256 overflows right content margin",
+    "layout": "All three pages legible; actual SHA256 is complete and inside margins. Footer subject label is incorrect.",
     "status": "FAIL"
   },
   "findings": [
@@ -47,11 +47,16 @@
     },
     {
       "id": "C3-PDF02",
-      "severity": "MEDIUM",
-      "status": "FAIL",
+      "severity": "NONE",
+      "status": "RETRACTED_FALSE_POSITIVE",
       "source": "report-print.js .doc-code-hash and print CSS",
       "evidence": "c3-pdf-failed-page1.png",
-      "cause": "Unbroken TSX SHA256 exceeds right content margin"
+      "cause": "Initial visual suspicion of hash clipping was disproved by actual PDF text and word bounding box. The following section number1 was concatenated with the64-character hash in DOM text; it is not part of the hash.",
+      "verification": {
+        "hashCharacters": 64,
+        "hashXMaxPoints": 484.51902,
+        "allowedRightMarginPoints": 554.44027496063
+      }
     },
     {
       "id": "C3-FIXTURE01",

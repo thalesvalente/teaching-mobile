@@ -14,7 +14,7 @@ let app=null, renderError=null, token='',generation=0,webRoot=null,mobileRoot=nu
 const post=(type,details={})=>sender.postMessage({from:'ifma-mobile-a08',type,token,...details},'*');
 function compile(source){return window.MobileA08Compiler.compile(source,{React,ReactDOMClient,RNWeb,Babel});}
 function detach(){if(webRoot){webRoot.unmount();webRoot=null;}if(mobileRoot){mobileRoot.unmount();mobileRoot=null;}}
-async function mount(){detach();renderError=null;const options={onUncaughtError:error=>{renderError=error;}};webRoot=ReactDOMClient.createRoot(document.getElementById('web-root'),options);mobileRoot=ReactDOMClient.createRoot(document.getElementById('mobile-root'),options);webRoot.render(React.createElement(app.default));mobileRoot.render(React.createElement(app.default));await new Promise(r=>setTimeout(r,120));if(renderError)throw renderError;}
+async function mount(){detach();renderError=null;const options={onUncaughtError:error=>{renderError=error;}};webRoot=ReactDOMClient.createRoot(document.getElementById('web-root'),{...options,identifierPrefix:'a08-web-'});mobileRoot=ReactDOMClient.createRoot(document.getElementById('mobile-root'),{...options,identifierPrefix:'a08-mobile-'});webRoot.render(React.createElement(app.default));mobileRoot.render(React.createElement(app.default));await new Promise(r=>setTimeout(r,120));if(renderError)throw renderError;}
 const casos=window.MobileA08Criteria.create(new Proxy({}, {get:(_,name)=>app?.[name]}));
 const byId=new Map(casos.map(t=>[t.id,t]));
 function check(stage){const entry=byId.get(stage);if(!entry)throw Error('Critério inexistente.');entry.run();return {ok:true,detail:entry.descricao};}

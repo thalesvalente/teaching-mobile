@@ -681,7 +681,26 @@ export default ProjetoUniversal;
       button.tabIndex = chosen ? 0 : -1;
     });
   }
+  function bindTabKeys(selector, activate) {
+    const tabs = Array.from(document.querySelectorAll(selector));
+    tabs.forEach((tab, index) => {
+      tab.tabIndex = tab.getAttribute('aria-selected') === 'true' ? 0 : -1;
+      tab.addEventListener('keydown', event => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+        else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = tabs.length - 1;
+        else return;
+        event.preventDefault();
+        activate(tabs[next]);
+        tabs[next].focus();
+      });
+    });
+  }
   setPane('code');
+  bindTabKeys('button[role="tab"][data-pane]', tab => setPane(tab.dataset.pane));
   const expandButton = byId('expand-preview');
   expandButton.addEventListener('click', () => {
     const workspace = byId('laboratorio');
@@ -763,7 +782,7 @@ export default ProjetoUniversal;
     if (which !== 'shared') readOnly.textContent = panels[which];
     fileContext.textContent = which === 'shared' ? 'Arquivo inteiro: [01] importações → [07] estilos.' :
       which === 'route' ? 'Rota completa Expo Router · importa o componente, não substitui as outras telas.' :
-      'Exemplo Vue completo · compare ref/v-model com useState/onChangeText.';
+      'Contratos Mobile · seis funções de domínio, 20 critérios e avaliação local reproduzível.';
     setPane('code');
   }
   function checkQuiz(id) {
@@ -871,6 +890,7 @@ export default ProjetoUniversal;
     }
   });
   document.querySelectorAll('[data-file]').forEach(button => button.addEventListener('click', () => showFile(button.dataset.file)));
+  bindTabKeys('button[role="tab"][data-file]', tab => showFile(tab.dataset.file));
   quizBank.querySelectorAll('input[type="radio"]').forEach(input => input.addEventListener('change', () => {
     const id = input.name.startsWith('map-') ? 'map' : 'quiz';
     // Alterar a resposta NÃO retira os XP conquistados em conferência anterior.
@@ -972,14 +992,14 @@ export default ProjetoUniversal;
   const basicComponents = Object.freeze({
     View: {
       name: 'View · agrupa elementos',
-      explanation: 'É um contêiner de interface (semelhante à ideia de uma div em HTML). Organiza título, entrada, botão e resumo.',
-      observe: 'Observe que o formulário inteiro e o resumo estão agrupados em regiões nas duas prévias.',
-      marker: '<View style={styles.pagina}'
+      explanation: 'É um contêiner de interface (semelhante à ideia de uma div em HTML). Agrupa navegação, filtros e formulário; o ScrollView externo permite rolagem.',
+      observe: 'Localize o View de navegação que agrupa os botões Lista e Novo registro nas duas prévias.',
+      marker: '<View style={styles.nav}'
     },
     Text: {
       name: 'Text · apresenta informações',
-      explanation: 'Exibe textos, como o título, a regra de validação e a última memória. Não serve como campo para digitar.',
-      observe: 'Altere TITULO_APLICACAO em [02], execute e veja o Text do título mudar nas duas prévias.',
+      explanation: 'Exibe textos, como o título, o estado da tela e as regras de validação. Não serve como campo para digitar.',
+      observe: 'Altere o texto Dados sob pressão no Text com styles.titulo em [07], execute e observe o título nas duas prévias.',
       marker: '<Text style={styles.titulo}>'
     },
     TextInput: {
@@ -990,7 +1010,7 @@ export default ProjetoUniversal;
     },
     Pressable: {
       name: 'Pressable · recebe o toque/clique',
-      explanation: 'É o elemento acionável. onPress={registrar} chama a função quando a pessoa toca ou clica; não chame registrar() na declaração.',
+      explanation: 'É o elemento acionável. No helper botao, onPress={acao} recebe a função a executar ao toque. Em Salvar registro, essa função é salvar; passe a referência, sem chamar salvar() ao renderizar.',
       observe: 'Teste um título curto e outro válido usando o botão. O mesmo onPress funciona nas duas prévias.',
       marker: '<Pressable'
     }

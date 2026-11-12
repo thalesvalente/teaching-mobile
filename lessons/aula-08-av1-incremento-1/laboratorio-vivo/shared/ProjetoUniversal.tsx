@@ -7,7 +7,7 @@
  * O projeto Expo v4 importa este mesmo arquivo em projeto/App.tsx.
  */
 // [01] IMPORTAÇÕES
-import React, { useMemo, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 // [02] DADOS E CONTRATOS DO DOMÍNIO
@@ -70,6 +70,7 @@ const categorias=['Todas','Lugar','Evento','Indicador'];
 const periodos=['Todos','Manhã','Tarde','Noite'];
 const ordens=['az','za'];
 export default function ProjetoUniversal() {
+  const formId=useId();
   const [todos,setTodos]=useState<Registro[]>(REGISTROS);
   const [busca,setBusca]=useState('');
   const [categoria,setCategoria]=useState('Todas');
@@ -150,15 +151,15 @@ export default function ProjetoUniversal() {
     </View> : null}
     {tela==='novo' ? <View style={styles.detalhe}>
       <Text style={styles.rotulo}>Novo registro (simulado)</Text>
-      <Text nativeID="titulo-label" style={styles.rotulo}>Título (5–60 caracteres)</Text>
-      <TextInput accessibilityLabel="Título do novo registro" aria-describedby="titulo-error" accessibilityHint={errosCampos.titulo||"De 5 a 60 caracteres"} testID="novo-titulo"
+      <Text nativeID={formId+'-titulo-label'} style={styles.rotulo}>Título (5–60 caracteres)</Text>
+      <TextInput accessibilityLabel="Título do novo registro" aria-describedby={formId+'-titulo-error'} accessibilityHint={errosCampos.titulo||"De 5 a 60 caracteres"} testID="novo-titulo"
         value={titulo} onChangeText={setTitulo} style={styles.campo} placeholder="Título de 5–60 caracteres" />
-      <Text nativeID="titulo-error" accessibilityRole={errosCampos.titulo?"alert":undefined} style={styles.erro}>{errosCampos.titulo||""}</Text>
-      <Text nativeID="descricao-label" style={styles.rotulo}>Descrição (10–180 caracteres)</Text>
-      <TextInput accessibilityLabel="Descrição do novo registro" aria-describedby="descricao-error" accessibilityHint={errosCampos.descricao||"De 10 a 180 caracteres"} testID="nova-descricao"
+      <Text nativeID={formId+'-titulo-error'} testID="titulo-error" accessibilityRole={errosCampos.titulo?"alert":undefined} style={styles.erro}>{errosCampos.titulo||""}</Text>
+      <Text nativeID={formId+'-descricao-label'} style={styles.rotulo}>Descrição (10–180 caracteres)</Text>
+      <TextInput accessibilityLabel="Descrição do novo registro" aria-describedby={formId+'-descricao-error'} accessibilityHint={errosCampos.descricao||"De 10 a 180 caracteres"} testID="nova-descricao"
         value={descricao} onChangeText={setDescricao} style={styles.campo}
         multiline placeholder="Descrição de 10–180 caracteres" />
-      <Text nativeID="descricao-error" accessibilityRole={errosCampos.descricao?"alert":undefined} style={styles.erro}>{errosCampos.descricao||""}</Text>
+      <Text nativeID={formId+'-descricao-error'} testID="descricao-error" accessibilityRole={errosCampos.descricao?"alert":undefined} style={styles.erro}>{errosCampos.descricao||""}</Text>
       <Text style={styles.ajuda}>Valide espaços, duplicatas e limites antes de inserir.</Text>
       {erroForm ? <Text accessibilityRole="alert" style={styles.erro}>{erroForm}</Text> : null}
       {botao('Salvar registro',salvar)}

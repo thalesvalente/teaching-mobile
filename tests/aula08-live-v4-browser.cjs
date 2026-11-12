@@ -80,6 +80,25 @@ async function setCode(page,code){
    const size=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,width:innerWidth}));
    assert.ok(size.actual<=size.width+2,JSON.stringify(size));
    if(width<1025){await page.locator('#view-preview').click();assert.equal(await page.locator('#preview').isVisible(),true);await page.locator('#view-code').click();}
+   if(width===390){
+    await page.locator('#view-code').focus();
+    for(const [key,id] of [['ArrowRight','view-preview'],['ArrowLeft','view-code'],['End','view-preview'],['Home','view-code']]){
+     await page.keyboard.press(key);
+     assert.equal(await page.evaluate(()=>document.activeElement.id),id);
+     assert.equal(await page.locator('#'+id).getAttribute('aria-selected'),'true');
+     assert.equal(await page.locator(id==='view-code'?'#code-panel':'#result-panel').isVisible(),true);
+    }
+    await page.locator('#tab-shared').focus();
+    for(const [key,id] of [['ArrowRight','tab-route'],['ArrowRight','tab-vue'],['ArrowRight','tab-shared'],['ArrowLeft','tab-vue'],['Home','tab-shared'],['End','tab-vue'],['Home','tab-shared']]){
+     await page.keyboard.press(key);
+     assert.equal(await page.evaluate(()=>document.activeElement.id),id);
+     assert.equal(await page.locator('#'+id).getAttribute('aria-selected'),'true');
+     assert.equal(await page.locator('#editor-source').getAttribute('aria-labelledby'),id);
+    }
+    assert.equal(await page.locator('.file-tabs [tabindex="0"]').count(),1);
+    assert.equal(await page.locator('#code').isVisible(),true);
+    pass('Keyboard at 390px: pane/file tabs support arrows, wrap, Home and End');
+   }
    await page.screenshot({path:path.join(out,'viewport-'+width+'.png'),fullPage:true});
    assert.deepEqual(errors,[]);await page.close();pass('Responsive '+width+'px and starter compiles');
   }
@@ -97,8 +116,26 @@ async function setCode(page,code){
   await frame.locator('#web-root [data-testid="novo-titulo"]').fill('ab');
   await frame.locator('#web-root [data-testid="nova-descricao"]').fill('curta');
   await frame.locator('#web-root').getByRole('button',{name:'Salvar registro',exact:true}).click();
-  assert.match(await frame.locator('#web-root #titulo-error').textContent(),/5 a 60/);
-  assert.match(await frame.locator('#web-root #descricao-error').textContent(),/10 a 180/);
+  assert.match(await frame.locator('#web-root [data-testid="titulo-error"]').textContent(),/5 a 60/);
+  assert.match(await frame.locator('#web-root [data-testid="descricao-error"]').textContent(),/10 a 180/);
+  await frame.locator('#mobile-root').getByRole('button',{name:'Novo registro',exact:true}).click();
+  await frame.locator('#mobile-root [data-testid="novo-titulo"]').fill('Título móvel válido');
+  await frame.locator('#mobile-root').getByRole('button',{name:'Salvar registro',exact:true}).click();
+  assert.equal(await frame.locator('#mobile-root [data-testid="titulo-error"]').textContent(),'');
+  assert.match(await frame.locator('#mobile-root [data-testid="descricao-error"]').textContent(),/10 a 180/);
+  const errorLinks=await frame.locator('body').evaluate(body=>{
+   const ids=Array.from(body.querySelectorAll('[id]'),element=>element.id);
+   const fields=Array.from(body.querySelectorAll('[data-testid="novo-titulo"],[data-testid="nova-descricao"]'),input=>{
+    const target=document.getElementById(input.getAttribute('aria-describedby'));
+    return {field:input.getAttribute('data-testid'),id:target?.id,ownRoot:!!target&&input.closest('#web-root,#mobile-root').contains(target)};
+   });
+   return {duplicates:ids.filter((id,index)=>ids.indexOf(id)!==index),fields};
+  });
+  assert.deepEqual(errorLinks.duplicates,[]);
+  assert.equal(errorLinks.fields.length,4);assert.ok(errorLinks.fields.every(field=>field.ownRoot));
+  assert.equal(new Set(errorLinks.fields.map(field=>field.id)).size,4);
+  await frame.locator('#mobile-root').getByRole('button',{name:'Cancelar',exact:true}).click();
+  pass('Simultaneous forms keep unique IDs and describe errors from their own preview');
   await frame.locator('#web-root [data-testid="novo-titulo"]').fill('Novo registro QA');
   await frame.locator('#web-root [data-testid="nova-descricao"]').fill('Descrição sintética longa de teste.');
   await frame.locator('#web-root').getByRole('button',{name:'Salvar registro',exact:true}).click();

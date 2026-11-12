@@ -92,6 +92,8 @@ Comando autoral: `node --test tests/mobile-aula08-v4-backend.test.cjs` — **32 
 
 Revisão independente C3 adicionou `tests/independent-aula08-v4-backend.test.cjs` — **8 adversariais**. Quatro falhas iniciais foram reproduzidas e corrigidas: ordem de integrantes, nome cadastral alterado, replay de revisão parcialmente escrita e ausência de homologação QA nas verificações por requisição PROD. O coordenador e C3 registram o rerun independente no relatório QA. O rerun conjunto local do autor passou **40/40** sem mudar os asserts independentes.
 
+Na execução real de navegador, o adaptador local revelou uma incompatibilidade adicional: `Utilities.formatDate` ignorava o padrão solicitado e emitia `:` no identificador de recibo. O frontend recusou esse recibo como deveria. C3 corrigiu o adaptador para os padrões e fusos usados pelo servidor, sem afrouxar o parser de produção, e acrescentou um nono teste independente. O conjunto passou **41/41**, registrado em [c3-backend-date-adapter-retest.tap](aula08-v4-evidencias/c3-backend-date-adapter-retest.tap). Essa correção melhora a fidelidade da simulação e continua sem provar implantação Google.
+
 | Casos requeridos | Prova local | Conectado Google |
 | --- | --- | --- |
 | Matrícula existente/inexistente/zeros/homônimo | PASS | NOT_RUN |
