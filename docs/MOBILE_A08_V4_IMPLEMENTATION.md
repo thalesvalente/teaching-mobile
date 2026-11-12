@@ -56,4 +56,10 @@ A falha histórica de CI era de YAML, antes de qualquer job. Foi corrigida a str
 
 ## Referenciais de qualidade
 
+### Execução por fases e autoridade
+
+O [manifesto da missão](aula08-v4-evidencias/mission-manifest.json) registra baseline, responsáveis, caminhos canônicos, invariantes e políticas `shell/net/io` por fase. A política operacional parte de negação e permite somente leitura conectada, alterações na candidata, testes e evidências fictícias. Produção tem listas vazias e depende de aprovação específica. Essas regras orientam a execução; não são apresentadas como um sandbox de sistema operacional.
+
+C0 integra; C1 mantém bancada/Expo; C2 mantém backend/contratos; C3 escreve cenários adversariais e parecer independente; C4 verifica Actions/publicação. As edições são distribuídas por arquivos. Commits remotos utilizam árvore conferida e atualização da referência com `expected_sha`, sem force-push. A documentação conserva falhas iniciais, reparos e readback; nenhum resultado simulado recebe o rótulo de homologação conectada.
+
 Os perfis normativos foram usados como organização de requisitos/rastreabilidade, descrição arquitetural, qualidade, integridade de dados, controles e ciclo de vida. Não se declara certificação ISO ou conformidade integral WCAG. Referências públicas de implementação: [sintaxe Actions](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax) e [WCAG 2.2](https://www.w3.org/TR/WCAG22/). A verificação efetiva e seus limites estão em [QA](MOBILE_A08_V4_QA.md).

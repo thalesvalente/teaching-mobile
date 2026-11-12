@@ -38,7 +38,28 @@ const server=http.createServer((req,res)=>{
  if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404);res.end('Not found');return;}
  res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');fs.createReadStream(file).pipe(res);
 });
-async function compiled(page){await page.waitForFunction(()=>document.querySelector('#compiler-status')?.textContent.startsWith('✓ Executado'),null,{timeout:25000});}
+function observe(page){
+ page.a08Diagnostics={console:[],errors:[],failedRequests:[]};
+ page.on('console',m=>page.a08Diagnostics.console.push({type:m.type(),text:m.text().slice(0,1800)}));
+ page.on('pageerror',e=>page.a08Diagnostics.errors.push(String(e.message)));
+ page.on('requestfailed',r=>page.a08Diagnostics.failedRequests.push({url:r.url().split('?')[0],failure:r.failure()}));
+ return page;
+}
+async function compiled(page){
+ try{
+  await page.waitForFunction(()=>{const s=document.querySelector('#compiler-status')?.textContent||'';return s.startsWith('✓ Executado')||s.startsWith('Erro no código:');},null,{timeout:25000});
+  assert.match(await page.locator('#compiler-status').textContent(),/^✓ Executado/);
+ }catch(error){
+  const diagnostic={...page.a08Diagnostics,status:await page.locator('#compiler-status').textContent(),frames:[]};
+  for(const frame of page.frames()){
+   try{diagnostic.frames.push({url:frame.url(),state:await Promise.race([frame.evaluate(()=>({ready:document.readyState,body:document.body?.innerText.slice(0,1600),vendor:typeof window.LabVendor,compiler:typeof window.MobileA08Compiler,criteria:typeof window.MobileA08Criteria})),new Promise((_,reject)=>setTimeout(()=>reject(Error('Frame diagnostics timed out')),3000))])});}
+   catch(e){diagnostic.frames.push({url:frame.url(),error:String(e.message)});}
+  }
+  fs.writeFileSync(path.join(out,'compiler-failure-diagnostic.json'),JSON.stringify(diagnostic,null,2)+'\n');
+  try{await page.screenshot({path:path.join(out,'compiler-failure.png'),mask:[page.locator('#code')],timeout:3000});}catch{}
+  console.error('COMPILER_DIAGNOSTIC '+JSON.stringify(diagnostic));throw error;
+ }
+}
 async function setCode(page,code){
  if(await page.locator('#view-code').isVisible())await page.locator('#view-code').click();
  await page.locator('#code').fill(code);await page.locator('#run').click();await compiled(page);
@@ -50,7 +71,7 @@ async function setCode(page,code){
  const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH}:{}),args:['--no-sandbox']});
  try{
   for(const width of [360,390,768,1024,1440]){
-   const page=await browser.newPage({viewport:{width,height:900}}),errors=[];
+   const page=observe(await browser.newPage({viewport:{width,height:900}})),errors=[];
    page.on('pageerror',e=>errors.push(e.message));await page.goto(url);await compiled(page);
    assert.equal(await page.locator('#mission-select option').count(),20);
    assert.equal(await page.locator('#xp-top').textContent(),'0');
@@ -60,7 +81,7 @@ async function setCode(page,code){
    await page.screenshot({path:path.join(out,'viewport-'+width+'.png'),fullPage:true});
    assert.deepEqual(errors,[]);await page.close();pass('Responsive '+width+'px and starter compiles');
   }
-  const page=await browser.newPage({viewport:{width:1440,height:1000}});await page.goto(url);await compiled(page);
+  const page=observe(await browser.newPage({viewport:{width:1440,height:1000}}));await page.goto(url);await compiled(page);
   const original=await page.locator('#code').inputValue();
   const solution=reference(original);await setCode(page,solution);
   const frame=page.frameLocator('#preview');
@@ -101,7 +122,7 @@ async function setCode(page,code){
   pass('Regression invalidates current technical tests without erasing historical XP or generating a grade');
   // Fresh synthetic session for artifacts: never export/reference a full answer key.
   await page.close();
-  const sample=await browser.newPage({viewport:{width:1440,height:1000}});await sample.goto(url);await compiled(sample);
+  const sample=observe(await browser.newPage({viewport:{width:1440,height:1000}}));await sample.goto(url);await compiled(sample);
   const partial=original.replace("return 'pendente';","if(info.erro)return 'erro';return 'pendente';");await setCode(sample,partial);
   await sample.locator('#guide-check').click();await sample.waitForFunction(()=>document.querySelector('#xp-top')?.textContent==='5');
   await sample.locator('#team-open').click();await sample.locator('#web-team').fill('Equipe QA Exemplo');await sample.locator('#team-done').click();

@@ -45,7 +45,25 @@ async function check(id,fn) {
   catch(error){report.checks.push({id,status:'FAIL',message:String(error.stack||error)});console.error('FAIL C3 '+id+': '+error.message);}
 }
 async function compiled(page) {
-  await page.waitForFunction(()=>document.querySelector('#compiler-status')?.textContent.includes('Executado'),null,{timeout:45000});
+  try{
+    await page.waitForFunction(()=>document.querySelector('#compiler-status')?.textContent.includes('Executado'),null,{timeout:45000});
+  }catch(error){
+    const diagnostic={stage:'wait-for-compiled',url:page.url(),
+      browser:engine,...(page.c3Diagnostic||{}),frames:page.frames().map(f=>f.url())};
+    try{diagnostic.compilerStatus=await page.locator('#compiler-status').textContent({timeout:1500});}catch(e){diagnostic.statusReadError=e.message;}
+    try{diagnostic.previewText=await page.frameLocator('#preview').locator('body').innerText({timeout:1500});}catch(e){diagnostic.previewReadError=e.message;}
+    const name='bootstrap-failure-'+Date.now();
+    try{await page.screenshot({path:path.join(out,name+'.png'),fullPage:true,timeout:5000});diagnostic.screenshot=name+'.png';}catch(e){diagnostic.screenshotError=e.message;}
+    fs.writeFileSync(path.join(out,name+'.json'),JSON.stringify(diagnostic,null,2)+'\n');
+    console.error('C3 COMPILATION DIAGNOSTIC '+JSON.stringify(diagnostic));
+    throw new Error(error.message+'; compiler status: '+(diagnostic.compilerStatus||'unavailable'));
+  }
+}
+function diagnostics(page){
+  const result={console:[],failedRequests:[],badResponses:[]};page.c3Diagnostic=result;
+  page.on('console',m=>{if(['error','warning'].includes(m.type())&&result.console.length<60)result.console.push({type:m.type(),text:m.text().slice(0,1200)});});
+  page.on('requestfailed',r=>{if(result.failedRequests.length<30)result.failedRequests.push({url:r.url().split('?')[0],failure:r.failure()?.errorText});});
+  page.on('response',r=>{if(r.status()>=400&&result.badResponses.length<30)result.badResponses.push({url:r.url().split('?')[0],status:r.status()});});
 }
 async function closeDialogs(page){await page.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(x=>x.close()));}
 async function runSource(page,source){await page.locator('#code').fill(source);await page.locator('#run').click();}
@@ -59,6 +77,7 @@ let browser;
   report.browserVersion=browser.version();
   async function pageFor(width){
     const page=await browser.newPage({viewport:{width,height:900},reducedMotion:'reduce'});
+    diagnostics(page);
     await page.route('**/*',route=>{
       const u=route.request().url();
       if(u.startsWith(origin+'/')||u.startsWith('data:')||u.startsWith('blob:'))return route.continue();
@@ -211,6 +230,7 @@ let browser;
       const endpoint='https://script.google.com/macros/s/C3_SYNTHETIC_QA_ONLY/exec';
       const operations=[],responses=[],outside=[];
       const qa=await browser.newPage({viewport:{width:1440,height:1000}});
+      diagnostics(qa);
       qa.on('pageerror',e=>report.errors.push({scope:scenario,message:e.message}));
       qa.on('dialog',d=>d.accept());
       await qa.route('**/*',async route=>{

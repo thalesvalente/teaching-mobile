@@ -44,5 +44,80 @@
     "Historical PR4 preserved",
     "Frontend production endpoint empty",
     "No Web/PPI data/credentials reused"
-  ]
+  ],
+  "canonicalPaths": {
+    "repository": "thalesvalente/teaching-mobile",
+    "branch": "feat/aula08-lab-vivo-ciclos-20261111",
+    "lab": "lessons/aula-08-av1-incremento-1/laboratorio-vivo",
+    "backend": "integrations/mobile-aula08-appscript",
+    "evidence": "docs/aula08-v4-evidencias"
+  },
+  "executionPolicy": {
+    "default": "deny",
+    "scope": "Operational allowlists; not an OS sandbox or substitute for code isolation",
+    "readback": {
+      "shell": [
+        "git read/fetch",
+        "file reads"
+      ],
+      "network": [
+        "GitHub connector/read-only public Git",
+        "Google Drive/Sheets read"
+      ],
+      "io": [
+        "scratch evidence",
+        "repository read"
+      ]
+    },
+    "implementation": {
+      "shell": [
+        "git diff/add/write-tree",
+        "npm ci",
+        "Node/Python source edits",
+        "typecheck/tests/build"
+      ],
+      "network": [
+        "official package registries",
+        "Playwright browser distribution",
+        "GitHub development branch/PR"
+      ],
+      "io": [
+        "candidate source",
+        "tests",
+        "documentation",
+        "synthetic fixtures"
+      ]
+    },
+    "qa": {
+      "shell": [
+        "test runners",
+        "artifact extraction",
+        "PDF rendering",
+        "hashes"
+      ],
+      "network": [
+        "GitHub Actions/artifacts",
+        "official documentation",
+        "isolated QA only if accessible and authorized"
+      ],
+      "io": [
+        "synthetic records",
+        "audit reports",
+        "screenshots/PDF/JSON"
+      ]
+    },
+    "production": {
+      "shell": [],
+      "network": [],
+      "io": [],
+      "gate": "Specific human approval after all required evidence; none given"
+    }
+  },
+  "publication": {
+    "pullRequest": 7,
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
+    "mergePerformed": false,
+    "pagesDeployed": false,
+    "candidateOnly": true
+  }
 }
