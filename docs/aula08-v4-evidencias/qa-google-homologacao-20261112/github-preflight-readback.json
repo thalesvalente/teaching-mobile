@@ -1,0 +1,81 @@
+{
+  "observed_at": "2026-11-12T14:05:39.579Z",
+  "pr7": {
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
+    "head": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+    "head_ref": "feat/aula08-lab-vivo-ciclos-20261111",
+    "base": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "state": "open",
+    "draft": false,
+    "merged": false,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "updated_at": "2026-11-12T12:59:01Z"
+  },
+  "main": {
+    "sha": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "tree": "c0625a8c829bdfa38518a7560b54ddbd55d3efcf"
+  },
+  "historical_pr4": {
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/4",
+    "head": "a2c3becd0f55042f9bef5135cda68ca63fee6ec6",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "updated_at": "2026-10-28T02:57:13Z"
+  },
+  "tree": "218dc7195b66232c7c21696c3759b42b41e863b7",
+  "ci": [
+    {
+      "id": 43135184867,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "event": "pull_request",
+      "head_sha": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43135184867",
+      "created_at": "2026-11-12T01:32:21Z"
+    },
+    {
+      "id": 43135184882,
+      "name": "QA Mobile — Entregas Aula 07",
+      "event": "pull_request",
+      "head_sha": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43135184882",
+      "created_at": "2026-11-12T01:32:21Z"
+    },
+    {
+      "id": 43135184874,
+      "name": "QA Aula 08 - laboratorio vivo",
+      "event": "pull_request",
+      "head_sha": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43135184874",
+      "created_at": "2026-11-12T01:32:21Z"
+    },
+    {
+      "id": 43135184863,
+      "name": "Publicar projetos Expo Web",
+      "event": "pull_request",
+      "head_sha": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43135184863",
+      "created_at": "2026-11-12T01:32:21Z"
+    },
+    {
+      "id": 43135175184,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "event": "push",
+      "head_sha": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43135175184",
+      "created_at": "2026-11-12T01:32:16Z"
+    }
+  ]
+}
+

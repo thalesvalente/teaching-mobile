@@ -1,0 +1,9 @@
+{
+  "classification": "CONNECTED_BROWSER_NAVIGATION",
+  "url": "http://127.0.0.1:8138/lessons/aula-08-av1-incremento-1/laboratorio-vivo/?qa=1",
+  "browserResult": "net::ERR_CONNECTION_REFUSED",
+  "gate": "E2E_INTERFACE_BLOCKED",
+  "serverStartedInExecSession": true,
+  "reason": "Cloud Browser could not reach this executor loopback; no endpoint configured and no Google submission attempted",
+  "nextAction": "Serve unchanged preview in an environment reachable at its approved loopback origin before E2E; do not claim direct backend calls as interface E2E"
+}

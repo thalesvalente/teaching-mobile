@@ -1,0 +1,790 @@
+{
+  "captured_at": "2026-11-12T14:06:01.041Z",
+  "role": "C2",
+  "read_only": true,
+  "c2-meta-0": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "spreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+        "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit",
+        "properties": {
+          "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+          "locale": "pt_BR",
+          "timeZone": "America/Fortaleza"
+        },
+        "sheets": [
+          {
+            "properties": {
+              "sheetId": 1254366590,
+              "title": "1º Bimestre",
+              "index": 0,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 875295123,
+              "title": "2º Bimestre",
+              "index": 1,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 1799070534,
+              "title": "3º Bimestre",
+              "index": 2,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 1315730574,
+              "title": "4º Bimestre",
+              "index": 3,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 670297660,
+              "title": "Auditoria",
+              "index": 4,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 28,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 2044304595,
+              "title": "Equipes",
+              "index": 5,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 1928571717,
+              "title": "Alunos",
+              "index": 6,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "frozenColumnCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 87436821,
+              "title": "Resultados",
+              "index": 7,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 20617729,
+              "title": "Atividades",
+              "index": 8,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 1283492583,
+              "title": "Orientações",
+              "index": 9,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1,
+                "rowGroupControlAfter": true,
+                "columnGroupControlAfter": true
+              }
+            }
+          }
+        ]
+      },
+      "isError": false
+    }
+  },
+  "c2-meta-1": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "spreadsheetId": "1pkbf3rJD3R5-lX7TuOyfir0A4ID1m2QfUg8ZIfNOeT0",
+        "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1pkbf3rJD3R5-lX7TuOyfir0A4ID1m2QfUg8ZIfNOeT0/edit",
+        "properties": {
+          "title": "IFMA · Mobile 2026 — Notas, Equipes e Auditoria (novo, inativo)",
+          "locale": "pt_BR",
+          "timeZone": "America/Fortaleza"
+        },
+        "sheets": [
+          {
+            "properties": {
+              "sheetId": 1207026835,
+              "title": "1º Bimestre",
+              "index": 0,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510002,
+              "title": "2º Bimestre",
+              "index": 1,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510003,
+              "title": "3º Bimestre",
+              "index": 2,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510004,
+              "title": "4º Bimestre",
+              "index": 3,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 26,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510005,
+              "title": "Auditoria",
+              "index": 4,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 28,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510006,
+              "title": "Equipes",
+              "index": 5,
+              "sheetType": "GRID",
+              "hidden": true,
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 16,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510007,
+              "title": "Alunos",
+              "index": 6,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 8,
+                "frozenRowCount": 1,
+                "frozenColumnCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510008,
+              "title": "Resultados",
+              "index": 7,
+              "sheetType": "GRID",
+              "hidden": true,
+              "gridProperties": {
+                "rowCount": 1000,
+                "columnCount": 10,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510009,
+              "title": "Atividades",
+              "index": 8,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 100,
+                "columnCount": 8,
+                "frozenRowCount": 1
+              }
+            }
+          },
+          {
+            "properties": {
+              "sheetId": 510010,
+              "title": "Orientações",
+              "index": 9,
+              "sheetType": "GRID",
+              "gridProperties": {
+                "rowCount": 30,
+                "columnCount": 3,
+                "frozenRowCount": 1
+              }
+            }
+          }
+        ]
+      },
+      "isError": false
+    }
+  },
+  "c2-meta-2": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+        "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+        "mime_type": "application/vnd.google-apps.spreadsheet",
+        "size": null,
+        "url": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit?usp=drivesdk",
+        "display_url": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit?usp=drivesdk",
+        "file_or_folder": "file",
+        "created_time": null,
+        "modified_time": "2026-11-12T01:16:47.965Z",
+        "parent_ids": null,
+        "drive_id": null,
+        "current_user_can_share": null,
+        "has_augmented_permissions": null,
+        "shared": null,
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": null
+          }
+        ],
+        "source_visibility_status": "permission_metadata_available"
+      },
+      "isError": false
+    }
+  },
+  "qa-students": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Alunos!A1:H6",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "Matrícula",
+            "Nome completo",
+            "Nome normalizado",
+            "Estado de validação",
+            "Fonte docente",
+            "Atualização UTC",
+            "Homônimo liberado",
+            "Observação docente"
+          ],
+          [
+            "00000000.ITA0001",
+            "Pessoa Sintética Um",
+            "pessoa sintetica um",
+            "VALIDADO",
+            "QA_SYNTHETIC_ONLY",
+            "2026-11-11T00:00:00Z",
+            "NÃO",
+            "Fixture sem dados reais"
+          ],
+          [
+            "00000000.ITA0002",
+            "Pessoa Sintética Dois",
+            "pessoa sintetica dois",
+            "VALIDADO",
+            "QA_SYNTHETIC_ONLY",
+            "2026-11-11T00:00:00Z",
+            "NÃO",
+            "Fixture sem dados reais"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "qa-activities": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Atividades!A1:H8",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "ID atividade",
+            "Nome",
+            "Bimestre",
+            "Cabeçalho da nota",
+            "Contrato entrada",
+            "Habilitada"
+          ],
+          [
+            "MOBILE-A08-2026",
+            "Aula 08 — Operação Dados sob Pressão",
+            "4",
+            "Aula 08 /10",
+            "mobile-a08-lab-v4",
+            "TRUE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "qa-audit-headers": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Auditoria!A1:AB3",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "Equipe",
+            "ID equipe (automático)",
+            "Integrantes (nomes)",
+            "Atividade",
+            "Instrumento",
+            "Data/hora BRT",
+            "Recebido UTC",
+            "ID entrega",
+            "SHA-256 evidência",
+            "Assinatura HMAC",
+            "Nota recebida /10",
+            "Nota oficial /10",
+            "Situação",
+            "Rubrica/versão",
+            "JSON evidência sem XP",
+            "Chave interna",
+            "Código SHA-256",
+            "Origem",
+            "Observação docente",
+            "Revisado UTC",
+            "Lista de integrantes da equipe",
+            "SHA-256 armazenado",
+            "Nonce SHA-256",
+            "Requisição SHA-256",
+            "Tipo registro",
+            "Integrantes JSON",
+            "Contrato",
+            "Pendência docente"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "qa-teams-headers": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Equipes!A1:P3",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "Equipe",
+            "Integrantes (nomes)",
+            "Quantidade",
+            "Atividade",
+            "Maior nota da equipe /10",
+            "Situação",
+            "Recibo vencedor",
+            "Enviado UTC",
+            "Chave da equipe",
+            "SHA-256 evidência",
+            "Observação docente",
+            "Revisado UTC",
+            "Recibo último envio",
+            "Último envio UTC",
+            "Matrículas JSON",
+            "Contrato"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "qa-results-headers": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Resultados!A1:J3",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "Matrícula",
+            "Atividade",
+            "Maior nota /10",
+            "Recibo vencedor",
+            "Equipe vencedora",
+            "Atualização UTC",
+            "Estado docente",
+            "Nome no registro",
+            "SHA-256 vencedor",
+            "Último recibo"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "prod-activities": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "range": "Atividades!A1:H8",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "ID atividade",
+            "Nome",
+            "Bimestre",
+            "Cabeçalho da nota",
+            "Contrato entrada",
+            "Habilitada"
+          ],
+          [
+            "MOBILE-A08-2026",
+            "Aula 08 — Operação Dados sob Pressão",
+            "4",
+            "Aula 08 /10",
+            "mobile-a08-lab-v4",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "FALSE"
+          ]
+        ]
+      },
+      "isError": false
+    }
+  },
+  "qa-sentinel-readback": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "spreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+      "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit",
+      "properties": {
+        "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+        "locale": "pt_BR",
+        "timeZone": "America/Fortaleza"
+      },
+      "sheets": [
+        {
+          "properties": {
+            "sheetId": 670297660,
+            "title": "Auditoria",
+            "index": 4,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 1000,
+              "columnCount": 28,
+              "frozenRowCount": 1,
+              "rowGroupControlAfter": true,
+              "columnGroupControlAfter": true
+            }
+          },
+          "data": [
+            {
+              "startRow": 1,
+              "startColumn": 7
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 2044304595,
+            "title": "Equipes",
+            "index": 5,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 1000,
+              "columnCount": 26,
+              "frozenRowCount": 1,
+              "rowGroupControlAfter": true,
+              "columnGroupControlAfter": true
+            }
+          },
+          "data": [
+            {
+              "startRow": 1
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 1928571717,
+            "title": "Alunos",
+            "index": 6,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 1000,
+              "columnCount": 26,
+              "frozenRowCount": 1,
+              "frozenColumnCount": 1,
+              "rowGroupControlAfter": true,
+              "columnGroupControlAfter": true
+            }
+          },
+          "data": [
+            {
+              "startRow": 1,
+              "rowData": [
+                {
+                  "values": [
+                    {
+                      "formattedValue": "00000000.ITA0001",
+                      "userEnteredValue": {
+                        "stringValue": "00000000.ITA0001"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "00000000.ITA0001"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "values": [
+                    {
+                      "formattedValue": "00000000.ITA0002",
+                      "userEnteredValue": {
+                        "stringValue": "00000000.ITA0002"
+                      },
+                      "effectiveValue": {
+                        "stringValue": "00000000.ITA0002"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "properties": {
+            "sheetId": 87436821,
+            "title": "Resultados",
+            "index": 7,
+            "sheetType": "GRID",
+            "gridProperties": {
+              "rowCount": 1000,
+              "columnCount": 26,
+              "frozenRowCount": 1,
+              "rowGroupControlAfter": true,
+              "columnGroupControlAfter": true
+            }
+          },
+          "data": [
+            {
+              "startRow": 1
+            }
+          ]
+        }
+      ]
+    },
+    "isError": false
+  }
+}
