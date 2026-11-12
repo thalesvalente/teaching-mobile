@@ -395,11 +395,13 @@
   const panels = { shared: '', route: `/** ROTA EXPO: app/aula08.tsx */
 import ProjetoUniversal from '../shared/ProjetoUniversal';
 export default ProjetoUniversal;
-// Integre o motor do domínio em projeto/src/engine.mjs e execute npm run nota.
+// No projeto Expo v4: App.tsx importa ../shared/ProjetoUniversal.
+// npm ci && npm run typecheck && npm run avaliar
 `, vue: `/** CONTRATOS AVANÇADOS DA AV1 */
 // Funções exigidas: estadoTela, filtrarOrdenar, obterPorId,
 // validarFormulario, inserirImutavel, resumir.
-// Os 20 testes são os mesmos do projeto Expo da Aula 08.
+// Os 20 testes são definidos em criteria.js e usados também pelo Expo.
+// Rubrica docente: cada critério = 0,5 ponto; total 10. XP não é nota.
 // Todos os dados de treinamento são fictícios.
 // Prévia estreita de navegador NÃO substitui teste em Android/iOS real.
 ` };
@@ -408,7 +410,7 @@ export default ProjetoUniversal;
   let activeIndex = 0;
   let ready = false, sourceLoaded = false, lastCompiled = false, pending = null;
   let revealPreviewAfterExplicitRun = false;
-  const nonce = 'aula08-' + String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+  const nonce = crypto.randomUUID();
   // XP são conquistas históricas e cumulativas, não a nota de uma fotografia
   // instantânea do código. A validação atual é indicada no feedback separado.
   const passed = Object.fromEntries(tasks.map(task => [task.id, false]));
@@ -418,6 +420,23 @@ export default ProjetoUniversal;
   let reviewPending = false; // Conferência coletiva em curso.
   let reviewAfterCompile = false;
   const completedDetail = {};
+  const currentResults=Object.fromEntries(tasks.map(task=>[task.id,'NOT_RUN']));
+  let sourceSha256='', hashedSource='', operationTimer=null;
+  async function updateSourceHash(){
+    const source=panels.shared;
+    if(!window.crypto?.subtle)return;
+    const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(source));
+    if(source!==panels.shared)return;
+    sourceSha256=Array.from(new Uint8Array(bytes),x=>x.toString(16).padStart(2,'0')).join('');hashedSource=source;
+  }
+  function resetCurrentResults(){for(const task of tasks)currentResults[task.id]='NOT_RUN';sourceSha256='';hashedSource='';updateSourceHash();}
+  function clearOperationTimer(){if(operationTimer)clearTimeout(operationTimer);operationTimer=null;}
+  function watchOperation(){clearOperationTimer();operationTimer=setTimeout(()=>{
+    lastCompiled=false;reviewAfterCompile=false;stopPendingChecks();
+    byId('run').disabled=false;setStatus('A prévia não respondeu no prazo. Seus XP e código foram preservados. Use Reiniciar prévia e execute novamente.',true);
+    byId('restart-preview').hidden=false;
+  },12000);}
+
 
   // Em vez de quatorze cartões em outra seção, há UMA missão ativa.
   // O aluno sempre lê a instrução, edita e testa na mesma bancada.
@@ -619,7 +638,7 @@ export default ProjetoUniversal;
   // O tutorial V4 abre com a fonte atualizada. O código anterior continua
   // disponível para download; não é sobrescrito nem migrado sem consentimento.
   let legacy = null, legacyTag = '';
-  for (const [storageKey, tag] of [['ifma-web-aula08-lab-v2', 'v3'], ['ifma-web-aula08-lab-v1', 'v1']]) {
+  for (const [storageKey, tag] of [['ifma-mobile-aula08-lab-v0', 'v0']]) {
     try {
       const prior = JSON.parse(localStorage.getItem(storageKey) || 'null');
       if (typeof prior?.code === 'string' && prior.code.length < 30000) {
@@ -643,6 +662,7 @@ export default ProjetoUniversal;
       window.__IFMA_LAB_INITIAL__ = initial;
       codeEditor.value = panels.shared;
       sourceLoaded = true;
+      resetCurrentResults();
       setStatus('Arquivo completo carregado. Preparando execução nas duas telas…');
       if (ready) run({ initial: true });
     } catch (error) { setStatus(`Não foi possível carregar o arquivo: ${error.message}. Use HTTP/HTTPS, não file://.`, true); }
@@ -694,6 +714,8 @@ export default ProjetoUniversal;
   // Ao editar, a compilação antiga deixa de ser a versão atual,
   // porém as missões JÁ APROVADAS continuam creditadas.
   function markCodeForReview(message) {
+    byId('run').disabled=false;
+    resetCurrentResults();
     for (const task of tasks) {
       if (task.type === 'quiz') continue;
       feedbackState[task.id] = { kind: 'pending', text: message ||
@@ -707,6 +729,7 @@ export default ProjetoUniversal;
     for (const id of ['review-xp', 'review-xp-dialog']) byId(id).disabled = busy;
   }
   function stopPendingChecks() {
+    clearOperationTimer();
     pending = null;
     reviewPending = false;
     enableChecks();
@@ -720,9 +743,11 @@ export default ProjetoUniversal;
     revealPreviewAfterExplicitRun = !initial;
     lastCompiled = false;
     const thisRun = ++runSequence;
+    byId('run').disabled=true;watchOperation();
     if (reviewAfterCompile) setReviewBusy(true);
     if (send('RUN', { source: panels.shared, revision: sourceRevision, runId: thisRun }))
       setStatus('Compilando TSX completo para as duas prévias…');
+    else {byId('run').disabled=false;clearOperationTimer();}
     if (!initial) save();
   }
   function showFile(which) {
@@ -768,7 +793,7 @@ export default ProjetoUniversal;
       updateGuide(); return;
     }
     if (pending !== null || reviewPending) return;
-    pending = id;
+    pending = id;watchOperation();
     byId('guide-check').disabled = true;
     feedbackState[id] = { kind: 'pending', text: 'Testando o código executado nas duas prévias…' };
     updateGuide();
@@ -776,7 +801,7 @@ export default ProjetoUniversal;
       pending = null; enableChecks();
     }
   }
-  // Conferência única das doze missões técnicas. Útil para recuperar XP
+  // Conferência única das vinte missões técnicas. Útil para recuperar XP
   // que foram zerados pelo bug anterior, quando o código final ainda atende
   // aos critérios. Somente resultados PASS ganham XP, sem tirar os anteriores.
   function setReviewStatus(message, kind = '') {
@@ -786,7 +811,7 @@ export default ProjetoUniversal;
   }
   function startReview() {
     if (reviewPending || pending !== null || !lastCompiled) return;
-    reviewPending = true;
+    reviewPending = true;watchOperation();
     setReviewBusy(true);
     byId('guide-check').disabled = true;
     setReviewStatus('Conferindo as 20 missões técnicas no código executado. Os XP já conquistados estão protegidos.');
@@ -817,6 +842,11 @@ export default ProjetoUniversal;
   byId('guide-locate').addEventListener('click', locate);
   byId('guide-check').addEventListener('click', () => checkTask(activeTask().id));
   byId('run').addEventListener('click', () => run());
+  byId('restart-preview').addEventListener('click',()=>{
+    stopPendingChecks();ready=false;lastCompiled=false;reviewAfterCompile=false;
+    runSequence++;byId('run').disabled=false;frame.src='./preview.html?restart='+String(runSequence);
+    byId('restart-preview').hidden=true;setStatus('Reiniciando a prévia isolada. Código e XP preservados.');
+  });
   byId('reset').addEventListener('click', () => {
     if (!window.__IFMA_LAB_INITIAL__) return;
     if (!confirm('Restaurar o arquivo original? O código que você editou será substituído, mas as observações continuam.')) return;
@@ -853,7 +883,7 @@ export default ProjetoUniversal;
 
   // O mesmo iframe permanece isolado; a bancada apenas consome resultados verificados.
   window.addEventListener('message', event => {
-    if (event.source !== frame.contentWindow) return;
+    if (event.source !== frame.contentWindow || event.origin !== 'null') return;
     const data = event.data;
     if (!data || data.from !== 'ifma-mobile-a08') return;
     if (data.type === 'READY') {
@@ -870,6 +900,7 @@ export default ProjetoUniversal;
     // Editar/reexecutar durante uma conferência descarta resultados antigos.
     if (data.runId !== runSequence || data.revision !== sourceRevision) return;
     if (data.type === 'COMPILED') {
+      clearOperationTimer();byId('run').disabled=false;
       lastCompiled = data.ok === true;
       setStatus(lastCompiled ? '✓ Executado nas duas prévias React Native Web. Estados independentes.' :
         `Erro no código: ${data.detail || 'revise o arquivo completo.'} · XP anteriores preservados.`, !lastCompiled);
@@ -890,6 +921,7 @@ export default ProjetoUniversal;
       revealPreviewAfterExplicitRun = false;
     } else if (data.type === 'CHECKED' && data.stage === pending) {
       const id = pending;
+      currentResults[id]=data.ok===true?'PASS':'FAIL';
       stopPendingChecks();
       if (data.ok === true) {
         passed[id] = true;
@@ -914,6 +946,7 @@ export default ProjetoUniversal;
       for (const item of results) {
         const id = item.stage;
         const current = item.ok === true;
+        currentResults[id]=current?'PASS':'FAIL';
         if (current) {
           approvedNow++;
           if (!passed[id]) newlyApproved++;
@@ -1018,6 +1051,11 @@ export default ProjetoUniversal;
         estado: passed[task.id] ? 'APROVADO' : 'PENDENTE', comentario: completedDetail[task.id] || null })),
       observacao: byId('observacao').value, testeNativoPendente: byId('limite-real').value,
       codigoFonteCompleto: panels.shared,
+      ...(sourceSha256&&hashedSource===panels.shared?{technicalEvaluation:{
+        provenance:'LOCAL_BROWSER_UNTRUSTED',sourceRevision,sourceSha256,
+        criteria:tasks.map(task=>({id:task.id,status:currentResults[task.id]}))
+      }}:{}),
+      avaliacaoDocente:{status:'PENDENTE_VALIDACAO',notaOficial:null,criterios:20,pontosPorCriterio:0.5,maximo:10},
       team: window.WebTeam?.snapshot() || null,
       ressalvas: ['Prévia móvel = React Native Web estreito, NÃO dispositivo Android/iOS.',
         'Compartilhar componente não sincroniza dados.',
@@ -1096,6 +1134,7 @@ export default ProjetoUniversal;
     }
     panels.shared = source;
     codeEditor.value = source;
+    sourceRevision++;stopPendingChecks();reviewAfterCompile=false;lastCompiled=false;resetCurrentResults();
     if (savedTeam != null) window.WebTeam?.restore(savedTeam);
     for (const task of tasks) {
       passed[task.id] = restored.includes(task.id);
@@ -1113,7 +1152,7 @@ export default ProjetoUniversal;
     showFile('shared');
     render();save();
     run({initial:true});
-    progressMessage('Progresso retomado: '+computed+'/100 XP formativos. Código e respostas restaurados; quizzes sem respostas verificáveis ficam pendentes.');
+    progressMessage('Progresso retomado: '+computed+'/100 XP formativos. Código restaurado; testes técnicos atuais ficam pendentes até nova conferência.');
   }
   const fileInput = byId('progress-file');
   fileInput.addEventListener('change', async () => {
@@ -1137,7 +1176,7 @@ export default ProjetoUniversal;
   function reportText() {
     const data = evidence();
     const lines = ['# Aula 08 — Laboratório Vivo · Operação Dados sob Pressão', '', `Gerado em: ${data.geradoEm}`,
-      `XP formativos: **${data.xp}/${data.maximoXp}** (NÃO são nota).`, '', '## Exercícios'];
+      `XP formativos: **${data.xp}/${data.maximoXp}** (NÃO são nota).`, 'Nota oficial: PENDENTE DE VALIDAÇÃO DOCENTE (rubrica 20 × 0,5 = 10).', `Testes atuais aprovados: ${data.technicalEvaluation?.criteria.filter(x=>x.status==='PASS').length||0}/20; declaração local.`, '', '## Exercícios'];
     if (data.team) {
       lines.push('', '## Equipe', 'Nome: ' + (data.team.team || '(não informado)'),
         'Integrantes:', ...data.team.members.map(m=>'- '+(m.name||'(não informado)')));

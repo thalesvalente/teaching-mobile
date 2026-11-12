@@ -1,4 +1,4 @@
-/** Web 3.2 — only the teacher edits Alunos directly in Sheets. All UI changes are local. */
+/** Mobile 4.1 — only the teacher edits Alunos directly in Sheets. All UI changes are local. */
 (() => {
   'use strict';
   const cfg=window.WebEntregaConfig||{};
@@ -23,7 +23,7 @@
       const candidate=urlInput.value;urlInput.value='';activate.disabled=true;
       try{
         if(!await cfg.configureQa(candidate)){
-          notice.textContent='URL recusada. Use somente o link /exec da implantação QA 3.2.0 autorizada.';
+          notice.textContent='URL recusada. Use somente o link /exec da implantação Mobile QA 4.1.0 autorizada.';
           return;
         }
         notice.textContent='QA conectada. Informe uma matrícula fictícia e clique em Consultar matrícula.';

@@ -9,9 +9,10 @@
   'use strict';
   const EXPECTED_SCHEMA='ifma-mobile-aula08-lab-v1';
   const CYCLES=Object.freeze([
-    'Ciclo 1 — Conhecer o aplicativo',
-    'Ciclo 2 — Modificar e comparar',
-    'Ciclo 3 — Testar e explicar'
+    'M1 — Estados sob falhas · 15 min · 25 XP',
+    'M2 — Filtros e imutabilidade · 25 min · 20 XP',
+    'M3 — Fluxo, navegação e validação · 35 min · 30 XP',
+    'M4 — Idempotência, resumos e regressão · 25 min · 25 XP'
   ]);
   function add(parent,tag,cls,text) {
     const node=parent.ownerDocument.createElement(tag);
@@ -68,11 +69,11 @@
     add(institution,'strong',null,'INSTITUTO FEDERAL DO MARANHÃO');
     add(institution,'span',null,'Campus Itapecuru-Mirim');
     add(institution,'span','doc-course','Técnico em Informática Integrado ao Ensino Médio');
-    add(institution,'span','doc-discipline','INF031 — Desenvolvimento de Sistemas Web');
+    add(institution,'span','doc-discipline','Programação para Dispositivos Móveis');
     const edition=add(identityLine,'div','doc-edition');
     add(edition,'span',null,'AULA 08');
     add(edition,'strong',null,'2026.2');
-    add(cover,'p','doc-eyebrow','REGISTRO INDIVIDUAL DE APRENDIZAGEM  |  AULA 08');
+    add(cover,'p','doc-eyebrow','REGISTRO DE EQUIPE E APRENDIZAGEM  |  AULA 08');
     add(cover,'h1',null,'Relatório de aprendizagem');
     add(cover,'p','doc-subtitle','Laboratório Vivo AV1 — Desafio avançado Mobile');
     add(cover,'p','doc-status',pending?'RELATÓRIO PARCIAL':'RELATÓRIO CONCLUÍDO');
@@ -89,8 +90,8 @@
     infoRow(metadata,'Docente','Prof. Dr. Thales Levi Azevedo Valente');
     infoRow(metadata,'Emissão (BRT)',when);
     const control=add(cover,'div','doc-control');
-    add(control,'p',null,'Controle documental: WEB-A05-LV-2026');
-    add(control,'p',null,'Versão do relatório: 1.1.0');
+    add(control,'p',null,'Controle documental: MOBILE-A08-2026');
+    add(control,'p',null,'Versão do relatório: 4.1.0');
     add(control,'p',null,'Natureza: registro de equipe; progresso formativo declarado e testado localmente.');
     // Progresso formativo — não é nota acadêmica.
     const score=add(article,'section','doc-score');
@@ -108,6 +109,12 @@
     add(score,'p','doc-score-note',
       'Pontuação de acompanhamento, não constitui nota oficial. '+
       'Questões e missões pendentes permanecem com zero ponto, sem reduzir o máximo de 100 XP.');
+    const current=snapshot.technicalEvaluation?.criteria||[];
+    const technical=add(article,'section','doc-section');
+    add(technical,'h2',null,'Avaliação técnica atual e rubrica docente');
+    add(technical,'p',null,'Testes atuais: '+current.filter(x=>x.status==='PASS').length+' / 20 aprovados localmente. Resultados declarados pelo navegador, sujeitos à conferência.');
+    add(technical,'p',null,'Rubrica: 20 critérios de 0,5 ponto = 10,0 pontos. Nota oficial: PENDENTE DE VALIDAÇÃO DOCENTE. XP históricos não são convertidos em nota.');
+    if(snapshot.technicalEvaluation?.sourceSha256)add(technical,'p','doc-code-hash','SHA-256 do TSX: '+snapshot.technicalEvaluation.sourceSha256);
     // Quadro por ciclo com status e pontos presentes no instante da geração.
     const section=add(article,'section','doc-section doc-missions-section');
     add(section,'h2',null,'1. Situação das missões');
@@ -164,12 +171,12 @@
       'O relatório foi gerado localmente. Salvar PDF não comprova entrega no Google Sheets.'
     ])add(notes,'li',null,text);
     const end=add(article,'footer','doc-end');
-    add(end,'p',null,'IFMA · Desenvolvimento Web · Aula 08 · 2026.2');
+    add(end,'p',null,'IFMA · Programação Mobile · Aula 08 · 2026.2');
     add(end,'p',null,'Documento gerado no Laboratório Vivo em '+when+' (BRT).');
     root.replaceChildren(article);
     root.setAttribute('data-report-state',pending?'partial':'complete');
     root.setAttribute('data-report-xp',String(snapshot.xp));
     return {xp:snapshot.xp,total,done,pending};
   }
-  window.WebLabReport=Object.freeze({prepare,version:'1.1.0'});
+  window.WebLabReport=Object.freeze({prepare,version:'4.1.0'});
 })();

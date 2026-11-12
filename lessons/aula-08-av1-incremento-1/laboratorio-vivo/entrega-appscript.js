@@ -13,15 +13,20 @@
   const ACTIVITY = 'MOBILE-A08-2026';
   const CHANNEL = 'mobile-entrega-aula08';
   const validEndpoint = () => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(ENDPOINT());
-  const activated = () => validEndpoint() && config.activated === true && ['mobile-a08-legacy-unsupported','mobile-a08-lab-v4'].includes(config.schema) && window.WebTeam?.onlineEnabled===true;
+  const activated = () => validEndpoint() && config.activated === true && config.schema==='mobile-a08-lab-v4' && window.WebTeam?.onlineEnabled===true;
   // HtmlService cria sandbox em hosts no formato n-...-script.googleusercontent.com.
   // Não aceitar *.googleusercontent.com genericamente. O nonce/contrato é
   // validado adicionalmente em receive(), nunca pela origem isolada.
   const validOrigin = origin => origin === 'https://script.google.com' ||
     /^https:\/\/(?:[a-z0-9-]+\.)?script\.googleusercontent\.com$/.test(origin) ||
     /^https:\/\/[a-z0-9-]+-script\.googleusercontent\.com$/.test(origin);
-  if (!button || !quickButton || !status) throw Error('Controles de envio Web não encontrados.');
-  let busy = false;
+  if (!button || !quickButton || !status) throw Error('Controles de envio Mobile não encontrados.');
+  let busy = false,pendingSubmission=null;
+  const reconcileButton=document.getElementById('web-reconcile');
+  const saveRequestButton=document.getElementById('save-pending-request');
+  const importRequestButton=document.getElementById('import-pending-request');
+  const requestFile=document.getElementById('pending-request-file');
+  function updatePendingControls(){reconcileButton.disabled=busy||!pendingSubmission;saveRequestButton.disabled=!pendingSubmission;}
   // A geração do PDF continua acessível mesmo com o POST bloqueado.
   button.disabled = false;
   function refreshStatus(){
@@ -57,18 +62,16 @@
     document.body.appendChild(link); link.click(); link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   }
-  function post(identity, evidence, hash) {
-    const nonce = crypto.randomUUID();
+  function post(identity, evidence, hash,nonce,operation='submitTeam',identityProof=null) {
     const payload = JSON.stringify({
-      schema:config.schema,activity:ACTIVITY,identity:config.schema==='mobile-a08-lab-v4'?window.WebTeam.submissionIdentity(identity):identity,evidence,
-      ...(config.schema==='mobile-a08-lab-v4'?{operation:'submitTeam'}:{}),
-      ...(config.requiredMode==='PROD'?{environment:'PROD'}:{})
+      schema:config.schema,activity:ACTIVITY,identity:identityProof||window.WebTeam.submissionIdentity(identity),evidence,
+      operation,environment:config.requiredMode
     });
     if (payload.length > 44000) return Promise.reject(Error('Arquivo muito grande para entrega online; exporte e consulte o professor.'));
     return new Promise((resolve,reject) => {
       const frame = document.createElement('iframe');
-      frame.hidden = true; frame.name = 'web-a05-' + nonce;
-      frame.title = 'Confirmação de recebimento de evidências Web';
+      frame.hidden = true; frame.name = 'mobile-a08-' + nonce;
+      frame.title = 'Confirmação de recebimento de evidências Mobile';
       const form = document.createElement('form');
       form.hidden=true; form.method='POST'; form.target=frame.name; form.action=ENDPOINT();
       for (const [key,value] of Object.entries({nonce,payload})) {
@@ -95,16 +98,17 @@
           err.action=typeof d.action==='string'?d.action:'Revise os dados informados.';
           return end(err);
         }
-        if(config.schema==='mobile-a08-lab-v4'&&(d.version!=='mobile-notas-4.0.0'||!Array.isArray(d.members)||d.members.length!==identity.members.length||d.members.some((m,i)=>m.enrollment!==identity.members[i].enrollment||m.name!==identity.members[i].name)))
+        if(config.schema==='mobile-a08-lab-v4'&&(d.version!=='mobile-notas-4.1.0'||!Array.isArray(d.members)||d.members.length!==identity.members.length||d.members.some((m,i)=>m.enrollment!==identity.members[i].enrollment||m.name!==identity.members[i].name)))
           return end(Error('Recibo com identificação incompatível. Confira a entrega com o professor.'));
         if(d.ok!==true || d.activity!==ACTIVITY || d.instrument!=='laboratorio-vivo-tsx-equipe' ||
            d.codeSha256!==hash ||
-           !Number.isFinite(d.gradeReceived) || d.gradeReceived<0 || d.gradeReceived>10 ||
-           d.gradeReceived!==evidence.xp/10 ||
+           d.gradeReceived!==null || d.officialGrade!==null || d.claimedXp!==evidence.xp ||
+           d.evidenceProvenance!=='LOCAL_BROWSER_UNTRUSTED'||d.technicalVerification!=='NOT_VERIFIED'||
+           d.teacherReviewRequired!==true||d.requestId!==nonce||d.signatureVerified!==true||
            !Array.isArray(d.bestGrades) || d.bestGrades.length!==identity.members.length ||
-           d.bestGrades.some(v=>!Number.isFinite(v)||v<0||v>10) ||
+           d.bestGrades.some(v=>v!==null&&(!Number.isFinite(v)||v<0||v>10)) ||
            d.teamId!==identity.teamId || d.memberCount!==identity.members.length ||
-           d.grade!==null || d.status!=='RECEBIDO_PENDENTE_VALIDACAO' ||
+           d.grade!==null || d.status!=='PENDENTE_VALIDACAO' ||
            !/^MOB-[\w-]+$/.test(String(d.receiptId||'')) ||
            !/^[0-9a-f]{64}$/.test(String(d.answersSha256||'')) ||
            !/^[0-9a-f]{64}$/.test(String(d.signature||'')) ||
@@ -143,7 +147,7 @@
     if(busy)return;
     // Baixar o JSON no clique original, antes de quaisquer awaits ou impressão.
     try{downloadTeamJson();}catch(_){/* Botão manual permanece disponível. */}
-    if(activated()&&config.requiredMode==='PROD'){
+    if(activated()){
       busy=true;button.disabled=true;quickButton.disabled=true;
       try{
         inform('Conferindo a disponibilidade da atividade. Seus dados ainda não foram enviados.');
@@ -186,23 +190,34 @@
       const code=String(evidence.codigoFonteCompleto||'');
       if(!code || code.length>30000)throw Error('Código TSX inválido ou muito longo.');
       const hash=await bytesHash(new TextEncoder().encode(code));
+      if(evidence.technicalEvaluation)evidence.technicalEvaluation.sourceSha256=hash;
       // Exportação auditável antes da tentativa de envio: não é comprovante de recepção.
       inform('PDF preparado. Enviando as evidências e aguardando recibo do Apps Script...');
       showReceipt();
-      const receipt=await post(checked,evidence,hash);
-      inform('ENVIO CONFIRMADO! NOTA RECEBIDA — AGUARDANDO CONFERÊNCIA DOCENTE.\n'+
+      if(pendingSubmission){
+        throw Error('Existe uma tentativa ainda não reconciliada. Use Consultar recibo pendente antes de criar outro envio.');
+      }
+      pendingSubmission={schema:'mobile-a08-pending-request-v4',endpoint:ENDPOINT(),environment:config.requiredMode,nonce:crypto.randomUUID(),identity:checked,identityProof:window.WebTeam.submissionIdentity(checked),evidence,hash};
+      updatePendingControls();
+      const initial=await post(checked,evidence,hash,pendingSubmission.nonce,'submitTeam',pendingSubmission.identityProof);
+      const receipt=await post(checked,evidence,hash,pendingSubmission.nonce,'reconcileTeam',pendingSubmission.identityProof);
+      if(receipt.receiptId!==initial.receiptId||receipt.signature!==initial.signature)throw Error('Readback divergiu do recibo inicial. Preserve a solicitação e consulte o professor.');
+      saveJson({schema:'mobile-a08-receipt-v4',receipt},'MOBILE_Aula08_Recibo.json');
+      pendingSubmission=null;updatePendingControls();
+      inform('EVIDÊNCIAS RECEBIDAS E RECONCILIADAS — PENDENTE DE VALIDAÇÃO DOCENTE.\n'+
         'Equipe: '+checked.team+' ('+checked.members.length+' integrante(s))\n'+
         'Nomes: '+checked.members.map(m=>m.name).join('; ')+'\n'+
         'Recibo: '+receipt.receiptId+'\nRecebido UTC: '+receipt.receivedAt+
-        '\nNota recebida: '+receipt.gradeReceived.toFixed(1)+'/10\n'+
-        'Maiores notas individuais:\n'+checked.members.map((member,i)=>member.name+' — Matrícula: '+member.enrollment+' — '+receipt.bestGrades[i].toFixed(1)+'/10').join('\n')+'\n'+
+        '\nXP formativos declarados: '+receipt.claimedXp+'/100\nNota oficial desta entrega: pendente.\n'+
+        'Notas anteriores já validadas pelo docente:\n'+checked.members.map((member,i)=>member.name+' — '+(receipt.bestGrades[i]===null?'Sem nota validada':receipt.bestGrades[i].toFixed(1)+'/10')).join('\n')+'\n'+
         (receipt.teacherReviewRequired?'Aviso: '+String(receipt.warning||'Avaliação docente pendente.')+'\n':'')+
         'SHA-256 do código: '+receipt.codeSha256+
-        '\nAssinatura do recibo: '+receipt.signature+
+        '\nAssinatura conferida pelo receptor no readback: '+receipt.signature+
         '\nPDF: salve-o no dispositivo pela janela de impressão (não é enviado como arquivo).\n'+
         'Guarde seu JSON e o número do recibo.', 'success');
       showReceipt();
     }catch(error){
+      updatePendingControls();
       const index=error?.memberIndex;
       const member=Number.isInteger(index)?submittedIdentity?.members?.[index]:null;
       if(member && error?.field){
@@ -222,11 +237,53 @@
         showReceipt();
       }else{
         inform('ENVIO NÃO CONFIRMADO: '+String(error?.message||'Falha de entrega.')+
-          '\nConfira a Auditoria antes de tentar novamente. PDF/JSON locais não comprovam entrega.','error');
+          '\nUse Consultar recibo pendente para readback com o mesmo identificador. Salve a solicitação antes de fechar a página. PDF/JSON de progresso não comprovam entrega.','error');
         showReceipt();
       }
-    }finally{busy=false;button.disabled=false;quickButton.disabled=false;}
+    }finally{busy=false;button.disabled=false;quickButton.disabled=false;updatePendingControls();}
   }
+
+  async function reconcilePending(){
+    if(busy||!pendingSubmission||!activated())return;
+    busy=true;updatePendingControls();
+    try{
+      await window.WebProductionGate.ensureReady({...config,allowClosed:true});
+      const q=pendingSubmission;
+      if(q.endpoint!==ENDPOINT()||q.environment!==config.requiredMode)throw Error('A solicitação pertence a outro ambiente. Não foi enviada.');
+      const receipt=await post(q.identity,q.evidence,q.hash,q.nonce,'reconcileTeam',q.identityProof);
+      saveJson({schema:'mobile-a08-receipt-v4',receipt},'MOBILE_Aula08_Recibo_Reconciliado.json');
+      inform('ENTREGA RECONCILIADA: '+receipt.receiptId+'\nEstado: PENDENTE_VALIDACAO. Nota oficial pendente. Assinatura conferida pelo receptor. Nenhuma nova nota foi criada.','success');
+      pendingSubmission=null;
+    }catch(error){
+      if(error.code==='ENVIO_NAO_LOCALIZADO'){
+        pendingSubmission=null;
+        inform('Nenhuma entrega foi localizada para essa solicitação. Não foi criado registro no readback. Um novo envio explícito pode ser feito.','error');
+      }else inform('RECONCILIAÇÃO NÃO CONFIRMADA: '+String(error.message)+'. Preserve o arquivo da solicitação.','error');
+    }finally{busy=false;updatePendingControls();}
+  }
+  reconcileButton.addEventListener('click',reconcilePending);
+  saveRequestButton.addEventListener('click',()=>{
+    if(!pendingSubmission)return;
+    saveJson(pendingSubmission,'MOBILE_Aula08_Solicitacao_Pendente.json');
+    inform('Solicitação salva. Contém identificação acadêmica e comprovantes de consulta. Guarde com a equipe e o professor; não publique. Nenhuma nota é atribuída por esse arquivo.');
+  });
+  importRequestButton.addEventListener('click',()=>requestFile.click());
+  requestFile.addEventListener('change',async()=>{
+    const file=requestFile.files?.[0];if(!file)return;
+    try{
+      if(file.size>100000)throw Error('Arquivo excede 100 KB.');
+      const q=JSON.parse(await file.text());
+      if(q.schema!=='mobile-a08-pending-request-v4'||q.endpoint!==ENDPOINT()||q.environment!==config.requiredMode||
+         !/^[a-f0-9-]{36}$/i.test(q.nonce)||!q.identityProof||!q.identity||q.identity.teamId!==q.identityProof.teamId||
+         q.evidence?.schema!=='ifma-mobile-aula08-lab-v1'||!Array.isArray(q.evidence.exercicios)||q.evidence.exercicios.length!==20||
+         !Array.isArray(q.identity.members)||q.identity.members.length<1||q.identity.members.length>8||
+         typeof q.evidence.codigoFonteCompleto!=='string'||q.evidence.codigoFonteCompleto.length>30000)throw Error('Solicitação incompatível com o ambiente configurado.');
+      if(await bytesHash(new TextEncoder().encode(q.evidence.codigoFonteCompleto))!==q.hash)throw Error('Hash do código inconsistente.');
+      pendingSubmission=q;updatePendingControls();inform('Solicitação carregada somente na memória. Clique Consultar recibo pendente para readback; nenhum envio foi feito.');
+    }catch(error){inform('Arquivo recusado: '+String(error.message),'error');}
+    finally{requestFile.value='';}
+  });
+  updatePendingControls();
   button.addEventListener('click',generatePdfAndSend);
   quickButton.addEventListener('click',generatePdfAndSend);
   window.WebEntrega = Object.freeze({get configurado(){return validEndpoint();},get ativado(){return activated();},refreshStatus,atividade:ACTIVITY,origemReciboPermitida:validOrigin});

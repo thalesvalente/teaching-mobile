@@ -55,3 +55,12 @@ Cada critério vale 0,5 ponto; 5 XP. Os testes independentes usam dados fictíci
 Demonstre a aplicação no **aparelho** com o fluxo lista → detalhe → retorno com filtros → formulário válido e inválido → novo item visível. Teste dois toques, falha de leitura, recuperação, item inexistente, navegação por teclado quando aplicável e leitor de tela TalkBack/VoiceOver quando disponível. Registre resultado, dispositivo, sistema, commit, erros remanescentes e contribuição individual. Dados são totalmente fictícios.
 
 **Não confunda as notas:** 100 XP do tutorial interativo, 0–10 do código e evidências em aparelho são instrumentos diferentes. Nenhum é nota institucional até aprovação docente e homologação do receptor. **NÃO enviar pacote v3 ao App Script da PR #4 (schema v2).**
+
+
+## Reconciliação com a bancada v4
+
+Esta trilha v3 é preservada como projeto de aprofundamento com Expo Router e arquivos de navegação independentes. A bancada canônica v4 fica em `../../laboratorio-vivo/` e seu wrapper Expo importa a mesma fonte TSX editável. Os dois avaliadores usam `laboratorio-vivo/criteria.js`: 20 critérios compartilhados e verificáveis, com orçamento de 100 XP formativos e rubrica docente de 0–10 separada.
+
+O starter v3 tem 20 pendências deliberadas. `npm run test:starter` comprova 0/20; `npm test` exige os 20 acertos. A solução não foi pré-preenchida. Preserve a pasta da aula ao baixar o projeto, pois o avaliador compartilha o módulo de critérios. `react-native-reanimated` e `react-native-worklets` foram fixados conforme `expo/bundledNativeModules.json` do SDK 57 instalado, eliminando a resolução automática incompatível de peers.
+
+Os relatórios locais são declarados e não autorizam nota institucional. Não execute código de terceiros com credenciais de produção; o backend não executa o código do aluno. Testes em Android/iOS real continuam separados e devem ser registrados pelo docente/equipe.

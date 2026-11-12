@@ -4,11 +4,11 @@
  * Edite e teste as regras sem apagar os tipos, os identificadores ou a interface.
  * Os dados são FICTÍCIOS. Não há API, conta institucional ou envio automático.
  *
- * Na trilha Expo, use os mesmos contratos em projeto/src/engine.mjs.
+ * O projeto Expo v4 importa este mesmo arquivo em projeto/App.tsx.
  */
 // [01] IMPORTAÇÕES
 import React, { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 // [02] DADOS E CONTRATOS DO DOMÍNIO
 export type Registro = {
@@ -82,6 +82,7 @@ export default function ProjetoUniversal() {
   const [titulo,setTitulo]=useState('');
   const [descricao,setDescricao]=useState('');
   const [erroForm,setErroForm]=useState('');
+  const [errosCampos,setErrosCampos]=useState<Record<string,string>>({});
   const [aviso,setAviso]=useState('');
   const filtros={busca,categoria,periodo,ordem};
   const filtrados=useMemo(()=>{
@@ -99,8 +100,8 @@ export default function ProjetoUniversal() {
   const salvar=()=>{
     const novo={id:'novo-'+String(todos.length+1),titulo,descricao,categoria:'Lugar',periodo:'Manhã',trilha:'memorias'};
     const valid=validarFormulario(novo,todos);
-    if(!valid || !valid.ok){setErroForm(Object.values(valid?.erros||{}).join(' · ')||'Registro inválido.');return;}
-    setErroForm('');
+    if(!valid || !valid.ok){setErrosCampos(valid?.erros||{});setErroForm('Revise os campos indicados.');return;}
+    setErroForm('');setErrosCampos({});
     const proximo=inserirImutavel(todos,valid.valor||novo);
     setTodos(Array.isArray(proximo)?proximo:todos);
     setAviso('Confira se não houve duplicação e se os filtros foram preservados.');
@@ -110,7 +111,7 @@ export default function ProjetoUniversal() {
     <Pressable accessibilityRole="button" accessibilityLabel={rotulo}
       onPress={acao} style={extra||styles.botoes}><Text style={styles.botaoTexto}>{rotulo}</Text></Pressable>
   );
-  return <View style={styles.pagina} testID="app-a08">
+  return <ScrollView contentContainerStyle={styles.pagina} testID="app-a08">
     <Text style={styles.selo}>IFMA · MOBILE · AULA 08 · AV1</Text>
     <Text style={styles.titulo}>Dados sob pressão</Text>
     <Text style={styles.intro}>Os erros são intencionais. Corrija o motor e observe o comportamento.</Text>
@@ -149,11 +150,15 @@ export default function ProjetoUniversal() {
     </View> : null}
     {tela==='novo' ? <View style={styles.detalhe}>
       <Text style={styles.rotulo}>Novo registro (simulado)</Text>
-      <TextInput accessibilityLabel="Título do novo registro" testID="novo-titulo"
+      <Text nativeID="titulo-label" style={styles.rotulo}>Título (5–60 caracteres)</Text>
+      <TextInput accessibilityLabel="Título do novo registro" aria-describedby="titulo-error" accessibilityHint={errosCampos.titulo||"De 5 a 60 caracteres"} testID="novo-titulo"
         value={titulo} onChangeText={setTitulo} style={styles.campo} placeholder="Título de 5–60 caracteres" />
-      <TextInput accessibilityLabel="Descrição do novo registro" testID="nova-descricao"
+      <Text nativeID="titulo-error" accessibilityRole={errosCampos.titulo?"alert":undefined} style={styles.erro}>{errosCampos.titulo||""}</Text>
+      <Text nativeID="descricao-label" style={styles.rotulo}>Descrição (10–180 caracteres)</Text>
+      <TextInput accessibilityLabel="Descrição do novo registro" aria-describedby="descricao-error" accessibilityHint={errosCampos.descricao||"De 10 a 180 caracteres"} testID="nova-descricao"
         value={descricao} onChangeText={setDescricao} style={styles.campo}
         multiline placeholder="Descrição de 10–180 caracteres" />
+      <Text nativeID="descricao-error" accessibilityRole={errosCampos.descricao?"alert":undefined} style={styles.erro}>{errosCampos.descricao||""}</Text>
       <Text style={styles.ajuda}>Valide espaços, duplicatas e limites antes de inserir.</Text>
       {erroForm ? <Text accessibilityRole="alert" style={styles.erro}>{erroForm}</Text> : null}
       {botao('Salvar registro',salvar)}
@@ -161,7 +166,7 @@ export default function ProjetoUniversal() {
     </View> : null}
     {aviso ? <Text style={styles.ajuda}>{aviso}</Text> : null}
     <Text style={styles.rodape}>Dados sintéticos · XP formativos · prévia Web não equivale a dispositivo nativo.</Text>
-  </View>;
+  </ScrollView>;
 }
 const styles=StyleSheet.create({
   pagina:{width:'100%',backgroundColor:'#fff',borderRadius:12,padding:16},
@@ -170,10 +175,10 @@ const styles=StyleSheet.create({
   intro:{color:'#4c6255',fontSize:12,lineHeight:17,marginBottom:10,marginTop:3},
   nav:{flexDirection:'row',flexWrap:'wrap',gap:5,marginTop:8,marginBottom:7},
   filtros:{flexDirection:'row',flexWrap:'wrap',gap:5,marginTop:7},
-  botoes:{backgroundColor:'#0c6844',borderRadius:7,paddingVertical:8,paddingHorizontal:10,marginRight:4,marginBottom:4,minHeight:40,justifyContent:'center'},
-  botaoTexto:{color:'#fff',fontSize:11,fontWeight:'700'},
+  botoes:{backgroundColor:'#0c6844',borderRadius:7,paddingVertical:8,paddingHorizontal:10,marginRight:4,marginBottom:4,minHeight:44,justifyContent:'center'},
+  botaoTexto:{color:'#fff',fontSize:13,fontWeight:'700'},
   rotulo:{fontSize:12,fontWeight:'800',color:'#274b35',marginTop:10,marginBottom:5},
-  campo:{borderWidth:1,borderColor:'#91aa96',borderRadius:8,padding:10,minHeight:43,fontSize:14,color:'#193c29'},
+  campo:{borderWidth:1,borderColor:'#91aa96',borderRadius:8,padding:10,minHeight:44,fontSize:14,color:'#193c29'},
   status:{color:'#9e4a21',fontWeight:'800',fontSize:13,marginTop:10},
   resumo:{color:'#115b42',fontWeight:'800',fontSize:12,marginTop:6,marginBottom:7},
   item:{padding:10,borderWidth:1,borderColor:'#d5e5da',borderRadius:9,backgroundColor:'#f4faf6',marginVertical:4},
@@ -182,5 +187,5 @@ const styles=StyleSheet.create({
   detalhe:{backgroundColor:'#f3f9f5',padding:11,borderRadius:10,marginTop:8},
   erro:{color:'#a42421',fontSize:12,fontWeight:'700',marginVertical:5},
   ajuda:{fontSize:12,color:'#56715f',marginTop:9,lineHeight:17},
-  rodape:{fontSize:10,color:'#718579',marginTop:16},
+  rodape:{fontSize:10,color:'#53675b',marginTop:16},
 });

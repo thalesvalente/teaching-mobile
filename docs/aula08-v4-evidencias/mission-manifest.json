@@ -1,0 +1,48 @@
+{
+  "schema": "mobile-a08-mission-v1",
+  "referenceDate": "2026-11-11",
+  "timezone": "America/Fortaleza",
+  "status": "BLOCKED_EXTERNAL_DEPLOYMENT",
+  "coordinator": "C0",
+  "agents": {
+    "C1": "Mobile/Expo/UX",
+    "C2": "Backend/Sheets",
+    "C3": "Independent QA/security",
+    "C4": "DevOps"
+  },
+  "baseline": {
+    "main": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "v4": "e429771c3dd7483dbd513d0b6be7ee4cf6e1c2e3",
+    "v3": "3be105d1de2c5f917851fa18278ba72f0116c177"
+  },
+  "phasePolicy": {
+    "readback": [
+      "GitHub read",
+      "Google Sheets read"
+    ],
+    "implementation": [
+      "local code",
+      "development branch commits",
+      "tests",
+      "PR"
+    ],
+    "qa": [
+      "synthetic fixtures",
+      "readback",
+      "isolated QA if accessible"
+    ],
+    "production": []
+  },
+  "productionEffects": 0,
+  "productionSpreadsheetCreated": false,
+  "productionSpreadsheetWritten": false,
+  "nativeValidation": "NOT_RUN",
+  "connectedGoogleQA": "BLOCKED_EXTERNAL_DEPLOYMENT",
+  "invariants": [
+    "XP does not write official grade",
+    "Existing Mobile spreadsheet reused",
+    "Historical PR4 preserved",
+    "Frontend production endpoint empty",
+    "No Web/PPI data/credentials reused"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "reviewer": "C3 independent QA",
+  "command": "node --test tests/independent-aula08-v4-backend.test.cjs",
+  "exitCode": 0,
+  "tests": 8,
+  "pass": 8,
+  "fail": 0,
+  "skipped": 0,
+  "scope": "Synthetic in-memory Apps Script/Sheets; NOT connected Google QA",
+  "resolvedFindings": [
+    "C3-B01",
+    "C3-B02",
+    "C3-B03",
+    "C3-B04"
+  ],
+  "sha256RecordedAfterRerun": {
+    "integrations/mobile-aula08-appscript/Code.gs": "1ce0c70db1f84f77a078bf14fbefa8928013858aaaf801bc2ae3c7a81a8ec316",
+    "tests/independent-aula08-v4-backend.test.cjs": "08026d8e77166fa6c74b0371f2e19cf36ca8a8ddff658bf8480d43914cacf503",
+    "tests/mobile-aula08-v4-fixture.cjs": "740afb62ddb280e24d5ef120df0e1684f81764ec0b93fb6501b38019d3df425f"
+  }
+}

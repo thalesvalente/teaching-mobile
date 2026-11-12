@@ -1,0 +1,130 @@
+name: Publicar projetos Expo Web
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'lessons/3/aula05-memorias/**'
+      - 'lessons/3/aula05-eda/**'
+      - 'lessons/aula-07-estado-filtros/projeto/guia.html'
+      - 'scripts/verify-mobile-pages.mjs'
+      - '.github/workflows/publish-mobile-projects.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'lessons/3/aula05-memorias/**'
+      - 'lessons/3/aula05-eda/**'
+      - 'lessons/aula-07-estado-filtros/projeto/guia.html'
+      - 'scripts/verify-mobile-pages.mjs'
+      - '.github/workflows/publish-mobile-projects.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: teaching-mobile-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    name: Compilar aplicativos e validar links
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "1"
+      EXPO_NO_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Ativar npm 11
+        run: npm install --global npm@11.19.0
+      - name: Testar e compilar Memórias
+        working-directory: lessons/3/aula05-memorias
+        run: |
+          npm install --no-audit --no-fund
+          npm run typecheck
+          npm run conferir
+          npm run contraste
+          npm test
+          npm run export:web
+      - name: Testar e compilar EDA
+        working-directory: lessons/3/aula05-eda
+        run: |
+          npm install --no-audit --no-fund
+          npm run typecheck
+          npm run conferir
+          npm run contraste
+          npm test
+          npm run export:web
+      - name: Montar artefato estático preservando as aulas
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site/apps/memorias _site/apps/eda
+          cp index.html .nojekyll _site/
+          rsync -a --exclude='node_modules/' --exclude='dist/' --exclude='.expo/' --exclude='web-build/' docs/ _site/docs/
+          rsync -a --exclude='node_modules/' --exclude='dist/' --exclude='.expo/' --exclude='web-build/' lessons/ _site/lessons/
+          cp -a lessons/3/aula05-memorias/dist/. _site/apps/memorias/
+          cp -a lessons/3/aula05-eda/dist/. _site/apps/eda/
+      - name: Verificar artefatos e referências
+        run: node scripts/verify-mobile-pages.mjs _site
+      - name: Disponibilizar prévia
+        uses: actions/upload-artifact@v4
+        with:
+          name: teaching-mobile-site-preview
+          path: _site/
+          retention-days: 7
+      - name: Upload para GitHub Pages
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site/
+  publish-compiled:
+    name: Publicar artefatos compilados na main
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Baixar somente o artefato já compilado
+        uses: actions/download-artifact@v4
+        with:
+          name: teaching-mobile-site-preview
+          path: ${{ runner.temp }}/teaching-mobile-site-preview
+      - name: Copiar os apps estáticos sem executar código do projeto
+        env:
+          PREVIEW_DIR: ${{ runner.temp }}/teaching-mobile-site-preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$PREVIEW_DIR/apps/memorias/index.html"
+          test -f "$PREVIEW_DIR/apps/eda/index.html"
+          mkdir -p apps/memorias apps/eda
+          rsync -a --delete "$PREVIEW_DIR/apps/memorias/" apps/memorias/
+          rsync -a --delete "$PREVIEW_DIR/apps/eda/" apps/eda/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f apps/memorias apps/eda
+          if ! git diff --cached --quiet; then
+            git commit -m "build(mobile): atualizar aplicativos Expo Web publicados [skip ci]"
+            git push origin HEAD:main
+          fi
+  deploy:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+    steps:
+      - name: Deploy (requer Pages Source = GitHub Actions)
+        uses: actions/deploy-pages@v4

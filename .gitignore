@@ -37,6 +37,8 @@ Thumbs.db
 *.tmp
 *.temp
 qa-output/
+.artifacts/
+_site/
 
 # Projeto-base temporário
 lessons/2/_expo-base/

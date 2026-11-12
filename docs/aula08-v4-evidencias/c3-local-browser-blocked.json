@@ -1,0 +1,13 @@
+{
+  "reviewer": "C3 independent QA",
+  "baselineSha": "e429771c3dd7483dbd513d0b6be7ee4cf6e1c2e3",
+  "command": "node /workspace/scratch/b13327d3b5bd/c3-qa/baseline-browser.cjs",
+  "browserExecutable": "/usr/bin/chromium",
+  "status": "BLOCKED",
+  "exitCode": 1,
+  "stage": "Browser launch, before page creation or application load",
+  "observedError": "FATAL chrome/browser/process_singleton_posix.cc:297 Check failed: . socket() failed: Operation not permitted (1)",
+  "secondaryError": "crashpad scoped_ptrace_attach.cc:27 ptrace: Operation not permitted (1)",
+  "interpretation": "The execution environment prevents the Chromium process from starting. No browser or application test passed or failed in this attempt.",
+  "nextExecutionSurface": "GitHub Actions, with authorized runner and installed Playwright browsers"
+}

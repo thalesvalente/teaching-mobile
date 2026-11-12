@@ -1,0 +1,190 @@
+{
+  "kind": "SYNTHETIC_QA_SEED_NOT_A_DEPLOYED_SHEET",
+  "production": false,
+  "source": "tests/mobile-aula08-v4-fixture.cjs",
+  "sheets": {
+    "Alunos": {
+      "rows": [
+        [
+          "Matrícula",
+          "Nome completo",
+          "Nome normalizado",
+          "Estado de validação",
+          "Fonte docente",
+          "Atualização UTC",
+          "Homônimo liberado",
+          "Observação docente"
+        ],
+        [
+          "00000000.ITA0001",
+          "Pessoa Sintética Um",
+          "pessoa sintetica um",
+          "VALIDADO",
+          "QA_SYNTHETIC_ONLY",
+          "2026-11-11T00:00:00Z",
+          "NÃO",
+          "Fixture sem dados reais"
+        ],
+        [
+          "00000000.ITA0002",
+          "Pessoa Sintética Dois",
+          "pessoa sintetica dois",
+          "VALIDADO",
+          "QA_SYNTHETIC_ONLY",
+          "2026-11-11T00:00:00Z",
+          "NÃO",
+          "Fixture sem dados reais"
+        ]
+      ]
+    },
+    "Equipes": {
+      "rows": [
+        [
+          "Equipe",
+          "Integrantes (nomes)",
+          "Quantidade",
+          "Atividade",
+          "Maior nota da equipe /10",
+          "Situação",
+          "Recibo vencedor",
+          "Enviado UTC",
+          "Chave da equipe",
+          "SHA-256 evidência",
+          "Observação docente",
+          "Revisado UTC",
+          "Recibo último envio",
+          "Último envio UTC",
+          "Matrículas JSON",
+          "Contrato"
+        ]
+      ]
+    },
+    "Resultados": {
+      "rows": [
+        [
+          "Matrícula",
+          "Atividade",
+          "Maior nota /10",
+          "Recibo vencedor",
+          "Equipe vencedora",
+          "Atualização UTC",
+          "Estado docente",
+          "Nome no registro",
+          "SHA-256 vencedor",
+          "Último recibo"
+        ]
+      ]
+    },
+    "Auditoria": {
+      "rows": [
+        [
+          "Equipe",
+          "ID equipe (automático)",
+          "Integrantes (nomes)",
+          "Atividade",
+          "Instrumento",
+          "Data/hora BRT",
+          "Recebido UTC",
+          "ID entrega",
+          "SHA-256 evidência",
+          "Assinatura HMAC",
+          "Nota recebida /10",
+          "Nota oficial /10",
+          "Situação",
+          "Rubrica/versão",
+          "JSON evidência sem XP",
+          "Chave interna",
+          "Código SHA-256",
+          "Origem",
+          "Observação docente",
+          "Revisado UTC",
+          "Lista de integrantes da equipe",
+          "SHA-256 armazenado",
+          "Nonce SHA-256",
+          "Requisição SHA-256",
+          "Tipo registro",
+          "Integrantes JSON",
+          "Contrato",
+          "Pendência docente"
+        ]
+      ]
+    },
+    "Atividades": {
+      "rows": [
+        [
+          "ID atividade",
+          "Nome",
+          "Bimestre",
+          "Cabeçalho da nota",
+          "Contrato entrada",
+          "Habilitada"
+        ],
+        [
+          "MOBILE-A08-2026",
+          "Aula 08 — Operação Dados sob Pressão",
+          4,
+          "Aula 08 /10",
+          "mobile-a08-lab-v4",
+          true
+        ],
+        [
+          "",
+          "",
+          "",
+          "",
+          "",
+          false
+        ]
+      ]
+    },
+    "1º Bimestre": {
+      "rows": [
+        [
+          "Aluno",
+          "Matrícula",
+          "Equipe",
+          "Média /10"
+        ]
+      ]
+    },
+    "2º Bimestre": {
+      "rows": [
+        [
+          "Aluno",
+          "Matrícula",
+          "Equipe",
+          "Média /10"
+        ]
+      ]
+    },
+    "3º Bimestre": {
+      "rows": [
+        [
+          "Aluno",
+          "Matrícula",
+          "Equipe",
+          "Média /10"
+        ]
+      ]
+    },
+    "4º Bimestre": {
+      "rows": [
+        [
+          "Aluno",
+          "Matrícula",
+          "Equipe",
+          "Aula 08 /10",
+          "Média /10"
+        ]
+      ]
+    },
+    "Orientações": {
+      "rows": [
+        [
+          "Seção",
+          "Descrição"
+        ]
+      ]
+    }
+  }
+}

@@ -11,12 +11,12 @@
     if(cfg.schema!=='mobile-a08-lab-v4'||cfg.activated!==true||!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(cfg.endpoint||''))
       throw Error('Consulta indisponível offline. Guarde o progresso e consulte quando o professor liberar a atividade.');
     if(!window.WebProductionGate?.ensureReady)throw Error('Verificação de disponibilidade ausente. Atualize a página.');
-    await window.WebProductionGate.ensureReady({...cfg,requiredMode:'PROD',requiredVersion:'mobile-notas-4.0.0'});
+    await window.WebProductionGate.ensureReady(cfg);
     return new Promise((resolve,reject)=>{
       const nonce=crypto.randomUUID(),frame=document.createElement('iframe'),form=document.createElement('form');
-      frame.hidden=true;frame.name='web-roster-'+nonce;frame.title='Consulta da matrícula informada';
+      frame.hidden=true;frame.name='mobile-roster-'+nonce;frame.title='Consulta da matrícula informada';
       form.hidden=true;form.method='POST';form.action=cfg.endpoint;form.target=frame.name;
-      const payload={operation:'lookupStudent',environment:'PROD',activity:cfg.activity,teamId,enrollment:key};
+      const payload={operation:'lookupStudent',environment:cfg.requiredMode,activity:cfg.activity,teamId,enrollment:key};
       for(const [name,value] of Object.entries({nonce,payload:JSON.stringify(payload)})){
         const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.appendChild(input);
       }
@@ -26,7 +26,7 @@
         const d=event.data;
         if(!originOK(event.origin)||!d||d.channel!=='mobile-roster-lookup-aula08'||d.nonce!==nonce)return;
         if(d.ok===false){const error=Error(String(d.message||'Consulta recusada pelo servidor.'));error.code=d.code;return finish(error);}
-        if(d.ok!==true||d.version!=='mobile-notas-4.0.0'||d.enrollmentCanonical!==key||typeof d.name!=='string'||!d.name.trim()||d.name.length>100||
+        if(d.ok!==true||d.version!=='mobile-notas-4.1.0'||d.enrollmentCanonical!==key||typeof d.name!=='string'||!d.name.trim()||d.name.length>100||
           typeof d.confirmationToken!=='string'||
           !(/^v2\.[a-f0-9]{64}$/.test(d.confirmationToken)||
             (/^\d{13}\.[a-f0-9]{64}$/.test(d.confirmationToken)&&Number(d.confirmationToken.split('.')[0])>=Date.now())))

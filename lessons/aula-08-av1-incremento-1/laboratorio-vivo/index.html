@@ -69,7 +69,7 @@
           </div>
           <div class="mission-nav">
             <label for="mission-select">Escolha um exercício</label>
-            <select id="mission-select" aria-label="Escolha um das 20 missões"></select>
+            <select id="mission-select" aria-label="Escolha uma das 20 missões"></select>
             <div class="mission-next"><button type="button" id="guide-prev">← Anterior</button><span id="mission-counter">01 / 20</span><button type="button" id="guide-next">Próxima →</button></div>
           </div>
         </div>
@@ -82,7 +82,7 @@
             <button type="button" role="tab" data-pane="code" aria-selected="true" aria-controls="code-panel" id="view-code">Código</button>
             <button type="button" role="tab" data-pane="preview" aria-selected="false" aria-controls="result-panel" id="view-preview">Resultado</button>
           </div>
-          <div class="toolbar-buttons"><button type="button" class="text-button" id="reset">Restaurar código</button><button type="button" class="text-button" id="download-code">Baixar .tsx</button><button type="button" class="text-button legacy" id="legacy-export" hidden>Baixar meu código anterior</button></div>
+          <div class="toolbar-buttons"><button type="button" class="text-button" id="restart-preview" hidden>Reiniciar prévia</button><button type="button" class="text-button" id="reset">Restaurar código</button><button type="button" class="text-button" id="download-code">Baixar .tsx</button><button type="button" class="text-button legacy" id="legacy-export" hidden>Baixar meu código anterior</button></div>
         </div>
         <div class="workspace-panes">
           <section class="code-panel" id="code-panel" role="tabpanel" aria-labelledby="view-code">
@@ -205,7 +205,7 @@
       <h3>Ponte com a Aula 4</h3>
       <div class="compare-table"><p><strong>Motor de domínio</strong><br>Seis funções puras controlam estados, filtros, IDs, formulários, inserção e resumo.</p><p><strong>React Native</strong><br>O componente consome essas funções e atualiza a interface quando o usuário interage.</p></div>
       <p>Para ver os <strong>arquivos inteiros</strong>, use as abas <em>Contratos e testes</em>, <em>Rota Expo</em> e <em>ProjetoUniversal.tsx</em> dentro da bancada.</p>
-      <h3>Mesmo código, plataformas diferentes</h3>
+      <h3>Mesmo código, plataformas diferentes</h3><p><a href="./projeto/README.md">Abrir instruções do projeto Expo v4</a>. O projeto importa este mesmo TSX. Execute no Expo Go e registre separadamente o teste nativo.</p>
       <pre class="tree"><code>shared/ProjetoUniversal.tsx  ← fonte única
 app/lab05.tsx               ← importa o componente
        ↙ Web (React Native Web)
@@ -240,13 +240,13 @@ app/lab05.tsx               ← importa o componente
         <p id="web-team-summary" class="team-summary" role="status">Nenhuma equipe identificada. Use “Equipe e integrantes” no cabeçalho.</p>
         <button type="button" id="team-open-evidence" class="btn secondary">Preencher ou revisar integrantes</button>
         <p id="web-delivery-explanation" class="web-submission-explanation">
-          A equipe envia uma única atividade com as matrículas confirmadas; os nomes são obtidos do cadastro docente. O servidor converte a pontuação em <strong>nota de 0 a 10</strong>,
-          preserva a maior nota por estudante e atividade e atualiza a média. O cadastro é informado pelo professor; a equipe confirma os nomes sem autenticação institucional. A matrícula não comprova autoria; o professor pode conferir inconsistências e validar as notas.
+          A equipe envia uma única atividade com as matrículas confirmadas; os nomes são obtidos do cadastro docente. O servidor registra a evidência como <strong>PENDENTE DE VALIDAÇÃO</strong>. A rubrica tem 20 critérios de 0,5 ponto (0–10); a nota oficial exige validação docente e evidências verificáveis. XP formativos não são convertidos em nota. O cadastro é informado pelo professor; a equipe confirma os nomes sem autenticação institucional. A matrícula não comprova autoria; o professor pode conferir inconsistências e validar as notas.
           Não inclua senhas, documentos pessoais ou informações sigilosas no código.
         </p>
         <button type="button" class="btn run" id="web-submit">
           Gerar PDF e Enviar
         </button>
+        <div class="evidence-actions"><button type="button" id="web-reconcile" class="btn secondary" disabled>Consultar recibo pendente</button><button type="button" id="save-pending-request" class="btn secondary" disabled>Salvar solicitação pendente</button><button type="button" id="import-pending-request" class="btn secondary">Retomar solicitação pendente</button><input type="file" id="pending-request-file" accept=".json,application/json" hidden aria-label="Selecionar solicitação pendente para reconciliação"></div>
         <p id="web-delivery-status" role="status" aria-live="polite" tabindex="-1">
           O recebimento será verificado antes do envio. O PDF pode ser salvo localmente após identificar a equipe.
           Exportação local continua disponível.
@@ -254,7 +254,7 @@ app/lab05.tsx               ← importa o componente
       </fieldset>
       <details><summary>Ver situação de cada exercício</summary><ul id="evidence-list" class="evidence-list"></ul></details>
       <div class="evidence-actions"><button type="button" id="export-json" class="btn secondary">Exportar evidências JSON</button><button type="button" id="export-md" class="btn secondary">Exportar Markdown</button><button type="button" id="print" class="btn secondary">Imprimir / salvar PDF A4</button></div>
-      <p class="privacy">Rascunho salvo somente neste navegador, se o armazenamento estiver disponível. Quando o envio estiver habilitado, clicar em “Gerar PDF e Enviar” transmite as matrículas confirmadas, o código e as evidências ao Apps Script; o servidor obtém os nomes do cadastro docente. Os dados serão usados pelo professor para registrar a entrega e as notas. Não informe CPF, senha ou dados sensíveis nas respostas. Para correções, procure o professor. Os dados podem ser gravados mesmo se o recibo não chegar; somente um recibo válido confirma o recebimento nesta tela. XP já conquistados são preservados; a conferência do código atual pode ser repetida quando desejar.</p>
+      <p class="privacy">Código e progresso formativo ficam neste navegador, se o armazenamento estiver disponível. Nomes e matrículas não são salvos automaticamente; o JSON baixado por você pode conter essa identificação. Quando o envio estiver habilitado, clicar em “Gerar PDF e Enviar” transmite as matrículas confirmadas, o código e as evidências ao Apps Script; o servidor obtém os nomes do cadastro docente. Os dados serão usados pelo professor para conferir a entrega e validar a avaliação. Não informe CPF, senha ou dados sensíveis nas respostas. Para correções, procure o professor. Os dados podem ser gravados mesmo se o recibo não chegar; somente um recibo válido confirma o recebimento nesta tela. XP já conquistados são preservados; a conferência do código atual pode ser repetida quando desejar.</p>
       <p id="evidence-status" role="status" aria-live="polite"></p>
     </div>
   </dialog>
