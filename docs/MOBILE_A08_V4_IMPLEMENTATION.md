@@ -19,7 +19,7 @@ Foram preservados a bancada, a fonte TSX, os desafios, os quatro ciclos, os recu
 | Expo Router v3 | `avancado/projeto/` | Engine original preservada; lockfile, pares compatíveis, typecheck e critérios comuns |
 | Equipe | `equipe-roster.js`, `roster-client.js` | Matrícula confirmada por cadastro; nomes/matrículas não persistidos automaticamente |
 | Evidências | `report-print.js`, checkpoint JSON | PDF A4 parcial, retomada, hash TSX, validação de importação |
-| Receptor | `integrations/mobile-aula08-appscript/Code.gs` | 32 testes autorais + 8 adversariais independentes, com Google simulado |
+| Receptor | `integrations/mobile-aula08-appscript/Code.gs` | 32 testes autorais + 9 independentes (incluindo fidelidade de datas), com Google simulado |
 | CI/prévia | `.github/workflows/qa-aula08-live-v4.yml` | SHA exato, permissões de leitura, artifacts e nenhuma implantação |
 
 Os caminhos abreviados partem de `lessons/aula-08-av1-incremento-1/`. A [matriz detalhada](MOBILE_A08_V4_CRITERIA.md) liga cada critério ao trecho e ao teste concreto.
@@ -40,17 +40,29 @@ A v3 conserva Expo Router e sua engine original como aprofundamento complementar
 
 A referência de QA fica fora de `lessons/`, do bundle e do projeto distribuído. Exemplos exportados usam dados fictícios e starter/código parcial. O repositório é público; a separação de pastas não é promessa de sigilo dos testes.
 
+A instalação remota revelou uma incompatibilidade real do lockfile v3 com npm 10: o peer transitivo do Expo exigia `@expo/metro-runtime` 57.0.18. O pacote e o lockfile foram alinhados, com reprodução da falha e do reparo usando Node 22/npm 10.9.9. `npm ci` foi preservado e passou depois da correção; não foi substituído por uma instalação permissiva.
+
 ## Segurança e limitações de execução
 
 O iframe usa `sandbox="allow-scripts"` sem `allow-same-origin`, com CSP que restringe rede, frames, formulários e recursos. A página aceita mensagens apenas da janela esperada, com canal, nonce e revisão correspondentes. O compilador rejeita APIs ambientais/imports fora do contrato e instrumenta loops/funções com orçamento cooperativo. Isso reduz acidentes comuns e não é garantia de limites absolutos de CPU/RAM contra código hostil.
 
+O WebKit recusou `'self'` no iframe de origem opaca. A inicialização agora permite somente quatro caminhos exatos de scripts na origem Pages prevista e em loopback local; depois de carregar esses scripts, uma segunda política cumulativa bloqueia novas cargas antes de aceitar código do aluno. Os testes independentes tentam conexões, imagem, beacon, script arbitrário e recarga de um script de inicialização. O orçamento de CPU reinicia por turno do event loop: vinte e cinco interações normais rápidas não acumulam o tempo de espera entre ações, enquanto um loop síncrono continua interrompido.
+
 O avaliador CLI usa worker local com ambiente vazio, limite temporal e heap. Não é serviço para receber código de terceiros nem sandbox de sistema operacional. A autoridade de nota continua no processo docente descrito acima. O [parecer independente](MOBILE_A08_V4_SECURITY_REVIEW.md) documenta as fronteiras e os testes adversariais.
+
+## Acessibilidade e documentos
+
+As abas de painéis e arquivos usam foco móvel entre abas, setas, Home/End e identificação do painel ativo. O contador numérico de XP permanece visível em telas estreitas. Os dois componentes React usam `useId()` e prefixos distintos em `createRoot`, evitando que um campo descreva o erro da outra prévia. O guia aponta elementos e funções existentes no TSX entregue.
+
+O PDF foi validado no arquivo efetivamente produzido, incluindo o rodapé de `@page`, as vinte missões, os quatro ciclos, o SHA-256 completo e a geometria A4. O rodapé herdado de Web foi corrigido. Uma suspeita visual de hash cortado foi retirada após medição confirmar os 64 caracteres dentro da margem; a regra de quebra de linha é preventiva. O documento é legível visualmente, mas PDF/UA, leitor de tela e conformidade integral WCAG não foram homologados.
 
 ## Preservação e publicação
 
 A main foi reconciliada **na candidata**, resolvendo o conflito do portal e mantendo os links e builds Memórias/EDA. Os arquivos existentes das Aulas 06/07, `lessons/3` e `apps/` permanecem iguais à main auditada. O adaptador A08 v2 antes colocado na pasta da Aula 07 foi preservado como fixture de regressão; Code.gs ativo da Aula 07 foi restaurado byte a byte da main.
 
 A falha histórica de CI era de YAML, antes de qualquer job. Foi corrigida a string com dois-pontos sem aspas, acrescentado push da candidata, fixadas dependências QA e registrados SHA/árvore efetivamente testados. Os testes históricos continuam ativos. Compilação usa permissões de leitura; a capacidade de publicar está separada e condicionada à main.
+
+A primeira revisão do novo workflow também encontrou contexto `runner.temp` em `jobs.<job>.env`, posição recusada pelo GitHub antes dos jobs. Foram usados caminhos relativos e acrescentada uma verificação semântica desse caso ao checker. Falhas iniciais, logs, reparos e sucessos posteriores foram preservados; nenhum assert foi comentado para obter aprovação.
 
 `build-aula08-preview.mjs` prepara um artefato sem publicar. Mantém os aplicativos anteriores, inclusive seus assets em caminhos `assets/node_modules`, e exclui dependências locais, testes e backend v4. O verificador confirma links da bancada, recursos compartilhados e igualdade dos aplicativos existentes. A configuração do frontend continua com endpoint vazio e release falso.
 

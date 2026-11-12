@@ -1,0 +1,15 @@
+{
+  "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+  "scenario": "timeout-after-write",
+  "operations": [
+    "lookupStudent",
+    "submitTeam",
+    "reconcileTeam"
+  ],
+  "sameRequestId": true,
+  "writes": 1,
+  "version": "mobile-notas-4.1.0",
+  "grade": null,
+  "status": "PENDENTE_VALIDACAO",
+  "codeSha256": "3f986a2fd68c6829f5b5893eeacfa2845102eee820ce714f086e7814c856c80c"
+}

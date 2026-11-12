@@ -1,0 +1,66 @@
+{
+  "kind": "LOCAL_BROWSER_SYNTHETIC",
+  "startedAt": "2026-11-12T00:48:34.421Z",
+  "checks": [
+    {
+      "name": "Contracts align: 20 criteria, 100 XP and production disabled",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 360px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Keyboard at 390px: pane/file tabs support arrows, wrap, Home and End",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 390px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 768px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 1024px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 1440px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Simultaneous forms keep unique IDs and describe errors from their own preview",
+      "status": "PASS"
+    },
+    {
+      "name": "React Native Web components: search, detail, preserved filters, errors and immutable insertion",
+      "status": "PASS"
+    },
+    {
+      "name": "All 20 missions pass via UI, XP exactly 100, code hash and current tests match",
+      "status": "PASS"
+    },
+    {
+      "name": "Regression invalidates current technical tests without erasing historical XP or generating a grade",
+      "status": "PASS"
+    },
+    {
+      "name": "Checkpoint export/import preserves partial code and XP; current technical results require recheck",
+      "status": "PASS"
+    },
+    {
+      "name": "A4 PDF with Mobile identity, four cycles, partial XP and pending official grade",
+      "status": "PASS"
+    },
+    {
+      "name": "Production delivery remains blocked; no Google write",
+      "status": "PASS"
+    }
+  ],
+  "native": "NOT_RUN",
+  "connectedGoogle": "NOT_RUN",
+  "finishedAt": "2026-11-12T00:48:44.728Z",
+  "status": "PASS"
+}

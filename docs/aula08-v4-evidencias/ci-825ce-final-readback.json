@@ -1,0 +1,862 @@
+{
+  "schema": "mobile-a08-v4-ci-readback/1",
+  "observedAt": "2026-11-12T00:51:33.882Z",
+  "repository": "thalesvalente/teaching-mobile",
+  "branch": "feat/aula08-lab-vivo-ciclos-20261111",
+  "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+  "tree": "93cd3ca16d3141f7875b9d47b7c846e299dcc4ed",
+  "result": "PASS_TECHNICAL_CI",
+  "source": "Connected GitHub Actions REST readback. Job logs retrieved for all three browser engines.",
+  "runs": [
+    {
+      "id": 43129949865,
+      "name": "QA Mobile — Entregas Aula 07",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949865"
+    },
+    {
+      "id": 43129949887,
+      "name": "QA Aula 08 - laboratorio vivo",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949887"
+    },
+    {
+      "id": 43129949856,
+      "name": "Publicar projetos Expo Web",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949856"
+    },
+    {
+      "id": 43129949875,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949875"
+    },
+    {
+      "id": 43129942677,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43129942677"
+    }
+  ],
+  "jobs": {
+    "push": [
+      {
+        "id": 130891279528,
+        "name": "Prévia estática sem implantação",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Montar portal preservando aulas e bloqueio do receptor",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node scripts/verify-mobile-pages.mjs _site",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279779,
+        "name": "Revisão independente firefox",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx playwright install --with-deps firefox",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node tests/independent-aula08-v4-browser.cjs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279824,
+        "name": "Bancada Chromium e revisão independente",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalar Chromium",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalar verificador do PDF gerado",
+            "conclusion": "success"
+          },
+          {
+            "name": "Registrar proveniência",
+            "conclusion": "success"
+          },
+          {
+            "name": "Laboratório: 20 missões, compilação, XP, PDF e JSON",
+            "conclusion": "success"
+          },
+          {
+            "name": "Segurança e acessibilidade independentes",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279854,
+        "name": "Expo laboratorio-vivo e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalação reproduzível",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run typecheck",
+            "conclusion": "success"
+          },
+          {
+            "name": "Starter mantém vinte pendências intencionais",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Expo Web (não substitui Android ou iOS)",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279857,
+        "name": "Revisão independente webkit",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx playwright install --with-deps webkit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node tests/independent-aula08-v4-browser.cjs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279913,
+        "name": "Contratos, backend simulado e regressões",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "YAML e política do workflow",
+            "conclusion": "success"
+          },
+          {
+            "name": "Testes determinísticos e regressões das aulas anteriores",
+            "conclusion": "success"
+          },
+          {
+            "name": "Referência de QA e vinte contratos da bancada",
+            "conclusion": "success"
+          },
+          {
+            "name": "Prova dos originais preservados",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891279973,
+        "name": "Expo avancado e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalação reproduzível",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run typecheck",
+            "conclusion": "success"
+          },
+          {
+            "name": "Starter mantém vinte pendências intencionais",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Expo Web (não substitui Android ou iOS)",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ],
+    "pull_request": [
+      {
+        "id": 130891303593,
+        "name": "Contratos, backend simulado e regressões",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "YAML e política do workflow",
+            "conclusion": "success"
+          },
+          {
+            "name": "Testes determinísticos e regressões das aulas anteriores",
+            "conclusion": "success"
+          },
+          {
+            "name": "Referência de QA e vinte contratos da bancada",
+            "conclusion": "success"
+          },
+          {
+            "name": "Prova dos originais preservados",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891303833,
+        "name": "Revisão independente webkit",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx playwright install --with-deps webkit",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node tests/independent-aula08-v4-browser.cjs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891303857,
+        "name": "Revisão independente firefox",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npx playwright install --with-deps firefox",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node tests/independent-aula08-v4-browser.cjs",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891303875,
+        "name": "Bancada Chromium e revisão independente",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalar Chromium",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalar verificador do PDF gerado",
+            "conclusion": "success"
+          },
+          {
+            "name": "Registrar proveniência",
+            "conclusion": "success"
+          },
+          {
+            "name": "Laboratório: 20 missões, compilação, XP, PDF e JSON",
+            "conclusion": "success"
+          },
+          {
+            "name": "Segurança e acessibilidade independentes",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891303919,
+        "name": "Expo laboratorio-vivo e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalação reproduzível",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run typecheck",
+            "conclusion": "success"
+          },
+          {
+            "name": "Starter mantém vinte pendências intencionais",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Expo Web (não substitui Android ou iOS)",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891303947,
+        "name": "Expo avancado e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Instalação reproduzível",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm run typecheck",
+            "conclusion": "success"
+          },
+          {
+            "name": "Starter mantém vinte pendências intencionais",
+            "conclusion": "success"
+          },
+          {
+            "name": "Build Expo Web (não substitui Android ou iOS)",
+            "conclusion": "success"
+          }
+        ]
+      },
+      {
+        "id": 130891304119,
+        "name": "Prévia estática sem implantação",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Montar portal preservando aulas e bloqueio do receptor",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run node scripts/verify-mobile-pages.mjs _site",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ],
+    "publicationWorkflowOnPR": [
+      {
+        "id": 130891303397,
+        "name": "Compilar aplicativos e validar links",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": [
+          {
+            "name": "Run actions/checkout@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "conclusion": "success"
+          },
+          {
+            "name": "Ativar npm 11",
+            "conclusion": "success"
+          },
+          {
+            "name": "Testar e compilar Memórias",
+            "conclusion": "success"
+          },
+          {
+            "name": "Testar e compilar EDA",
+            "conclusion": "success"
+          },
+          {
+            "name": "Montar artefato estático preservando as aulas",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verificar artefatos e referências",
+            "conclusion": "success"
+          },
+          {
+            "name": "Disponibilizar prévia",
+            "conclusion": "success"
+          },
+          {
+            "name": "Upload para GitHub Pages",
+            "conclusion": "skipped"
+          }
+        ]
+      },
+      {
+        "id": 130891865283,
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "skipped",
+        "steps": []
+      },
+      {
+        "id": 130891865303,
+        "name": "Publicar artefatos compilados na main",
+        "status": "completed",
+        "conclusion": "skipped",
+        "steps": []
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 13905405554,
+      "name": "mobile-a08-v4-firefox-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 1153452,
+      "digest": "sha256:3187420c9058be51ef4b590d294ec717bc4783aceaf3c1c9bb64307805b2c660",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13905405554/zip"
+    },
+    {
+      "id": 13904463840,
+      "name": "mobile-a08-v4-webkit-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 1109144,
+      "digest": "sha256:5accfc108e18ba270aca35634b4e0e9a9aae149a670178cfac6a8f805169a81b",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13904463840/zip"
+    },
+    {
+      "id": 13904163533,
+      "name": "mobile-a08-v4-browser-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 2197003,
+      "digest": "sha256:055843920485cae0a9e67923095a8ab4b3aafdb394f4cb3d5ffa322728a84c3d",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13904163533/zip"
+    },
+    {
+      "id": 13903898267,
+      "name": "mobile-a08-v4-site-preview-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 15335820,
+      "digest": "sha256:b07a98f9bc74a09407b916170bcf154fe7214dc525586d5fc9fcc4b848488073",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13903898267/zip"
+    }
+  ],
+  "c1": {
+    "missionProgress": [
+      {
+        "criterion": "M1-01",
+        "xp": 5
+      },
+      {
+        "criterion": "M1-02",
+        "xp": 10
+      },
+      {
+        "criterion": "M1-03",
+        "xp": 15
+      },
+      {
+        "criterion": "M1-04",
+        "xp": 20
+      },
+      {
+        "criterion": "M1-05",
+        "xp": 25
+      },
+      {
+        "criterion": "M2-01",
+        "xp": 30
+      },
+      {
+        "criterion": "M2-02",
+        "xp": 35
+      },
+      {
+        "criterion": "M2-03",
+        "xp": 40
+      },
+      {
+        "criterion": "M2-04",
+        "xp": 45
+      },
+      {
+        "criterion": "M3-01",
+        "xp": 50
+      },
+      {
+        "criterion": "M3-02",
+        "xp": 55
+      },
+      {
+        "criterion": "M3-03",
+        "xp": 60
+      },
+      {
+        "criterion": "M3-04",
+        "xp": 65
+      },
+      {
+        "criterion": "M3-05",
+        "xp": 70
+      },
+      {
+        "criterion": "M3-06",
+        "xp": 75
+      },
+      {
+        "criterion": "M4-01",
+        "xp": 80
+      },
+      {
+        "criterion": "M4-02",
+        "xp": 85
+      },
+      {
+        "criterion": "M4-03",
+        "xp": 90
+      },
+      {
+        "criterion": "M4-04",
+        "xp": 95
+      },
+      {
+        "criterion": "M4-05",
+        "xp": 100
+      }
+    ],
+    "assertions": [
+      "Contracts align: 20 criteria, 100 XP and production disabled",
+      "Responsive 360px and starter compiles",
+      "Keyboard at 390px: pane/file tabs support arrows, wrap, Home and End",
+      "Responsive 390px and starter compiles",
+      "Responsive 768px and starter compiles",
+      "Responsive 1024px and starter compiles",
+      "Responsive 1440px and starter compiles",
+      "Simultaneous forms keep unique IDs and describe errors from their own preview",
+      "React Native Web components: search, detail, preserved filters, errors and immutable insertion",
+      "All 20 missions pass via UI, XP exactly 100, code hash and current tests match",
+      "Regression invalidates current technical tests without erasing historical XP or generating a grade",
+      "Checkpoint export/import preserves partial code and XP; current technical results require recheck",
+      "A4 PDF with Mobile identity, four cycles, partial XP and pending official grade",
+      "Production delivery remains blocked; no Google write"
+    ],
+    "pdfTextTool": "pdftotext 24.02.0"
+  },
+  "independent": {
+    "chromium": {
+      "job": 130891279824,
+      "independentPass": 27,
+      "independentFail": 0,
+      "checks": [
+        "reflow-360",
+        "axe-main-360",
+        "reflow-390",
+        "axe-main-390",
+        "reflow-768",
+        "axe-main-768",
+        "reflow-1024",
+        "axe-main-1024",
+        "reflow-1440",
+        "axe-main-1440",
+        "opaque-sandbox-parent-isolation",
+        "forged-peer-message-ignored",
+        "keyboard-dialog-focus",
+        "keyboard-tabs-mobile-roving-and-active-panels",
+        "dual-preview-fields-reference-own-error-elements",
+        "student-network-apis-rejected-and-csp-connect-image-script",
+        "syntax-error-and-recovery",
+        "loop-budget-and-recovery",
+        "checkpoint-export-import-and-malformed-rejection",
+        "pdf-partial-mobile-identity-and-20-missions",
+        "production-off-no-external-request",
+        "matricula-not-silently-persisted",
+        "reduced-motion-and-320-reflow",
+        "simulated-interface-backend-normal",
+        "simulated-interface-backend-tampered-response-signature",
+        "simulated-interface-backend-timeout-after-write",
+        "no-unhandled-page-errors"
+      ],
+      "scope": "Real browser execution, including generated PDF text/bounding-box checks with Poppler. Interface-to-backend scenarios use local Apps Script mock."
+    },
+    "firefox": {
+      "job": 130891279779,
+      "independentPass": 27,
+      "independentFail": 0,
+      "checks": [
+        "reflow-360",
+        "axe-main-360",
+        "reflow-390",
+        "axe-main-390",
+        "reflow-768",
+        "axe-main-768",
+        "reflow-1024",
+        "axe-main-1024",
+        "reflow-1440",
+        "axe-main-1440",
+        "opaque-sandbox-parent-isolation",
+        "forged-peer-message-ignored",
+        "keyboard-dialog-focus",
+        "keyboard-tabs-mobile-roving-and-active-panels",
+        "dual-preview-fields-reference-own-error-elements",
+        "student-network-apis-rejected-and-csp-connect-image-script",
+        "syntax-error-and-recovery",
+        "loop-budget-and-recovery",
+        "checkpoint-export-import-and-malformed-rejection",
+        "pdf-partial-mobile-identity-and-20-missions",
+        "production-off-no-external-request",
+        "matricula-not-silently-persisted",
+        "reduced-motion-and-320-reflow",
+        "simulated-interface-backend-normal",
+        "simulated-interface-backend-tampered-response-signature",
+        "simulated-interface-backend-timeout-after-write",
+        "no-unhandled-page-errors"
+      ],
+      "scope": "Real browser execution. PDF identity check uses printable DOM; actual PDF text gate runs only Chromium. Interface-to-backend scenarios use local Apps Script mock."
+    },
+    "webkit": {
+      "job": 130891279857,
+      "independentPass": 27,
+      "independentFail": 0,
+      "checks": [
+        "reflow-360",
+        "axe-main-360",
+        "reflow-390",
+        "axe-main-390",
+        "reflow-768",
+        "axe-main-768",
+        "reflow-1024",
+        "axe-main-1024",
+        "reflow-1440",
+        "axe-main-1440",
+        "opaque-sandbox-parent-isolation",
+        "forged-peer-message-ignored",
+        "keyboard-dialog-focus",
+        "keyboard-tabs-mobile-roving-and-active-panels",
+        "dual-preview-fields-reference-own-error-elements",
+        "student-network-apis-rejected-and-csp-connect-image-script",
+        "syntax-error-and-recovery",
+        "loop-budget-and-recovery",
+        "checkpoint-export-import-and-malformed-rejection",
+        "pdf-partial-mobile-identity-and-20-missions",
+        "production-off-no-external-request",
+        "matricula-not-silently-persisted",
+        "reduced-motion-and-320-reflow",
+        "simulated-interface-backend-normal",
+        "simulated-interface-backend-tampered-response-signature",
+        "simulated-interface-backend-timeout-after-write",
+        "no-unhandled-page-errors"
+      ],
+      "scope": "Real browser execution. PDF identity check uses printable DOM; actual PDF text gate runs only Chromium. Interface-to-backend scenarios use local Apps Script mock."
+    }
+  },
+  "mainPreserved": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+  "pullRequest": {
+    "number": 7,
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
+    "head": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+    "base": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "draft": true,
+    "mergeable": true,
+    "mergeableState": "clean",
+    "merged": false
+  },
+  "production": {
+    "mainMerged": false,
+    "pagesDeployed": false,
+    "compiledPublishJob": "skipped",
+    "pagesDeployJob": "skipped",
+    "appsScriptDeployment": "NOT_RUN_BY_C4",
+    "googleQa": "NOT_RUN_BY_C4"
+  },
+  "limitations": [
+    "CI green is not a connected Google Apps Script homologation.",
+    "React Native Web and Expo Web export do not establish native Android/iOS correctness.",
+    "Automated axe checks are scoped; they do not establish complete WCAG conformance.",
+    "Production actions remain subject to exact human approval."
+  ]
+}

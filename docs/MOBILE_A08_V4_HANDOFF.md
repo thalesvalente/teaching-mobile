@@ -2,9 +2,13 @@
 
 ## Retomar deste ponto
 
-Usar a mesma branch `feat/aula08-lab-vivo-ciclos-20261111` e a PR correspondente. Conferir o HEAD e a CI exata; não voltar à v2, não recriar a planilha da turma e não refazer auditorias válidas em conteúdo idêntico. A v3 permanece complementar; a PR histórica #4 está preservada.
+Usar a mesma branch `feat/aula08-lab-vivo-ciclos-20261111` e a [PR #7](https://github.com/thalesvalente/teaching-mobile/pull/7). Conferir o HEAD e a CI exata; não voltar à v2, não recriar a planilha da turma e não refazer auditorias válidas em conteúdo idêntico. A v3 permanece complementar; a PR histórica #4 está preservada.
 
 Arquivos centrais: [readback](MOBILE_A08_V4_READBACK.md), [implementação](MOBILE_A08_V4_IMPLEMENTATION.md), [integração](MOBILE_A08_V4_INTEGRATION.md), [segurança](MOBILE_A08_V4_SECURITY_REVIEW.md), [QA](MOBILE_A08_V4_QA.md), [release](MOBILE_A08_V4_RELEASE.md) e [matriz20](MOBILE_A08_V4_CRITERIA.md).
+
+## Checkpoint de código pronto
+
+`825ce143fe4f6dcb5f8d1903f5441c50cebdec64` passou nas cinco execuções Actions (quatro workflows distintos), com 27 checks C3 por engine e todas as vinte missões na interface. Os registros estão em [release](MOBILE_A08_V4_RELEASE.md) e [readback da CI](aula08-v4-evidencias/ci-825ce-final-readback.json). A documentação e os exemplos podem ter sido consolidados em um commit posterior; usar o SHA final e os checks indicados na PR. Não reabrir reparos já aprovados sem mudança que invalide sua evidência.
 
 ## Estado do receptor
 

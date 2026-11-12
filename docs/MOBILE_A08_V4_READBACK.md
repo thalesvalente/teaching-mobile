@@ -54,3 +54,9 @@ Leituras: conector GitHub autenticado e `git ls-remote`; clone com todos os refs
 ## Bloqueadores de entrada
 
 **Críticos corrigíveis:** confiança indevida no XP, falta de teste positivo das 20 missões, isolamento de rede incompleto, CI não inicializa. **Externos:** acesso de implantação Apps Script e homologação conectada QA; Android/iOS e tecnologia assistiva dependem de ambiente disponível. Merge, publicação/implantação PROD, permissões e uso de estudantes reais continuam exigindo aprovação humana específica.
+
+## Continuidade após este baseline
+
+A implementação prosseguiu na mesma branch e foi consolidada na [PR #7](https://github.com/thalesvalente/teaching-mobile/pull/7). O checkpoint de código **825ce143fe4f6dcb5f8d1903f5441c50cebdec64**, árvore **93cd3ca16d3141f7875b9d47b7c846e299dcc4ed**, passou em cinco execuções Actions de quatro workflows distintos. [Readback da CI e da PR](aula08-v4-evidencias/ci-825ce-final-readback.json). A main continua no SHA auditado, e os jobs de publicação foram ignorados nas PRs.
+
+Os reparos e a revisão independente estão em [implementação](MOBILE_A08_V4_IMPLEMENTATION.md), [QA](MOBILE_A08_V4_QA.md) e [segurança](MOBILE_A08_V4_SECURITY_REVIEW.md). A consolidação documental posterior preserva essa fonte; o HEAD final e sua própria CI são registrados na PR. O bloqueador externo de Apps Script/Google QA continua aberto, sem afirmar integração operacional nem repetir as leituras históricas da planilha.

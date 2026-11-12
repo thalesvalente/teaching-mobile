@@ -118,6 +118,29 @@
     "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
     "mergePerformed": false,
     "pagesDeployed": false,
-    "candidateOnly": true
+    "candidateOnly": true,
+    "finalHeadVerification": "Check current PR head and exact CI after documentation consolidation"
+  },
+  "technicalCheckpoint": {
+    "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+    "tree": "93cd3ca16d3141f7875b9d47b7c846e299dcc4ed",
+    "ciRuns": [
+      43129942677,
+      43129949875,
+      43129949865,
+      43129949887,
+      43129949856
+    ],
+    "ci": "PASS",
+    "unitTests": 170,
+    "labContractTests": 13,
+    "missionsThroughUI": 20,
+    "independentBrowserChecks": {
+      "chromium": 27,
+      "firefox": 27,
+      "webkit": 27
+    },
+    "googleHTTP": "SIMULATED_ONLY",
+    "native": "NOT_RUN"
   }
 }

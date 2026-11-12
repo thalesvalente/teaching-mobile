@@ -1,0 +1,14 @@
+{
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "targets": [
+        [
+          "#guide-locate > span[aria-hidden=\"true\"]"
+        ]
+      ]
+    }
+  ]
+}

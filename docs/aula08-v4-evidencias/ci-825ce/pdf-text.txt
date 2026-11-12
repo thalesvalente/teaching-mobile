@@ -1,0 +1,147 @@
+                  INSTITUTO FEDERAL DO MARANHÃO
+                  Campus Itapecuru-Mirim                                                                           AULA 08
+  IFMA                                                                                                              2026.2
+                  Técnico em Informática Integrado ao Ensino Médio
+                  Programação para Dispositivos Móveis
+
+
+REGISTRO DE EQUIPE E APRENDIZAGEM | AULA 08
+
+
+Relatório de aprendizagem
+Laboratório Vivo AV1 — Desafio avançado Mobile
+
+  RELATÓRIO PARCIAL
+
+
+EQUIPE                                                               INTEGRANTES (NOMES)
+Equipe QA Exemplo                                                    Nome não conferido (rascunho local)
+
+INTEGRANTE 1                                                         QUANTIDADE DE INTEGRANTES
+Nome não conferido (rascunho local) — Matrícula: não                 1
+informada (PDF local)
+
+DOCENTE                                                              EMISSÃO (BRT)
+Prof. Dr. Thales Levi Azevedo Valente                                11/11/2026, 21:48
+
+Contém identificação acadêmica. Compartilhe somente com a equipe e o professor.
+
+
+Controle documental: MOBILE-A08-2026
+Versão do relatório: 4.1.0
+Natureza: registro de equipe; progresso formativo declarado e testado localmente.
+
+
+
+    RESULTADO FORMATIVO DO LABORATÓRIO
+
+                                                                                               1 de 20 missões concluídas
+    5 / 100 XP                                                                                              19 pendentes
+
+
+    Pontuação de acompanhamento, não constitui nota oficial. Questões e missões pendentes permanecem com zero
+    ponto, sem reduzir o máximo de 100 XP.
+
+
+
+
+   Avaliação técnica atual e rubrica docente
+Testes atuais: 0 / 20 aprovados localmente. Resultados declarados pelo navegador, sujeitos à conferência.
+Rubrica: 20 critérios de 0,5 ponto = 10,0 pontos. Nota oficial: PENDENTE DE VALIDAÇÃO DOCENTE. XP
+históricos não são convertidos em nota.
+SHA-256 do TSX: bec192e2501b109f79d36a05297007a8baeeeab927465188f363169f6adef921
+
+
+
+   1. Situação das missões
+Registro do progresso observado no momento da geração. A exportação não preenche exercícios nem atribui pontos
+adicionais.
+
+
+
+IFMA · Programação para Dispositivos Móveis · Aula 08 · 2026.2                                                  Página 1 de 3
+ Nº         Missão                                                             Situação    XP
+
+ M1 — Estados sob falhas · 15 min · 25 XP
+
+ 01         Erro tem prioridade sobre carregamento                             Concluída          5/5
+
+ 02         Carregando sem erro                                                Pendente           0/5
+
+ 03         Coleção realmente vazia                                            Pendente           0/5
+
+ 04         Busca sem resultados não é coleção vazia                           Pendente           0/5
+
+ 05         Dados prontos em estado estável                                    Pendente           0/5
+
+ M2 — Filtros e imutabilidade · 25 min · 20 XP
+
+ 06         Pesquisa ignora caixa e acentos                                    Pendente           0/5
+
+ 07         Categoria e período combinados (AND)                               Pendente           0/5
+
+ 08         Ordenação Z-A com IDs íntegros                                     Pendente           0/5
+
+ 09         A fonte não muda e o resultado preserva os objetos                 Pendente           0/5
+
+ M3 — Fluxo, navegação e validação · 35 min · 30 XP
+
+ 10         Detalhe usa ID opaco exato                                         Pendente           0/5
+
+ 11         ID desconhecido devolve null                                       Pendente           0/5
+
+ 12         Validação aceita valores corretos após trim                        Pendente           0/5
+
+ 13         Validação rejeita título/descrição insuficientes                   Pendente           0/5
+
+ 14         Título repetido após normalizar acento/caixa é inválido na mesma   Pendente           0/5
+            trilha
+
+ 15         Inserção cria novo array sem mutar a fonte                         Pendente           0/5
+
+ M4 — Idempotência, resumos e regressão · 25 min · 25 XP
+
+ 16         Idempotência: repetir toque/ID não duplica                         Pendente           0/5
+
+ 17         Resumo conta total e IDs sem perda                                 Pendente           0/5
+
+ 18         Resumo contabiliza categorias corretamente                         Pendente           0/5
+
+ 19         Resumo de base vazia é seguro                                      Pendente           0/5
+
+ 20         Resumo não modifica nem reordena a fonte                           Pendente           0/5
+
+ Total formativo                                                                                5 / 100
+
+
+
+   2. Reflexões e evidências
+O que mudou no código e o que aconteceu nas duas prévias?
+
+   Não respondido
+
+
+
+IFMA · Programação para Dispositivos Móveis · Aula 08 · 2026.2                              Página 2 de 3
+O que ainda deve ser testado em um celular real?
+
+   Não respondido
+
+
+
+   3. Condições do registro
+     A prévia de largura móvel é executada por React Native Web, não por Android/iOS nativo.
+     Compartilhar código entre as duas prévias não sincroniza seus estados.
+     Os XP refletem verificações formativas locais e não equivalem a nota institucional.
+     O relatório foi gerado localmente. Salvar PDF não comprova entrega no Google Sheets.
+
+
+
+IFMA · Programação Mobile · Aula 08 · 2026.2
+Documento gerado no Laboratório Vivo em 11/11/2026, 21:48 (BRT).
+
+
+
+
+IFMA · Programação para Dispositivos Móveis · Aula 08 · 2026.2                                 Página 3 de 3
+

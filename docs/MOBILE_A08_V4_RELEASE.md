@@ -6,6 +6,22 @@
 
 Não se usa `COMPLETE` porque não há publicação/homologação operacional. Não se pede aprovação genérica de produção para compensar a ausência de uma homologação QA.
 
+## Checkpoint técnico aprovado
+
+A [PR #7](https://github.com/thalesvalente/teaching-mobile/pull/7) reúne a implementação na branch existente. O checkpoint de código aprovado é **`825ce143fe4f6dcb5f8d1903f5441c50cebdec64`**, árvore **`93cd3ca16d3141f7875b9d47b7c846e299dcc4ed`**. As cinco execuções Actions, de quatro workflows distintos, ficaram verdes, incluindo os sete jobs da v4 e as regressões históricas. [Readback completo](aula08-v4-evidencias/ci-825ce-final-readback.json).
+
+| Verificação | Evidência conectada | Resultado |
+|---|---|---|
+| V4 push | [43129942677](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129942677) | SUCCESS |
+| V4 PR | [43129949875](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949875) | SUCCESS |
+| Aula 07 | [43129949865](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949865) | SUCCESS |
+| Aula 08 histórica | [43129949887](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949887) | SUCCESS |
+| Build do portal | [43129949856](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129949856) | SUCCESS; publicação/deploy SKIPPED |
+
+A revisão independente executou **27/27 cenários em Chromium, Firefox e WebKit**. O teste autoral percorreu as vinte missões pela interface, 5→100 XP, e os fluxos de componente, teclado, dois formulários, regressão, PDF/JSON e bloqueio de produção. Os dois Expo passaram `npm ci`, TypeScript, starter e build Web. A raiz passou 170 testes; o contrato da bancada passou 13.
+
+O commit que acrescenta este relatório e os arquivos de evidência será diferente do checkpoint de código. A CI deve rodar também no HEAD final da PR; a descrição da PR registra esse SHA e seus runs sem criar um ciclo de commits somente para citar o próprio hash. Não existe autorização implícita de merge.
+
 ## Mudança preparada
 
 | Destino | Mudança candidata | Impacto | Reversão |
@@ -20,6 +36,10 @@ Não se usa `COMPLETE` porque não há publicação/homologação operacional. N
 ## Prévia verificável
 
 Workflow: `.github/workflows/qa-aula08-live-v4.yml`. O job `previa` produz `mobile-a08-v4-site-preview-<SHA>` e o job `navegador` produz evidências/PDF/JSON. Os arquivos `tested-sha.txt`, `tested-tree.txt` e `mobile-a08-preview-manifest.json` identificam a fonte.
+
+Prévia do código aprovado: artifact **13903898267**, `mobile-a08-v4-site-preview-825ce143fe4f6dcb5f8d1903f5441c50cebdec64`, no [run 43129942677](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129942677). SHA-256 do ZIP: `b07a98f9bc74a09407b916170bcf154fe7214dc525586d5fc9fcc4b848488073`. O arquivo foi baixado e seu hash foi conferido com a API GitHub. O artifact expira em 12/12/2026; os exemplos e relatórios essenciais estão versionados em `docs/aula08-v4-evidencias/ci-825ce/`.
+
+Exemplos revisáveis: [PDF A4 fictício com 5 XP](aula08-v4-evidencias/ci-825ce/relatorio-exemplo-ficticio.pdf), [JSON correspondente](aula08-v4-evidencias/ci-825ce/continuidade-exemplo-ficticio.json), [desktop 1440](aula08-v4-evidencias/ci-825ce/viewport-1440.png) e [móvel 390](aula08-v4-evidencias/ci-825ce/viewport-390.png). A [revisão independente](aula08-v4-evidencias/ci-825ce/c3-final-review.json) relaciona todos os tamanhos, hashes e limites.
 
 URL canônica **planejada para após publicação**:
 
