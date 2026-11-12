@@ -1,0 +1,30 @@
+{
+  "schema": "mobile-a08-v4-google-native-visual-review-v1",
+  "observedAtUtc": "2026-11-12T01:23:42.230051+00:00",
+  "spreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+  "method": "C0 observed Google-rendered screenshots at 100 percent zoom for each of the ten populated tabs",
+  "result": "PASS_WITH_VIEWPORT_SCOPE",
+  "scope": "First visible columns and populated fixture rows of every tab; complete 115-cell values and types separately verified by C2",
+  "limitations": [
+    "Wide audit/team/result headers extend horizontally beyond viewport; this is not evidence of every column in one screenshot",
+    "No submissions, receipts or teacher reviews exist yet",
+    "Not a connected Apps Script end-to-end test"
+  ],
+  "temporaryLoadingScreenshotsReplaced": [
+    "08-resultados.jpg",
+    "09-atividades.jpg",
+    "10-orientacoes.jpg"
+  ],
+  "screenshots": [
+    "01-bimestre.jpg",
+    "02-bimestre.jpg",
+    "03-bimestre.jpg",
+    "04-bimestre.jpg",
+    "05-auditoria.jpg",
+    "06-equipes.jpg",
+    "07-alunos.jpg",
+    "08-resultados.jpg",
+    "09-atividades.jpg",
+    "10-orientacoes.jpg"
+  ]
+}

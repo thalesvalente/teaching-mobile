@@ -4,13 +4,13 @@ Revisor: **C3**, agente nativo separado dos autores C1/C2. O coordenador C0 inte
 
 ## Parecer técnico fechado
 
-Fonte revisada: **825ce143fe4f6dcb5f8d1903f5441c50cebdec64**. Backend: 41/41 testes locais, incluindo nove independentes. Navegadores reais: 27/27 cenários C3 em Chromium, Firefox e WebKit. Readback: [CI 825ce](aula08-v4-evidencias/ci-825ce-final-readback.json); [parecer e hashes C3](aula08-v4-evidencias/ci-825ce/c3-final-review.json). Não há falha crítica de código conhecida aberta; G4/G5 completos continuam BLOCKED pela ausência de instalação/configuração/homologação Google verificável.
+Fonte revisada: **825ce143fe4f6dcb5f8d1903f5441c50cebdec64**. Backend: 41/41 testes locais, incluindo nove independentes. Navegadores reais: 27/27 cenários C3 em Chromium, Firefox e WebKit. Readback: [CI 825ce](aula08-v4-evidencias/ci-825ce-final-readback.json); [parecer e hashes C3](aula08-v4-evidencias/ci-825ce/c3-final-review.json). Não há falha crítica de código conhecida aberta. A preparação Google QA foi posteriormente aprovada em revisão C3 específica, sem execução; G4/G5 completos continuam BLOCKED por consentimento/implantação e ciclo conectado ainda pendentes.
 
 ## Escopo e força das evidências
 
 Foram examinados o executor TSX, a comunicação entre iframe e página, a entrega, o backend Mobile exato e a política de publicação. Os testes locais do backend usam um adaptador de Apps Script/Sheets **em memória**, com matrículas `00000000.ITA…` e identidades fictícias. O adaptador é compartilhado com C2; os cenários e os asserts independentes foram escritos por C3.
 
-Essa execução não instala Apps Script, não recebe notas reais e não homologa Google Sheets. A homologação conectada precisa demonstrar interface → Apps Script → planilha QA → recibo → readback → reconciliação.
+A suíte local não instala Apps Script, não recebe notas reais e não homologa Google Sheets. A preparação nativa posterior, descrita abaixo, salvou código/propriedades e conferiu a fixture QA real sem executar o receptor. A homologação conectada ainda precisa demonstrar interface → Apps Script → planilha QA → recibo → readback → reconciliação.
 
 ## Achados e correções
 
@@ -51,8 +51,18 @@ Os três contratos de interface exercitaram recebimento, resposta com assinatura
 
 Os resultados automatizados não abrangem toda a acessibilidade ou execução hostil. A análise de sintaxe não é uma fronteira completa contra todos os escapes de JavaScript; a proteção relevante de credenciais é a origem opaca, ausência de segredos, CSP e a decisão de nunca confiar no código do navegador para nota oficial. O orçamento cooperativo não garante preempção inviolável.
 
-Permanecem fora da prova local: instalação Apps Script, propriedades reais, segredo instalado, permissões Google, ciclo conectado QA, execução Android/iOS e revisão por tecnologia assistiva. A configuração de produção do frontend deve continuar com endpoint vazio e `PROD_RELEASE_ENABLED = false` até os gates e a autorização específica.
+Permanecem sem execução comprovada: consentimento OAuth do projeto QA, bootstrap administrativo/HMAC, implantação versionada, ciclo conectado QA, Android/iOS e tecnologia assistiva. Os novos readbacks de preparação não suprem esses gates. A configuração de produção do frontend continua com endpoint vazio e `PROD_RELEASE_ENABLED = false` até os gates e a autorização específica.
+
+## Revisão independente da preparação Google QA
+
+O [parecer C3 de 12/11/2026](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json) aprovou **somente a preparação**: código/manifesto iguais ao SHA 303e4751, dez abas e 115 células/tipos sem divergência, locale/fuso QA corretos, oito propriedades sem chave PROD e duas flags falsas. O [projeto privado](aula08-v4-evidencias/qa-google-preparacao-20261112/project-metadata.json) possui somente um proprietário e nenhuma mudança de permissão; a planilha QA também permanece privada. Nenhum segredo ou administrador foi gerado por bootstrap, pois o projeto não foi executado.
+
+A inferência `ACCOUNT_MISMATCH` foi retirada na [retificação](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json). A identidade Google foi confirmada; o projeto Mobile histórico observado no overview não prova versão ou vínculo v4 e não forneceu dados/segredos à preparação.
+
+A [proposta de autorização](aula08-v4-evidencias/qa-google-preparacao-20261112/deployment-proposal.json) envolve dois efeitos que não decorrem da autorização de preparação: concessão OAuth e endpoint QA público anônimo executado como proprietário. O escopo `spreadsheets` permite operações em todas as planilhas da conta, sem limitação OAuth ao arquivo QA; código/configuração revisados restringem os efeitos da missão. `userinfo.email` é usado para as verificações administrativas de sessão. `USER_DEPLOYING` executa sob a autoridade do proprietário; `ANYONE_ANONYMOUS` admite visitantes sem login. Fontes: [escopos Sheets](https://developers.google.com/workspace/sheets/api/scopes), [Session](https://developers.google.com/apps-script/reference/base/session) e [semântica Web App](https://developers.google.com/apps-script/manifest/web-app-api-executable).
+
+O conjunto específico proposto inclui bootstrap, implantação, ativação temporária, testes somente fictícios e fechamento da recepção ao final, sem tornar públicos os arquivos privados. Deploy não foi clicado e não há `/exec`. A reversão encerra QA por `MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED=false`, preservando segredo/recibos/auditoria; revogar OAuth ou arquivar implantação depende de autorização própria. Nenhuma etapa aprova produção ou a execução de código de alunos com credenciais.
 
 ## Parecer
 
-**Backend independente e controles de navegador testados: PASS nos escopos e SHAs indicados.** Não há falha crítica de código conhecida aberta após os reparos revisados. G4/G5 completos continuam BLOCKED: propriedades, permissões, HMAC instalado e ciclo Google QA não foram observados. As mudanças de acessibilidade posteriores a a363b326 foram testadas no SHA 825ce143; a CI de documentação final também deve corresponder ao HEAD proposto na PR. Nenhuma liberação de produção é concedida por este documento.
+**Backend, controles de navegador e preparação Google QA: PASS nos respectivos escopos documentados.** Não há falha crítica de código conhecida aberta. O gate `MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL` é somente de OAuth/QA; G4/G5 e a liberação global continuam BLOCKED até consentimento aprovado, bootstrap/implantação, ciclo conectado e demais gates. A fonte teve CI verde no SHA 303e4751; esta atualização documental não altera código, mas o novo HEAD deverá ter sua CI observada se houver commit. Nenhuma liberação de produção é concedida por este documento.

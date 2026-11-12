@@ -2,9 +2,9 @@
 
 ## Resultado desta fase
 
-**Backend 4.1.0 implementado; testes locais aprovados; homologação Google bloqueada por implantação externa.** A planilha existente foi lida por conexão Google autorizada e preservada. Não foi criada outra planilha de produção, nem escritos estudantes, equipes, notas ou auditoria reais. O receptor e o frontend de produção permanecem bloqueados.
+**Backend 4.1.0 preservado; preparação Google QA pronta para aprovação específica.** A planilha de produção existente foi preservada. Foi criado somente um ambiente QA privado, com projeto Apps Script independente e planilha sintética próprios. C3 aprovou a preparação; execução, consentimento OAuth, implantação versionada e homologação conectada permanecem **NOT_RUN**.
 
-Estado externo: **MOBILE_A08_V4_BLOCKED_EXTERNAL_DEPLOYMENT**. O ciclo conectado `INTERFACE → APPS SCRIPT → PLANILHA QA → RECIBO → READBACK → RECONCILIAÇÃO` não foi executado. Nenhum teste de fixture, GET de disponibilidade ou leitura de planilha é apresentado como esse ciclo.
+O gate **MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL** aplica-se exclusivamente ao consentimento e à implantação/ativação temporária QA descritos em [release](MOBILE_A08_V4_RELEASE.md#aprovação-exata-preparada-somente-qa). A liberação global continua **BLOCKED**. O ciclo `INTERFACE → APPS SCRIPT → PLANILHA QA → RECIBO → READBACK → RECONCILIAÇÃO` ainda não ocorreu; não se declara COMPLETE, READY_FOR_RELEASE ou autorização de produção.
 
 ## Readback conectado da planilha existente
 
@@ -33,20 +33,41 @@ Locale `pt_BR`, fuso `America/Fortaleza`, primeira linha congelada em todas as a
 - O código anterior convertia XP em nota e escrevia Resultados/bimestre antes da validação docente. A recepção agora não escreve nessas abas.
 - A função anterior de “QA” ativava propriedades PROD. QA agora exige modo, ID, propriedades, chave e dados próprios; IDs Mobile PROD e históricos protegidos são rejeitados como destino QA.
 
-## Apps Script: observado e não observado
+## Apps Script: estado conectado na retomada de 12/11/2026
+
+A hipótese anterior de conta incompatível foi retirada: a sessão Apps Script corresponde ao perfil da conexão Google. A [retificação](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json) identifica os campos incorretos de `readback-sheets.json`, preservado como histórico. O overview também mostra `teaching-mobile-entregas-2026`, criado em 21/10/2026 e modificado em 23/10/2026. Isso comprova a existência do projeto histórico, sem comprovar vínculo com a planilha v4, versão 4.1.0 ou compatibilidade; seu código, propriedades, segredos e dados não foram copiados.
 
 | Item | Estado | Evidência/limite |
 | --- | --- | --- |
-| Código do receptor no Git | PASS | `integrations/mobile-aula08-appscript/Code.gs`, versão mobile-notas-4.1.0 |
-| Manifesto/configuração para implantação | PASS | appsscript.json e modelos de Script Properties separados |
-| Projeto nativo associado à planilha PROD | BLOCKED | Ferramentas disponíveis não expõem Apps Script; metadata Drive/Sheets não expõe projeto vinculado |
-| Busca por MIME Apps Script | PASS, escopo limitado | Busca Mobile e busca geral retornaram zero arquivos; isso **não prova inexistência** de projeto vinculado |
-| Sessão de navegador correta | BLOCKED | Coordenador observou conta diferente da conexão Google pretendida; nenhuma instalação nessa identidade |
-| URL `/exec`, versão instalada, propriedades | NOT_RUN | Nenhum identificador/deployment/propriedade foi observado; não há URL inventada |
-| Submissão QA real e reconciliação | BLOCKED | Sem instalação QA acessível na conta correta |
-| Implantação/ativação PROD | NOT_RUN | Exige aprovação específica; bloqueios mantidos |
+| Código do receptor no Git | PASS | `Code.gs`, versão mobile-notas-4.1.0; fonte `303e4751abfb9105f9efa7c205adb6ec8f35d0b0` |
+| Identidade da sessão Apps Script | PASS, identidade apenas | Perfil igual ao da conexão Google; inferência `ACCOUNT_MISMATCH` retirada |
+| Projeto QA independente | PASS, preparação | `1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ`; privado, somente um proprietário, sem alteração de permissões |
+| Planilha QA sintética | PASS, preparação | `1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A`; privada, dez abas, 115 células comparadas por valor e tipo sem divergência |
+| Código e manifesto salvos no editor | PASS, readback de bytes | Ambos iguais aos arquivos do SHA 303e4751; hashes completos abaixo |
+| Script Properties QA | PASS, preparação | Oito propriedades; QA/SYNTHETIC_ONLY, destino isolado e flags de segurança/recepção falsas; nenhuma propriedade PROD |
+| Bootstrap de administrador/segredo | NOT_RUN | Nenhuma execução; não há evidência de HMAC ou vínculo administrativo gerado |
+| OAuth | NOT_RUN | Dois escopos identificados; consentimento não solicitado nem concedido |
+| Implantação versionada e `/exec` | NOT_RUN | Formulário preparado, botão Deploy não clicado; sem versão instalada nem URL `/exec` |
+| Submissão QA e reconciliação | NOT_RUN | Dependem da aprovação específica e da execução do ciclo completo |
+| Projeto associado à planilha PROD v4 | NOT_RUN | Associação ainda não verificada; projeto histórico não serve como prova |
+| Implantação/ativação PROD | NOT_RUN | Exige aprovação própria; frontend e configuração PROD v4 permanecem bloqueados |
 
-Não foi criada uma planilha QA ociosa. A fixture permite criá-la quando houver caminho concreto para instalar o projeto correto e executar a homologação. O [runbook do receptor](../integrations/mobile-aula08-appscript/README.md) contém arquivos, sequência mínima, propriedades, contratos, matriz e reversão.
+Recursos observados: [projeto Apps Script QA](https://script.google.com/home/projects/1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ) e [planilha QA](https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit). Não foi criada outra planilha de produção. A alteração de locale/fuso, de `en_US`/`America/Los_Angeles` para `pt_BR`/`America/Fortaleza`, atingiu exclusivamente a planilha QA, sem alterar dimensões nem compartilhamento. O catálogo habilitado na fixture QA não ativa recepção: `MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED` permanece `false`.
+
+| Artefato salvo no projeto QA | SHA-256 conferido |
+| --- | --- |
+| `Code.gs` | `7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9` |
+| `appsscript.json` | `5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24` |
+
+Evidências: [células, tipos e privacidade QA](aula08-v4-evidencias/qa-google-preparacao-20261112/sheets-native-readback.json), [propriedades e hashes](aula08-v4-evidencias/qa-google-preparacao-20261112/script-properties-readback.json), [metadados do projeto privado](aula08-v4-evidencias/qa-google-preparacao-20261112/project-metadata.json), [inspeção visual nativa](aula08-v4-evidencias/qa-google-preparacao-20261112/native-visual-review.json) e [revisão independente C3](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json). A inspeção visual cobre as colunas visíveis e as linhas da fixture nas dez abas; o readback de 115 células complementa esse limite de viewport. Nenhuma dessas provas equivale a uma entrega recebida pelo Apps Script.
+
+### Gate de consentimento e exposição QA
+
+A [proposta exata](aula08-v4-evidencias/qa-google-preparacao-20261112/deployment-proposal.json) prepara um Web App executado pelo proprietário (`USER_DEPLOYING`) com acesso anônimo (`ANYONE_ANONYMOUS`, opção visual Anyone). A planilha e o projeto Apps Script permanecem privados; o que se propõe tornar acessível é o endpoint QA. Não há endpoint ativo.
+
+O manifesto solicita somente `https://www.googleapis.com/auth/spreadsheets` e `https://www.googleapis.com/auth/userinfo.email`. O primeiro concede capacidade ampla sobre as planilhas da conta; **OAuth não restringe essa concessão à planilha QA**. A limitação de efeitos ao destino QA depende do código e da configuração revisados. O segundo é usado pelas verificações de identidade ativa/efetiva e pelo vínculo administrativo privado. Ver [escopos Sheets](https://developers.google.com/workspace/sheets/api/scopes), [Session](https://developers.google.com/apps-script/reference/base/session) e [semântica Web App](https://developers.google.com/apps-script/manifest/web-app-api-executable).
+
+A aprovação deve abranger os dois escopos, bootstrap no editor autenticado, implantação QA anônima, ativação temporária, testes exclusivamente fictícios e fechamento da recepção ao final. A sequência e a reversão estão em [release](MOBILE_A08_V4_RELEASE.md) e no [runbook do receptor](../integrations/mobile-aula08-appscript/README.md). Ela não autoriza PROD, merge/Pages, estudantes reais, notas oficiais, compartilhamento da planilha ou exclusões.
 
 ## Política de confiança implementada
 
@@ -120,10 +141,10 @@ O HMAC assegura integridade em relação ao segredo do servidor; não atesta aut
 
 ## Pendências concretas
 
-1. Acessar Apps Script na conta Google correta; confirmar projeto vinculado/deployment se existir, sem reutilizar Web/PPI.
-2. Instalar QA isolado, executar o ciclo real e registrar `/exec`, versão, SHA e recibos fictícios.
-3. Validar a fórmula bimestral e as projeções no Google Sheets real QA.
+1. Obter aprovação específica dos dois escopos OAuth e do Web App QA anônimo, incluindo bootstrap, ativação temporária, testes sintéticos e fechamento da recepção.
+2. Revalidar projeto QA, planilha isolada e hashes; após aprovação, executar bootstrap, implantar e registrar os identificadores, versão e `/exec` reais. Não recriar os recursos QA preparados.
+3. Executar o ciclo conectado completo, validar fórmulas/projeções e reconciliação no QA, preservar recibos fictícios e desabilitar recebimento ao final.
 4. Aprovar rubrica e modelo de consulta/identidade; conferir cadastro real apenas após autorização específica.
 5. Apresentar mudança exata e obter autorização para implantação PROD, ativação, merge/Pages e lançamento oficial nos respectivos gates.
 
-Nada desta fase autoriza por si só essas operações. O frontend continua com `PROD_ENDPOINT=''` e `PROD_RELEASE_ENABLED=false` até o gate correspondente.
+A preparação concluída não concede consentimento OAuth nem autorização de publicação QA. As operações PROD têm gates próprios. O frontend continua com `PROD_ENDPOINT=''` e `PROD_RELEASE_ENABLED=false` até o gate correspondente.

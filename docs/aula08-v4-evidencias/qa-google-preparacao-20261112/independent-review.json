@@ -1,0 +1,110 @@
+{
+  "schema": "mobile-a08-qa-independent-preparation-review-v1",
+  "reviewer": "C3 independent QA/security",
+  "reviewedAtUtc": "2026-11-12T01:23:56.435629+00:00",
+  "reviewMethod": "Read-only review of saved connected readbacks; independent byte hashes, all fixture cells/types, code gates, manifest scopes and project-overview screenshot. C3 made no external mutation or live execution.",
+  "repositoryHead": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+  "qaProjectId": "1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+  "qaSpreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+  "preparationResult": "PASS",
+  "checks": {
+    "CodeGsAndManifestByteExactRepository": true,
+    "CodeGsSha256": "7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9",
+    "manifestSha256": "5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24",
+    "nativeTabs": 10,
+    "independentlyComparedCells": 115,
+    "valueAndTypeMismatches": 0,
+    "locale": "pt_BR",
+    "timeZone": "America/Fortaleza",
+    "qaSpreadsheetDistinctFromProtectedMobileAndWebIds": true,
+    "privacyAsRecorded": "shared=false; one user/owner permission; no anyone/group/domain permission",
+    "scriptProperties": "8 properties; environment QA; SYNTHETIC_ONLY; exact QA sheet; localhost origin; both enable/security flags false; no PROD property",
+    "catalogEnabledTrue": "Synthetic fixture value only; not receiving activation",
+    "overviewScreenshot": "Owner; executions0; users0; last ran absent; two scopes requested"
+  },
+  "notProven": {
+    "oauth": "NOT_GRANTED_AS_RECORDED",
+    "deployment": "NOT_CREATED_AS_RECORDED",
+    "execUrl": "NOT_OBSERVED",
+    "secretAndAdminBootstrap": "NOT_RUN",
+    "connectedHomologation": "NOT_RUN",
+    "nativeAndroidIOS": "NOT_RUN",
+    "humanAssistiveAudit": "NOT_RUN"
+  },
+  "exactApprovalGate": {
+    "status": "READY_FOR_EXACT_APPROVAL_QA_ONLY",
+    "reason": "New OAuth grant and public anonymous Web App exposure require a specific human decision; preparation authorization does not imply this permission change.",
+    "oauthScopes": [
+      {
+        "scope": "https://www.googleapis.com/auth/spreadsheets",
+        "impact": "Broad permission to view, edit, create and delete the account Google Sheets files. OAuth itself is not restricted to the QA spreadsheet; reviewed code/configuration restricts authorized task effects."
+      },
+      {
+        "scope": "https://www.googleapis.com/auth/userinfo.email",
+        "impact": "Provides the account email used by Session active/effective identity checks and private QA administrator binding; does not request Gmail access."
+      }
+    ],
+    "deployment": {
+      "projectId": "1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+      "executeAs": "USER_DEPLOYING",
+      "access": "ANYONE_ANONYMOUS",
+      "uiMeaning": "Public QA endpoint without visitor login; ANYONE in the manifest means logged-in users and is not the anonymous option.",
+      "sheetSharing": "Remain private; do not grant public access to the spreadsheet.",
+      "codeVersion": "mobile-notas-4.1.0",
+      "deploymentVersion": "NOT_CREATED; record the actual numeric Apps Script version after approval"
+    },
+    "approvedSequenceToRequest": [
+      "Recheck exact source hashes, project identity, mode QA and isolated sheet ID immediately before execution.",
+      "Grant only the two disclosed scopes for this QA project.",
+      "Run prepararAmbienteQAMobile in the authenticated owner editor; it privately binds QA ADMIN_EMAIL and creates a new QA HMAC_SECRET without exposing values.",
+      "Deploy a versioned QA Web App as the owner, with anonymous access explicitly approved; record actual deployment ID/version/exec URL.",
+      "Run liberarRecebimentoQAMobile for temporary QA activation; only QA SECURITY_READY and SUBMISSIONS_ENABLED become true.",
+      "Execute the connected interface → Apps Script → QA sheet → receipt → readback → reconciliation using synthetic identities/evidence only.",
+      "Block QA receiving at the end and preserve receipts, audit and the QA HMAC for reproducible readback."
+    ],
+    "excludedEffects": [
+      "PROD deployment/activation",
+      "main merge or Pages deployment",
+      "real students or official grades",
+      "historical sheets or Web/PPI resources",
+      "spreadsheet sharing changes",
+      "resource/history/receipt deletion"
+    ],
+    "rollback": "Set QA SUBMISSIONS_ENABLED=false (and SECURITY_READY=false if configured for closure); keep sheet/audit/receipts/HMAC. Revoke OAuth or retire deployment only if explicitly included in human approval; do not delete historical evidence."
+  },
+  "statusRecommendation": {
+    "nextStep": "MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL, explicitly scoped to OAuth and QA deployment, not a release approval.",
+    "overallRelease": "BLOCKED_PENDING_CONNECTED_QA_AND_OTHER_RELEASE_GATES",
+    "doNotClaim": [
+      "COMPLETE",
+      "Google QA homologated",
+      "READY_FOR_RELEASE",
+      "Production authorized",
+      "OAuth limited to a single spreadsheet"
+    ],
+    "priorReasonCorrection": "Coordinator corrected the earlier different-account inference; native QA preparation is now demonstrably possible. Describe the remaining gate as consent/public QA deployment, not unavailable tools/account."
+  },
+  "evidenceSha256": {
+    "script-properties-readback.json": "7513aa2d9489464e2083d1e08b86683af784a4d3c9d4c9099d4bc47130f6da38",
+    "sheets-native-readback.json": "28cce0682b442f693990d37f004f99b5067b2fdec87306915f9ee69b92955687",
+    "screenshots/11-appscript-overview.jpg": "cdcf81b30c1e8cf2d1ffac70bf3e52b545764ffc26ae6c275e37d31c8e480eb2"
+  },
+  "officialReferences": [
+    {
+      "url": "https://developers.google.com/workspace/sheets/api/scopes",
+      "supports": "spreadsheets scope breadth; drive.file is a narrower alternative but is not the prepared manifest and would require an appropriate file-authorization flow and revalidation."
+    },
+    {
+      "url": "https://developers.google.com/apps-script/manifest/web-app-api-executable",
+      "supports": "USER_DEPLOYING, ANYONE versus ANYONE_ANONYMOUS semantics."
+    },
+    {
+      "url": "https://developers.google.com/apps-script/guides/web",
+      "supports": "Web app executing as owner runs under the owner authority."
+    },
+    {
+      "url": "https://developers.google.com/apps-script/reference/base/session",
+      "supports": "userinfo.email for active/effective user; identity availability depends on execution context."
+    }
+  ]
+}

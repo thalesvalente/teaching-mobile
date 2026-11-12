@@ -1,0 +1,134 @@
+{
+  "schema": "mobile-a08-v4-github-resume-readback/1",
+  "observedAt": "2026-11-12T01:08:53.464Z",
+  "account": "thalesvalente",
+  "scope": "Read-only connected GitHub state. No tests rerun, no commits, no merge, no deployment.",
+  "checkpoint": {
+    "head": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+    "main": "d329d12007ca3d989cfbaa01c1e126479f6a8e39"
+  },
+  "branch": {
+    "name": "feat/aula08-lab-vivo-ciclos-20261111",
+    "head": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+    "unchanged": true
+  },
+  "main": {
+    "head": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "unchanged": true
+  },
+  "pullRequest": {
+    "number": 7,
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
+    "state": "open",
+    "draft": false,
+    "readyForReview": true,
+    "merged": false,
+    "head": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+    "base": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "mergeable": true,
+    "mergeableState": "clean",
+    "updatedAt": "2026-11-12T01:03:45Z"
+  },
+  "ci": {
+    "head": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+    "totalRuns": 5,
+    "allSuccess": true,
+    "runs": [
+      {
+        "id": 43131097997,
+        "name": "QA Mobile — Entregas Aula 07",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "sha": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+        "workflow": ".github/workflows/qa-mobile-entregas.yml",
+        "createdAt": "2026-11-12T00:57:40Z",
+        "updatedAt": "2026-11-12T00:58:11Z",
+        "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43131097997"
+      },
+      {
+        "id": 43131097870,
+        "name": "QA Aula 08 - laboratorio vivo",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "sha": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+        "workflow": ".github/workflows/qa-aula08.yml",
+        "createdAt": "2026-11-12T00:57:40Z",
+        "updatedAt": "2026-11-12T00:58:33Z",
+        "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43131097870"
+      },
+      {
+        "id": 43131097912,
+        "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "sha": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+        "workflow": ".github/workflows/qa-aula08-live-v4.yml",
+        "createdAt": "2026-11-12T00:57:40Z",
+        "updatedAt": "2026-11-12T00:59:58Z",
+        "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43131097912"
+      },
+      {
+        "id": 43131097965,
+        "name": "Publicar projetos Expo Web",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "sha": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+        "workflow": ".github/workflows/publish-mobile-projects.yml",
+        "createdAt": "2026-11-12T00:57:40Z",
+        "updatedAt": "2026-11-12T00:59:15Z",
+        "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43131097965"
+      },
+      {
+        "id": 43131091449,
+        "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "success",
+        "attempt": 1,
+        "sha": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+        "workflow": ".github/workflows/qa-aula08-live-v4.yml",
+        "createdAt": "2026-11-12T00:57:37Z",
+        "updatedAt": "2026-11-12T00:59:47Z",
+        "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43131091449"
+      }
+    ]
+  },
+  "publicationWorkflowJobs": [
+    {
+      "id": 130895141377,
+      "name": "Compilar aplicativos e validar links",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 130895732632,
+      "name": "Publicar artefatos compilados na main",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 130895733021,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "comparison": "Source HEAD and main are unchanged. PR is open, clean and ready for review. Relative to C4's pre-ready final readback, draft changed from true to false; this matches the coordinator's planned metadata update. All five original CI runs remain green, attempt 1.",
+  "pendingWithinGitHubScope": "No source repair or test rerun is indicated by this readback. Merge and production publishing remain gated by specific human approval; readiness for review is not approval to merge.",
+  "actionsPerformed": [
+    "Read PR #7",
+    "Read candidate branch HEAD",
+    "Read main HEAD",
+    "Read CI runs for exact HEAD",
+    "Read publication workflow job conclusions",
+    "Save sanitized readback outside git"
+  ]
+}

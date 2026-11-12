@@ -66,6 +66,12 @@ A primeira revisão do novo workflow também encontrou contexto `runner.temp` em
 
 `build-aula08-preview.mjs` prepara um artefato sem publicar. Mantém os aplicativos anteriores, inclusive seus assets em caminhos `assets/node_modules`, e exclui dependências locais, testes e backend v4. O verificador confirma links da bancada, recursos compartilhados e igualdade dos aplicativos existentes. A configuração do frontend continua com endpoint vazio e release falso.
 
+## Preparação Google QA sem ativação
+
+Na retomada foi preparado um projeto Apps Script independente privado e uma planilha QA privada, ambos exclusivos para dados sintéticos. `Code.gs` e manifesto foram salvos e relidos byte a byte, iguais à fonte do SHA `303e4751abfb9105f9efa7c205adb6ec8f35d0b0`. Oito propriedades QA apontam para o destino isolado, sem propriedades PROD; segurança e recepção permanecem falsas. A leitura de 115 células/tipos nas dez abas e a revisão C3 aprovaram a preparação. [Propriedades/hashes](aula08-v4-evidencias/qa-google-preparacao-20261112/script-properties-readback.json), [estrutura QA](aula08-v4-evidencias/qa-google-preparacao-20261112/sheets-native-readback.json) e [parecer independente](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json).
+
+A [retificação da conta](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json) preserva a evidência histórica e retira a inferência anterior de incompatibilidade. O recurso Mobile histórico observado no overview não foi usado como instalação v4. OAuth, execuções, bootstrap e implantação continuam NOT_RUN; não existe `/exec`. A implementação não mudou para esta etapa. O próximo gate é a [aprovação exata de OAuth e QA](MOBILE_A08_V4_RELEASE.md#aprovação-exata-preparada-somente-qa); a liberação global continua BLOCKED.
+
 ## Referenciais de qualidade
 
 ### Execução por fases e autoridade

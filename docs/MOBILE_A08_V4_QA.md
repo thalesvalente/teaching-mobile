@@ -7,7 +7,9 @@ Revisor: **C3**, agente nativo independente dos autores da implementação. A mi
 
 **Fonte verificada: `825ce143fe4f6dcb5f8d1903f5441c50cebdec64`.** C3 confirmou **27/27 cenários em cada um dos três motores** e zero violações axe nas cinco larguras. Os testes C1 também aprovaram as vinte missões pela UI, regressão, XP, componentes, teclado, IDs de formulário, PDF e JSON. Cinco execuções Actions terminaram com sucesso; publicação e escrita na main foram corretamente ignoradas. Não há falha crítica de código conhecida aberta.
 
-A revisão técnica Web/Expo Web e backend simulado está concluída nesse SHA. Estado operacional: **MOBILE_A08_V4_BLOCKED_EXTERNAL_DEPLOYMENT**. Google QA instalado, Android/iOS e auditoria humana/assistiva continuam sem prova. Ver [readback da CI](aula08-v4-evidencias/ci-825ce-final-readback.json), [parecer C3](aula08-v4-evidencias/ci-825ce/c3-final-review.json) e [execução v4](https://github.com/thalesvalente/teaching-mobile/actions/runs/43129942677). Um commit posterior somente de documentação/evidências também deve passar a CI no seu SHA exato, sem atribuir a ele resultados de outra fonte.
+A revisão técnica Web/Expo Web e backend simulado está concluída nesse SHA. O SHA documental `303e4751abfb9105f9efa7c205adb6ec8f35d0b0` teve CI própria verde e continua no HEAD conferido pela [retomada GitHub](aula08-v4-evidencias/qa-google-preparacao-20261112/github-readback.json). Ver também [CI 825ce](aula08-v4-evidencias/ci-825ce-final-readback.json) e [parecer C3 da fonte](aula08-v4-evidencias/ci-825ce/c3-final-review.json).
+
+A preparação Google QA foi concluída e aprovada por C3, com recursos privados, código exato, propriedades bloqueadas e fixture real conferida. **MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL** aplica-se somente a OAuth/implantação e ativação temporária QA. A liberação global continua **BLOCKED**: ciclo Google conectado, Android/iOS, tecnologia assistiva e demais gates de produção permanecem pendentes. O novo commit documental, se criado, deverá ter sua CI observada no SHA exato.
 
 ## Como interpretar este relatório
 
@@ -65,11 +67,20 @@ Cada linha vale **5 XP formativos** e corresponde a **0,5 ponto na rubrica técn
 | PDF/screenshots `a363b326` | Artefatos reais da CI | PASS na inspeção visual: Mobile correto, A4, vinte critérios e quatro ciclos; cinco larguras Chromium | `aula08-v4-evidencias/ci-a363/c3-visual-review.json` |
 | Fonte final `825ce143`, Chromium/Firefox/WebKit | GitHub Actions, três motores reais | **27/27 PASS por motor**, incluindo as novas regressões de abas e formulários | `aula08-v4-evidencias/ci-825ce/c3-*-results.json` |
 | PDF/JSON finais `825ce143` | Arquivos reais da CI e inspeção C3 | PASS: exemplo com 5 XP, hash do PDF igual ao código no JSON, nota pendente | `aula08-v4-evidencias/ci-825ce/c3-final-review.json` |
-| Recepção conectada Google QA | Interface + Apps Script + planilha QA | BLOCKED por implantação externa não comprovada | `MOBILE_A08_V4_INTEGRATION.md` |
+| Preparação nativa Google QA | Editor Apps Script + Sheets real, sem execução | PASS na preparação: código/manifesto exatos, oito propriedades, dez abas e 115 células/tipos | `qa-google-preparacao-20261112/independent-review.json` |
+| Recepção conectada Google QA | Interface + Apps Script + planilha QA | NOT_RUN; OAuth e implantação aguardam aprovação específica | `qa-google-preparacao-20261112/deployment-proposal.json` |
 | Android/iOS real | Dispositivo/emulador nativo | NOT_RUN | Roteiro nativo em `laboratorio-vivo/projeto/README.md` |
 | Tecnologia assistiva | Leitor de tela e revisão humana | NOT_RUN | Não declarar conformidade WCAG integral |
 
 Os oito adversariais C3 cobrem reordenação de integrantes, alteração nominal no cadastro, escrita docente parcial, gate PROD incompleto, adulteração de cada campo assinado, tentativa HTTP de chamar administração, confirmação de matrícula forjada e fórmula tratada como texto. Quatro falhas de integridade/autorização foram corrigidas por C2 e retestadas por C3 sem alterar os asserts.
+
+## Retomada Google: preparação aprovada, ciclo conectado não executado
+
+O [parecer independente de preparação](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json) é **PASS nesse escopo**. C3 comparou hashes e os 115 valores/tipos da fixture, verificou dez abas, locale `pt_BR`, fuso `America/Fortaleza`, destino distinto de todos os IDs protegidos e oito propriedades QA. O [projeto QA](aula08-v4-evidencias/qa-google-preparacao-20261112/project-metadata.json) e a planilha têm `shared=false`, somente um proprietário e nenhuma alteração de permissões. A [inspeção visual](aula08-v4-evidencias/qa-google-preparacao-20261112/native-visual-review.json) cobre as linhas da fixture e colunas visíveis das dez abas, complementada pelo readback de valores/tipos; não é auditoria assistiva.
+
+Código/manifesto estão salvos, mas o overview registra zero execuções e as flags `MOBILE_NOTAS_QA_SECURITY_READY`/`MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED` permanecem falsas. OAuth não foi solicitado/concedido; bootstrap de administrador/HMAC, implantação versionada e `/exec` não existem como execução comprovada. Catálogo QA habilitado na fixture não significa recebimento ativo. A [retificação de identidade](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json) retira `ACCOUNT_MISMATCH` como inferência incorreta, sem apagar a auditoria anterior.
+
+A [aprovação exata](MOBILE_A08_V4_RELEASE.md#aprovação-exata-preparada-somente-qa) envolve os dois escopos declarados, Web App QA executado pelo proprietário e acessível sem login, bootstrap, ativação temporária, testes sintéticos e bloqueio ao final. Após aprovação, o ciclo interface → Apps Script → planilha QA → recibo → readback → reconciliação deverá produzir evidência própria. Até lá, cenários de recebimento, assinatura, reenvio, timeout, reconciliação e projeção de notas mantêm apenas a prova local/simulada já registrada.
 
 ## Suíte independente de navegador e ciclo de reparos
 
@@ -122,14 +133,14 @@ Axe registrou zero violações nos cinco tamanhos em cada motor, com dois grupos
 |---|---|---|
 | Vinte missões, 100 XP e starter incompleto | Contratos Node e relatório C1 `ci-825ce/c1-browser-results.json` | PASS no SHA 825ce143 |
 | Determinismo, mutação, idempotência e regressão | Avaliador comum e testes Node; regressão pela UI | PASS no escopo técnico executado |
-| Nota oficial não autodeclarada | Backend 41/41, três cenários HTTP simulados por motor | PASS no código/fixture; instalação real não comprovada |
+| Nota oficial não autodeclarada | Backend 41/41, três cenários HTTP simulados por motor; código exato salvo no QA | PASS no código/fixture; execução do receptor real NOT_RUN |
 | PDF/JSON/retomada | PDF real e exportação/importação em navegador | PASS 825ce143; exemplos são fictícios |
 | Isolamento do pai e comunicação | SecurityError de origem opaca, peer message ignorada, tokens/revisão | PASS nos três motores |
 | Rede de código aluno | Compilador + probes independentes de fetch, imagem, beacon e novos scripts | PASS para esses canais; não é garantia contra todo uso hostil de CPU ou navegação |
 | Reenvio/reconciliação sem duplicação | Backend adversarial + timeout real de UI com Sheets em memória | PASS simulado; ciclo Google BLOCKED |
 | Responsividade | Reflow 320 adicional e screenshots cinco larguras | PASS 825ce143 |
 | Acessibilidade | Axe, teclado de diálogo/abas, revisão visual e IDs | Testes automatizados PASS; leitor de tela e auditoria humana NOT_RUN |
-| Planilha íntegra/preservação | Readback conectado sem escrita; contrato em fixture | Não se infere integridade transacional Google sem homologação instalada |
+| Planilha íntegra/preservação | PROD preservada; QA privado com 115 células/tipos conferidos e correção exclusiva de locale/fuso | PASS para estrutura/fixture; integridade transacional de entregas Google ainda não homologada |
 | Aulas anteriores | Regressões históricas e verificação de assets/links | Preservadas; nenhuma publicação de produção nesta missão |
 
 ## Gates G1–G6 — parecer após revisão técnica
@@ -141,8 +152,8 @@ Os gates abaixo têm escopo integral. Resultados técnicos parciais aprovados s�
 | G1 — Pedagogia | PASS | Quatro ciclos, 20 critérios, 100 XP e profundidade Mobile coerentes; nota docente separada. Aceite humano da rubrica continua gate de produção. |
 | G2 — Engenharia | BLOCKED | Código, dependências, TypeScript, Expo Web, vinte critérios e navegador PASS no SHA 825ce143. Android/iOS real permanece NOT_RUN; não há emulação nativa fictícia. |
 | G3 — UX e acessibilidade | BLOCKED | Responsividade, PDF, teclado, IDs e axe automatizado PASS; contraste do ícone decorativo inconclusivo, tecnologia assistiva e auditoria humana NOT_RUN. Sem declaração de WCAG integral. |
-| G4 — Segurança e dados | BLOCKED | Código/backend e controles de navegador PASS no escopo executado; faltam propriedades, permissões e segredo do serviço instalado. Não há falha crítica de código conhecida aberta. |
+| G4 — Segurança e dados | BLOCKED | Código/backend e preparação privada QA PASS; oito propriedades bloqueadas conferidas. Consentimento OAuth amplo, exposição anônima QA e bootstrap de administrador/HMAC ainda dependem da aprovação/execução específica. |
 | G5 — Integração | BLOCKED | Falta ciclo Google conectado interface → Apps Script → planilha QA → recibo → readback → reconciliação. Três simulações por motor não suprem esse gate. |
-| G6 — Publicação | BLOCKED | PR #7 limpa e revisável, cinco execuções verdes e prévia estática validada. Merge/Pages/PROD não executados; exigem gates externos e aprovação específica. |
+| G6 — Publicação | BLOCKED | PR #7 pronta para revisão e limpa; cinco execuções verdes no SHA 303e4751, prévia validada. Novo commit documental exige CI no próprio SHA. Merge/Pages/PROD não executados e não incluídos no gate QA. |
 
-**Código autorizado e QA técnico executável concluídos; operação externa ainda bloqueada.** O estado permanece `MOBILE_A08_V4_BLOCKED_EXTERNAL_DEPLOYMENT`, não COMPLETE nem autorização de produção. O fechamento documental deve preservar a fonte verificada e obter CI verde no SHA exato da PR antes de qualquer solicitação futura de integração.
+**Código e QA técnico aprovados; preparação Google QA pronta para aprovação específica.** O próximo gate é `MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL`, explicitamente restrito a OAuth/QA. A liberação global permanece BLOCKED; não se declara COMPLETE, READY_FOR_RELEASE ou produção autorizada. A consolidação preserva a fonte verificada e exige readback da CI do novo HEAD se houver commit.

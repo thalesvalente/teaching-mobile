@@ -59,4 +59,22 @@ Leituras: conector GitHub autenticado e `git ls-remote`; clone com todos os refs
 
 A implementação prosseguiu na mesma branch e foi consolidada na [PR #7](https://github.com/thalesvalente/teaching-mobile/pull/7). O checkpoint de código **825ce143fe4f6dcb5f8d1903f5441c50cebdec64**, árvore **93cd3ca16d3141f7875b9d47b7c846e299dcc4ed**, passou em cinco execuções Actions de quatro workflows distintos. [Readback da CI e da PR](aula08-v4-evidencias/ci-825ce-final-readback.json). A main continua no SHA auditado, e os jobs de publicação foram ignorados nas PRs.
 
-Os reparos e a revisão independente estão em [implementação](MOBILE_A08_V4_IMPLEMENTATION.md), [QA](MOBILE_A08_V4_QA.md) e [segurança](MOBILE_A08_V4_SECURITY_REVIEW.md). A consolidação documental posterior preserva essa fonte; o HEAD final e sua própria CI são registrados na PR. O bloqueador externo de Apps Script/Google QA continua aberto, sem afirmar integração operacional nem repetir as leituras históricas da planilha.
+Os reparos e a revisão independente estão em [implementação](MOBILE_A08_V4_IMPLEMENTATION.md), [QA](MOBILE_A08_V4_QA.md) e [segurança](MOBILE_A08_V4_SECURITY_REVIEW.md). O SHA documental `303e4751abfb9105f9efa7c205adb6ec8f35d0b0` também passou nos cinco runs; a retomada confirmou branch/CI idênticas, PR pronta para revisão e main preservada. [Readback GitHub da retomada](aula08-v4-evidencias/qa-google-preparacao-20261112/github-readback.json). A preparação Google abaixo acrescenta evidências, sem alterar essa fonte ou transformar testes simulados em homologação.
+
+## Retificação e preparação QA conectada em 12/11/2026
+
+A inferência de conta incompatível registrada em `appsScriptDiscovery.browserReadback` do [readback histórico](aula08-v4-evidencias/readback-sheets.json) era incorreta. A sessão Apps Script corresponde ao perfil da conexão Google; a identidade do proprietário GitHub não demonstrava outra identidade Google. O arquivo histórico permanece intacto, e a [retificação](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json) identifica explicitamente os campos retirados como conclusão. As leituras de Sheets desse arquivo não foram descartadas nem repetidas sem necessidade.
+
+O overview mostra o projeto histórico `teaching-mobile-entregas-2026`, criado em 21/10/2026 e modificado em 23/10/2026. Foi observada somente sua existência; não foram copiados código, dados, propriedades ou segredos, e seu vínculo com a planilha v4 não foi comprovado.
+
+| Recurso QA preparado | Observação conectada | Limite |
+|---|---|---|
+| Projeto independente `1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ` | Privado, um proprietário; código/manifesto salvos e iguais ao SHA 303e4751; oito propriedades QA | Nenhuma execução, consentimento OAuth, bootstrap ou implantação |
+| Planilha `1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A` | Privada; dez abas e 115 células/tipos da fixture sem divergência | Apenas dados fictícios; nenhuma entrega, recibo ou nota real |
+| Locale/fuso QA | Corrigidos para `pt_BR` e `America/Fortaleza` | Alteração somente no QA; sem mudança de dimensões/compartilhamento |
+| Proposta Web App QA | Executar como proprietário e acesso anônimo preparados no formulário | Deploy não clicado; nenhuma versão instalada ou URL `/exec` |
+| Revisão independente | C3 aprovou a preparação e os hashes/células/configuração observados | Não é homologação do ciclo conectado |
+
+Evidências: [readback Sheets QA](aula08-v4-evidencias/qa-google-preparacao-20261112/sheets-native-readback.json), [propriedades e bytes](aula08-v4-evidencias/qa-google-preparacao-20261112/script-properties-readback.json), [privacidade do projeto](aula08-v4-evidencias/qa-google-preparacao-20261112/project-metadata.json), [proposta de implantação](aula08-v4-evidencias/qa-google-preparacao-20261112/deployment-proposal.json), [inspeção das dez abas](aula08-v4-evidencias/qa-google-preparacao-20261112/native-visual-review.json) e [parecer C3](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json).
+
+**Preparação QA pronta para aprovação específica:** `MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL` somente para os dois escopos OAuth, implantação QA anônima, bootstrap, ativação temporária, testes sintéticos e fechamento da recepção. A liberação global permanece BLOCKED; a conta e a ferramenta deixaram de ser o alegado impedimento. A [proposta e reversão](MOBILE_A08_V4_RELEASE.md) explicitam o alcance amplo do escopo Sheets, os recursos e os efeitos autorizáveis. Produção, main/Pages, estudantes reais e notas oficiais continuam fora desse gate.

@@ -6,8 +6,11 @@ Este diretório continua o backend Mobile existente. Ele não usa endpoint, dado
 
 - Planilha Mobile de produção existente confirmada por conector; dez abas; atividade desabilitada; nenhuma escrita realizada nela.
 - Código e testes locais: ver [integração](../../docs/MOBILE_A08_V4_INTEGRATION.md).
-- Apps Script QA/PROD: **BLOCKED_EXTERNAL_DEPLOYMENT**. Nenhuma ferramenta Apps Script disponível; navegador não estava na conta Google correta. Projeto vinculado, propriedades, versão instalada e URL `/exec` não foram confirmados.
-- Fixtures e adapter Sheets são sintéticos e locais. Não são prova de integração Google operacional.
+- Preparação QA: **PASS na revisão independente**, pronta para aprovação específica. Projeto Apps Script independente privado `1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ` e planilha QA privada `1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A` já existem; não recriar.
+- Código e manifesto salvos no QA são byte a byte iguais ao SHA `303e4751abfb9105f9efa7c205adb6ec8f35d0b0`; oito propriedades QA estão salvas. Dez abas e 115 células/tipos da fixture foram conferidos. Recepção e segurança QA permanecem `false`, sem propriedades PROD.
+- OAuth, execução, bootstrap, implantação versionada, `/exec` e homologação conectada: **NOT_RUN**. Deploy não foi clicado. O gate `MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL` é somente OAuth/QA; a liberação global continua **BLOCKED**, sem declaração de READY_FOR_RELEASE ou COMPLETE.
+- A conta do navegador corresponde à conexão Google. A inferência anterior de incompatibilidade foi retirada em [retificação rastreável](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json); o JSON histórico foi preservado. O projeto Mobile histórico, criado em 21/10 e modificado em 23/10, não comprova associação ou compatibilidade v4.
+- O adapter de testes continua local/simulado. A fixture também foi instalada na planilha QA real, mas sua leitura não comprova operação do receptor. Evidências: [planilha QA](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/sheets-native-readback.json), [propriedades/hashes](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/script-properties-readback.json), [projeto privado](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/project-metadata.json) e [parecer C3](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json).
 
 ## Arquivos de instalação
 
@@ -21,17 +24,24 @@ Este diretório continua o backend Mobile existente. Ele não usa endpoint, dado
 
 Os arquivos de propriedades são **modelos para Script Properties**, não arquivos a importar no editor como código. Não persistir segredo HMAC no Git, no frontend, nos logs ou em relatórios. A função de preparação cria a chave apenas dentro das propriedades do projeto e recusa regenerá-la se houver histórico.
 
-## Concluir QA na conta correta
+## Concluir o QA preparado após aprovação específica
 
-1. Entrar na conta Google proprietária pretendida e conferir sua identidade visualmente. Não reutilizar a sessão de outra conta.
-2. Criar uma planilha **somente QA** a partir da estrutura e dos registros fictícios de `qa-fixture.json`; não copiar a planilha da turma. O ID deve ser diferente da produção e dos recursos históricos protegidos. Manter privada. A aba Atividades da fixture tem apenas MOBILE-A08-2026 habilitada; Alunos usa `00000000.ITA0001`/`00000000.ITA0002`, `VALIDADO` e fonte `QA_SYNTHETIC_ONLY`.
-3. Criar projeto Apps Script Mobile QA próprio. Copiar `Code.gs` e `appsscript.json`. Conferir que o serviço avançado Sheets está habilitado; quando houver projeto Cloud padrão, seguir as instruções oficiais sobre o serviço/API.
-4. Configurar as propriedades do modelo QA, preencher apenas o ID QA e a origem local. Para este teste fictício: `MOBILE_NOTAS_QA_TEACHER_APPROVAL=A08-V4-QA-SYNTHETIC`; para testar revisão docente fictícia: `MOBILE_NOTAS_QA_TEACHER_RUBRIC_APPROVAL=A08-V4-RUBRIC-20X05`. Não preencher nenhuma propriedade PROD neste projeto.
-5. Executar `prepararAmbienteQAMobile()` no editor autenticado. Ele valida a estrutura e cadastro sintético, cria segredo interno e fixa a identidade administrativa. Executar `liberarRecebimentoQAMobile()` somente nesse projeto QA. Essas funções não ativam produção.
-6. Criar versão/implantação de Web App QA conforme as políticas de conta. A escolha do acesso do Web App muda permissões e requer aprovação específica. Guardar, fora de logs públicos, ID do projeto, versão e URL `/exec`; não reutilizar `/exec` Web/PPI. Usar execução pelo proprietário quando o modelo aprovado de consulta sem login for adotado.
-7. Na prévia local, habilitar modo QA pelo mecanismo do frontend e informar somente esse endpoint. O health precisa responder versão `mobile-notas-4.1.0`, modo QA, `SYNTHETIC_ONLY` e ID da planilha QA. A origem informada em Script Properties deve coincidir com a origem local.
-8. Executar a matriz de casos abaixo pela interface, salvar recibos fictícios e fazer readback independente da planilha. Repetir a requisição exata em `reconcileTeam`; exigir mesmo recibo e `signatureVerified:true`, sem aumento de linhas.
-9. Registrar evidência do ciclo **INTERFACE → APPS SCRIPT → PLANILHA QA → RECIBO → READBACK → RECONCILIAÇÃO**, incluindo SHA do frontend/backend, versão implantada, ID QA, timestamps, requestId e hashes. A aprovação QA depende deste ciclo, não de um GET health.
+A [proposta observada](../../docs/aula08-v4-evidencias/qa-google-preparacao-20261112/deployment-proposal.json) e o [gate detalhado de release](../../docs/MOBILE_A08_V4_RELEASE.md#aprovação-exata-preparada-somente-qa) tornam a decisão revisável. Solicita-se consentimento somente para `https://www.googleapis.com/auth/spreadsheets` e `https://www.googleapis.com/auth/userinfo.email`. O escopo Sheets permite operações amplas nas planilhas da conta; OAuth não limita a concessão ao arquivo QA. O controle de destino está no código/configuração revisados. O escopo de e-mail sustenta verificações de identidade administrativa, sem acesso ao Gmail.
+
+O Web App proposto executa como proprietário (`USER_DEPLOYING`) e permite visitantes sem login (`ANYONE_ANONYMOUS`, opção visual Anyone). `ANYONE` no manifesto significa usuários logados e não é a opção anônima preparada. A planilha e o projeto permanecem privados; nenhuma mudança de compartilhamento dos arquivos é proposta.
+
+Sequência autorizável, ainda não executada:
+
+1. Obter aprovação expressa para os dois escopos, Web App QA anônimo, bootstrap, ativação temporária, testes fictícios e fechamento de recepção ao final. Isso não autoriza produção.
+2. Revalidar identidade, os dois IDs QA e os hashes: `Code.gs` = `7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9`; `appsscript.json` = `5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24`. Reutilizar os recursos privados preparados, sem copiar dados da turma.
+3. Conferir as oito propriedades já salvas: QA, SYNTHETIC_ONLY, ID QA acima, origem `http://127.0.0.1:8138`, duas flags `false` e marcadores de aprovação sintética. Esses marcadores não são aceite docente da rubrica PROD. Não preencher propriedades PROD.
+4. Conceder somente os dois escopos aprovados e executar `prepararAmbienteQAMobile()` no editor autenticado. A função verifica estrutura/cadastro fictício, cria segredo interno e fixa a identidade administrativa. Não copiar valores de HMAC ou e-mail privado para logs públicos.
+5. Criar versão/implantação Web App QA com `USER_DEPLOYING` e `ANYONE_ANONYMOUS`; registrar os identificadores, versão e `/exec` realmente emitidos. Não reutilizar endpoints Mobile históricos/Web/PPI.
+6. Executar `liberarRecebimentoQAMobile()` somente nesse projeto, para ativação temporária QA. Catálogo habilitado na fixture não significa que a recepção já esteja aberta.
+7. Abrir a prévia com `?qa=1`, configurar explicitamente o endpoint QA e conferir health com versão `mobile-notas-4.1.0`, QA, SYNTHETIC_ONLY e ID da planilha isolada. O health sozinho não homologa entrega.
+8. Executar a matriz de casos pela interface, salvar recibos fictícios e fazer readback independente da planilha. Em `reconcileTeam`, repetir o mesmo identificador, payload e nonce; exigir o mesmo recibo e `signatureVerified:true`, sem duplicação de linhas.
+9. Registrar o ciclo **INTERFACE → APPS SCRIPT → PLANILHA QA → RECIBO → READBACK → RECONCILIAÇÃO**, com SHA, versão, IDs, horários e hashes. Classificar separadamente simulações, testes conectados e cenários ainda não executados.
+10. Ao concluir, definir `MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED=false`; preservar auditoria, recibos, planilha e segredo para readback. Nenhuma etapa dessa sequência autoriza estudantes reais, notas oficiais, merge/Pages, implantação PROD, exclusões ou compartilhamento da planilha.
 
 ### Matriz QA obrigatória
 
@@ -69,7 +79,9 @@ Não recriar a planilha de produção. Antes de instalar/atualizar Apps Script, 
 
 ## Reversão e incidentes
 
-Bloquear recebimento com a facade administrativa `bloquearRecebimentoProducaoMobile()`; preservar o segredo e o histórico. Restaurar a versão anterior do código/implantação apenas após avaliação de compatibilidade do contrato. Não apagar linhas, trocar chave HMAC com histórico ou migrar notas manualmente para “destravar”. Para escrita parcial, manter registro incerto, comparar as requisições planejadas com o readback e pedir decisão docente específica antes de reparar. A gravação normal usa uma única chamada `Sheets.Spreadsheets.batchUpdate`, com readback; a fixture também simula persistência parcial para verificar falha fechada.
+**QA:** antes do consentimento, cancelar o formulário sem conceder OAuth ou criar endpoint; preservar o que já foi preparado. Após ativação aprovada, definir `MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED=false` e conservar segredo/histórico. Revogar a concessão OAuth QA ou arquivar sua implantação exige autorização específica própria; não apagar recursos ou recibos.
+
+**Produção futura:** bloquear recebimento com a facade administrativa `bloquearRecebimentoProducaoMobile()`; preservar o segredo e o histórico. Restaurar a versão anterior do código/implantação apenas após avaliação de compatibilidade do contrato. Não apagar linhas, trocar chave HMAC com histórico ou migrar notas manualmente para “destravar”. Para escrita parcial, manter registro incerto, comparar as requisições planejadas com o readback e pedir decisão docente específica antes de reparar. A gravação normal usa uma única chamada `Sheets.Spreadsheets.batchUpdate`, com readback; a fixture também simula persistência parcial para verificar falha fechada.
 
 ## Limites e privacidade
 
@@ -80,3 +92,7 @@ Consulta exata de matrícula retorna o nome cadastrado para confirmação; não 
 - [Estrutura do manifesto Apps Script](https://developers.google.com/apps-script/manifest)
 - [Serviço avançado Sheets](https://developers.google.com/apps-script/advanced/sheets)
 - [Implantação de Web Apps](https://developers.google.com/apps-script/guides/web)
+
+- [Alcance dos escopos Google Sheets](https://developers.google.com/workspace/sheets/api/scopes)
+- [Identidade ativa e efetiva em Session](https://developers.google.com/apps-script/reference/base/session)
+- [Valores de acesso e identidade Web App](https://developers.google.com/apps-script/manifest/web-app-api-executable)

@@ -1,0 +1,25 @@
+{
+  "schema": "mobile-a08-v4-evidence-correction-v1",
+  "observedAtUtc": "2026-11-12T01:23:42.230051+00:00",
+  "withdrawnInference": {
+    "file": "../readback-sheets.json",
+    "fields": [
+      "appsScriptDiscovery.browserReadback.state",
+      "appsScriptDiscovery.browserReadback.note"
+    ],
+    "oldState": "ACCOUNT_MISMATCH",
+    "disposition": "RETRACTED_INCORRECT_INFERENCE"
+  },
+  "correctedFact": "The account observed in the Apps Script browser matches the connected Google Drive profile. GitHub ownership did not establish a different Google identity.",
+  "evidence": "deployment-proposal.json",
+  "unchangedHistoricalSheetsReadback": true,
+  "historicalMobileProject": {
+    "id": "1sssSLnCdpsoBemjBPq9U_jmXhg-kQ8X30ZRXUXeJ7Yo1n2fbUHiIahSC",
+    "title": "teaching-mobile-entregas-2026",
+    "created": "2026-10-21",
+    "lastModified": "2026-10-23",
+    "observation": "overview only; deployed historical project; no code, secrets, properties or student data read or copied",
+    "associationWithProductionV4": "NOT_VERIFIED"
+  },
+  "currentQaBlocker": "Exact human approval for OAuth scopes and anonymous QA deployment; preparation exists but connected homologation has not run"
+}

@@ -8,7 +8,7 @@ Arquivos centrais: [readback](MOBILE_A08_V4_READBACK.md), [implementação](MOBI
 
 ## Checkpoint de código pronto
 
-`825ce143fe4f6dcb5f8d1903f5441c50cebdec64` passou nas cinco execuções Actions (quatro workflows distintos), com 27 checks C3 por engine e todas as vinte missões na interface. Os registros estão em [release](MOBILE_A08_V4_RELEASE.md) e [readback da CI](aula08-v4-evidencias/ci-825ce-final-readback.json). A documentação e os exemplos podem ter sido consolidados em um commit posterior; usar o SHA final e os checks indicados na PR. Não reabrir reparos já aprovados sem mudança que invalide sua evidência.
+`303e4751abfb9105f9efa7c205adb6ec8f35d0b0` mantém cinco runs verdes, 27 checks C3 por engine e vinte missões aprovadas. A PR #7 está pronta para revisão e sem merge; main permanece em `d329d12007ca3d989cfbaa01c1e126479f6a8e39`. [Readback da retomada](aula08-v4-evidencias/qa-google-preparacao-20261112/github-readback.json). A fonte é idêntica à base revisada em 825ce143; esta consolidação altera somente documentação/evidências. Observar a CI do novo SHA se houver commit, sem refazer reparos ou simular resultados.
 
 ## Estado do receptor
 
@@ -16,16 +16,20 @@ Arquivos centrais: [readback](MOBILE_A08_V4_READBACK.md), [implementação](MOBI
 - Atividade: `MOBILE-A08-2026`; contrato: `mobile-a08-lab-v4`; bimestre: 4; Habilitada: FALSE no readback.
 - Frontend: `PROD_ENDPOINT = ''`; `PROD_RELEASE_ENABLED = false`.
 - Código preparado: `mobile-notas-4.1.0`.
-- Projeto vinculado, implantação, propriedades e `/exec`: não confirmados.
-- Google QA conectado: **BLOCKED_EXTERNAL_DEPLOYMENT**. PROD não instalado/ativado por esta missão.
+- Projeto QA independente privado: `1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ`; planilha QA privada: `1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A`.
+- Código/manifesto salvos e conferidos byte a byte; oito propriedades QA, duas flags falsas e nenhuma propriedade PROD. Dez abas e 115 células da fixture conferidas; locale/fuso ajustados exclusivamente no QA.
+- OAuth, execuções, bootstrap, implantação versionada e `/exec`: **NOT_RUN**, nenhum endpoint criado.
+- **Preparação QA pronta para aprovação específica**; `MOBILE_A08_V4_READY_FOR_EXACT_APPROVAL` somente para OAuth/QA. A liberação global continua **BLOCKED**; PROD não foi instalado/ativado por esta missão.
 
-## Ação externa mínima pendente
+## Próxima ação: aprovação exata do QA preparado
 
-Na conta Google correta, conferir primeiro se existe projeto Mobile v4 associado. Disponibilizar acesso autorizado à superfície de Apps Script ou instalar manualmente o pacote específico de [integração Mobile](../integrations/mobile-aula08-appscript/README.md). O pacote já inclui manifesto, propriedades QA/PROD desabilitadas e fixture exclusivamente fictícia. Nenhum dado ou segredo de Web/PPI/histórico é necessário.
+A conta Apps Script coincide com a conexão Google. A [retificação](aula08-v4-evidencias/qa-google-preparacao-20261112/evidence-correction.json) retira a inferência anterior de incompatibilidade e preserva a evidência histórica. O projeto `teaching-mobile-entregas-2026`, criado em 21/10 e modificado em 23/10, foi observado somente no overview; não foi usado como prova ou fonte da v4.
 
-Criar **apenas ambiente QA isolado**, se ainda inexistente, e registrar IDs/versão/URL realmente observados. A criação de outra planilha de produção é proibida. Se a publicação Web App exigir mudança de acesso/compartilhamento, obter a aprovação específica dessa configuração antes de aplicá-la.
+Usar os recursos QA acima, já preparados e privados; não criar outra planilha de produção nem recriar o QA. A [revisão C3 da preparação](aula08-v4-evidencias/qa-google-preparacao-20261112/independent-review.json) é PASS nesse escopo. Conferir a [proposta concreta de aprovação](MOBILE_A08_V4_RELEASE.md#aprovação-exata-preparada-somente-qa): dois escopos OAuth (`spreadsheets`, amplo sobre as planilhas da conta, e `userinfo.email`), Web App QA como proprietário com acesso anônimo, bootstrap, ativação temporária, testes sintéticos e fechamento ao final. O botão Deploy não foi clicado.
 
-Com o QA disponível, abrir a candidata localmente com `?qa=1`, configurar explicitamente o endpoint QA e conferir que a resposta identifica `QA`, `SYNTHETIC_ONLY`, versão 4.1.0 e destino diferente de todos os IDs protegidos. Executar o ciclo real interface → Apps Script → planilha QA → recibo → readback → reconciliação. A matriz de cenários está no relatório de integração. Registrar falhas e incertezas, sem reenvio cego com nonce novo.
+Somente após aprovação específica, executar o [runbook](../integrations/mobile-aula08-appscript/README.md): revalidar hashes/IDs, conceder os dois escopos, executar `prepararAmbienteQAMobile()`, implantar a versão QA e registrar a URL `/exec` realmente emitida, depois liberar QA temporariamente. A prévia deve usar `?qa=1`, a origem `http://127.0.0.1:8138` e somente esse endpoint. O health deverá identificar QA, SYNTHETIC_ONLY, versão 4.1.0 e o destino isolado, mas o health sozinho não homologa a integração.
+
+Executar interface → Apps Script → planilha QA → recibo → readback → reconciliação. Registrar falhas e incertezas, sem reenvio cego com nonce novo. Ao terminar, definir `MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED=false` e preservar segredo/auditoria/recibos. Antes do consentimento, cancelar o formulário não cria endpoint; após consentimento, revogação OAuth ou arquivamento da implantação exige autorização própria. Não incluir efeitos PROD nessa aprovação.
 
 ## Outras pendências reais
 
