@@ -50,9 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      AULA08_V4_EVIDENCE_DIR: ${{ runner.temp }}/mobile-a08-v4-browser
-      AULA08_EVIDENCE_DIR: ${{ runner.temp }}/mobile-a08-v4-browser
-      C3_ARTIFACT_DIR: ${{ runner.temp }}/mobile-a08-v4-browser/independent
+      AULA08_V4_EVIDENCE_DIR: .artifacts/mobile-a08-v4-browser
+      AULA08_EVIDENCE_DIR: .artifacts/mobile-a08-v4-browser
+      C3_ARTIFACT_DIR: .artifacts/mobile-a08-v4-browser/independent
     steps:
       - uses: actions/checkout@v4
         with:
@@ -81,7 +81,7 @@ jobs:
         if: always()
         with:
           name: mobile-a08-v4-browser-${{ github.event.pull_request.head.sha || github.sha }}
-          path: ${{ runner.temp }}/mobile-a08-v4-browser
+          path: ${{ env.AULA08_V4_EVIDENCE_DIR }}
           if-no-files-found: error
           retention-days: 30
   expo:
@@ -122,7 +122,7 @@ jobs:
     timeout-minutes: 25
     env:
       C3_BROWSER: ${{ matrix.browser }}
-      C3_ARTIFACT_DIR: ${{ runner.temp }}/mobile-a08-v4-${{ matrix.browser }}
+      C3_ARTIFACT_DIR: .artifacts/mobile-a08-v4-${{ matrix.browser }}
     steps:
       - uses: actions/checkout@v4
         with:

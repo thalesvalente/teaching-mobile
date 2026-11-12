@@ -1,0 +1,9 @@
+{
+  "observedAt": "2026-11-12T00:28:14.686181+00:00",
+  "test": "Semantic check rejects previously published invalid job.env context",
+  "inputSha": "30d4f641bfd9b059c6a1e3017b3933fbadf53a4d",
+  "exitCode": 1,
+  "expectedFailure": true,
+  "message": "AssertionError [ERR_ASSERTION]: .github/workflows/qa-aula08-live-v4.yml: jobs.navegador.env.AULA08_V4_EVIDENCE_DIR usa contexto runner indisponível; use caminho relativo ou steps.env",
+  "repairedWorkflowCheck": "PASS four workflows"
+}

@@ -7,6 +7,7 @@ node_modules/
 
 # Logs
 *.log
+!docs/aula08-v4-evidencias/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

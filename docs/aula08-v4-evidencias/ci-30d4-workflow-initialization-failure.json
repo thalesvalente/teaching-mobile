@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-11-12T00:25:47.884820+00:00",
+  "sha": "30d4f641bfd9b059c6a1e3017b3933fbadf53a4d",
+  "workflow": ".github/workflows/qa-aula08-live-v4.yml",
+  "runId": 43126949903,
+  "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43126949903",
+  "event": "push",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [],
+  "serverAnnotation": {
+    "title": "Invalid workflow file",
+    "locations": [
+      {
+        "line": 53,
+        "column": 31
+      },
+      {
+        "line": 54,
+        "column": 28
+      },
+      {
+        "line": 55,
+        "column": 24
+      },
+      {
+        "line": 125,
+        "column": 24
+      }
+    ],
+    "message": "Unrecognized named-value: 'runner'. Located at position 1 within expression: runner.temp"
+  },
+  "annotationSource": "Public GitHub run HTML, direct read-only HTTP request",
+  "correction": "Use job.env literals or set RUNNER_TEMP-derived env values in a step. runner context is unavailable in jobs.<job_id>.env.",
+  "applicationTestsRan": false
+}
