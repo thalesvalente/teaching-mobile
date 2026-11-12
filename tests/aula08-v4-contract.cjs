@@ -39,6 +39,15 @@ for(const expression of ['fetch("https://example.invalid/")','window.parent.docu
 test('common synchronous infinite loop is interrupted before 2 s',()=>{
  const before=Date.now();assert.throws(()=>compile('while(true){}\n'+starter,global.LabVendor),/Limite de execução/);assert.ok(Date.now()-before<2000);
 });
+test('rapid normal interactions receive independent execution budgets',async()=>{
+ const app=compile(solution,global.LabVendor);
+ const started=performance.now();
+ for(let index=0;index<25;index++){
+  assert.equal(app.estadoTela({carregando:false,erro:'Falha sintética',registros:[]}), 'erro');
+  await new Promise(resolve=>setTimeout(resolve,85));
+ }
+ assert.ok(performance.now()-started>1500,'crosses the prior cumulative wall-time limit');
+});
 test('reference source not included in starter or browser bundle',()=>{
  assert.match(starter,/TODO M1/);assert.match(starter,/return 'pendente';/);
  assert.doesNotMatch(fs.readFileSync(path.join(lab,'index.html'),'utf8'),/aula08-v4-reference/);

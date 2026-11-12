@@ -21,8 +21,11 @@ function compile(source,{React,RNWeb,Babel}){
  const transformed=Babel.transform(instrumented,{filename:'ProjetoUniversal.tsx',presets:[['typescript',{isTSX:true,allExtensions:true}],['react',{runtime:'classic'}]],plugins:['transform-modules-commonjs'],comments:false}).code;
  const module={exports:{}};
  function allowed(name){if(name==='react')return React;if(name==='react-native')return RNWeb;throw Error('Importação indisponível nesta bancada: '+String(name));}
- let fuel=0,last=0,started=0;
- const tick=()=>{const now=performance.now();if(now-last>250){fuel=0;started=now;}last=now;if(++fuel>100000||now-started>1500)throw Error('Limite de execução atingido. Revise loops/recursão e execute novamente.');};
+ const clock=performance.now.bind(performance),later=setTimeout;
+ let fuel=0,started=0,active=false;
+ // Each event-loop turn gets its own budget. Ordinary rapid interactions must not
+ // accumulate wall time, while synchronous loops cannot yield to this reset.
+ const tick=()=>{const now=clock();if(!active){active=true;fuel=0;started=now;later(()=>{active=false;},0);}if(++fuel>100000||now-started>1500)throw Error('Limite de execução atingido. Revise loops/recursão e execute novamente.');};
  tick();
  (new Function('module','exports','require',guardName,'process','Buffer','global',transformed))(module,module.exports,allowed,tick,undefined,undefined,undefined);
  if(typeof module.exports.default!=='function')throw Error('Exporte o componente padrão ProjetoUniversal.');

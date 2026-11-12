@@ -7,6 +7,14 @@ const assert=require('node:assert/strict');
 const {createFixture}=require('./mobile-aula08-v4-fixture.cjs');
 const clone=x=>JSON.parse(JSON.stringify(x));
 
+test('C3: Google date adapter honors compact receipt pattern and Fortaleza timezone',()=>{
+  const f=createFixture(),date=new Date('2026-11-12T01:02:03Z');
+  assert.equal(f.scope.Utilities.formatDate(date,'UTC','yyyyMMdd-HHmmss'),'20261112-010203');
+  assert.equal(f.scope.Utilities.formatDate(date,'America/Fortaleza','yyyy-MM-dd HH:mm:ss'),'2026-11-11 22:02:03');
+  const receipt=f.post(f.payload(),'c3-date-receipt-001');assert.equal(receipt.ok,true);
+  assert.match(receipt.receiptId,/^MOB-\d{8}-\d{6}-[a-f0-9]{64}$/);
+});
+
 test('C3: reordered members either commit consistently or fail before any new write',()=>{
   const f=createFixture();
   const first=f.post(f.payload(0,['00000000.ITA0001','00000000.ITA0002']),'c3-original-request-001');

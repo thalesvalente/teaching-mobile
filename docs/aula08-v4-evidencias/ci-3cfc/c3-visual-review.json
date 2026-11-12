@@ -1,0 +1,83 @@
+{
+  "reviewer": "C3 independent QA",
+  "testedSha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+  "artifactId": 13903028925,
+  "artifactSha256": "d0d65bfb3429f51abca71cc18036c0c66e1801b1dcf645239c132ad06360c452",
+  "scope": "Downloaded GitHub Actions Chromium artifacts; synthetic data; no Google or native execution",
+  "browserSummary": {
+    "pass": 17,
+    "fail": 8
+  },
+  "pdf": {
+    "pages": 3,
+    "sizePoints": [
+      594.96,
+      841.92
+    ],
+    "format": "A4",
+    "visualInspectionPages": [
+      1,
+      2,
+      3
+    ],
+    "missions": 20,
+    "cycles": 4,
+    "officialGrade": "PENDENTE DE VALIDAÇÃO DOCENTE",
+    "layout": "Legible except unbroken SHA256 overflows right content margin",
+    "status": "FAIL"
+  },
+  "findings": [
+    {
+      "id": "C3-A11Y01",
+      "severity": "HIGH",
+      "status": "FAIL",
+      "evidence": "axe-360.json, axe-390.json, axe-768.json, axe-1024.json, axe-1440.json",
+      "rule": "aria-allowed-attr",
+      "axeImpact": "critical",
+      "target": "#conteudo",
+      "cause": "setPane applies aria-selected to main instead of tab buttons only"
+    },
+    {
+      "id": "C3-PDF01",
+      "severity": "MEDIUM",
+      "status": "FAIL",
+      "source": "lessons/aula-08-av1-incremento-1/laboratorio-vivo/style.css:105",
+      "evidence": "c3-pdf-failed-intermediate.pdf and c3-pdf-extracted.txt",
+      "cause": "@page @bottom-left still labels Desenvolvimento Web on all pages; DOM text alone omitted generated margin content"
+    },
+    {
+      "id": "C3-PDF02",
+      "severity": "MEDIUM",
+      "status": "FAIL",
+      "source": "report-print.js .doc-code-hash and print CSS",
+      "evidence": "c3-pdf-failed-page1.png",
+      "cause": "Unbroken TSX SHA256 exceeds right content margin"
+    },
+    {
+      "id": "C3-FIXTURE01",
+      "severity": "MEDIUM",
+      "status": "CORRECTED_AWAITING_BROWSER_RETEST",
+      "source": "tests/mobile-aula08-v4-fixture.cjs Utilities.formatDate",
+      "cause": "Adapter ignored Apps Script pattern; ISO time colon makes receipt ID fail correct frontend contract",
+      "retest": "../c3-backend-date-adapter-retest.tap; 41/41 backend PASS"
+    }
+  ],
+  "visualObservations": {
+    "desktop1440": "Mission, code and both React Native Web previews remain visible together; text explains native limitation.",
+    "width768": "Mission beside code; Code/Result switching preserves same context.",
+    "width360and320": "Mission and persistent controls above code; mission copy and header actions have their own scrollable regions; no document horizontal overflow. XP value invisible in this intermediate screenshot; current source correction awaiting retest.",
+    "pdfPage2": "All20 rows and4cycle headings legible; no clipped table rows.",
+    "pdfPage3": "Native and official-grade caveats clear. PDF is untagged; no PDF/UA or full accessibility conformance asserted."
+  },
+  "files": {
+    "exemplo-ficticio-a4.pdf": "ba61643f5a8bdb01f5e3d642e0b65f82960dd3819faba7abc98af088ee71369e",
+    "viewport-360.png": "1ca79de2c30766db694ec051f5144a5dfec88b803fe34e5712e6fc8d17432365",
+    "viewport-390.png": "3f5e567ce686e67389e4a47dd31b9b87085953bcd3c0f4ed88b13a820315c858",
+    "viewport-768.png": "8af58e67fd7af9eb8839101fb110ae9f9736ce5a440ddd30813042a97ad5d283",
+    "viewport-1024.png": "c66ce842b40298e5860542aa3a152303b0dc358ce474dfbeb6097a788820fce4",
+    "viewport-1440.png": "856c66b56ee4c8d2a3a59a85670b91d2bfed102382923ffcd7657ef39f071e1a",
+    "reflow-320.png": "50f371091b68e38cbe5e852cd504e73411554c4802a5356e8024947808bcf7c0",
+    "continuar-depois-ficticio.json": "f95abfab8ad6750f9830f7e9ed544bb716a48c14b67e4bad0f5241ce9d6f63d0",
+    "independent-browser-report.json": "113a561697963020c1045bda4a30d25eeca96d711d96ee83f583e37b2b8120a8"
+  }
+}

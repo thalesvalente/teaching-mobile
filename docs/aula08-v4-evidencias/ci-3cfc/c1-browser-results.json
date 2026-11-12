@@ -1,0 +1,38 @@
+{
+  "kind": "LOCAL_BROWSER_SYNTHETIC",
+  "startedAt": "2026-11-12T00:29:21.329Z",
+  "checks": [
+    {
+      "name": "Contracts align: 20 criteria, 100 XP and production disabled",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 360px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 390px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 768px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 1024px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "Responsive 1440px and starter compiles",
+      "status": "PASS"
+    },
+    {
+      "name": "React Native Web components: search, detail, preserved filters, errors and immutable insertion",
+      "status": "PASS"
+    }
+  ],
+  "native": "NOT_RUN",
+  "connectedGoogle": "NOT_RUN",
+  "status": "FAIL",
+  "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/aula08-live-v4-browser.cjs:88:15"
+}

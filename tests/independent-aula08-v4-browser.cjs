@@ -27,6 +27,7 @@ const mime = {'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=u
   '.tsx':'text/plain;charset=utf-8','.css':'text/css;charset=utf-8','.json':'application/json'};
 const server = http.createServer((req,res)=>{
   const url = new URL(req.url,'http://localhost');
+  if(url.searchParams.has('c3_security_probe'))report.probes.push(url.searchParams.get('c3_security_probe'));
   if(url.pathname === '/c3-synthetic-probe') {
     report.probes.push(url.searchParams.get('channel'));
     res.writeHead(200,{'Access-Control-Allow-Origin':'*','Content-Type':'text/javascript'});
@@ -133,7 +134,7 @@ let browser;
     await page.keyboard.press('Escape');assert.equal(await page.locator('#team-dialog').evaluate(x=>x.open),false);
     assert.equal(await page.evaluate(()=>document.activeElement.id),'team-open');return focus;
   });
-  await check('student-network-apis-rejected-and-csp-connect-image',async()=>{
+  await check('student-network-apis-rejected-and-csp-connect-image-script',async()=>{
     const probe=origin+'/c3-synthetic-probe?channel=';
     const malicious=original+'\nfetch('+JSON.stringify(probe+'fetch')+').catch(()=>{});\n'+
       'const c3image=new Image();c3image.src='+JSON.stringify(probe+'image')+';\n'+
@@ -148,11 +149,17 @@ let browser;
       fetch(url+'csp-fetch').catch(()=>{});
       const img=new Image();img.src=url+'csp-image';
       try{navigator.sendBeacon(url+'csp-beacon','synthetic');}catch{}
+      const script=document.createElement('script');script.src=url+'csp-script';document.body.appendChild(script);
+      // Even a previously trusted bootstrap URL must be closed to new script
+      // loads before the first student source is accepted by the iframe.
+      const reload=document.createElement('script');
+      reload.src=new URL('./assets/vendor.js?c3_security_probe=trusted-script-reload',location.href).href;
+      document.body.appendChild(reload);
     },probe);
     await pause(500);
-    assert.deepEqual(report.probes,[],'CSP allowed connect/image network request');
+    assert.deepEqual(report.probes,[],'CSP allowed connect/image/new-script network request');
     return {probeCount:report.probes.length,status:await page.locator('#compiler-status').textContent(),
-      scope:'Compiler denies ambient network APIs; independent CSP connect-src/img-src check. Required local script loads are allowed by script-src.'};
+      scope:'Compiler denies ambient network APIs; independent CSP checks connect/image, arbitrary script path and reload of a trusted bootstrap script after policy tightening.'};
   });
   await check('syntax-error-and-recovery',async()=>{
     await runSource(page,'export default function Broken( {');
@@ -193,10 +200,43 @@ let browser;
     assert.equal(await page.locator('#print-report .doc-mission-row').count(),20);
     assert.equal(await page.locator('#print-report .doc-cycle-row').count(),4);
     assert.match(content,/não (?:constitui|equivalem|é)|NÃO são|pendente/i);
-    fs.writeFileSync(path.join(out,'pdf-text.txt'),content,'utf8');
+    fs.writeFileSync(path.join(out,'print-dom-text.txt'),content,'utf8');
     if(engine==='chromium'){
-      await page.pdf({path:path.join(out,'exemplo-ficticio-a4.pdf'),format:'A4',printBackground:true,preferCSSPageSize:true});
-      return {missions:20,cycles:4,pdf:'exemplo-ficticio-a4.pdf'};
+      const pdfPath=path.join(out,'exemplo-ficticio-a4.pdf');
+      await page.pdf({path:pdfPath,format:'A4',printBackground:true,preferCSSPageSize:true});
+      // Validate the produced document, including CSS @page margin content,
+      // which is absent from #print-report.textContent.
+      const pdfText=cp.execFileSync('pdftotext',['-layout',pdfPath,'-'],{encoding:'utf8'});
+      fs.writeFileSync(path.join(out,'pdf-text.txt'),pdfText,'utf8');
+      assert.match(pdfText,/Programação para Dispositivos Móveis/);
+      assert.doesNotMatch(pdfText,/INF031|WEB-A05|Desenvolvimento (?:de Sistemas )?Web/);
+      assert.match(pdfText,/PENDENTE[\s\S]{0,50}VALIDAÇÃO DOCENTE/);
+      const sourceHash=content.match(/SHA-256 do TSX:\s*([a-f0-9]{64})/)?.[1];
+      assert.ok(sourceHash,'PDF must identify the exact TSX evidence');
+      assert.ok(pdfText.replace(/\s+/g,'').includes(sourceHash),'Produced PDF lost part of the source hash');
+      const bbox=cp.execFileSync('pdftotext',['-bbox',pdfPath,'-'],{encoding:'utf8'});
+      fs.writeFileSync(path.join(out,'pdf-bbox.html'),bbox,'utf8');
+      const words=[];
+      for(const p of bbox.matchAll(/<page width="([\d.]+)" height="([\d.]+)">([\s\S]*?)<\/page>/g)){
+        const width=Number(p[1]);
+        assert.ok(Math.abs(width-595.28)<2,'PDF width must be A4');
+        assert.ok(Math.abs(Number(p[2])-841.89)<2,'PDF height must be A4');
+        for(const w of p[3].matchAll(/<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]+)<\/word>/g)){
+          words.push({text:w[5],xMin:Number(w[1]),xMax:Number(w[3]),pageWidth:width});
+        }
+      }
+      const hashLabel=words.findIndex(w=>w.text==='SHA-256');
+      assert.ok(hashLabel>=0,'Produced PDF must contain its hash label');
+      assert.equal(words[hashLabel+1]?.text,'do');assert.equal(words[hashLabel+2]?.text,'TSX:');
+      const hashWords=[];
+      for(let i=hashLabel+3;i<words.length&&hashWords.map(w=>w.text).join('').length<64;i++){
+        const w=words[i];assert.match(w.text,/^[a-f0-9]+$/);
+        assert.ok(w.xMin>=15*72/25.4-2,'Source hash exceeds left print margin');
+        assert.ok(w.xMax<=w.pageWidth-15*72/25.4+2,'Source hash exceeds right print margin');
+        hashWords.push(w);
+      }
+      assert.equal(hashWords.map(w=>w.text).join(''),sourceHash,'PDF hash must be fully readable inside the content margins');
+      return {missions:20,cycles:4,pdf:'exemplo-ficticio-a4.pdf',actualPdfTextValidated:true,hashWords};
     }
     return {missions:20,cycles:4,pdf:'NOT_RUN: page.pdf requires Chromium'};
   });

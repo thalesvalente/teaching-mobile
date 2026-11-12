@@ -1,6 +1,13 @@
 /** Aula 08 · Executor React Native Web isolado em iframe sandbox, sem servidor. */
 (()=>{
 'use strict';
+// The four trusted scripts have loaded. A cumulative policy now denies any new
+// script source, while preserving the compiler's eval inside the opaque iframe.
+// It is deliberately applied before accepting or compiling student source.
+const runtimePolicy=document.createElement('meta');
+runtimePolicy.httpEquiv='Content-Security-Policy';
+runtimePolicy.content="script-src 'unsafe-eval'";
+document.head.appendChild(runtimePolicy);
 const sender=window.parent;
 const {React,ReactDOMClient,RNWeb,Babel}=window.LabVendor||{};
 let app=null, renderError=null, token='',generation=0,webRoot=null,mobileRoot=null,readyConfirmed=false;

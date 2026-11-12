@@ -67,6 +67,12 @@ jobs:
       - name: Instalar Chromium
         id: browser-install
         run: npx playwright install --with-deps chromium
+      - name: Instalar verificador do PDF gerado
+        run: |
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          command -v pdftotext
+          mkdir -p "$AULA08_V4_EVIDENCE_DIR"
+          pdftotext -v 2>&1 | tee "$AULA08_V4_EVIDENCE_DIR/poppler-version.txt"
       - name: Registrar proveniência
         run: |
           mkdir -p "$AULA08_V4_EVIDENCE_DIR"

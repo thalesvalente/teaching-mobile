@@ -5,6 +5,14 @@ const source=fs.readFileSync(path.join(__dirname,'../integrations/mobile-aula08-
 const clone=x=>JSON.parse(JSON.stringify(x));
 const QA_ID='MOBILE_QA_SYNTHETIC_ONLY_0000000000001';
 const PRODUCTION_ID='1pkbf3rJD3R5-lX7TuOyfir0A4ID1m2QfUg8ZIfNOeT0';
+function formatDate(date,timeZone,pattern){
+ if(!['yyyyMMdd-HHmmss','yyyy-MM-dd HH:mm:ss'].includes(pattern))throw Error('Unsupported fixture date pattern: '+pattern);
+ const fields=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',
+  hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+ const {year,month,day,hour,minute,second}=fields;
+ return pattern==='yyyyMMdd-HHmmss'?year+month+day+'-'+hour+minute+second:
+  year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
+}
 function createFixture(options={}){
  const mode=options.mode||'QA',prefix='MOBILE_NOTAS_'+mode+'_';
  const props={MOBILE_NOTAS_ENVIRONMENT:mode,[prefix+'SPREADSHEET_ID']:mode==='QA'?QA_ID:PRODUCTION_ID,
@@ -26,7 +34,7 @@ function createFixture(options={}){
   Utilities:{DigestAlgorithm:{SHA_256:'sha256'},Charset:{UTF_8:'utf8'},
    computeDigest:(_a,s)=>Array.from(crypto.createHash('sha256').update(s).digest()),
    computeHmacSha256Signature:(s,k)=>Array.from(crypto.createHmac('sha256',k).update(s).digest()),
-   getUuid:()=>crypto.randomUUID(),formatDate:d=>d.toISOString().slice(0,19)},
+   getUuid:()=>crypto.randomUUID(),formatDate},
   ContentService:{createTextOutput:output,MimeType:{TEXT:'text/plain'}},HtmlService:{createHtmlOutput:output,XFrameOptionsMode:{ALLOWALL:'ALLOWALL'}},
   Sheets:{Spreadsheets:{get(bookId,args){calls.reads.push(bookId);if(fail==='permission')throw Error('PERMISSION_DENIED');
    if(bookId!==props[prefix+'SPREADSHEET_ID'])throw Error('Wrong destination');

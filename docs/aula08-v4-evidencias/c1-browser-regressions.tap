@@ -1,0 +1,21 @@
+✔ 20 deterministic criteria, same source and same evaluator in browser/Expo (293.249298ms)
+✔ all 20 starter criteria fail deliberately (45.164775ms)
+✔ regression in idempotency affects M4-01 while other passes remain observable (47.094177ms)
+✔ source mutation rejected by behavioral contract (46.878467ms)
+✔ invalid TSX, arbitrary imports and missing exports fail clearly (13.417157ms)
+✔ ambient API rejected: fetch("https://example.invalid/") (11.556206ms)
+✔ ambient API rejected: window.parent.document (13.209279ms)
+✔ ambient API rejected: navigator.sendBeacon("x","y") (12.842247ms)
+✔ ambient API rejected: new Function("return 1") (5.514548ms)
+✔ ambient API rejected: document.createElement("img") (5.674883ms)
+✔ common synchronous infinite loop is interrupted before 2 s (45.861268ms)
+✔ rapid normal interactions receive independent execution budgets (2184.370411ms)
+✔ reference source not included in starter or browser bundle (4.638179ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3175.118425

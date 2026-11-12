@@ -75,6 +75,8 @@ async function setCode(page,code){
    page.on('pageerror',e=>errors.push(e.message));await page.goto(url);await compiled(page);
    assert.equal(await page.locator('#mission-select option').count(),20);
    assert.equal(await page.locator('#xp-top').textContent(),'0');
+   assert.equal(await page.locator('#xp-top').isVisible(),true,'XP remains visible at every viewport');
+   assert.equal(await page.locator('#conteudo').getAttribute('aria-selected'),null,'workspace is not a tab');
    const size=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,width:innerWidth}));
    assert.ok(size.actual<=size.width+2,JSON.stringify(size));
    if(width<1025){await page.locator('#view-preview').click();assert.equal(await page.locator('#preview').isVisible(),true);await page.locator('#view-code').click();}
@@ -106,7 +108,14 @@ async function setCode(page,code){
   pass('React Native Web components: search, detail, preserved filters, errors and immutable insertion');
   for(let index=0;index<ids.length;index++){
    await page.locator('#mission-select').selectOption(ids[index]);await page.locator('#guide-check').click();
-   await page.waitForFunction(expected=>document.querySelector('#xp-top')?.textContent===String(expected),(index+1)*5);
+   try{
+    await page.waitForFunction(expected=>document.querySelector('#xp-top')?.textContent===String(expected),(index+1)*5);
+   }catch(error){
+    const diagnostic={index,mission:ids[index],expectedXp:(index+1)*5,...await page.evaluate(()=>({xp:document.querySelector('#xp-top')?.textContent,feedback:document.querySelector('#guide-feedback')?.textContent,compilerStatus:document.querySelector('#compiler-status')?.textContent,technicalEvaluation:window.WebLabEvidence.snapshot().technicalEvaluation}))};
+    fs.writeFileSync(path.join(out,'mission-failure-diagnostic.json'),JSON.stringify(diagnostic,null,2)+'\n');
+    console.error('MISSION_DIAGNOSTIC '+JSON.stringify(diagnostic));throw error;
+   }
+   console.log('MISSION_PASS '+ids[index]+' XP '+(index+1)*5);
   }
   assert.equal(await page.locator('#xp-top').textContent(),'100');
   const technical=await page.evaluate(()=>window.WebLabEvidence.snapshot().technicalEvaluation);

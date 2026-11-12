@@ -30,3 +30,7 @@ O avaliador usa worker local sem variáveis de ambiente herdadas, com limite de 
 Registre modelo, sistema, versão do Expo e commit. Confira: estados de carregamento/erro/vazio/sem resultados; retorno do detalhe preservando filtros; formulário inválido com mensagens; toque duplo sem duplicação; teclado; rolagem; foco e leitor de tela; reinício da aplicação. Esta entrega não declara esses testes nativos executados.
 
 A solução de referência é gerada apenas pelo teste QA fora do projeto do aluno e não integra o bundle nem o arquivo inicial. O repositório público permite consultar testes: essa separação não promete sigilo das implementações de QA.
+
+## Servir a bancada estática
+
+Sirva a raiz do repositório por HTTP em `http://127.0.0.1:PORTA` ou `http://localhost:PORTA`. A CSP da prévia autoriza somente os quatro scripts locais de runtime nos caminhos `/lessons/aula-08-av1-incremento-1/laboratorio-vivo/` e `/teaching-mobile/lessons/aula-08-av1-incremento-1/laboratorio-vivo/`, além do endereço canônico `https://thalesvalente.github.io/teaching-mobile/`. Depois do carregamento inicial, uma política cumulativa bloqueia novas fontes de script. A compilação permanece dentro do iframe de origem opaca; conexões, imagens externas e serviços privilegiados continuam bloqueados. Outro domínio de hospedagem exige revisar explicitamente essa lista; não use curingas de domínio nem retire `sandbox="allow-scripts"`.

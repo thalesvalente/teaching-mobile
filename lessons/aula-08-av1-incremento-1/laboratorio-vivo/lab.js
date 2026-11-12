@@ -675,7 +675,7 @@ export default ProjetoUniversal;
   function setPane(which) {
     const pane = which === 'preview' ? 'preview' : 'code';
     byId('conteudo').dataset.pane = pane;
-    document.querySelectorAll('[data-pane]').forEach(button => {
+    document.querySelectorAll('button[role="tab"][data-pane]').forEach(button => {
       const chosen = button.dataset.pane === pane;
       button.setAttribute('aria-selected', String(chosen));
       button.tabIndex = chosen ? 0 : -1;
@@ -690,7 +690,7 @@ export default ProjetoUniversal;
     expandButton.setAttribute('aria-pressed', String(expanded));
     expandButton.textContent = expanded ? 'Voltar à divisão' : 'Ampliar prévias';
   });
-  document.querySelectorAll('[data-pane]').forEach(button => button.addEventListener('click', () => setPane(button.dataset.pane)));
+  document.querySelectorAll('button[role="tab"][data-pane]').forEach(button => button.addEventListener('click', () => setPane(button.dataset.pane)));
   function locate() {
     const task = activeTask();
     showFile('shared');
