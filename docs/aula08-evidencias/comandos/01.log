@@ -1,0 +1,7 @@
+
+> aula08-laboratorio-vivo@1.0.0 preflight
+> node scripts/preflight.mjs
+
+Preflight OK: Node e cinco fontes prontos.
+Nenhum login, instalação de IA ou envio à planilha é necessário.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

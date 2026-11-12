@@ -7,6 +7,7 @@ node_modules/
 
 # Logs
 *.log
+!docs/aula08-v4-evidencias/*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -37,6 +38,8 @@ Thumbs.db
 *.tmp
 *.temp
 qa-output/
+.artifacts/
+_site/
 
 # Projeto-base temporário
 lessons/2/_expo-base/

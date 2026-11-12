@@ -1,0 +1,14 @@
+{
+  "capturedAt": "2026-11-12T15:02:06.546155+00:00",
+  "browserSession": "SIGNED_IN_OWNER_CONFIRMED",
+  "oauth": "BLOCKED_BEFORE_FINAL_CONSENT",
+  "scopeGrant": "NOT_COMPLETED",
+  "bootstrap": "NOT_EXECUTED_PENDING_RUN_CANCELLED",
+  "deployment": "NOT_CREATED",
+  "deploymentId": null,
+  "versionNumber": null,
+  "execUrl": null,
+  "reason": "Automatic action review rejected granting broad Sheets scope because direct specific authorization for all account spreadsheets was not recognized. No retry or workaround used after rejection.",
+  "risk": "The spreadsheets OAuth scope can read/edit/create/delete every Google Sheet accessible to the account; operational code and QA properties restrict intended test destination but do not narrow the OAuth grant.",
+  "requestedNextConfirmation": "Explicit confirmation in this conversation to grant spreadsheets and userinfo.email to the named QA project, acknowledging broad Sheets reach, and create the public QA Web App with previously specified temporary synthetic workflow."
+}

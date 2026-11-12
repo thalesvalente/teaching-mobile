@@ -1,0 +1,171 @@
+name: QA Aula 08 — Laboratório Vivo Mobile v4
+on:
+  push:
+    branches: [feat/aula08-lab-vivo-ciclos-20261111, main]
+  pull_request:
+    paths:
+      - 'lessons/aula-08-av1-incremento-1/**'
+      - 'integrations/mobile-aula08-appscript/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - 'docs/MOBILE_A08_V4*'
+      - 'docs/aula08-v4-evidencias/**'
+      - 'package*.json'
+      - 'index.html'
+      - '.github/workflows/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mobile-a08-v4-${{ github.event.pull_request.head.sha || github.sha }}-${{ github.event_name }}
+  cancel-in-progress: false
+env:
+  CI: 'true'
+  EXPO_NO_TELEMETRY: '1'
+jobs:
+  contratos:
+    name: Contratos, backend simulado e regressões
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: YAML e política do workflow
+        run: npm run test:workflows
+      - name: Testes determinísticos e regressões das aulas anteriores
+        run: npm test
+      - name: Referência de QA e vinte contratos da bancada
+        run: node tests/aula08-v4-contract.cjs
+      - name: Prova dos originais preservados
+        run: node tests/aula08-assets.cjs
+  navegador:
+    name: Bancada Chromium e revisão independente
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AULA08_V4_EVIDENCE_DIR: .artifacts/mobile-a08-v4-browser
+      AULA08_EVIDENCE_DIR: .artifacts/mobile-a08-v4-browser
+      C3_ARTIFACT_DIR: .artifacts/mobile-a08-v4-browser/independent
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        id: qa-deps
+      - name: Instalar Chromium
+        id: browser-install
+        run: npx playwright install --with-deps chromium
+      - name: Instalar verificador do PDF gerado
+        run: |
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          command -v pdftotext
+          mkdir -p "$AULA08_V4_EVIDENCE_DIR"
+          pdftotext -v 2>&1 | tee "$AULA08_V4_EVIDENCE_DIR/poppler-version.txt"
+      - name: Registrar proveniência
+        run: |
+          mkdir -p "$AULA08_V4_EVIDENCE_DIR"
+          git rev-parse HEAD > "$AULA08_V4_EVIDENCE_DIR/tested-sha.txt"
+          git rev-parse HEAD^{tree} > "$AULA08_V4_EVIDENCE_DIR/tested-tree.txt"
+      - name: 'Laboratório: 20 missões, compilação, XP, PDF e JSON'
+        run: npm run test:a08:browser
+      - name: Segurança e acessibilidade independentes
+        if: ${{ !cancelled() && steps.qa-deps.outcome == 'success' && steps.browser-install.outcome == 'success' }}
+        run: node tests/independent-aula08-v4-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-a08-v4-browser-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ env.AULA08_V4_EVIDENCE_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+  expo:
+    name: Expo ${{ matrix.project }} e TypeScript
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [laboratorio-vivo, avancado]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: lessons/aula-08-av1-incremento-1/${{ matrix.project }}/projeto
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: lessons/aula-08-av1-incremento-1/${{ matrix.project }}/projeto/package-lock.json
+      - name: Instalação reproduzível
+        run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - name: Starter mantém vinte pendências intencionais
+        run: npm run test:starter
+      - name: Build Expo Web (não substitui Android ou iOS)
+        run: npx expo export --platform web --output-dir dist
+  compatibilidade:
+    name: Revisão independente ${{ matrix.browser }}
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      C3_BROWSER: ${{ matrix.browser }}
+      C3_ARTIFACT_DIR: .artifacts/mobile-a08-v4-${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: node tests/independent-aula08-v4-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-a08-v4-${{ matrix.browser }}-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ env.C3_ARTIFACT_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+  previa:
+    name: Prévia estática sem implantação
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Montar portal preservando aulas e bloqueio do receptor
+        run: node scripts/build-aula08-preview.mjs
+      - run: node scripts/verify-mobile-pages.mjs _site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobile-a08-v4-site-preview-${{ github.event.pull_request.head.sha || github.sha }}
+          path: _site/
+          if-no-files-found: error
+          retention-days: 30

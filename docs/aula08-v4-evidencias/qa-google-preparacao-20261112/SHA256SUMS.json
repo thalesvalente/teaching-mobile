@@ -1,0 +1,102 @@
+{
+  "schema": "mobile-a08-v4-evidence-manifest-v1",
+  "scope": "QA preparation only; not a connected end-to-end homologation",
+  "sourceCommit": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+  "files": [
+    {
+      "path": "deployment-proposal.json",
+      "bytes": 1266,
+      "sha256": "60cb21483d248afd14ed7ac4275e626f2427017053cfca24e59dc794de29f215"
+    },
+    {
+      "path": "evidence-correction.json",
+      "bytes": 1197,
+      "sha256": "1b59caa0c0426c4ba774e9a573ddb15348b20a6a673c08f3fcbaf78d898f302f"
+    },
+    {
+      "path": "github-readback.json",
+      "bytes": 4926,
+      "sha256": "783ea4eba3a4c04f3878232ca0dfe5df8106483630d0635811f0a78651f2e7a4"
+    },
+    {
+      "path": "independent-review.json",
+      "bytes": 6537,
+      "sha256": "ea4ae5dd90fd4e13d7166342e3a659e6904de3fc5aac4f99275706788996f702"
+    },
+    {
+      "path": "native-visual-review.json",
+      "bytes": 1119,
+      "sha256": "bd709100f1e0465e66cec2efc4064d39d97024110df2771dd62d677ff8721601"
+    },
+    {
+      "path": "project-metadata.json",
+      "bytes": 577,
+      "sha256": "0860f9d7545dc9e2fedc2c1be57b0456dac25f038ea7b7a0fe2df1ffa9cc3383"
+    },
+    {
+      "path": "screenshots/01-bimestre.jpg",
+      "bytes": 100107,
+      "sha256": "99e5fca540d899712598b586c4ca585540e4a2d3bf8efbac8dae77c6edb64c61"
+    },
+    {
+      "path": "screenshots/02-bimestre.jpg",
+      "bytes": 99957,
+      "sha256": "f02e450d83cbe7022c98989a470427df1c11ef2404b0e3e6f4537657ffc1046b"
+    },
+    {
+      "path": "screenshots/03-bimestre.jpg",
+      "bytes": 99837,
+      "sha256": "9a598928d197c2a43244455b3851927832785bceadc0d19a6e53ddf7270f28db"
+    },
+    {
+      "path": "screenshots/04-bimestre.jpg",
+      "bytes": 98938,
+      "sha256": "5add387a2be852ab74ee77e77bdcd0cdf23bbb84cbc908618fe94f79835e24f8"
+    },
+    {
+      "path": "screenshots/05-auditoria.jpg",
+      "bytes": 100400,
+      "sha256": "3670195e62d4b72bf9a90a292a7073cb2f29827d8eaea7795a09d0401c45141f"
+    },
+    {
+      "path": "screenshots/06-equipes.jpg",
+      "bytes": 100135,
+      "sha256": "b75fa57c2e9dd4602e2b57cf5a808db482b9c41aea6e61631cb0989ac8f33741"
+    },
+    {
+      "path": "screenshots/07-alunos.jpg",
+      "bytes": 113651,
+      "sha256": "65278fa3242e811e8078eef20cdd97d094c6db8171a0b432ddf0d636ca4b88e4"
+    },
+    {
+      "path": "screenshots/08-resultados.jpg",
+      "bytes": 100174,
+      "sha256": "88e66709ff9fc7b8ba7ea38093b177f0b0b35b59aa376e1a0c395a451d88e848"
+    },
+    {
+      "path": "screenshots/09-atividades.jpg",
+      "bytes": 103131,
+      "sha256": "b2001ef73bcf1f9dc2376eef1e06de6e6a09c0e70540b22786306dcae605323f"
+    },
+    {
+      "path": "screenshots/10-orientacoes.jpg",
+      "bytes": 97496,
+      "sha256": "7303b065cfa509f462046d30669c54747d6d19f28386487c397067fe640869cd"
+    },
+    {
+      "path": "screenshots/11-appscript-overview.jpg",
+      "bytes": 48271,
+      "sha256": "cdcf81b30c1e8cf2d1ffac70bf3e52b545764ffc26ae6c275e37d31c8e480eb2"
+    },
+    {
+      "path": "script-properties-readback.json",
+      "bytes": 934,
+      "sha256": "7513aa2d9489464e2083d1e08b86683af784a4d3c9d4c9099d4bc47130f6da38"
+    },
+    {
+      "path": "sheets-native-readback.json",
+      "bytes": 39560,
+      "sha256": "28cce0682b442f693990d37f004f99b5067b2fdec87306915f9ee69b92955687"
+    }
+  ]
+}

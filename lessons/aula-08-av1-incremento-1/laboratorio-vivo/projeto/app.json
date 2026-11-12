@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Mobile A08 — Dados sob Pressão",
+    "slug": "mobile-a08-laboratorio-vivo",
+    "version": "4.1.0",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "platforms": [
+      "android",
+      "ios",
+      "web"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "experiments": {
+      "tsconfigPaths": false
+    }
+  }
+}

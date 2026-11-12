@@ -1,0 +1,17 @@
+{
+  "name": "teaching-mobile-quality-gates",
+  "version": "4.1.0",
+  "private": true,
+  "description": "Verificação do portal Mobile e da Aula 08; sem implantação ou credenciais.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs tests/*.test.mjs",
+    "test:a08:browser": "node tests/aula08-live-v4-browser.cjs",
+    "test:workflows": "node scripts/check-workflows.cjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.57.0",
+    "yaml": "2.8.1"
+  }
+}

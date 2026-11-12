@@ -1,0 +1,51 @@
+{
+  "observedAt": "2026-11-12T00:02:17.385Z",
+  "source": "GitHub connector authenticated read-only",
+  "run": {
+    "id": 43108593937,
+    "sha": "e429771c3dd7483dbd513d0b6be7ee4cf6e1c2e3",
+    "branch": "feat/aula08-lab-vivo-ciclos-20261111",
+    "path": ".github/workflows/qa-aula08-live-v4.yml",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "startedAt": "2026-11-11T22:04:22Z",
+    "updatedAt": "2026-11-11T22:04:22Z",
+    "html_url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43108593937",
+    "jobs": []
+  },
+  "localReproduction": {
+    "parser": "PyYAML safe_load",
+    "result": "ScannerError",
+    "line": 25,
+    "column": 26,
+    "message": "mapping values are not allowed here",
+    "cause": "Unquoted colon-space in step name: Laboratório: contratos, 20 missões, navegador e XP"
+  },
+  "limitations": [
+    "GitHub connector rejects check-suites/check-runs read via fetch allowlist; no server annotation obtained.",
+    "Zero jobs: no application or browser tests ran in failed workflow."
+  ],
+  "historicalPR": {
+    "number": 4,
+    "draft": true,
+    "branch": "feat/aula-08-laboratorio-vivo-av1-20261027",
+    "sha": "a2c3becd0f55042f9bef5135cda68ca63fee6ec6",
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/4",
+    "preserved": true
+  },
+  "openPRs": [
+    {
+      "number": 5,
+      "branch": "fix/mobile-a07-recibo-confirmacao-20261028",
+      "sha": "623ea3e565bfccc7514a1ab4e477aac49f25a8a7",
+      "draft": false
+    },
+    {
+      "number": 4,
+      "branch": "feat/aula-08-laboratorio-vivo-av1-20261027",
+      "sha": "a2c3becd0f55042f9bef5135cda68ca63fee6ec6",
+      "draft": true
+    }
+  ]
+}

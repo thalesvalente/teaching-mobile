@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Aula 08 — Desafio Avançado",
+    "slug": "aula-08-mobile-avancada",
+    "scheme": "mobilea08",
+    "version": "3.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "plugins": ["expo-router"],
+    "experiments": { "typedRoutes": true },
+    "web": { "bundler": "metro", "name": "Aula 08" }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "capturedAt": "2026-11-12T15:02:06.546155+00:00",
+  "status": "BLOCKED_SPECIFIC",
+  "reason": "AUTO_REVIEW_OAUTH_BROAD_SCOPE_CONFIRMATION_REQUIRED",
+  "sourceHead": "d6e42ef2bebc7f1faf7473b95e3f5e8eb4729fd2",
+  "sourceTree": "218dc7195b66232c7c21696c3759b42b41e863b7",
+  "multiagent": {
+    "actual": true,
+    "roles": [
+      "C0 coordinator/browser",
+      "C1 frontend preparation",
+      "C2 connected sheets readback",
+      "C3 independent evidence QA",
+      "C4 GitHub/DevOps"
+    ]
+  },
+  "effectsExecuted": [
+    "Google session sign-in through secure browserAuth",
+    "OAuth flow opened and identity screen continued",
+    "Pending prepararAmbienteQAMobile execution cancelled before Sheets consent",
+    "Local evidence preparation"
+  ],
+  "observedOnly": [
+    "GitHub checkpoint and historical CI",
+    "QA/PROD Sheets bounded readbacks",
+    "Current Apps Script Code.gs and manifest bytes through editor clipboard",
+    "Eight current QA properties before and after cancelled OAuth"
+  ],
+  "notRun": [
+    "Final OAuth scope grant",
+    "Bootstrap function body",
+    "HMAC/admin initialization",
+    "Versioned deployment",
+    "QA receiving activation",
+    "Connected backend tests",
+    "Interface E2E",
+    "Receipt/reconciliation verification"
+  ],
+  "forbiddenEffectsExecuted": [],
+  "phases": {
+    "F0": "PASS",
+    "F1": "BLOCKED",
+    "F2": "BLOCKED",
+    "F3": "BLOCKED",
+    "F4": "BLOCKED",
+    "F5": "PASS_RECEPTION_NEVER_ENABLED_AND_FALSE_READBACK",
+    "F6": "PASS_CHECKPOINT_EVIDENCE_REVIEW_ONLY"
+  },
+  "independentQa": {
+    "verdict": "PASS_CHECKPOINT_EVIDENCE_REVIEW_ONLY",
+    "fullGoogleQa": "BLOCKED_SPECIFIC",
+    "report": "independent-qa.md"
+  }
+}

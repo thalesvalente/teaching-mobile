@@ -1,0 +1,5 @@
+7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9  integrations/mobile-aula08-appscript/Code.gs
+5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24  integrations/mobile-aula08-appscript/appsscript.json
+4985176b0990a697400afd4627dbd96f1836be8ca87cb35f5efa69b7c57847cd  tests/mobile-aula08-v4-backend.test.cjs
+26b461aa16e86b5e340a460c33424b83219226bde98e1c4589f5a0beb43927ea  tests/mobile-aula08-v4-fixture.cjs
+b26ec56c0c2eb4f040078dbb1966eee9246327efa03c840b99657efd75187b49  tests/independent-aula08-v4-backend.test.cjs

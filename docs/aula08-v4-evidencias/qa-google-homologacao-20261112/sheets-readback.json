@@ -1,0 +1,131 @@
+{
+  "captured_at": "2026-11-12T15:01:39.628Z",
+  "role": "C2",
+  "read_only": true,
+  "writes_performed": 0,
+  "reads": [
+    {
+      "label": "qa_activity",
+      "spreadsheet_id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+      "sheet_name": "Atividades",
+      "range": "A2:F2",
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "range": "Atividades!A2:F2",
+          "majorDimension": "ROWS",
+          "values": [
+            [
+              "MOBILE-A08-2026",
+              "Aula 08 — Operação Dados sob Pressão",
+              "4",
+              "Aula 08 /10",
+              "mobile-a08-lab-v4",
+              "TRUE"
+            ]
+          ]
+        },
+        "isError": false
+      }
+    },
+    {
+      "label": "qa_audit_ids",
+      "spreadsheet_id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+      "sheet_name": "Auditoria",
+      "range": "H2:H1000",
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "range": "Auditoria!H2:H1000",
+          "majorDimension": "ROWS",
+          "values": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "label": "qa_team_ids",
+      "spreadsheet_id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+      "sheet_name": "Equipes",
+      "range": "A2:A1000",
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "range": "Equipes!A2:A1000",
+          "majorDimension": "ROWS",
+          "values": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "label": "qa_result_ids",
+      "spreadsheet_id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+      "sheet_name": "Resultados",
+      "range": "A2:A1000",
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "range": "Resultados!A2:A1000",
+          "majorDimension": "ROWS",
+          "values": null
+        },
+        "isError": false
+      }
+    },
+    {
+      "label": "prod_activity",
+      "spreadsheet_id": "1pkbf3rJD3R5-lX7TuOyfir0A4ID1m2QfUg8ZIfNOeT0",
+      "sheet_name": "Atividades",
+      "range": "A2:F2",
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "range": "Atividades!A2:F2",
+          "majorDimension": "ROWS",
+          "values": [
+            [
+              "MOBILE-A08-2026",
+              "Aula 08 — Operação Dados sob Pressão",
+              "4",
+              "Aula 08 /10",
+              "mobile-a08-lab-v4",
+              "FALSE"
+            ]
+          ]
+        },
+        "isError": false
+      }
+    }
+  ]
+}

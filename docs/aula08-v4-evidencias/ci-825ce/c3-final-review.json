@@ -1,0 +1,239 @@
+{
+  "reviewer": "C3 independent QA",
+  "testedSha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+  "testedTree": "93cd3ca16d3141f7875b9d47b7c846e299dcc4ed",
+  "technicalResult": "PASS_WITH_EXPLICIT_SCOPE",
+  "operationalStatus": "MOBILE_A08_V4_BLOCKED_EXTERNAL_DEPLOYMENT",
+  "engines": {
+    "chromium": {
+      "version": "143.0.7499.4",
+      "checks": {
+        "pass": 27,
+        "fail": 0
+      },
+      "axe": {
+        "1024": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "1440": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "360": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "390": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "768": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        }
+      }
+    },
+    "firefox": {
+      "version": "144.0.2",
+      "checks": {
+        "pass": 27,
+        "fail": 0
+      },
+      "axe": {
+        "1024": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "1440": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "360": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "390": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "768": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        }
+      }
+    },
+    "webkit": {
+      "version": "26.0",
+      "checks": {
+        "pass": 27,
+        "fail": 0
+      },
+      "axe": {
+        "1024": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "1440": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "360": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "390": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        },
+        "768": {
+          "violations": 0,
+          "incomplete": [
+            "color-contrast"
+          ]
+        }
+      }
+    }
+  },
+  "newRegressions": {
+    "keyboardTabs390": "PASS in all three engines",
+    "independentPreviewErrorIds": "PASS in all three engines"
+  },
+  "pdfReview": {
+    "c1Sample": "relatorio-exemplo-ficticio.pdf",
+    "c1PagesVisuallyInspected": [
+      1,
+      2,
+      3
+    ],
+    "c1Xp": 5,
+    "c1CodeHashMatchesCheckpoint": "bec192e2501b109f79d36a05297007a8baeeeab927465188f363169f6adef921",
+    "c3Sample": "c3-relatorio-starter.pdf",
+    "c3FirstPageInspected": true,
+    "c3ActualPdfTextAndBboxGate": "PASS",
+    "pdfTagging": "untagged; PDF/UA NOT_RUN",
+    "result": "PASS: legible A4, correct Mobile label,20rows,4cycles,pending official grade"
+  },
+  "layoutReview": {
+    "method": "Reuse completed five-width a363 visual inspection because style.css/report-print.js are byte-identical;825ce CI additionally generated current five-width screenshots and verified no overflow.",
+    "styleSha256": "225d3f60906a2acd624c0d8d804b0f83031dd09d4476e6a3751c542e3e255876",
+    "printRendererSha256": "6867ad3f0280faef361f4b2aebafe3cf8002e82af52d80da2b6acadad9032337",
+    "changedBehaviorCoverage": "Keyboard tabs and simultaneous forms explicitly passed independent regression tests."
+  },
+  "remaining": {
+    "connectedGoogleQa": "BLOCKED",
+    "appsScriptInstalledConfig": "NOT_OBSERVED",
+    "nativeAndroidIOS": "NOT_RUN",
+    "assistiveTechnologyAndHumanAudit": "NOT_RUN",
+    "axeIncomplete": "color-contrast on decorative aria-hidden locate icon; main-text accessibility and full WCAG require broader human review",
+    "productionApproval": "NOT_GIVEN"
+  },
+  "artifacts": [
+    {
+      "id": 13905405554,
+      "name": "mobile-a08-v4-firefox-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 1153452,
+      "digest": "sha256:3187420c9058be51ef4b590d294ec717bc4783aceaf3c1c9bb64307805b2c660",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13905405554/zip"
+    },
+    {
+      "id": 13904463840,
+      "name": "mobile-a08-v4-webkit-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 1109144,
+      "digest": "sha256:5accfc108e18ba270aca35634b4e0e9a9aae149a670178cfac6a8f805169a81b",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13904463840/zip"
+    },
+    {
+      "id": 13904163533,
+      "name": "mobile-a08-v4-browser-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 2197003,
+      "digest": "sha256:055843920485cae0a9e67923095a8ab4b3aafdb394f4cb3d5ffa322728a84c3d",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13904163533/zip"
+    },
+    {
+      "id": 13903898267,
+      "name": "mobile-a08-v4-site-preview-825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+      "bytes": 15335820,
+      "digest": "sha256:b07a98f9bc74a09407b916170bcf154fe7214dc525586d5fc9fcc4b848488073",
+      "expired": false,
+      "archiveApiUrl": "https://api.github.com/repos/thalesvalente/teaching-mobile/actions/artifacts/13903898267/zip"
+    }
+  ],
+  "scopeLimits": [
+    "27checks perengine are repeated coverage, not81distinct requirements.",
+    "Firefox/WebKit PDF check covers print DOM; actual PDF extraction/bbox gate runs Chromium.",
+    "Three HTTP receipt scenarios use exact Code.gs via intercepted transport and in-memory Sheets; none reaches Google.",
+    "No production merge, deploy, permission change, real student write or official grade launch."
+  ],
+  "files": {
+    "c1-browser-results.json": "fe4be22d9537ed9bd1b4f6a598ce6700c0303e1789ecfc5d48a31b64eaa7856b",
+    "c3-chromium-results.json": "a18711ddc6f6841394f4a70235fe8362de013d292c9ff0ec5437cdc6ff10a61f",
+    "c3-continuidade-starter.json": "91471ced9e52675316a1e51413e5c2f50503c9816f0786fa1bd9b9656c1b91e3",
+    "c3-firefox-results.json": "dae60630242c01c9802a42869826342d7d371cef71f2f297152779c752623b18",
+    "c3-pdf-bbox.html": "052056d13dfaee26edcaf83d402ba27468b3a73b9ee6380740343f8e6a3297b4",
+    "c3-pdf-text.txt": "51ad7a14ac68cd0844eb5dfe18f9df312e1ee13a1b38a0f4b8c8f032ff149bb9",
+    "c3-relatorio-starter.pdf": "72f22858cbc656e2a8b5d1c66577dc1571944a9a9350efa227358e68a9609dcf",
+    "c3-webkit-results.json": "1dafe22340c1838721cc64f1c7bba0eca470b140c812a6e97c7d8a3ba77b617b",
+    "chromium-axe-1024.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "chromium-axe-1440.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "chromium-axe-360.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "chromium-axe-390.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "chromium-axe-768.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "continuidade-exemplo-ficticio.json": "95e41c8feff63a1ed80525cb73c32809529fcc1f01d01ffa3f7a07a4be9f305c",
+    "firefox-axe-1024.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "firefox-axe-1440.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "firefox-axe-360.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "firefox-axe-390.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "firefox-axe-768.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "pdf-text.txt": "d458bd4bf0742efad70483d859a2e7ab26966ebb1274022e55bb858c5be3f959",
+    "poppler-version.txt": "e120219f19a713ea1177591426efeea7cd700c463fd2b903286141de8c47307c",
+    "reflow-320.png": "544a8a9b01356a6562bdb96832e9740845e55122fe21f62dde06cdd3da63ddcf",
+    "relatorio-exemplo-ficticio.pdf": "7a188a5f50c67356a1d4ccefc365e4f919d6bfcd360b10e8f7035313faba9392",
+    "simulated-contract-normal.json": "9081766d74d07054e4f7edf897df4c4e6a7cbbabde9824583cd4d7c4dd59ab6c",
+    "simulated-contract-tampered-response-signature.json": "702d6aab606056dd7be7f3e8ff7d1a6b00c6fd4fd20274c97ca0c1eb62ffe6ca",
+    "simulated-contract-timeout-after-write.json": "b7f9f97369e23d9f16c0728d99653290ceffca6bccfa485ee05ce20aadc54b48",
+    "tested-sha.txt": "4dad25e87679f62e9d9b16f31ac7f83787fe2cf6314c17f0559bf2156e40150d",
+    "tested-tree.txt": "42ef571c6a1c78f8311d13fb9ac976a09cb147fb18df91a79bd6ef490dd92a48",
+    "viewport-1024.png": "1badcd12d9b68c053d9aaabf68b6fedd4067d361fe80a895187082e824ad8016",
+    "viewport-1440.png": "7a24ff9cededda56f837340236099cb2526f9604a4d451cfd67f1f1f74bb13d8",
+    "viewport-360.png": "b61e15273df2ec9392b27c84b65d2b82d9b163710e30c40e57d271646e1a8dff",
+    "viewport-390.png": "49a4ec2d2d30d441f80c450882823400c491339f0ae8f4c93600c2e1df80a5c8",
+    "viewport-768.png": "d75ea53c82e5b3d46189faa871329d6ef0d0d39fe681f81d6b3cf70a9486ebe3",
+    "webkit-axe-1024.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "webkit-axe-1440.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "webkit-axe-360.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "webkit-axe-390.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1",
+    "webkit-axe-768.json": "117b5f1dd6863559317c34265e6d1e125462c60da2c79b51b07a209b465205a1"
+  }
+}

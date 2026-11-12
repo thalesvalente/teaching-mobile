@@ -14,6 +14,7 @@ Disciplina do **3º ano do Curso Técnico em Informática Integrado ao Ensino M�
 | 05 | Interface móvel e acessibilidade | [PDF](lessons/3/slides-Interface%20e%20acessibilidade.pdf) |
 | 06 | Navegação e formulários — De tela em tela: navegar, voltar e cadastrar | [Aula interativa original · 50 min](lessons/Aula_06_Mobile_Navegacao_Formularios.html) · [Atividade vinculada · 50 min](lessons/aula-06-navegacao-formularios/atividade.html) |
 | 07 | Estado, filtros e visualização de dados | [Aula interativa · 50 min](lessons/aula-07-estado-filtros/) · [Ficha e atividade · 50 min](lessons/aula-07-estado-filtros/atividade.html) |
+| 08 | Operação Dados sob Pressão · Laboratório Vivo (candidata v4) | [Bancada interativa](lessons/aula-08-av1-incremento-1/laboratorio-vivo/) · [Projeto Expo](lessons/aula-08-av1-incremento-1/laboratorio-vivo/projeto/README.md) · [Desafio avançado complementar](lessons/aula-08-av1-incremento-1/avancado/) |
 
 ### Práticas da Aula 05
 - [Mapa de Memórias Quilombolas](lessons/3/aula05-memorias/)
@@ -28,6 +29,14 @@ Questões não respondidas permanecem pendentes e valem zero no denominador fixo
 [Estado, filtros e visualização de dados](lessons/aula-07-estado-filtros/README.md): aula com desafios pontuados, prévias de filtros/estados/gráficos, ficha com 20 verificações formativas e [projeto Expo executável com missões e avaliador](lessons/aula-07-estado-filtros/projeto/README.md). O projeto possui pontos de implementação para o estudante e relatório parcial de testes. A ficha distingue a nota automática do simulador da autoavaliação da prática com evidências; o avaliador do projeto executa testes das funções implementadas. Os resultados são formativos e não lançam notas no SUAP.
 
 As notas da aula, do simulador e do projeto correspondem a instrumentos distintos, cada um com máximo de 10. Não são somadas automaticamente. Ver os critérios apresentados antes de iniciar cada atividade.
+
+### Aula 08 · laboratório vivo da AV1
+
+A [bancada v4](lessons/aula-08-av1-incremento-1/laboratorio-vivo/) integra missão, código TSX editável, execução isolada, testes e resultados. Os quatro ciclos mantêm 100 minutos: estados sob falhas (15), filtros e imutabilidade (25), fluxo/navegação/validação (35), idempotência/resumos/regressão (25). São **20 missões de 5 XP**, com [rubrica docente separada de 20 × 0,5](docs/MOBILE_A08_V4_CRITERIA.md).
+
+XP formativo, resultados do código atual e nota validada são dimensões distintas. A entrega é recebida como **PENDENTE_VALIDACAO**; o servidor não promove XP declarado a nota institucional. PDF A4 parcial, evidências JSON e arquivo de continuidade podem ser usados sem receptor ativo. O [projeto Expo v4](lessons/aula-08-av1-incremento-1/laboratorio-vivo/projeto/README.md) reutiliza a mesma fonte TSX e os mesmos critérios da bancada. A [v3 avançada](lessons/aula-08-av1-incremento-1/avancado/) permanece complementar, e a v2/PR #4 é histórica.
+
+**Candidata da branch:** receptor de produção permanece desabilitado, sem endpoint. Instalação/homologação conectada Apps Script QA e aprovação de publicação são pendentes. Push na candidata não altera `main` nem Pages. Consulte [integração](docs/MOBILE_A08_V4_INTEGRATION.md), [QA](docs/MOBILE_A08_V4_QA.md), [release](docs/MOBILE_A08_V4_RELEASE.md) e [handoff](docs/MOBILE_A08_V4_HANDOFF.md).
 
 ## Estrutura
 
@@ -51,6 +60,20 @@ As notas da aula, do simulador e do projeto correspondem a instrumentos distinto
 │   └── extra/
 └── README.md
 ```
+
+## Verificação da Aula 08
+
+```bash
+npm ci
+npm run test:workflows
+npm test
+node tests/aula08-v4-contract.cjs
+npx playwright install chromium
+node tests/aula08-live-v4-browser.cjs
+node tests/independent-aula08-v4-browser.cjs
+```
+
+As suites locais usam dados sintéticos e Apps Script/Sheets simulados. Não enviam dados ao Google. A CI registra SHA/árvore, resultados e artefatos; não constitui homologação conectada. O teste histórico v2 usa fixture preservada e não o backend v4. Android/iOS reais e avaliação humana com tecnologia assistiva requerem execução separada.
 
 ## Verificação das aulas 6 e 7
 

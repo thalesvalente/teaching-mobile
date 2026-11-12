@@ -1,0 +1,146 @@
+{
+  "schema": "mobile-a08-mission-v1",
+  "referenceDate": "2026-11-11",
+  "timezone": "America/Fortaleza",
+  "status": "BLOCKED_EXTERNAL_DEPLOYMENT",
+  "coordinator": "C0",
+  "agents": {
+    "C1": "Mobile/Expo/UX",
+    "C2": "Backend/Sheets",
+    "C3": "Independent QA/security",
+    "C4": "DevOps"
+  },
+  "baseline": {
+    "main": "d329d12007ca3d989cfbaa01c1e126479f6a8e39",
+    "v4": "e429771c3dd7483dbd513d0b6be7ee4cf6e1c2e3",
+    "v3": "3be105d1de2c5f917851fa18278ba72f0116c177"
+  },
+  "phasePolicy": {
+    "readback": [
+      "GitHub read",
+      "Google Sheets read"
+    ],
+    "implementation": [
+      "local code",
+      "development branch commits",
+      "tests",
+      "PR"
+    ],
+    "qa": [
+      "synthetic fixtures",
+      "readback",
+      "isolated QA if accessible"
+    ],
+    "production": []
+  },
+  "productionEffects": 0,
+  "productionSpreadsheetCreated": false,
+  "productionSpreadsheetWritten": false,
+  "nativeValidation": "NOT_RUN",
+  "connectedGoogleQA": "BLOCKED_EXTERNAL_DEPLOYMENT",
+  "invariants": [
+    "XP does not write official grade",
+    "Existing Mobile spreadsheet reused",
+    "Historical PR4 preserved",
+    "Frontend production endpoint empty",
+    "No Web/PPI data/credentials reused"
+  ],
+  "canonicalPaths": {
+    "repository": "thalesvalente/teaching-mobile",
+    "branch": "feat/aula08-lab-vivo-ciclos-20261111",
+    "lab": "lessons/aula-08-av1-incremento-1/laboratorio-vivo",
+    "backend": "integrations/mobile-aula08-appscript",
+    "evidence": "docs/aula08-v4-evidencias"
+  },
+  "executionPolicy": {
+    "default": "deny",
+    "scope": "Operational allowlists; not an OS sandbox or substitute for code isolation",
+    "readback": {
+      "shell": [
+        "git read/fetch",
+        "file reads"
+      ],
+      "network": [
+        "GitHub connector/read-only public Git",
+        "Google Drive/Sheets read"
+      ],
+      "io": [
+        "scratch evidence",
+        "repository read"
+      ]
+    },
+    "implementation": {
+      "shell": [
+        "git diff/add/write-tree",
+        "npm ci",
+        "Node/Python source edits",
+        "typecheck/tests/build"
+      ],
+      "network": [
+        "official package registries",
+        "Playwright browser distribution",
+        "GitHub development branch/PR"
+      ],
+      "io": [
+        "candidate source",
+        "tests",
+        "documentation",
+        "synthetic fixtures"
+      ]
+    },
+    "qa": {
+      "shell": [
+        "test runners",
+        "artifact extraction",
+        "PDF rendering",
+        "hashes"
+      ],
+      "network": [
+        "GitHub Actions/artifacts",
+        "official documentation",
+        "isolated QA only if accessible and authorized"
+      ],
+      "io": [
+        "synthetic records",
+        "audit reports",
+        "screenshots/PDF/JSON"
+      ]
+    },
+    "production": {
+      "shell": [],
+      "network": [],
+      "io": [],
+      "gate": "Specific human approval after all required evidence; none given"
+    }
+  },
+  "publication": {
+    "pullRequest": 7,
+    "url": "https://github.com/thalesvalente/teaching-mobile/pull/7",
+    "mergePerformed": false,
+    "pagesDeployed": false,
+    "candidateOnly": true,
+    "finalHeadVerification": "Check current PR head and exact CI after documentation consolidation"
+  },
+  "technicalCheckpoint": {
+    "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+    "tree": "93cd3ca16d3141f7875b9d47b7c846e299dcc4ed",
+    "ciRuns": [
+      43129942677,
+      43129949875,
+      43129949865,
+      43129949887,
+      43129949856
+    ],
+    "ci": "PASS",
+    "unitTests": 170,
+    "labContractTests": 13,
+    "missionsThroughUI": 20,
+    "independentBrowserChecks": {
+      "chromium": 27,
+      "firefox": 27,
+      "webkit": 27
+    },
+    "googleHTTP": "SIMULATED_ONLY",
+    "native": "NOT_RUN"
+  }
+}

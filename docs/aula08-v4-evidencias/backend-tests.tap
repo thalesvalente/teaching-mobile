@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: v4 exact server + 20 missions, 100 XP and fixture catalog placeholders
+ok 1 - v4 exact server + 20 missions, 100 XP and fixture catalog placeholders
+  ---
+  duration_ms: 6.191088
+  type: 'test'
+  ...
+# Subtest: lookup existing preserves leading zeros; unknown and inactive do not disclose names
+ok 2 - lookup existing preserves leading zeros; unknown and inactive do not disclose names
+  ---
+  duration_ms: 9.712059
+  type: 'test'
+  ...
+# Subtest: homonyms use enrollment instead of name as identity
+ok 3 - homonyms use enrollment instead of name as identity
+  ---
+  duration_ms: 9.119234
+  type: 'test'
+  ...
+# Subtest: duplicate member fails without writes
+ok 4 - duplicate member fails without writes
+  ---
+  duration_ms: 2.647645
+  type: 'test'
+  ...
+# Subtest: team size and malformed ID rejected
+ok 5 - team size and malformed ID rejected
+  ---
+  duration_ms: 3.184301
+  type: 'test'
+  ...
+# Subtest: receive 0 XP only as pending evidence, never official grade
+ok 6 - receive 0 XP only as pending evidence, never official grade
+  ---
+  duration_ms: 7.364652
+  type: 'test'
+  ...
+# Subtest: receive 35 XP only as pending evidence, never official grade
+ok 7 - receive 35 XP only as pending evidence, never official grade
+  ---
+  duration_ms: 3.192301
+  type: 'test'
+  ...
+# Subtest: receive 100 XP only as pending evidence, never official grade
+ok 8 - receive 100 XP only as pending evidence, never official grade
+  ---
+  duration_ms: 3.071077
+  type: 'test'
+  ...
+# Subtest: same request id is idempotent and changed content under nonce rejected
+ok 9 - same request id is idempotent and changed content under nonce rejected
+  ---
+  duration_ms: 6.944251
+  type: 'test'
+  ...
+# Subtest: reconcile only does not create an absent submission
+ok 10 - reconcile only does not create an absent submission
+  ---
+  duration_ms: 3.337806
+  type: 'test'
+  ...
+# Subtest: reconcile existing verifies signature and performs zero extra writes
+ok 11 - reconcile existing verifies signature and performs zero extra writes
+  ---
+  duration_ms: 10.448409
+  type: 'test'
+  ...
+# Subtest: higher and lower self-reported results remain pending with complete audit history
+ok 12 - higher and lower self-reported results remain pending with complete audit history
+  ---
+  duration_ms: 12.787087
+  type: 'test'
+  ...
+# Subtest: changed team composition and cross-team enrollment are rejected
+ok 13 - changed team composition and cross-team enrollment are rejected
+  ---
+  duration_ms: 7.586309
+  type: 'test'
+  ...
+# Subtest: timeout after complete batch is reconciled by readback
+ok 14 - timeout after complete batch is reconciled by readback
+  ---
+  duration_ms: 8.479943
+  type: 'test'
+  ...
+# Subtest: timeout before commit is uncertain; read-only reconciliation cannot create data
+ok 15 - timeout before commit is uncertain; read-only reconciliation cannot create data
+  ---
+  duration_ms: 4.936909
+  type: 'test'
+  ...
+# Subtest: partial write stays unconfirmed and cannot be replayed as healthy
+ok 16 - partial write stays unconfirmed and cannot be replayed as healthy
+  ---
+  duration_ms: 6.674038
+  type: 'test'
+  ...
+# Subtest: tampered hash or signature fails reconciliation
+ok 17 - tampered hash or signature fails reconciliation
+  ---
+  duration_ms: 12.360252
+  type: 'test'
+  ...
+# Subtest: technical report hash binds exact TSX bytes and remains untrusted
+ok 18 - technical report hash binds exact TSX bytes and remains untrusted
+  ---
+  duration_ms: 4.216139
+  type: 'test'
+  ...
+# Subtest: client-supplied grade and backend generic contract cannot bypass teacher policy
+ok 19 - client-supplied grade and backend generic contract cannot bypass teacher policy
+  ---
+  duration_ms: 2.119747
+  type: 'test'
+  ...
+# Subtest: without teacher approval and disabled reception fail closed
+ok 20 - without teacher approval and disabled reception fail closed
+  ---
+  duration_ms: 6.011986
+  type: 'test'
+  ...
+# Subtest: permission failure exposes no exception internals and writes nothing
+ok 21 - permission failure exposes no exception internals and writes nothing
+  ---
+  duration_ms: 2.313936
+  type: 'test'
+  ...
+# Subtest: QA rejects production/historical spreadsheet IDs and non-synthetic roster
+ok 22 - QA rejects production/historical spreadsheet IDs and non-synthetic roster
+  ---
+  duration_ms: 5.649235
+  type: 'test'
+  ...
+# Subtest: QA release cannot activate PROD, public operations cannot mutate roster or validate grades
+ok 23 - QA release cannot activate PROD, public operations cannot mutate roster or validate grades
+  ---
+  duration_ms: 1.835579
+  type: 'test'
+  ...
+# Subtest: authenticated rubric validation only promotes reviewed grade, not 100 XP
+ok 24 - authenticated rubric validation only promotes reviewed grade, not 100 XP
+  ---
+  duration_ms: 7.821187
+  type: 'test'
+  ...
+# Subtest: higher and lower teacher validations preserve maximum validated grade
+ok 25 - higher and lower teacher validations preserve maximum validated grade
+  ---
+  duration_ms: 14.464348
+  type: 'test'
+  ...
+# Subtest: teacher rejection preserves evidence and does not write official grade
+ok 26 - teacher rejection preserves evidence and does not write official grade
+  ---
+  duration_ms: 5.52967
+  type: 'test'
+  ...
+# Subtest: unauthenticated teacher operation and missing official-grade approval are rejected
+ok 27 - unauthenticated teacher operation and missing official-grade approval are rejected
+  ---
+  duration_ms: 7.485674
+  type: 'test'
+  ...
+# Subtest: submission gateway refuses Resultados and Alunos mutations even under valid config
+ok 28 - submission gateway refuses Resultados and Alunos mutations even under valid config
+  ---
+  duration_ms: 2.418651
+  type: 'test'
+  ...
+# Subtest: exact reconciliation works after receiving is closed without reactivating it
+ok 29 - exact reconciliation works after receiving is closed without reactivating it
+  ---
+  duration_ms: 3.931542
+  type: 'test'
+  ...
+# Subtest: full rubric and explicit approval required; client cannot impersonate teacher
+ok 30 - full rubric and explicit approval required; client cannot impersonate teacher
+  ---
+  duration_ms: 3.799317
+  type: 'test'
+  ...
+# Subtest: stored code, official status, and team latest receipt tampering all fail closed
+ok 31 - stored code, official status, and team latest receipt tampering all fail closed
+  ---
+  duration_ms: 12.970259
+  type: 'test'
+  ...
+# Subtest: QA health reports synthetic target and production activation demands all gates
+ok 32 - QA health reports synthetic target and production activation demands all gates
+  ---
+  duration_ms: 3.293542
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 348.04924

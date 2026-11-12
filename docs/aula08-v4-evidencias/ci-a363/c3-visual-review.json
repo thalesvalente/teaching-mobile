@@ -1,0 +1,206 @@
+{
+  "reviewer": "C3 independent QA",
+  "testedSha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+  "scope": "Visual inspection of real GitHub Actions artifacts; no Google or native execution",
+  "engines": {
+    "chromium": {
+      "version": "143.0.7499.4",
+      "testedSha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+      "summary": {
+        "pass": 25,
+        "fail": 0
+      },
+      "scope": "Browser real; synthetic data; simulated HTTP/Sheets for three contract scenarios",
+      "axe": [
+        {
+          "viewport": 1024,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 1440,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 360,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 390,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 768,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        }
+      ]
+    },
+    "firefox": {
+      "version": "144.0.2",
+      "testedSha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+      "summary": {
+        "pass": 25,
+        "fail": 0
+      },
+      "scope": "Browser real; synthetic data; simulated HTTP/Sheets for three contract scenarios",
+      "axe": [
+        {
+          "viewport": 1024,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 1440,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 360,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 390,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 768,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        }
+      ]
+    },
+    "webkit": {
+      "version": "26.0",
+      "testedSha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+      "summary": {
+        "pass": 25,
+        "fail": 0
+      },
+      "scope": "Browser real; synthetic data; simulated HTTP/Sheets for three contract scenarios",
+      "axe": [
+        {
+          "viewport": 1024,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 1440,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 360,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 390,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        },
+        {
+          "viewport": 768,
+          "violations": 0,
+          "incomplete": [
+            "aria-prohibited-attr",
+            "color-contrast"
+          ]
+        }
+      ]
+    }
+  },
+  "visualReview": {
+    "status": "PASS",
+    "viewed": [
+      "chromium:viewport-360.png",
+      "chromium:viewport-390.png",
+      "chromium:viewport-768.png",
+      "chromium:viewport-1024.png",
+      "chromium:viewport-1440.png",
+      "firefox:viewport-390.png",
+      "webkit:viewport-1440.png",
+      "webkit:reflow-320.png",
+      "chromium:exemplo-ficticio-a4.pdf pages1–3"
+    ],
+    "observations": [
+      "1440: mission, code and both React Native Web previews share the workspace.",
+      "360/390: mission/controls remain above code; separate scroll regions expose longer instructions and header actions; numeric XP is visible.",
+      "768/1024: mission beside Code/Result switching; no document horizontal overflow.",
+      "WebKit bootstrap repaired; both previews rendered at1440, readable reflow at320.",
+      "PDF: three A4 pages,20 criteria,4cycles, correct Mobile footer, complete SHA256 inside margins, official grade pending.",
+      "PDF is untagged; PDF/UA and full assistive accessibility were not assessed."
+    ]
+  },
+  "pendingVerification": [
+    "Later keyboard roving-tab and duplicate-form-ID repairs require CI on their exact commit.",
+    "aria-prohibited-attr and decorative-icon contrast are incomplete axe checks requiring review; iframe content is outside parent-page axe scope.",
+    "Android/iOS real NOT_RUN; screen-reader/user audit NOT_RUN.",
+    "Connected Google QA BLOCKED_EXTERNAL_DEPLOYMENT."
+  ],
+  "artifactProvenance": {
+    "chromiumArtifactId": 13904331764,
+    "chromiumZipSha256": "4108021bbe3a3c9ec7eb100e372171282e2eb360a649bdc86b5969ac65ca331e",
+    "digestVerification": "Coordinator verified downloaded archive against GitHub API digest."
+  },
+  "files": {
+    "pdf-text.txt": "ecdfd9ff563c51dd6ade07923347c60dfe8cae4752956f3980d036b07b039c46",
+    "c3-webkit-results.json": "44eb2f919df9962f7710a3a7c806aa38ca4cb59db0845df4703691fc0806ee65",
+    "chromium-viewport-1440.png": "856c66b56ee4c8d2a3a59a85670b91d2bfed102382923ffcd7657ef39f071e1a",
+    "continuar-depois-ficticio.json": "2600846c23d68c09a02428223ef2a2090d275355346bc6956ccfa8fbf7a9e67d",
+    "simulated-contract-timeout-after-write.json": "def6aca4f9f66e798eeb623e999e1e1dfa6c2b637458d4639db88085d3b9a3ec",
+    "simulated-contract-tampered-response-signature.json": "07fd7d090b40daf364ee02bc2e031a50daec769b42089834dc8ce83ff15cad6a",
+    "c3-chromium-results.json": "b37813998843cd0b226e9af277d636f88d5021b454c8c4b5ec81c43f7dc6de8e",
+    "simulated-contract-normal.json": "359803aec141708abc76f9687bb3eed5a10ba879d0a37b881be23ef310c50e0c",
+    "c3-firefox-results.json": "caf531ed7f80cbf2d50a2e8e30ca166101197b5f62c67dbae101481d9569dbfc",
+    "exemplo-ficticio-a4.pdf": "bcc6e57987def8ce0eba8e8816e44f58f26f663f828fc95520a37a1580f957c9",
+    "chromium-viewport-360.png": "c21b93ebaf9acf167a2beb68c8f6b28e9ecb6c5d1d6267ff5c7b4fbf43a364ce"
+  }
+}

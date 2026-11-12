@@ -1,0 +1,1354 @@
+{
+  "schema": "mobile-a08-v4-qa-native-readback-v1",
+  "recordedAtUtc": "2026-11-12 01:17:04 UTC",
+  "scope": "QA_ONLY",
+  "spreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit",
+  "productionSpreadsheetUntouched": true,
+  "sourceFixture": "integrations/mobile-aula08-appscript/qa-fixture.json",
+  "importXlsxSha256": "8dbef5f2245d3b87b1afc943607e5172d0f3ea562ad50fc92d8ca1c3b8af19d5",
+  "initialProperties": {
+    "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+    "locale": "en_US",
+    "timeZone": "America/Los_Angeles"
+  },
+  "exactMutationRequests": [
+    {
+      "updateSpreadsheetProperties": {
+        "properties": {
+          "locale": "pt_BR",
+          "timeZone": "America/Fortaleza"
+        },
+        "fields": "locale,timeZone"
+      }
+    }
+  ],
+  "finalProperties": {
+    "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+    "locale": "pt_BR",
+    "timeZone": "America/Fortaleza"
+  },
+  "dimensionsChanged": false,
+  "privacy": {
+    "id": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+    "title": "IFMA · Mobile A08 v4 — QA sintética isolada (não produção)",
+    "mime_type": "application/vnd.google-apps.spreadsheet",
+    "size": null,
+    "url": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit?usp=drivesdk",
+    "display_url": "https://docs.google.com/spreadsheets/d/1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A/edit?usp=drivesdk",
+    "file_or_folder": "file",
+    "created_time": null,
+    "modified_time": "2026-11-12T01:16:47.965Z",
+    "parent_ids": [
+      "1BehFNPg8FETub0_f8aeY2AdxMs49bq5M"
+    ],
+    "drive_id": null,
+    "current_user_can_share": null,
+    "has_augmented_permissions": null,
+    "shared": false,
+    "permissions": [
+      {
+        "type": "user",
+        "role": "owner",
+        "emailAddress": null,
+        "domain": null,
+        "displayName": null,
+        "allowFileDiscovery": null
+      }
+    ],
+    "source_visibility_status": "permission_metadata_available"
+  },
+  "checkedFixtureCells": 115,
+  "checks": [
+    {
+      "sheet": "1º Bimestre",
+      "sheetId": 1254366590,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Aluno",
+        "Matrícula",
+        "Equipe",
+        "Média /10"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "2º Bimestre",
+      "sheetId": 875295123,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Aluno",
+        "Matrícula",
+        "Equipe",
+        "Média /10"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "3º Bimestre",
+      "sheetId": 1799070534,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Aluno",
+        "Matrícula",
+        "Equipe",
+        "Média /10"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "4º Bimestre",
+      "sheetId": 1315730574,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Aluno",
+        "Matrícula",
+        "Equipe",
+        "Aula 08 /10",
+        "Média /10"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Auditoria",
+      "sheetId": 670297660,
+      "rowCount": 1000,
+      "columnCount": 28,
+      "headers": [
+        "Equipe",
+        "ID equipe (automático)",
+        "Integrantes (nomes)",
+        "Atividade",
+        "Instrumento",
+        "Data/hora BRT",
+        "Recebido UTC",
+        "ID entrega",
+        "SHA-256 evidência",
+        "Assinatura HMAC",
+        "Nota recebida /10",
+        "Nota oficial /10",
+        "Situação",
+        "Rubrica/versão",
+        "JSON evidência sem XP",
+        "Chave interna",
+        "Código SHA-256",
+        "Origem",
+        "Observação docente",
+        "Revisado UTC",
+        "Lista de integrantes da equipe",
+        "SHA-256 armazenado",
+        "Nonce SHA-256",
+        "Requisição SHA-256",
+        "Tipo registro",
+        "Integrantes JSON",
+        "Contrato",
+        "Pendência docente"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Equipes",
+      "sheetId": 2044304595,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Equipe",
+        "Integrantes (nomes)",
+        "Quantidade",
+        "Atividade",
+        "Maior nota da equipe /10",
+        "Situação",
+        "Recibo vencedor",
+        "Enviado UTC",
+        "Chave da equipe",
+        "SHA-256 evidência",
+        "Observação docente",
+        "Revisado UTC",
+        "Recibo último envio",
+        "Último envio UTC",
+        "Matrículas JSON",
+        "Contrato"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Alunos",
+      "sheetId": 1928571717,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Matrícula",
+        "Nome completo",
+        "Nome normalizado",
+        "Estado de validação",
+        "Fonte docente",
+        "Atualização UTC",
+        "Homônimo liberado",
+        "Observação docente"
+      ],
+      "fixtureRows": 3,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Resultados",
+      "sheetId": 87436821,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Matrícula",
+        "Atividade",
+        "Maior nota /10",
+        "Recibo vencedor",
+        "Equipe vencedora",
+        "Atualização UTC",
+        "Estado docente",
+        "Nome no registro",
+        "SHA-256 vencedor",
+        "Último recibo"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Atividades",
+      "sheetId": 20617729,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "ID atividade",
+        "Nome",
+        "Bimestre",
+        "Cabeçalho da nota",
+        "Contrato entrada",
+        "Habilitada"
+      ],
+      "fixtureRows": 3,
+      "valuesAndTypes": "PASS"
+    },
+    {
+      "sheet": "Orientações",
+      "sheetId": 1283492583,
+      "rowCount": 1000,
+      "columnCount": 26,
+      "headers": [
+        "Seção",
+        "Descrição"
+      ],
+      "fixtureRows": 1,
+      "valuesAndTypes": "PASS"
+    }
+  ],
+  "cells": [
+    {
+      "sheet": "1º Bimestre",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aluno"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aluno"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Média /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Média /10"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "2º Bimestre",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aluno"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aluno"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Média /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Média /10"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "3º Bimestre",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aluno"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aluno"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Média /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Média /10"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "4º Bimestre",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aluno"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aluno"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aula 08 /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aula 08 /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Média /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Média /10"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Auditoria",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "ID equipe (automático)"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "ID equipe (automático)"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Integrantes (nomes)"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Integrantes (nomes)"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Atividade"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Atividade"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Instrumento"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Instrumento"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Data/hora BRT"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Data/hora BRT"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Recebido UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Recebido UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "ID entrega"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "ID entrega"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "SHA-256 evidência"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "SHA-256 evidência"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Assinatura HMAC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Assinatura HMAC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nota recebida /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nota recebida /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nota oficial /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nota oficial /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Situação"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Situação"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Rubrica/versão"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Rubrica/versão"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "JSON evidência sem XP"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "JSON evidência sem XP"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Chave interna"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Chave interna"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Código SHA-256"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Código SHA-256"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Origem"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Origem"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Observação docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Observação docente"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Revisado UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Revisado UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Lista de integrantes da equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Lista de integrantes da equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "SHA-256 armazenado"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "SHA-256 armazenado"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nonce SHA-256"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nonce SHA-256"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Requisição SHA-256"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Requisição SHA-256"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Tipo registro"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Tipo registro"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Integrantes JSON"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Integrantes JSON"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Contrato"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Contrato"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Pendência docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Pendência docente"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Equipes",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Integrantes (nomes)"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Integrantes (nomes)"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Quantidade"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Quantidade"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Atividade"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Atividade"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Maior nota da equipe /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Maior nota da equipe /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Situação"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Situação"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Recibo vencedor"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Recibo vencedor"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Enviado UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Enviado UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Chave da equipe"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Chave da equipe"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "SHA-256 evidência"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "SHA-256 evidência"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Observação docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Observação docente"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Revisado UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Revisado UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Recibo último envio"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Recibo último envio"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Último envio UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Último envio UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrículas JSON"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrículas JSON"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Contrato"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Contrato"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Alunos",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nome completo"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nome completo"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nome normalizado"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nome normalizado"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Estado de validação"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Estado de validação"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Fonte docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Fonte docente"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Atualização UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Atualização UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Homônimo liberado"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Homônimo liberado"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Observação docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Observação docente"
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "00000000.ITA0001"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "00000000.ITA0001"
+                  },
+                  "userEnteredFormat": {
+                    "numberFormat": {
+                      "type": "TEXT"
+                    }
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Pessoa Sintética Um"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Pessoa Sintética Um"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "pessoa sintetica um"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "pessoa sintetica um"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "VALIDADO"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "VALIDADO"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "QA_SYNTHETIC_ONLY"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "QA_SYNTHETIC_ONLY"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "2026-11-11T00:00:00Z"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "2026-11-11T00:00:00Z"
+                  },
+                  "userEnteredFormat": {
+                    "numberFormat": {
+                      "type": "TEXT"
+                    }
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "NÃO"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "NÃO"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Fixture sem dados reais"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Fixture sem dados reais"
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "00000000.ITA0002"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "00000000.ITA0002"
+                  },
+                  "userEnteredFormat": {
+                    "numberFormat": {
+                      "type": "TEXT"
+                    }
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Pessoa Sintética Dois"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Pessoa Sintética Dois"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "pessoa sintetica dois"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "pessoa sintetica dois"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "VALIDADO"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "VALIDADO"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "QA_SYNTHETIC_ONLY"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "QA_SYNTHETIC_ONLY"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "2026-11-11T00:00:00Z"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "2026-11-11T00:00:00Z"
+                  },
+                  "userEnteredFormat": {
+                    "numberFormat": {
+                      "type": "TEXT"
+                    }
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "NÃO"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "NÃO"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Fixture sem dados reais"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Fixture sem dados reais"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Resultados",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Matrícula"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Matrícula"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Atividade"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Atividade"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Maior nota /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Maior nota /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Recibo vencedor"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Recibo vencedor"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Equipe vencedora"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Equipe vencedora"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Atualização UTC"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Atualização UTC"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Estado docente"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Estado docente"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nome no registro"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nome no registro"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "SHA-256 vencedor"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "SHA-256 vencedor"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Último recibo"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Último recibo"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Atividades",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "ID atividade"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "ID atividade"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Nome"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Nome"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Bimestre"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Bimestre"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Cabeçalho da nota"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Cabeçalho da nota"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Contrato entrada"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Contrato entrada"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Habilitada"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Habilitada"
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "MOBILE-A08-2026"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "MOBILE-A08-2026"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aula 08 — Operação Dados sob Pressão"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aula 08 — Operação Dados sob Pressão"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "numberValue": 4
+                  },
+                  "effectiveValue": {
+                    "numberValue": 4
+                  },
+                  "userEnteredFormat": {
+                    "numberFormat": {
+                      "type": "NUMBER",
+                      "pattern": "0"
+                    }
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Aula 08 /10"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Aula 08 /10"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "mobile-a08-lab-v4"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "mobile-a08-lab-v4"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "boolValue": true
+                  },
+                  "effectiveValue": {
+                    "boolValue": true
+                  }
+                }
+              ]
+            },
+            {
+              "values": [
+                {},
+                {},
+                {},
+                {},
+                {},
+                {
+                  "userEnteredValue": {
+                    "boolValue": false
+                  },
+                  "effectiveValue": {
+                    "boolValue": false
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "Orientações",
+      "data": [
+        {
+          "rowData": [
+            {
+              "values": [
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Seção"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Seção"
+                  }
+                },
+                {
+                  "userEnteredValue": {
+                    "stringValue": "Descrição"
+                  },
+                  "effectiveValue": {
+                    "stringValue": "Descrição"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "typedSentinels": {
+    "enrollmentA2": {
+      "type": "stringValue",
+      "value": "00000000.ITA0001",
+      "numberFormat": "TEXT"
+    },
+    "enrollmentA3": {
+      "type": "stringValue",
+      "value": "00000000.ITA0002",
+      "numberFormat": "TEXT"
+    },
+    "timestampF2": {
+      "type": "stringValue",
+      "value": "2026-11-11T00:00:00Z",
+      "numberFormat": "TEXT"
+    },
+    "bimestreC2": {
+      "type": "numberValue",
+      "value": 4
+    },
+    "enabledF2": {
+      "type": "boolValue",
+      "value": true
+    },
+    "enabledF3": {
+      "type": "boolValue",
+      "value": false
+    }
+  },
+  "result": "PASS_NATIVE_STRUCTURE_VALUES_TYPES_PRIVATE",
+  "nativeVisualReview": "Not performed by C2; local XLSX visual review and native format readback completed. Coordinator may verify native browser view.",
+  "appScriptExecution": "NOT_RUN",
+  "oauthConsent": "NOT_RUN",
+  "receivingActivation": "NOT_RUN",
+  "connectedEndToEndHomologation": "NOT_RUN",
+  "permissionMutationCount": 0,
+  "sheetMutationCount": 1,
+  "notes": [
+    "Only locale and timeZone changed on the newly imported QA spreadsheet.",
+    "All 10 tabs already had 1000 rows; Auditoria had 28 columns and Atividades 26, so no dimension write was needed.",
+    "115 fixture cells matched exact native values and types after locale/timezone update.",
+    "Drive metadata shared=false and only one user/owner permission; no anyone/group/domain permission.",
+    "Catalog QA enabled=true is fixture data, not an operational Apps Script activation."
+  ]
+}

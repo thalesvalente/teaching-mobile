@@ -1,0 +1,13 @@
+✔ A07-20 aceita rótulos ligados aos registros, com redação e ordem flexíveis (0.980815ms)
+✔ A07-20 rejeita nomes genéricos mesmo quando o próprio texto os repete (0.413982ms)
+✔ A07-20 exige distinguir os períodos de um mesmo indicador (0.224277ms)
+✔ A07-20 exige sem período quando o registro não informa período (0.216486ms)
+✔ A07-20 mantém valor, unidade e alternativa textual associados à barra (0.253942ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10.329209

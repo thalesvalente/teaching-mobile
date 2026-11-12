@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import {existsSync,readFileSync,statSync} from "node:fs";
+import {existsSync,readFileSync,statSync,readdirSync} from "node:fs";
 import {dirname,join,resolve,sep} from "node:path";
 const root=resolve(process.argv[2]??"_site");
 const prefix="/teaching-mobile/";
@@ -27,4 +27,24 @@ for(const slug of ["memorias","eda"]){
   assert.match(html,/(_expo|assets)\//i,"Aplicativo sem assets: "+slug);
 }
 assert.ok(portal.includes('projeto/guia.html'),"Falta guia da Aula 07");
-console.log("PASS: portal, dois aplicativos, missões e assets resolvidos.");
+if(portal.includes('aula-08-av1-incremento-1/laboratorio-vivo/')) {
+  const lab=join(root,'lessons/aula-08-av1-incremento-1/laboratorio-vivo');
+  verifyHTML(join(lab,'index.html'));
+  verifyHTML(join(lab,'preview.html'));
+  for(const file of ['shared/ProjetoUniversal.tsx','criteria.js','runtime-compiler.js','assets/vendor.js','projeto/App.tsx','projeto/package-lock.json'])
+    present(join(lab,file),'Fonte compartilhada da bancada/Expo: '+file);
+  const gate=readFileSync(join(lab,'entrega-config.js'),'utf8');
+  assert.match(gate,/PROD_RELEASE_ENABLED = false/,'Prévia não pode habilitar recebimento');
+  assert.match(gate,/PROD_ENDPOINT = ''/,'Prévia não pode apontar para produção');
+}
+function samePublishedAssets(source,target) {
+  for(const entry of readdirSync(source,{withFileTypes:true})) {
+    const from=join(source,entry.name),to=join(target,entry.name);present(to,'Asset publicado preservado');
+    if(entry.isDirectory())samePublishedAssets(from,to);
+    else assert.ok(readFileSync(from).equals(readFileSync(to)),'Asset publicado alterado: '+to);
+  }
+}
+// The v4 preview preserves existing builds instead of recompiling previous lessons.
+if(existsSync(join(root,'mobile-a08-preview-manifest.json')))
+  samePublishedAssets(resolve('apps'),join(root,'apps'));
+console.log("PASS: portal, aplicativos preservados, links da Aula 08 e fontes compartilhadas.");

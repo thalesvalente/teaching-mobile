@@ -19,7 +19,7 @@ on:
       - '.github/workflows/publish-mobile-projects.yml'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: teaching-mobile-pages
   cancel-in-progress: false
@@ -33,6 +33,8 @@ jobs:
       EXPO_NO_TELEMETRY: "1"
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -68,21 +70,6 @@ jobs:
           cp -a lessons/3/aula05-eda/dist/. _site/apps/eda/
       - name: Verificar artefatos e referências
         run: node scripts/verify-mobile-pages.mjs _site
-      - name: Publicar apps compilados na raiz do Pages tradicional
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p apps/memorias apps/eda
-          rsync -a --delete lessons/3/aula05-memorias/dist/ apps/memorias/
-          rsync -a --delete lessons/3/aula05-eda/dist/ apps/eda/
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f apps/memorias apps/eda
-          if ! git diff --cached --quiet; then
-            git commit -m "build(mobile): atualizar aplicativos Expo Web publicados [skip ci]"
-            git push origin HEAD:main
-          fi
       - name: Disponibilizar prévia
         uses: actions/upload-artifact@v4
         with:
@@ -90,12 +77,47 @@ jobs:
           path: _site/
           retention-days: 7
       - name: Upload para GitHub Pages
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-pages-artifact@v4
         with:
           path: _site/
+  publish-compiled:
+    name: Publicar artefatos compilados na main
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Baixar somente o artefato já compilado
+        uses: actions/download-artifact@v4
+        with:
+          name: teaching-mobile-site-preview
+          path: ${{ runner.temp }}/teaching-mobile-site-preview
+      - name: Copiar os apps estáticos sem executar código do projeto
+        env:
+          PREVIEW_DIR: ${{ runner.temp }}/teaching-mobile-site-preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$PREVIEW_DIR/apps/memorias/index.html"
+          test -f "$PREVIEW_DIR/apps/eda/index.html"
+          mkdir -p apps/memorias apps/eda
+          rsync -a --delete "$PREVIEW_DIR/apps/memorias/" apps/memorias/
+          rsync -a --delete "$PREVIEW_DIR/apps/eda/" apps/eda/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f apps/memorias apps/eda
+          if ! git diff --cached --quiet; then
+            git commit -m "build(mobile): atualizar aplicativos Expo Web publicados [skip ci]"
+            git push origin HEAD:main
+          fi
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: build
     runs-on: ubuntu-latest
     permissions:

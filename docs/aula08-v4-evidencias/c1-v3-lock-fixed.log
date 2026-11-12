@@ -1,0 +1,50 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+v22.23.4
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+(node:32) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+10.9.9
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+(node:57) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+added 586 packages in 11s
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+(node:82) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> mobile-a08-desafio-avancado@3.0.0-candidate typecheck
+> tsc --noEmit
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+(node:116) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> mobile-a08-desafio-avancado@3.0.0-candidate test:starter
+> node scripts/avaliar.mjs --expect-starter
+
+(node:129) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Aula 08 · 0/20 critérios · 0.0/10 · 0 XP
+PENDENTE M1-01 Erro tem prioridade sobre carregamento
+PENDENTE M1-02 Carregando sem erro
+PENDENTE M1-03 Coleção realmente vazia
+PENDENTE M1-04 Busca sem resultados não é coleção vazia
+PENDENTE M1-05 Dados prontos em estado estável
+PENDENTE M2-01 Pesquisa ignora caixa e acentos
+PENDENTE M2-02 Categoria e período combinados (AND)
+PENDENTE M2-03 Ordenação Z-A com IDs íntegros
+PENDENTE M2-04 A fonte não muda e o resultado preserva os objetos
+PENDENTE M3-01 Detalhe usa ID opaco exato
+PENDENTE M3-02 ID desconhecido devolve null
+PENDENTE M3-03 Validação aceita valores corretos após trim
+PENDENTE M3-04 Validação rejeita título/descrição insuficientes
+PENDENTE M3-05 Título repetido após normalizar acento/caixa é inválido na mesma trilha
+PENDENTE M3-06 Inserção cria novo array sem mutar a fonte
+PENDENTE M4-01 Idempotência: repetir toque/ID não duplica
+PENDENTE M4-02 Resumo conta total e IDs sem perda
+PENDENTE M4-03 Resumo contabiliza categorias corretamente
+PENDENTE M4-04 Resumo de base vazia é seguro
+PENDENTE M4-05 Resumo não modifica nem reordena a fonte
+Relatórios: entrega/resultado.json e entrega/resultado.html
+SHA-256: 02712aa1ac1c37e90aa6958bedc90c166f9b2c30920758e509a89b7dd5c9129b

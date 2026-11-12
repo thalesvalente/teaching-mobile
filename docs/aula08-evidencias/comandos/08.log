@@ -1,0 +1,23 @@
+✔ G0 — rubrica original espelhada literalmente e arquivos didáticos intocados (3.456576ms)
+✔ G2 — 20 critérios iguais aos originais em ambas as trilhas (0, parcial, 10, erros) (108.560828ms)
+✔ G2 — nota ausente 0, correta 10, parcial 1, erro 0, rubrica não é completude (5.113477ms)
+✔ G4 — dois alunos compartilham recibo e têm linhas alfabéticas (4.462519ms)
+✔ G4 — reenvio substitui nota e recibo, preserva demais atividades (4.38335ms)
+✔ G4 — rubricagem independente da declaração de prática (2.788703ms)
+✔ G4 — HMAC assina nota recalculada, PDF, respostas, instrumento e integrantes (2.150223ms)
+✔ G4 — novos alunos, média simples, zero nas outras atividades (2.225225ms)
+✔ G4 — atividade desconhecida, schema e PDF hash adulterados não são aceitos (1.668488ms)
+✔ G4 — alternativas inválidas e campos forjados recusados (1.781248ms)
+✔ G4 — equipes, nomes duplicados e fórmulas protegidos (2.194028ms)
+✔ G4 — limite de payload e auditoria vazia antes de escrever (1.493184ms)
+✔ G4 — lock liberado inclusive em falhas de escrita (2.375712ms)
+✔ G6 — GET sanitário e POST bloqueado até autorização explícita (2.264705ms)
+✔ G1 — somente cinco abas e ID independente da PPI I (1.640406ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 159.597926

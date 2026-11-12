@@ -1,0 +1,77 @@
+name: QA Aula 08 - laboratorio vivo
+on:
+  pull_request:
+    paths:
+      - 'lessons/aula-08-av1-incremento-1/**'
+      - 'lessons/aula-07-estado-filtros/appscript/**'
+      - 'tests/aula08*'
+      - 'tests/mobile-entregas-aula08.test.cjs'
+      - '.github/workflows/qa-aula08.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contratos:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    timeout-minutes: 10
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Comandos do aluno
+        working-directory: lessons/aula-08-av1-incremento-1/projeto
+        run: |
+          npm ci
+          npm run preflight
+          npm run nota
+          npm run entrega
+      - name: Contratos, Apps Script simulado e regressao
+        run: node --test tests/aula08-local*.test.* tests/aula08-jsonl*.test.* tests/aula08-pages*.test.cjs tests/aula08-remediation.test.cjs tests/aula08-identity.test.mjs tests/aula08-policy.test.mjs tests/mobile-entregas-aula08.test.cjs tests/mobile-entregas.test.cjs tests/pontuacao-aulas.test.cjs tests/avaliador-projeto.test.mjs
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependencias de QA
+        run: npm install --no-save --no-package-lock playwright@1.57.0 axe-core@4.10.3
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Ficha real com servidor simulado e sem envio ao Google
+        env:
+          AULA08_EVIDENCE_DIR: ${{ runner.temp }}/a08-evidence
+        run: |
+          mkdir -p "$AULA08_EVIDENCE_DIR"
+          git rev-parse HEAD > "$AULA08_EVIDENCE_DIR/tested-sha.txt"
+          git rev-parse HEAD^{tree} > "$AULA08_EVIDENCE_DIR/tested-tree.txt"
+          git archive --format=tar.gz --output "$AULA08_EVIDENCE_DIR/candidate-source.tar.gz" HEAD
+          node tests/aula08-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aula08-browser-${{ github.sha }}
+          path: ${{ runner.temp }}/a08-evidence
+          if-no-files-found: error
+  infograficos-originais:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: G1 - bloquear ate publicar os dois originais
+        run: node tests/aula08-assets.cjs

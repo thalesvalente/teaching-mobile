@@ -1,0 +1,100 @@
+✖ C3: reordered members either commit consistently or fail before any new write (28.163513ms)
+✖ C3: updated roster name cannot create an irreconcilable submission (10.883711ms)
+✖ C3: incomplete teacher projection cannot replay as successfully validated (7.512171ms)
+✖ C3: PROD cannot receive with absent homologation reference even if enabled flags are set (2.970631ms)
+✔ C3: each signed audit field detects tampering on reconciliation (135.096094ms)
+✔ C3: HTTP never exposes privileged reviewer or configuration actions (8.121957ms)
+✔ C3: forged confirmation cannot change authoritative identity (2.405873ms)
+✔ C3: text that resembles a formula is never executed as a spreadsheet formula (4.26632ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 4
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 345.440095
+
+✖ failing tests:
+
+test at tests/independent-aula08-v4-backend.test.cjs:10:1
+✖ C3: reordered members either commit consistently or fail before any new write (28.163513ms)
+  AssertionError [ERR_ASSERTION]: Rejected member order must not poison the audit with a partial logical transaction
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/workspace/scratch/b13327d3b5bd/teaching-mobile/tests/independent-aula08-v4-backend.test.cjs:18:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/independent-aula08-v4-backend.test.cjs:21:1
+✖ C3: updated roster name cannot create an irreconcilable submission (10.883711ms)
+  AssertionError [ERR_ASSERTION]: Identity change must be rejected before writing, not after audit commit
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/workspace/scratch/b13327d3b5bd/teaching-mobile/tests/independent-aula08-v4-backend.test.cjs:28:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/independent-aula08-v4-backend.test.cjs:31:1
+✖ C3: incomplete teacher projection cannot replay as successfully validated (7.512171ms)
+  AssertionError [ERR_ASSERTION]: Successful review replay requires materialized, verified Resultados
+  
+  undefined !== 10
+  
+      at TestContext.<anonymous> (/workspace/scratch/b13327d3b5bd/teaching-mobile/tests/independent-aula08-v4-backend.test.cjs:37:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 10,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/independent-aula08-v4-backend.test.cjs:42:1
+✖ C3: PROD cannot receive with absent homologation reference even if enabled flags are set (2.970631ms)
+  AssertionError [ERR_ASSERTION]: Production must check all required readiness gates on each request
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/workspace/scratch/b13327d3b5bd/teaching-mobile/tests/independent-aula08-v4-backend.test.cjs:45:34)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

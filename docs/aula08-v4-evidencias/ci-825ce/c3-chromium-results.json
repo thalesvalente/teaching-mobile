@@ -1,0 +1,310 @@
+{
+  "reviewer": "C3 independent QA",
+  "scope": "local browser and synthetic data; Google/native NOT_RUN",
+  "sha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+  "triggerSha": "825ce143fe4f6dcb5f8d1903f5441c50cebdec64",
+  "engine": "chromium",
+  "checks": [
+    {
+      "id": "reflow-360",
+      "status": "PASS",
+      "details": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "id": "axe-main-360",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 1,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-390",
+      "status": "PASS",
+      "details": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "id": "axe-main-390",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 1,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-768",
+      "status": "PASS",
+      "details": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "id": "axe-main-768",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 1,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-1024",
+      "status": "PASS",
+      "details": {
+        "width": 1024,
+        "scroll": 1024
+      }
+    },
+    {
+      "id": "axe-main-1024",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 1,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-1440",
+      "status": "PASS",
+      "details": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "id": "axe-main-1440",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 1,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "opaque-sandbox-parent-isolation",
+      "status": "PASS",
+      "details": {
+        "blocked": true,
+        "name": "SecurityError"
+      }
+    },
+    {
+      "id": "forged-peer-message-ignored",
+      "status": "PASS"
+    },
+    {
+      "id": "keyboard-dialog-focus",
+      "status": "PASS",
+      "details": {
+        "outlineStyle": "solid",
+        "outlineWidth": "2px",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "id": "keyboard-tabs-mobile-roving-and-active-panels",
+      "status": "PASS",
+      "details": {
+        "width": 390,
+        "tablists": 2,
+        "keys": [
+          "ArrowLeft",
+          "ArrowRight",
+          "Home",
+          "End"
+        ],
+        "scope": "Keyboard focus, wrap, selection and visible panel; no assistive-technology claim."
+      }
+    },
+    {
+      "id": "dual-preview-fields-reference-own-error-elements",
+      "status": "PASS",
+      "details": {
+        "duplicateIds": [],
+        "fields": [
+          {
+            "root": "web-root",
+            "name": "Título do novo registro",
+            "targets": [
+              "_a08-web-r_0_-titulo-error"
+            ],
+            "allOwn": true
+          },
+          {
+            "root": "web-root",
+            "name": "Descrição do novo registro",
+            "targets": [
+              "_a08-web-r_0_-descricao-error"
+            ],
+            "allOwn": true
+          },
+          {
+            "root": "mobile-root",
+            "name": "Título do novo registro",
+            "targets": [
+              "_a08-mobile-r_1_-titulo-error"
+            ],
+            "allOwn": true
+          },
+          {
+            "root": "mobile-root",
+            "name": "Descrição do novo registro",
+            "targets": [
+              "_a08-mobile-r_1_-descricao-error"
+            ],
+            "allOwn": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "student-network-apis-rejected-and-csp-connect-image-script",
+      "status": "PASS",
+      "details": {
+        "probeCount": 0,
+        "status": "Erro no código: /ProjetoUniversal.tsx: API fora do contrato da bancada: fetch. Use apenas funções de domínio, React e react-native.\n  192 | });\n  193 |\n> 194 | fetch(\"http://127.0.0.1:38541/c3-synthetic-probe?channel=fetch\").catch(()=>{});\n      | ^^^^^\n  195 | const c3image=new Image();c3image.src=\"http://127.0.0.1:38541/c3-synthetic-probe?channel=image\";\n  196 | try{navigator.sendBeacon(\"http://127.0.0.1:38541/c3-synthetic-probe?channel=beacon\",\"synthetic\")}ca · XP anteriores preservados.",
+        "scope": "Compiler denies ambient network APIs; independent CSP checks connect/image, arbitrary script path and reload of a trusted bootstrap script after policy tightening."
+      }
+    },
+    {
+      "id": "syntax-error-and-recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "loop-budget-and-recovery",
+      "status": "PASS",
+      "details": {
+        "error": "Erro no código: Limite de execução atingido. Revise loops/recursão e execute novamente. · XP anteriores preservados.",
+        "limit": "Common instrumented loops; not a hostile-code CPU/RAM guarantee."
+      }
+    },
+    {
+      "id": "checkpoint-export-import-and-malformed-rejection",
+      "status": "PASS",
+      "details": {
+        "schema": "ifma-mobile-aula08-checkpoint-v1",
+        "xp": 0,
+        "codeBytes": 11569
+      }
+    },
+    {
+      "id": "pdf-partial-mobile-identity-and-20-missions",
+      "status": "PASS",
+      "details": {
+        "missions": 20,
+        "cycles": 4,
+        "pdf": "exemplo-ficticio-a4.pdf",
+        "actualPdfTextValidated": true,
+        "hashWords": [
+          {
+            "text": "613c5eebcd35b277ac3307051a431919c10e01ffb49185ad5e4e20dbfc918cbb",
+            "xMin": 129.445307,
+            "xMax": 476.226542,
+            "pageWidth": 594.95996
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-off-no-external-request",
+      "status": "PASS",
+      "details": {
+        "endpoint": "",
+        "activated": false
+      }
+    },
+    {
+      "id": "matricula-not-silently-persisted",
+      "status": "PASS"
+    },
+    {
+      "id": "reduced-motion-and-320-reflow",
+      "status": "PASS",
+      "details": {
+        "reduced": true,
+        "width": 320,
+        "scroll": 320
+      }
+    },
+    {
+      "id": "simulated-interface-backend-normal",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "normal",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "613c5eebcd35b277ac3307051a431919c10e01ffb49185ad5e4e20dbfc918cbb"
+      }
+    },
+    {
+      "id": "simulated-interface-backend-tampered-response-signature",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "tampered-response-signature",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "613c5eebcd35b277ac3307051a431919c10e01ffb49185ad5e4e20dbfc918cbb"
+      }
+    },
+    {
+      "id": "simulated-interface-backend-timeout-after-write",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "timeout-after-write",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "613c5eebcd35b277ac3307051a431919c10e01ffb49185ad5e4e20dbfc918cbb"
+      }
+    },
+    {
+      "id": "no-unhandled-page-errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "unexpectedExternalRequests": [],
+  "probes": [],
+  "browserVersion": "143.0.7499.4",
+  "summary": {
+    "pass": 27,
+    "fail": 0
+  }
+}

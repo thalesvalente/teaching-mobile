@@ -1,0 +1,34 @@
+✔ Aula 6 / memorias: vazia continua em 0/10 com vinte critérios pendentes (2.079096ms)
+✔ Aula 6 / memorias: referência correta alcança 10/10 e repetir não acumula pontos (3.208724ms)
+✔ Aula 6 / memorias: resposta independente recebe crédito mesmo com a etapa incompleta (1.168236ms)
+✔ Aula 6 / memorias: apagar qualquer resposta deixa seus critérios pendentes sem apagar os demais (4.490721ms)
+✔ Aula 6 / memorias: valores desconhecidos não ganham nota por fallback (0.988216ms)
+✔ Aula 6 / memorias: avaliação não modifica as respostas e devolve a mesma pontuação (2.768562ms)
+✔ Aula 6 / memorias: crédito por salvar texto normalizado depende de trim respondido e correto (1.243089ms)
+✔ Aula 6 / acoes: vazia continua em 0/10 com vinte critérios pendentes (0.799171ms)
+✔ Aula 6 / acoes: referência correta alcança 10/10 e repetir não acumula pontos (1.406745ms)
+✔ Aula 6 / acoes: resposta independente recebe crédito mesmo com a etapa incompleta (1.026613ms)
+✔ Aula 6 / acoes: apagar qualquer resposta deixa seus critérios pendentes sem apagar os demais (4.028556ms)
+✔ Aula 6 / acoes: valores desconhecidos não ganham nota por fallback (0.769427ms)
+✔ Aula 6 / acoes: avaliação não modifica as respostas e devolve a mesma pontuação (1.294165ms)
+✔ Aula 6 / acoes: crédito por salvar texto normalizado depende de trim respondido e correto (1.139994ms)
+✔ Aula 7 / memorias: vazia continua em 0/10 com vinte critérios pendentes (4.44331ms)
+✔ Aula 7 / memorias: referência correta alcança 10/10 e repetir não acumula pontos (2.730245ms)
+✔ Aula 7 / memorias: resposta independente recebe crédito mesmo com a etapa incompleta (0.896638ms)
+✔ Aula 7 / memorias: apagar qualquer resposta deixa seus critérios pendentes sem apagar os demais (4.454547ms)
+✔ Aula 7 / memorias: valores desconhecidos não ganham nota por fallback (0.89825ms)
+✔ Aula 7 / memorias: avaliação não modifica as respostas e devolve a mesma pontuação (1.611413ms)
+✔ Aula 7 / eda: vazia continua em 0/10 com vinte critérios pendentes (0.637999ms)
+✔ Aula 7 / eda: referência correta alcança 10/10 e repetir não acumula pontos (1.803522ms)
+✔ Aula 7 / eda: resposta independente recebe crédito mesmo com a etapa incompleta (0.860975ms)
+✔ Aula 7 / eda: apagar qualquer resposta deixa seus critérios pendentes sem apagar os demais (3.284998ms)
+✔ Aula 7 / eda: valores desconhecidos não ganham nota por fallback (0.655766ms)
+✔ Aula 7 / eda: avaliação não modifica as respostas e devolve a mesma pontuação (1.358402ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 60.201014

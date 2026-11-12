@@ -1,0 +1,245 @@
+{
+  "reviewer": "C3 independent QA",
+  "scope": "local browser and synthetic data; Google/native NOT_RUN",
+  "sha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+  "triggerSha": "a363b326b8c4d0da1eb9280ea0c67b4c0305d515",
+  "engine": "firefox",
+  "checks": [
+    {
+      "id": "reflow-360",
+      "status": "PASS",
+      "details": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "id": "axe-main-360",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 2,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-390",
+      "status": "PASS",
+      "details": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "id": "axe-main-390",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 2,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-768",
+      "status": "PASS",
+      "details": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "id": "axe-main-768",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 2,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-1024",
+      "status": "PASS",
+      "details": {
+        "width": 1024,
+        "scroll": 1024
+      }
+    },
+    {
+      "id": "axe-main-1024",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 2,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "reflow-1440",
+      "status": "PASS",
+      "details": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "id": "axe-main-1440",
+      "status": "PASS",
+      "details": {
+        "violations": 0,
+        "incomplete": 2,
+        "note": "Incomplete checks require human review; opaque iframe not covered."
+      }
+    },
+    {
+      "id": "opaque-sandbox-parent-isolation",
+      "status": "PASS",
+      "details": {
+        "blocked": true,
+        "name": "SecurityError"
+      }
+    },
+    {
+      "id": "forged-peer-message-ignored",
+      "status": "PASS"
+    },
+    {
+      "id": "keyboard-dialog-focus",
+      "status": "PASS",
+      "details": {
+        "outlineStyle": "solid",
+        "outlineWidth": "2px",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "id": "student-network-apis-rejected-and-csp-connect-image-script",
+      "status": "PASS",
+      "details": {
+        "probeCount": 0,
+        "status": "Erro no código: /ProjetoUniversal.tsx: API fora do contrato da bancada: fetch. Use apenas funções de domínio, React e react-native.\n  190 |   rodape:{fontSize:10,color:'#53675b',marginTop:16},\n  191 | });\n> 192 | fetch(\"http://127.0.0.1:40207/c3-synthetic-probe?channel=fetch\").catch(()=>{});\n      | ^^^^^\n  193 | const c3image=new Image();c3image.src=\"http://127.0.0.1:40207/c3-synthetic-probe?channel=image\";\n  194 | try{navigator.sendBeacon(\"http://127.0.0.1:402 · XP anteriores preservados.",
+        "scope": "Compiler denies ambient network APIs; independent CSP checks connect/image, arbitrary script path and reload of a trusted bootstrap script after policy tightening."
+      }
+    },
+    {
+      "id": "syntax-error-and-recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "loop-budget-and-recovery",
+      "status": "PASS",
+      "details": {
+        "error": "Erro no código: Limite de execução atingido. Revise loops/recursão e execute novamente. · XP anteriores preservados.",
+        "limit": "Common instrumented loops; not a hostile-code CPU/RAM guarantee."
+      }
+    },
+    {
+      "id": "checkpoint-export-import-and-malformed-rejection",
+      "status": "PASS",
+      "details": {
+        "schema": "ifma-mobile-aula08-checkpoint-v1",
+        "xp": 0,
+        "codeBytes": 11430
+      }
+    },
+    {
+      "id": "pdf-partial-mobile-identity-and-20-missions",
+      "status": "PASS",
+      "details": {
+        "missions": 20,
+        "cycles": 4,
+        "pdf": "NOT_RUN: page.pdf requires Chromium"
+      }
+    },
+    {
+      "id": "production-off-no-external-request",
+      "status": "PASS",
+      "details": {
+        "endpoint": "",
+        "activated": false
+      }
+    },
+    {
+      "id": "matricula-not-silently-persisted",
+      "status": "PASS"
+    },
+    {
+      "id": "reduced-motion-and-320-reflow",
+      "status": "PASS",
+      "details": {
+        "reduced": true,
+        "width": 320,
+        "scroll": 320
+      }
+    },
+    {
+      "id": "simulated-interface-backend-normal",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "normal",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "3f986a2fd68c6829f5b5893eeacfa2845102eee820ce714f086e7814c856c80c"
+      }
+    },
+    {
+      "id": "simulated-interface-backend-tampered-response-signature",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "tampered-response-signature",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "3f986a2fd68c6829f5b5893eeacfa2845102eee820ce714f086e7814c856c80c"
+      }
+    },
+    {
+      "id": "simulated-interface-backend-timeout-after-write",
+      "status": "PASS",
+      "details": {
+        "mode": "SIMULATED_HTTP_AND_IN_MEMORY_SHEETS_NOT_CONNECTED_GOOGLE",
+        "scenario": "timeout-after-write",
+        "operations": [
+          "lookupStudent",
+          "submitTeam",
+          "reconcileTeam"
+        ],
+        "sameRequestId": true,
+        "writes": 1,
+        "version": "mobile-notas-4.1.0",
+        "grade": null,
+        "status": "PENDENTE_VALIDACAO",
+        "codeSha256": "3f986a2fd68c6829f5b5893eeacfa2845102eee820ce714f086e7814c856c80c"
+      }
+    },
+    {
+      "id": "no-unhandled-page-errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "unexpectedExternalRequests": [],
+  "probes": [],
+  "browserVersion": "144.0.2",
+  "summary": {
+    "pass": 25,
+    "fail": 0
+  }
+}

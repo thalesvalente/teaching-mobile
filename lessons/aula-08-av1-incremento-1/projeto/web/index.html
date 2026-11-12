@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aula 08 · Meu laboratório Mobile</title><link rel="stylesheet" href="/web/style.css"></head>
+<body><a class="skip" href="#principal">Pular para o aplicativo</a>
+<header><p class="eyebrow">Aula 08 · Aplicativo Mobile no navegador</p><h1>Atividades da escola</h1><p>Uma lista que busca, mostra detalhes e recebe novas ideias.</p></header>
+<main id="principal" tabindex="-1">
+<aside class="guide"><h2>Seu próximo passo</h2><p>Use o app, encontre uma pendência e edite <code>src/equipe.mjs</code>. Salve e atualize esta página. Os comentários <strong>TODO</strong> indicam o que completar.</p><p>Veja o resultado com <code>npm run nota</code>. A nota local é apenas uma orientação.</p></aside>
+<p id="message" role="status" aria-live="polite"></p>
+<section id="list-screen" aria-labelledby="list-title"><h2 id="list-title">Encontre uma atividade</h2>
+<div class="filters"><label>Buscar por título<input id="query" type="search" maxlength="200" placeholder="Ex.: praça"></label><label>Categoria<select id="category"><option>Todas</option><option>Arte</option><option>Ciência</option><option>Tecnologia</option></select></label><label>Período<select id="period"><option>Todos</option><option>Manhã</option><option>Tarde</option></select></label></div>
+<div class="toolbar"><button id="simulate-error" type="button">Experimentar erro</button><button id="simulate-loading" type="button">Experimentar carregamento</button><button id="clear-base" type="button">Experimentar lista vazia</button><button id="restore-base" type="button">Restaurar dados</button></div>
+<p id="state" role="status" aria-live="polite"></p><button id="retry" type="button" hidden>Tentar novamente</button>
+<ul id="list" class="cards"></ul><section aria-labelledby="summary-title"><h3 id="summary-title">Um olhar para o recorte</h3><p id="summary" aria-live="polite"></p><div id="bars"></div></section>
+</section>
+<section id="detail-screen" aria-labelledby="detail-title" hidden><button id="back" type="button">Voltar à lista</button><h2 id="detail-title" tabindex="-1"></h2><p id="detail-info"></p><p>A busca e os filtros devem continuar iguais quando você voltar.</p></section>
+<section aria-labelledby="form-title"><h2 id="form-title">Sugira uma atividade</h2><p>Use somente informações fictícias. Este rascunho fica nesta página e desaparece ao atualizar.</p>
+<form id="activity-form" novalidate><label>Título<input id="title" name="title" maxlength="80" aria-describedby="title-error"></label><p class="error" id="title-error"></p><label>Categoria<select id="new-category" name="category" aria-describedby="category-error"><option value="">Selecione</option><option>Arte</option><option>Ciência</option><option>Tecnologia</option></select></label><p class="error" id="category-error"></p><button type="submit">Adicionar ao rascunho</button></form></section>
+</main><footer>Sem login e sem envio automático. O pacote só é entregue pela ficha online da Aula 08.</footer><script type="module" src="/web/app.mjs"></script></body></html>

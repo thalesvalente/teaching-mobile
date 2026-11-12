@@ -1,0 +1,13 @@
+{
+  "schema": "mobile-a08-v4-qa-project-metadata-v1",
+  "observationDateUtc": "2026-11-12",
+  "method": "Google Drive get_file_metadata; fields id,name,mimeType,shared,permissions(type,role)",
+  "id": "1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+  "title": "MOBILE-A08-V4-QA-SINTETICA-20261112",
+  "mimeType": "application/vnd.google-apps.script",
+  "shared": false,
+  "permissions": [{"type": "user", "role": "owner"}],
+  "sourceVisibilityStatus": "permission_metadata_available",
+  "permissionChangesPerformed": false,
+  "versionedDeploymentCreated": false
+}

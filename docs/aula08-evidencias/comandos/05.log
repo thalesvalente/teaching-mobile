@@ -1,0 +1,24 @@
+✔ geração é determinística byte a byte com quatro slots (168.037931ms)
+✔ SHA de fonte e pacote coincide com implementação independente Node (2.981532ms)
+✔ 1 a 4 slots selecionados produzem somente as fontes autorizadas (132.165008ms)
+✔ Base64 adulterado sem atualizar hash é recusado (1.129948ms)
+✔ hash de fonte atualizado sem package hash novo é recusado (6.085714ms)
+✔ package hash fabricado é recusado (2.631636ms)
+✔ linha end ausente, fonte duplicada e arquivo fora de allowlist são recusados (2.269031ms)
+✔ schema, atividade, tipos desconhecidos e campos extras são recusados (1.790872ms)
+✔ mais de quatro slots, duplicação e ordem inválida são recusados (2.111294ms)
+✔ conteúdo ausente, fonte grande e pacote grande são recusados (5.030832ms)
+✔ UTF-8 inválido, Base64 não canônico e chaves JSON duplicadas são recusados (0.847344ms)
+✔ resultado local pode ser editado, mas é declarado informativo e não muda fontes (3.793993ms)
+✔ identidade não é exportada; campos pessoais e padrões de segredo são recusados (32.019488ms)
+✔ arquivos ausentes, symlinks e fontes grandes impedem gerar entrega (412.14234ms)
+✔ entrega salva atomicamente e reenvio substitui os mesmos bytes (355.054449ms)
+✔ adulterar avaliador local só muda metadado formativo, não as fontes (251.395851ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1387.800028

@@ -1,0 +1,206 @@
+{
+  "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+  "observedAt": "2026-11-12T00:37:20.331Z",
+  "repository": "thalesvalente/teaching-mobile",
+  "runs": [
+    {
+      "id": 43128177237,
+      "name": "QA Mobile — Entregas Aula 07",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43128177237"
+    },
+    {
+      "id": 43128177200,
+      "name": "QA Aula 08 - laboratorio vivo",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43128177200"
+    },
+    {
+      "id": 43128177161,
+      "name": "Publicar projetos Expo Web",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43128177161"
+    },
+    {
+      "id": 43128177260,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43128177260"
+    },
+    {
+      "id": 43128171614,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "push",
+      "sha": "b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43128171614"
+    }
+  ],
+  "jobs": [
+    {
+      "id": 130885445332,
+      "name": "Contratos, backend simulado e regressões",
+      "status": "completed",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "id": 130885445566,
+      "name": "Expo laboratorio-vivo e TypeScript",
+      "status": "completed",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "id": 130885445679,
+      "name": "Revisão independente webkit",
+      "status": "completed",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Run node tests/independent-aula08-v4-browser.cjs"
+      ]
+    },
+    {
+      "id": 130885445680,
+      "name": "Prévia estática sem implantação",
+      "status": "completed",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "id": 130885445794,
+      "name": "Revisão independente firefox",
+      "status": "completed",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Run node tests/independent-aula08-v4-browser.cjs"
+      ]
+    },
+    {
+      "id": 130885445839,
+      "name": "Expo avancado e TypeScript",
+      "status": "completed",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "id": 130885445952,
+      "name": "Bancada Chromium e revisão independente",
+      "status": "completed",
+      "conclusion": "failure",
+      "failedSteps": [
+        "Laboratório: 20 missões, compilação, XP, PDF e JSON",
+        "Segurança e acessibilidade independentes"
+      ]
+    }
+  ],
+  "publishJobs": [
+    {
+      "id": 130885464304,
+      "name": "Compilar aplicativos e validar links",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 130886110179,
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 130886112196,
+      "name": "Publicar artefatos compilados na main",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 13904800196,
+      "name": "mobile-a08-v4-webkit-b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "bytes": 105394,
+      "digest": "sha256:ca8fc034f71f31b12f20b5bdbb922216dac1247f1cbfaa8f6c925bafc7772502",
+      "expired": false
+    },
+    {
+      "id": 13904535878,
+      "name": "mobile-a08-v4-firefox-b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "bytes": 1148443,
+      "digest": "sha256:362bfef6e3c37b47d51e1a59a288d98243c9fc936398b6beca949b8e58b761bb",
+      "expired": false
+    },
+    {
+      "id": 13904180635,
+      "name": "mobile-a08-v4-site-preview-b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "bytes": 15334436,
+      "digest": "sha256:39966b36f13ec4e2a5b46062eb425d76db839b45dacf049238de186a0f255078",
+      "expired": false
+    },
+    {
+      "id": 13903568681,
+      "name": "mobile-a08-v4-browser-b4e4dd4a341b68b8f0347f2ebca3f3ff5d9cb423",
+      "bytes": 2032780,
+      "digest": "sha256:18401f2cba5d07b3bf158218ec7a7c70058b0d9cc4c89195b90dbd0bf029b5f2",
+      "expired": false
+    }
+  ],
+  "improvements": [
+    "Both advanced v3 and v4 Expo npm ci, typecheck, starter checks and Expo Web build passed",
+    "Workflow job context repair remains green; backend and static preview pass"
+  ],
+  "remaining": "Chromium mission XP wait, C3 axe selectors and mocked receipt formatting repairs under authorship; WebKit now diagnosed as CSP scripts blocked, not a timeout duration issue.",
+  "webkit": {
+    "run": 43128171614,
+    "job": 130885445679,
+    "diagnostic": {
+      "stage": "wait-for-compiled",
+      "url": "http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/",
+      "browser": "webkit",
+      "console": [
+        {
+          "type": "error",
+          "text": "Unrecognized Content-Security-Policy directive 'navigate-to'.\n"
+        },
+        {
+          "type": "error",
+          "text": "Refused to load http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/assets/vendor.js because it does not appear in the script-src directive of the Content Security Policy."
+        },
+        {
+          "type": "error",
+          "text": "Refused to load http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/criteria.js because it does not appear in the script-src directive of the Content Security Policy."
+        },
+        {
+          "type": "error",
+          "text": "Refused to load http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/runtime-compiler.js because it does not appear in the script-src directive of the Content Security Policy."
+        },
+        {
+          "type": "error",
+          "text": "Refused to load http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/preview.js because it does not appear in the script-src directive of the Content Security Policy."
+        }
+      ],
+      "failedRequests": [],
+      "badResponses": [],
+      "frames": [
+        "http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/",
+        "http://127.0.0.1:35495/lessons/aula-08-av1-incremento-1/laboratorio-vivo/preview.html"
+      ],
+      "compilerStatus": "Arquivo completo carregado. Preparando execução nas duas telas…",
+      "previewText": "",
+      "screenshot": "bootstrap-failure-1794443719950.png"
+    }
+  },
+  "scope": "CI evidence only. No native Android/iOS or connected Apps Script QA inferred; no production action performed."
+}

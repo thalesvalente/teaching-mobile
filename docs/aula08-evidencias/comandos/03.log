@@ -1,0 +1,8 @@
+
+> aula08-laboratorio-vivo@1.0.0 entrega
+> node scripts/gerar-entrega.mjs
+
+Pronto: entrega/entrega-a08.jsonl (7629 bytes).
+Importe esse arquivo na ficha da Aula 08. Preencha nomes SOMENTE na ficha.
+Base64 é codificação; o pacote não está criptografado. Revise antes de enviar.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

@@ -1,0 +1,17 @@
+✔ 20 critérios por slot, zero e máximo sem arredondamento indevido (4.474907ms)
+✔ M2 preservação exige entrada inalterada mesmo com saída correta (0.378088ms)
+✔ starter tem pendências reais, notas por slot e log de IA vazio (203.430908ms)
+✔ preflight valida Node e presença das cinco fontes (25.965923ms)
+✔ evidência não inventa uso de IA e recusa campos pessoais (24.577196ms)
+✔ worker termina loop infinito de fonte local (169.466112ms)
+✔ worker registra erro de sintaxe e saída fora de JSON (125.884613ms)
+✔ slots rejeitam zero, extras e duplicatas (0.403817ms)
+✔ servidor local atende app e não serve arquivos arbitrários (136.39232ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 712.001106

@@ -1,0 +1,182 @@
+{
+  "reviewer": "C3 independent QA",
+  "scope": "local browser and synthetic data; Google/native NOT_RUN",
+  "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+  "triggerSha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+  "engine": "chromium",
+  "checks": [
+    {
+      "id": "reflow-360",
+      "status": "PASS",
+      "details": {
+        "width": 360,
+        "scroll": 360
+      }
+    },
+    {
+      "id": "axe-main-360",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Automated accessibility violations\n+ actual - expected\n\n+ [\n+   {\n+     description: \"Ensure an element's role supports its ARIA attributes\",\n+     id: 'aria-allowed-attr',\n+     impact: 'critical',\n+     nodes: [\n+       {\n+         summary: 'Fix all of the following:\\n' +\n+           '  ARIA attribute is not allowed: aria-selected=\"true\"',\n+         target: [\n+           '#conteudo'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:88:14\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:80:5"
+    },
+    {
+      "id": "reflow-390",
+      "status": "PASS",
+      "details": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "id": "axe-main-390",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Automated accessibility violations\n+ actual - expected\n\n+ [\n+   {\n+     description: \"Ensure an element's role supports its ARIA attributes\",\n+     id: 'aria-allowed-attr',\n+     impact: 'critical',\n+     nodes: [\n+       {\n+         summary: 'Fix all of the following:\\n' +\n+           '  ARIA attribute is not allowed: aria-selected=\"true\"',\n+         target: [\n+           '#conteudo'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:88:14\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:80:5"
+    },
+    {
+      "id": "reflow-768",
+      "status": "PASS",
+      "details": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "id": "axe-main-768",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Automated accessibility violations\n+ actual - expected\n\n+ [\n+   {\n+     description: \"Ensure an element's role supports its ARIA attributes\",\n+     id: 'aria-allowed-attr',\n+     impact: 'critical',\n+     nodes: [\n+       {\n+         summary: 'Fix all of the following:\\n' +\n+           '  ARIA attribute is not allowed: aria-selected=\"true\"',\n+         target: [\n+           '#conteudo'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:88:14\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:80:5"
+    },
+    {
+      "id": "reflow-1024",
+      "status": "PASS",
+      "details": {
+        "width": 1024,
+        "scroll": 1024
+      }
+    },
+    {
+      "id": "axe-main-1024",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Automated accessibility violations\n+ actual - expected\n\n+ [\n+   {\n+     description: \"Ensure an element's role supports its ARIA attributes\",\n+     id: 'aria-allowed-attr',\n+     impact: 'critical',\n+     nodes: [\n+       {\n+         summary: 'Fix all of the following:\\n' +\n+           '  ARIA attribute is not allowed: aria-selected=\"true\"',\n+         target: [\n+           '#conteudo'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:88:14\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:80:5"
+    },
+    {
+      "id": "reflow-1440",
+      "status": "PASS",
+      "details": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "id": "axe-main-1440",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: Automated accessibility violations\n+ actual - expected\n\n+ [\n+   {\n+     description: \"Ensure an element's role supports its ARIA attributes\",\n+     id: 'aria-allowed-attr',\n+     impact: 'critical',\n+     nodes: [\n+       {\n+         summary: 'Fix all of the following:\\n' +\n+           '  ARIA attribute is not allowed: aria-selected=\"true\"',\n+         target: [\n+           '#conteudo'\n+         ]\n+       }\n+     ]\n+   }\n+ ]\n- []\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:88:14\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:80:5"
+    },
+    {
+      "id": "opaque-sandbox-parent-isolation",
+      "status": "PASS",
+      "details": {
+        "blocked": true,
+        "name": "SecurityError"
+      }
+    },
+    {
+      "id": "forged-peer-message-ignored",
+      "status": "PASS"
+    },
+    {
+      "id": "keyboard-dialog-focus",
+      "status": "PASS",
+      "details": {
+        "outlineStyle": "solid",
+        "outlineWidth": "2px",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "id": "student-network-apis-rejected-and-csp-connect-image",
+      "status": "PASS",
+      "details": {
+        "probeCount": 0,
+        "status": "Erro no código: /ProjetoUniversal.tsx: API fora do contrato da bancada: fetch. Use apenas funções de domínio, React e react-native.\n  190 |   rodape:{fontSize:10,color:'#53675b',marginTop:16},\n  191 | });\n> 192 | fetch(\"http://127.0.0.1:35445/c3-synthetic-probe?channel=fetch\").catch(()=>{});\n      | ^^^^^\n  193 | const c3image=new Image();c3image.src=\"http://127.0.0.1:35445/c3-synthetic-probe?channel=image\";\n  194 | try{navigator.sendBeacon(\"http://127.0.0.1:354 · XP anteriores preservados.",
+        "scope": "Compiler denies ambient network APIs; independent CSP connect-src/img-src check. Required local script loads are allowed by script-src."
+      }
+    },
+    {
+      "id": "syntax-error-and-recovery",
+      "status": "PASS"
+    },
+    {
+      "id": "loop-budget-and-recovery",
+      "status": "PASS",
+      "details": {
+        "error": "Erro no código: Limite de execução atingido. Revise loops/recursão e execute novamente. · XP anteriores preservados.",
+        "limit": "Common instrumented loops; not a hostile-code CPU/RAM guarantee."
+      }
+    },
+    {
+      "id": "checkpoint-export-import-and-malformed-rejection",
+      "status": "PASS",
+      "details": {
+        "schema": "ifma-mobile-aula08-checkpoint-v1",
+        "xp": 0,
+        "codeBytes": 11430
+      }
+    },
+    {
+      "id": "pdf-partial-mobile-identity-and-20-missions",
+      "status": "PASS",
+      "details": {
+        "missions": 20,
+        "cycles": 4,
+        "pdf": "exemplo-ficticio-a4.pdf"
+      }
+    },
+    {
+      "id": "production-off-no-external-request",
+      "status": "PASS",
+      "details": {
+        "endpoint": "",
+        "activated": false
+      }
+    },
+    {
+      "id": "matricula-not-silently-persisted",
+      "status": "PASS"
+    },
+    {
+      "id": "reduced-motion-and-320-reflow",
+      "status": "PASS",
+      "details": {
+        "reduced": true,
+        "width": 320,
+        "scroll": 320
+      }
+    },
+    {
+      "id": "simulated-interface-backend-normal",
+      "status": "FAIL",
+      "message": "page.waitForFunction: Timeout 25000ms exceeded.\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:250:20\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:209:5"
+    },
+    {
+      "id": "simulated-interface-backend-tampered-response-signature",
+      "status": "FAIL",
+      "message": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Readback divergiu/. Input:\n\n'ENVIO NÃO CONFIRMADO: Recibo de recebimento incompatível com a evidência.\\n' +\n  'Use Consultar recibo pendente para readback com o mesmo identificador. Salve a solicitação antes de fechar a página. PDF/JSON de progresso não comprovam entrega.'\n\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:253:62\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:209:5"
+    },
+    {
+      "id": "simulated-interface-backend-timeout-after-write",
+      "status": "FAIL",
+      "message": "page.waitForFunction: Timeout 25000ms exceeded.\n    at /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:257:20\n    at async check (/home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:44:22)\n    at async /home/runner/work/teaching-mobile/teaching-mobile/tests/independent-aula08-v4-browser.cjs:209:5"
+    },
+    {
+      "id": "no-unhandled-page-errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "unexpectedExternalRequests": [],
+  "probes": [],
+  "browserVersion": "143.0.7499.4",
+  "summary": {
+    "pass": 17,
+    "fail": 8
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-11-12T01:21:48.088Z",
+  "projectId": "1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+  "projectName": "MOBILE-A08-V4-QA-SINTETICA-20261112",
+  "projectUrl": "https://script.google.com/home/projects/1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+  "qaSpreadsheetId": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+  "sourceCommit": "303e4751abfb9105f9efa7c205adb6ec8f35d0b0",
+  "codeSha256": "7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9",
+  "manifestSha256": "5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24",
+  "deploymentDraft": {
+    "type": "Web app",
+    "executeAs": "Me (connected owner)",
+    "whoHasAccess": "Anyone",
+    "accessMeaning": "public anonymous QA endpoint",
+    "committed": false
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ],
+  "oauthConsent": "NOT_REQUESTED_REQUIRES_EXACT_APPROVAL",
+  "executionsObserved": 0,
+  "versionedDeploymentObserved": false,
+  "execUrl": null,
+  "receivingEnabled": false,
+  "googleConnectedHomologation": "NOT_RUN",
+  "browserProfileMatchesConnector": true,
+  "previousAccountMismatchInference": "RETRACTED",
+  "productionChanged": false
+}

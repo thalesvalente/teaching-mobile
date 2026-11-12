@@ -1,0 +1,5 @@
+/* Complemento da revisão: mantém o visual existente e acrescenta feedback textual. */
+.field-error{color:#9d1425;font-weight:650;margin:8px 0 16px;max-width:70ch}
+input[aria-invalid="true"]{border:2px solid #9d1425}
+.candidate-notice{border-left:4px solid var(--green);padding:14px;background:var(--tint);margin:18px 0}
+.asset-context{border:1px solid var(--line);padding:16px;border-radius:8px;margin:12px 0}

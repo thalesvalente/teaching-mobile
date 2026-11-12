@@ -1,0 +1,209 @@
+{
+  "classification": "PLANNED_NOT_RUN",
+  "connectedBackendCasesExecuted": 0,
+  "interfaceE2ECasesExecuted": 0,
+  "reason": "No OAuth-completed bootstrap or endpoint exists",
+  "plannedMatrix": {
+    "status": "PLANNED_NOT_EXECUTED",
+    "cases": [
+      {
+        "id": "health-closed",
+        "expected": "Backend 4.1.0, QA, SYNTHETIC_ONLY, exact QA spreadsheet and receiving=false",
+        "kind": "READ_ONLY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "lookup-valid-zeros",
+        "expected": "Exact synthetic registration; leading zeros preserved; confirmation token bound to original team",
+        "kind": "READ_ONLY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "lookup-unknown",
+        "expected": "00000000.ITA9999 rejected without unrelated name",
+        "kind": "READ_ONLY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "team-two-members",
+        "expected": "Both synthetic members confirmed in same team",
+        "kind": "READ_ONLY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "duplicate-member",
+        "expected": "Repeated synthetic registration rejected; no delivery write",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "invalid-composition",
+        "expected": "Empty or invalid team rejected; no delivery write",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "submit-0-xp",
+        "expected": "PENDENTE_VALIDACAO, all grade fields null, receipt and matching code hash",
+        "kind": "WRITE_QA",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "submit-35-xp",
+        "expected": "PENDENTE_VALIDACAO, all grade fields null, new valid version",
+        "kind": "WRITE_QA",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "submit-100-xp",
+        "expected": "PENDENTE_VALIDACAO, all grade fields null, new valid version",
+        "kind": "WRITE_QA",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "same-nonce-same-payload",
+        "expected": "Same receipt; no extra delivery/audit row",
+        "kind": "IDEMPOTENT_REPLAY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "same-nonce-changed-payload",
+        "expected": "Rejection DUPLICIDADE_TECNICA; no extra write",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "changed-composition",
+        "expected": "Reject new member composition for original team",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "reconcile-original",
+        "expected": "Same identifiers, nonce and original evidence; signatureVerified=true; zero extra delivery rows",
+        "kind": "READ_ONLY",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "real-format-identity",
+        "expected": "Non-synthetic enrollment format rejected in QA; do not insert real people",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "http-admin-operation",
+        "expected": "Administrative operation unavailable over HTTP",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "malformed-payload",
+        "expected": "Inconsistent XP or unauthorized grade key rejected",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "teacher-12-of-20",
+        "expected": "Only authenticated QA editor review: 12 passed criteria → QA grade 6.0, signed review and projections",
+        "kind": "OPTIONAL_ADMIN_QA_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "close-reception",
+        "expected": "Property false, fresh health receiving false",
+        "kind": "ADMIN_CONFIG_QA",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "closed-activity",
+        "expected": "New reception rejected after closure; existing reconcile allowed",
+        "kind": "REJECTED_WRITE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "interface-cycle",
+        "expected": "TSX → compile/check mission → confirmed synthetic team → real endpoint → receipt → independent Sheets readback → reconcile",
+        "kind": "E2E_INTERFACE",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "pdf-json-continuity",
+        "expected": "Export through UI preserving source/evidence hashes and pending-grade meaning",
+        "kind": "LOCAL_UI_EXPORT",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      },
+      {
+        "id": "timeout-partial-store",
+        "expected": "Only existing safe local fixtures; do not induce destructive Google failures",
+        "kind": "LOCAL_FIXTURE_NOT_RERUN",
+        "observed": null,
+        "receiptId": null,
+        "sheetEvidence": null,
+        "status": "NOT_RUN"
+      }
+    ]
+  }
+}

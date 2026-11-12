@@ -1,0 +1,18 @@
+{
+  "reviewer": "C3 independent QA",
+  "mode": "Local VM; synthetic in-memory Sheets; NOT connected Google",
+  "tests": 8,
+  "pass": 4,
+  "fail": 4,
+  "filesSha256AfterInitialRun": {
+    "integrations/mobile-aula08-appscript/Code.gs": "91e37ce0323c886bc7e6cabe5ca41237d3fe89153741775bec2fca26d2ac39c5",
+    "tests/independent-aula08-v4-backend.test.cjs": "08026d8e77166fa6c74b0371f2e19cf36ca8a8ddff658bf8480d43914cacf503",
+    "tests/mobile-aula08-v4-fixture.cjs": "47d9285aa58a1725c190f5bf405b2cc5cc503978d017f5615dee53e8b5894665"
+  },
+  "findings": [
+    "C3-B01 reordered members cause committed but inconsistent audit",
+    "C3-B02 changed roster name causes committed but inconsistent audit",
+    "C3-B03 incomplete teacher review replays as VALIDADO without projections",
+    "C3-B04 production lookup accepted without QA homologation reference"
+  ]
+}

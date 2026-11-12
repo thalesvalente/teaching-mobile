@@ -1,0 +1,20 @@
+{
+  "algorithm": "SHA-256",
+  "scope": "All evidence files in this folder except SHA256SUMS.json itself",
+  "files": {
+    "appscript-live-readback.json": "02bbb3d43c9c9015b1744716f18f0909f615a6908e4ce569f46867c07398d050",
+    "connected-test-matrix.json": "1b1c21c495b11f016036c44ce6e5bbcaaf228ab195ccd5f14fa78112ccf69b20",
+    "execution-manifest.json": "54542405ce12e0e90d7d392f3b409ddab5f041e74f931fe612a8cf47e0b9ff92",
+    "final-handoff.md": "d68c7a11cc5865764a80b9d6448aba8954bcef72d9b19534fac23ac7c0858dda",
+    "github-preflight-readback.json": "bd332124a75f7c7f83a1c80e53e52ad4d9ae0573735f92da0ddc036f5e4d49bf",
+    "independent-qa.md": "279d03b83e7c4e2b6c6fb611cb88ac0b8fec503732e4b662d41173353f46caff",
+    "oauth-and-deployment.json": "8a36c571a75a64484ee961a3efa9ba459ff1c692ef4d861bee4324405d103af0",
+    "oauth-scope-pending.jpg": "aac3b05310ae71e9376eacac8bc551122f036db95bb842bb3eac960952ce3fd9",
+    "preview-readback.json": "4d1db9103b00081941a821e0920cfb014414ada74fbb1a9ad83c8d168b9c5080",
+    "receipts-redacted.json": "f33052feadc2cab80e26f4c2fd1dbd863ea58d156761b7b13adf0fcf92d9356d",
+    "reconciliation-report.json": "bf93ce687970b0e96697d4a5e916bec82dfa0c5bcf96971f325804aa53b7f7a0",
+    "security-review.md": "e405116c294900d17480dc1ea0b886a97bff7045f32b23eac0365214898e8cad",
+    "sheets-preflight-readback.json": "25a372643b60399e0e4547a90923e8ef6477996c950144c86da6fae64cdd048b",
+    "sheets-readback.json": "cea2f8048b517f0a0acb1e8d516876bbf0ad017220f238e55ef066e28d0a14a3"
+  }
+}

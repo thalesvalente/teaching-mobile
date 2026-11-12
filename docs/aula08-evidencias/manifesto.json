@@ -1,0 +1,106 @@
+{
+  "kind": "QA_SYNTHETIC_NOT_LIVE_SUBMISSION",
+  "reviewedCodeTree": "46d46cb27f6260525b43b2f2628e0a5e88c0b533",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 13,
+      "sha256": "547f59603028195ff9f8a87d04c4651551e8bd0d68f075257dfd549cd846b25b"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3987,
+      "sha256": "2aa739c589aac4b7800a662b537a4ffed28dbcedf88cc3fe3d82da0398a39ad4"
+    },
+    {
+      "path": "aula08-375.png",
+      "bytes": 511460,
+      "sha256": "36b33d47665f68980504de5da00627d9bb3f7c0f2dbed01dad69772cf7a88f65"
+    },
+    {
+      "path": "browser-results.json",
+      "bytes": 1208,
+      "sha256": "ced6e7d5ccd8b7341503d927ae74e22c4130fce327dbf634d2db9641dd5ff752"
+    },
+    {
+      "path": "comandos/00.log",
+      "bytes": 120,
+      "sha256": "2cd0a414870279e346f8c7bdbf22f2d7553483a4ebdf905567679e7aff95cd87"
+    },
+    {
+      "path": "comandos/01.log",
+      "bytes": 285,
+      "sha256": "92983bbda687534fa1ee59ae67b03897f8a4eecf53c8f76604256f919a85a8a6"
+    },
+    {
+      "path": "comandos/02.log",
+      "bytes": 1725,
+      "sha256": "3b4ad5d8f66c863c2085941557d69f69152d1241893bc4dc5796fe143f5e286f"
+    },
+    {
+      "path": "comandos/03.log",
+      "bytes": 381,
+      "sha256": "905e6fbd29dbb70a64085f15fd2f27a2ef3d84698d9ed6722ed84a9c9c6bb409"
+    },
+    {
+      "path": "comandos/04.log",
+      "bytes": 785,
+      "sha256": "89a795e1f22bb4f4e2fa1ed38956a7fb2ddc639db8939bd616f518fc88a82617"
+    },
+    {
+      "path": "comandos/05.log",
+      "bytes": 1457,
+      "sha256": "c26a7a43cce09d5577d7e9310a47a207591232f4d3f05d0bc741428b373b0269"
+    },
+    {
+      "path": "comandos/06.log",
+      "bytes": 618,
+      "sha256": "660ebc25bc34a800db3eb8bfe8d8b00cf9566e38561c13a62d87711138bc3e5b"
+    },
+    {
+      "path": "comandos/07.log",
+      "bytes": 2305,
+      "sha256": "85ade93852f63cb52bd28bccff5d2bf2cf0708c3e82a525e3b00edb36122e245"
+    },
+    {
+      "path": "comandos/08.log",
+      "bytes": 1383,
+      "sha256": "5fe994ecfce7adf3ece3c860ebb03f1bffb857dab7a2f4a5da63e8480662c450"
+    },
+    {
+      "path": "comandos/09.log",
+      "bytes": 2689,
+      "sha256": "b7a847e2c6b21bb13323f2c0acbd97184466067e803c55ddf4aeda71e2c6c319"
+    },
+    {
+      "path": "comandos/10.log",
+      "bytes": 547,
+      "sha256": "f0333b99fa5ef667140b02b336d7fdbb518f94f266a2805d0557dfedecffd858"
+    },
+    {
+      "path": "comandos/summary.json",
+      "bytes": 1514,
+      "sha256": "922577ced3522557609cc3cd81a8c6eb75c3e0e7715a4151fb76f4e7cf560b53"
+    },
+    {
+      "path": "exemplo-qa-aula08.pdf",
+      "bytes": 45509,
+      "sha256": "43f741acd79c43ea5914ec003ebc089df2b6e2f37c272852973ba8b8d94a4924"
+    },
+    {
+      "path": "ficha08-recibo-simulado-375.png",
+      "bytes": 481498,
+      "sha256": "aa322bc23449de5eba1f7d4bc002dc24bdc7517b06703623c0daa56ab0325e0a"
+    },
+    {
+      "path": "publicacao.json",
+      "bytes": 4099,
+      "sha256": "6e5416fad9beb0e0d84eafb82b13ea7c7f0ce48a1ed4117ffaab0b3c20b9bbbc"
+    },
+    {
+      "path": "starter-375.png",
+      "bytes": 215899,
+      "sha256": "639425a0caf5c3c2f2ac7cfa351d7f4683156547963c580c4b6162cf395e26d3"
+    }
+  ]
+}

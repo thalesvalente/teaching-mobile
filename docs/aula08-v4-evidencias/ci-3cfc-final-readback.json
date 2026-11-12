@@ -1,0 +1,275 @@
+{
+  "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+  "repository": "thalesvalente/teaching-mobile",
+  "observedAt": "2026-11-12T00:34:13.291Z",
+  "runs": [
+    {
+      "id": 43127598905,
+      "name": "QA Aula 08 - laboratorio vivo",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43127598905"
+    },
+    {
+      "id": 43127598089,
+      "name": "Publicar projetos Expo Web",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43127598089"
+    },
+    {
+      "id": 43127598275,
+      "name": "QA Mobile — Entregas Aula 07",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43127598275"
+    },
+    {
+      "id": 43127598082,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43127598082"
+    },
+    {
+      "id": 43127589950,
+      "name": "QA Aula 08 — Laboratório Vivo Mobile v4",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "push",
+      "sha": "3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "url": "https://github.com/thalesvalente/teaching-mobile/actions/runs/43127589950"
+    }
+  ],
+  "jobs": {
+    "43127589950": [
+      {
+        "id": 130883499096,
+        "name": "Bancada Chromium e revisão independente",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Laboratório: 20 missões, compilação, XP, PDF e JSON",
+          "Segurança e acessibilidade independentes"
+        ]
+      },
+      {
+        "id": 130883499329,
+        "name": "Revisão independente webkit",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Run node tests/independent-aula08-v4-browser.cjs"
+        ]
+      },
+      {
+        "id": 130883499365,
+        "name": "Expo laboratorio-vivo e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883499367,
+        "name": "Prévia estática sem implantação",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883499383,
+        "name": "Expo avancado e TypeScript",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Instalação reproduzível"
+        ]
+      },
+      {
+        "id": 130883499420,
+        "name": "Contratos, backend simulado e regressões",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883499463,
+        "name": "Revisão independente firefox",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Run node tests/independent-aula08-v4-browser.cjs"
+        ]
+      }
+    ],
+    "43127598082": [
+      {
+        "id": 130883527402,
+        "name": "Bancada Chromium e revisão independente",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Laboratório: 20 missões, compilação, XP, PDF e JSON",
+          "Segurança e acessibilidade independentes"
+        ]
+      },
+      {
+        "id": 130883527586,
+        "name": "Expo laboratorio-vivo e TypeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883527662,
+        "name": "Prévia estática sem implantação",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883527667,
+        "name": "Expo avancado e TypeScript",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Instalação reproduzível"
+        ]
+      },
+      {
+        "id": 130883527683,
+        "name": "Contratos, backend simulado e regressões",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130883527755,
+        "name": "Revisão independente webkit",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Run node tests/independent-aula08-v4-browser.cjs"
+        ]
+      },
+      {
+        "id": 130883527757,
+        "name": "Revisão independente firefox",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedSteps": [
+          "Run node tests/independent-aula08-v4-browser.cjs"
+        ]
+      }
+    ],
+    "43127598089": [
+      {
+        "id": 130883527407,
+        "name": "Compilar aplicativos e validar links",
+        "status": "completed",
+        "conclusion": "success",
+        "failedSteps": []
+      },
+      {
+        "id": 130884201464,
+        "name": "Publicar artefatos compilados na main",
+        "status": "completed",
+        "conclusion": "skipped",
+        "failedSteps": []
+      },
+      {
+        "id": 130884201570,
+        "name": "deploy",
+        "status": "completed",
+        "conclusion": "skipped",
+        "failedSteps": []
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 13903741722,
+      "name": "mobile-a08-v4-site-preview-3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "bytes": 15334412,
+      "digest": "sha256:2e29564557835dbad2521fff2015bb61e99ba830dcb03ee7106f9be40e8641d2",
+      "expired": false
+    },
+    {
+      "id": 13903414785,
+      "name": "mobile-a08-v4-webkit-3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "bytes": 594,
+      "digest": "sha256:f29ff8f2767088c5fbc1a68fb4aac11ff1564163638c5f4cadb49fa4b59da158",
+      "expired": false
+    },
+    {
+      "id": 13903028925,
+      "name": "mobile-a08-v4-browser-3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "bytes": 2032634,
+      "digest": "sha256:d0d65bfb3429f51abca71cc18036c0c66e1801b1dcf645239c132ad06360c452",
+      "expired": false
+    },
+    {
+      "id": 13902988931,
+      "name": "mobile-a08-v4-firefox-3cfc16a1b6ce64a86cae9d3cb0e0b5239a707377",
+      "bytes": 1148441,
+      "digest": "sha256:b160362c189b2dd0fe7e930c81ea083d780e2bc0c40fcb8309cd27eeac8038f0",
+      "expired": false
+    }
+  ],
+  "scope": "GitHub Actions connected readback; no deployment or main write performed by C4",
+  "failures": [
+    {
+      "component": "Expo advanced npm ci",
+      "job": 130883499383,
+      "error": "EUSAGE Missing: @expo/metro-runtime@57.0.18 from lock file",
+      "environment": "Node22.23.4 / npm10.9.9",
+      "owner": "C1",
+      "evidence": "ci-3cfc-expo-advanced-lock-failure.json"
+    },
+    {
+      "component": "C1 Chromium formative XP",
+      "job": 130883499096,
+      "file": "tests/aula08-live-v4-browser.cjs",
+      "line": 88,
+      "error": "page.waitForFunction: Timeout 30000ms exceeded",
+      "context": "Contract, starter compilation and reflow at five widths, RNWeb interactive search/detail/filter/form validation/immutable insertion passed. Mission loop waits xp-top==(index+1)*5; failed mission index absent from original log. This is not a Chromium bootstrap failure.",
+      "owner": "C1"
+    },
+    {
+      "component": "C3 Chromium/Firefox accessibility",
+      "jobs": [
+        130883499096,
+        130883499463
+      ],
+      "error": "axe-main checks failed at 360/390/768/1024/1440 widths",
+      "context": "Read exact rules/nodes from uploaded axe JSON before remediation.",
+      "owner": "C3/C1"
+    },
+    {
+      "component": "C3 simulated interface/backend",
+      "jobs": [
+        130883499096,
+        130883499463
+      ],
+      "error": "normal and timeout-after-write waitForFunction25000; tampered expected /Readback divergiu/ but got receipt-evidence incompatibility",
+      "actualMessage": "ENVIO NÃO CONFIRMADO: Recibo de recebimento incompatível com a evidência. Use Consultar recibo pendente para readback com o mesmo identificador. Salve a solicitação antes de fechar a página. PDF/JSON de progresso não comprovam entrega.",
+      "owner": "C3/root",
+      "scope": "Local simulated Apps Script, not Google connected QA"
+    },
+    {
+      "component": "C3 WebKit bootstrap",
+      "job": 130883499329,
+      "error": "page.waitForFunction Timeout45000 in compiled:48 -> pageFor:70 -> initial call:73",
+      "context": "0 PASS / 1 FAIL; errors/requests empty; old harness lacked status diagnosis. Report saved and digest verified.",
+      "owner": "C3/C1"
+    }
+  ]
+}

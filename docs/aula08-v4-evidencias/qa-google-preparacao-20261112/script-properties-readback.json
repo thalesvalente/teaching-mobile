@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-11-12T01:17:26.325Z",
+  "projectId": "1ovzrG-dYeR4evHeFcV4M5vNA1kjKUdZi1sFcL3dVbzjtOVhgDeEdOOWJ",
+  "properties": {
+    "MOBILE_NOTAS_ENVIRONMENT": "QA",
+    "MOBILE_NOTAS_QA_TEACHER_RUBRIC_APPROVAL": "A08-V4-RUBRIC-20X05",
+    "MOBILE_NOTAS_QA_SPREADSHEET_ID": "1BTl0lw_tGDaQOIBOxy5eCDSRuvv-skc6hXX8yte6X3A",
+    "MOBILE_NOTAS_QA_DATA_POLICY": "SYNTHETIC_ONLY",
+    "MOBILE_NOTAS_QA_ALLOWED_ORIGIN": "http://127.0.0.1:8138",
+    "MOBILE_NOTAS_QA_SUBMISSIONS_ENABLED": "false",
+    "MOBILE_NOTAS_QA_SECURITY_READY": "false",
+    "MOBILE_NOTAS_QA_TEACHER_APPROVAL": "A08-V4-QA-SYNTHETIC"
+  },
+  "codeSha256": "7002e407f5359f6aeaaadca4e3260b45dfb7c701460124e0d10196abb7feb0f9",
+  "manifestSha256": "5906b4ab8001c5e91db36bf1dd7bad85205d1fbb5b2b5cf7d37d6df6f0813c24",
+  "codeReadbackExact": true,
+  "manifestReadbackExact": true,
+  "oauthGranted": false,
+  "deployed": false,
+  "connectedHomologation": "NOT_RUN"
+}
